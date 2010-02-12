@@ -14,19 +14,7 @@
 
   <!-- Other module inherits                                      -->
   <inherits name='net.customware.gwt.dispatch.Dispatch' />
-  <inherits name='net.customware.gwt.presenter.Presenter' />
-
-  <!-- Add gwt-log support, default level `OFF` - check for 
-       extended property 'log_level' to see if this is overridden -->
-  <inherits name="com.allen_sauer.gwt.log.gwt-log-OFF" />
-
-  <!-- Also compile Logger at `INFO` level -->
-  <extend-property name="log_level" values="INFO" />
-  <set-property name="log_level" value="INFO" />
-
-  <!-- Turn off the floating logger - output will be shown in the 
-       hosted mode console -->
-  <set-property name="log_DivLogger" value="DISABLED" />
+  <inherits name='com.philbeaudoin.gwt.presenter.Presenter' />
 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='com.puzzlebazar.client.Puzzlebazar'/>
