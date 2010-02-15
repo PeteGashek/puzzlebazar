@@ -8,6 +8,7 @@ import com.philbeaudoin.gwt.presenter.client.place.PlaceManager;
 import com.philbeaudoin.gwt.presenter.client.place.TokenFormatter;
 
 import com.puzzlebazar.client.CachingDispatchAsync;
+import com.puzzlebazar.client.Resources;
 import com.puzzlebazar.client.place.GreetingPresenterPlace;
 import com.puzzlebazar.client.place.GreetingResponsePresenterPlace;
 import com.puzzlebazar.client.place.PuzzlebazarPlaceManager;
@@ -35,7 +36,8 @@ public class GreetingClientModule extends AbstractPresenterModule {
    bind(CachingDispatchAsync.class);
    bind(GreetingPresenterPlace.class).in(Singleton.class);
    bind(GreetingResponsePresenterPlace.class).in(Singleton.class);
- 
+   bind(Resources.class).in(Singleton.class);
+   
  
  }
 }
