@@ -3,6 +3,14 @@ package com.philbeaudoin.gwt.presenter.client.place;
 import com.google.gwt.event.shared.GwtEvent;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 
+/**
+ * 
+ * This event is fired whenever a  new place is requested, either by 
+ * history navigation or directly 
+ * 
+ * @author David Peterson
+ *
+ */
 public class PlaceRequestEvent extends GwtEvent<PlaceRequestHandler> {
 
     private static Type<PlaceRequestHandler> TYPE;
@@ -44,11 +52,26 @@ public class PlaceRequestEvent extends GwtEvent<PlaceRequestHandler> {
         return fromHistory;
     }
 
+    /**
+     * Fires a {@link PlaceRequestEvent} into the {@link EventBus}, specifying that it
+     * does not come from a modification in the History.
+     *
+     * @param eventBus  The event bus.
+     * @param request   The request.
+     */
     public static void fire( EventBus eventBus, PlaceRequest request ) {
         fire( eventBus, request, false );
     }
 
-    static void fire( EventBus eventBus, PlaceRequest request, boolean fromHistory ) {
+    /**
+     * Fires a {@link PlaceRequestEvent} into the {@link EventBus}, specifying that it
+     * does not come from a modification in the History.
+     *
+     * @param eventBus    The event bus.
+     * @param request     The request.
+     * @param fromHistory true if the request fomes from a modification in the History, false otherwise. 
+     */
+    public static void fire( EventBus eventBus, PlaceRequest request, boolean fromHistory ) {
         eventBus.fireEvent( new PlaceRequestEvent( request, fromHistory ) );
     }
 }

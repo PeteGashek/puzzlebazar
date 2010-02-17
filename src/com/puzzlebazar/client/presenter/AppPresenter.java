@@ -1,8 +1,8 @@
 package com.puzzlebazar.client.presenter;
 
-import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 
@@ -10,35 +10,44 @@ import com.philbeaudoin.gwt.presenter.client.EventBus;
 
 public class AppPresenter extends BasicPresenter<AppPresenter.Display> {
 
-  public interface Display extends com.philbeaudoin.gwt.presenter.client.Display, HasWidgets {
+  public interface Display extends com.philbeaudoin.gwt.presenter.client.Display {
+    void setTopBar( Widget topBar );
+    void setLinkColumn( Widget linkColumn );
   }
 
-  private final Provider<GreetingPresenter> greetingPresenter;
+  private final TopBarPresenter topBarPresenter;
+  private final LinkColumnPresenter linkColumnPresenter;
 
   @Inject
   public AppPresenter(final Display display, final EventBus eventBus,       
-      Provider<GreetingPresenter> greetingPresenter,
-      Provider<GreetingResponsePresenter> greetingResponsePresenter ) {
+      TopBarPresenter  topBarPresenter,
+      LinkColumnPresenter linkColumnPresenter ) {
     super(display, eventBus);
 
-    this.greetingPresenter = greetingPresenter;
-    greetingResponsePresenter.get();
+    RootLayoutPanel.get().add(getWidget());
+    
+    this.topBarPresenter  = topBarPresenter;
+    this.linkColumnPresenter = linkColumnPresenter;
 
     bind();
-  }
-  
+  }  
 
   @Override
   protected void onBind() {
-    display.add( greetingPresenter.get().getDisplay().asWidget() );
-  }
-
-  @Override
-  protected void onRevealDisplay() {
+    display.setTopBar( this.topBarPresenter.getWidget() );
+    display.setLinkColumn( this.linkColumnPresenter.getWidget() );
+    
   }
 
   @Override
   protected void onUnbind() {
-    display.remove( greetingPresenter.get().getDisplay().asWidget() );
+    
   }
+
+  @Override
+  public void revealDisplay() {
+    // TODO Auto-generated method stub    
+  }
+
+
 }

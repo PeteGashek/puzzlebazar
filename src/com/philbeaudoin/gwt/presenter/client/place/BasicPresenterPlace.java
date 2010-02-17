@@ -2,8 +2,9 @@ package com.philbeaudoin.gwt.presenter.client.place;
 
 import com.philbeaudoin.gwt.presenter.client.Presenter;
 
+
 /**
- * A simple implementation of {@link PresenterPlace} for {@link Presenter}s
+ * A simple implementation of {@link PresenterPlace} for {@link PresenterWithPlace}s
  * that don't need to be prepared for display. These are mostly presenters which
  * don't have any initialisation parameters.
  *
@@ -21,22 +22,6 @@ public abstract class BasicPresenterPlace<T extends Presenter> extends Presenter
     @Override
     public T getPresenter() {
         return presenter;
-    }
-
-    /**
-     * Does nothing by default.
-     */
-    @Override
-    protected void preparePresenter( PlaceRequest request, T presenter ) {
-        // Do nothing.
-    }
-
-    /**
-     * Returns the request unchanged.
-     */
-    @Override
-    protected PlaceRequest prepareRequest( PlaceRequest request, T presenter ) {
-        return request;
     }
 
 }

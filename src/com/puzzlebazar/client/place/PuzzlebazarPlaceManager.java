@@ -14,10 +14,8 @@ import com.philbeaudoin.gwt.presenter.client.place.TokenFormatter;
 public class PuzzlebazarPlaceManager extends DefaultPlaceManager{
 
   @Inject
-  public PuzzlebazarPlaceManager(EventBus eventBus, TokenFormatter tokenFormatter,
-      GreetingPresenterPlace greetingPresenterPlace, 
-      GreetingResponsePresenterPlace greetingResponsePresenterPlace) {
-    super(eventBus, tokenFormatter, greetingPresenterPlace, greetingResponsePresenterPlace);
+  public PuzzlebazarPlaceManager(EventBus eventBus, TokenFormatter tokenFormatter) {
+    super(eventBus, tokenFormatter);
   }
 
 }

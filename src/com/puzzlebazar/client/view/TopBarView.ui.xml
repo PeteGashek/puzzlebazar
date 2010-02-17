@@ -1,0 +1,36 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+	<ui:style>
+		.topBar {
+			margin: 3px 8px 0px;
+			padding: 3px 0px 0px;
+			text-align: right;
+		}
+		
+		.underline {
+			border-top: 1px solid #C9D7F1;
+			font-size: 1px;
+			height: 0px;
+			position: absolute;
+			top: 24px;
+			width: 100%;
+		}
+		
+	</ui:style>
+
+  <ui:with field='resources' type='com.puzzlebazar.client.resources.Resources' />
+
+	<g:HTMLPanel addStyleNames='{style.topBar}'>
+		<span class='{resources.style.username}'>
+			Not logged in
+		</span>
+		|
+		<span>
+			Yahoo!
+    </span>
+		<div class='{style.underline}' style='left: 0pt' />
+		<div class='{style.underline}' style='right: 0pt' />
+	</g:HTMLPanel>
+
+</ui:UiBinder>

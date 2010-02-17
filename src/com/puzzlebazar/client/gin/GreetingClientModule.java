@@ -8,16 +8,14 @@ import com.philbeaudoin.gwt.presenter.client.place.PlaceManager;
 import com.philbeaudoin.gwt.presenter.client.place.TokenFormatter;
 
 import com.puzzlebazar.client.CachingDispatchAsync;
-import com.puzzlebazar.client.Resources;
-import com.puzzlebazar.client.place.GreetingPresenterPlace;
-import com.puzzlebazar.client.place.GreetingResponsePresenterPlace;
 import com.puzzlebazar.client.place.PuzzlebazarPlaceManager;
 import com.puzzlebazar.client.presenter.AppPresenter;
-import com.puzzlebazar.client.presenter.GreetingPresenter;
-import com.puzzlebazar.client.presenter.GreetingResponsePresenter;
+import com.puzzlebazar.client.presenter.LinkColumnPresenter;
+import com.puzzlebazar.client.presenter.TopBarPresenter;
+import com.puzzlebazar.client.resources.Resources;
 import com.puzzlebazar.client.view.AppView;
-import com.puzzlebazar.client.view.GreetingResponseView;
-import com.puzzlebazar.client.view.GreetingView;
+import com.puzzlebazar.client.view.LinkColumnView;
+import com.puzzlebazar.client.view.TopBarView;
 
 import com.google.inject.Singleton;
 
@@ -27,16 +25,16 @@ public class GreetingClientModule extends AbstractPresenterModule {
  protected void configure() {  
    
    
+   bind(Resources.class).in(Singleton.class);
    bind(EventBus.class).to(DefaultEventBus.class).in(Singleton.class);
    bind(PlaceManager.class).to(PuzzlebazarPlaceManager.class);
    bind(TokenFormatter.class).to(ParameterTokenFormatter.class);
-   bindPresenter(GreetingPresenter.class,GreetingPresenter.Display.class, GreetingView.class);
-   bindPresenter(GreetingResponsePresenter.class,GreetingResponsePresenter.Display.class, GreetingResponseView.class);
+   bindPresenter(LinkColumnPresenter.class,LinkColumnPresenter.Display.class, LinkColumnView.class);
+   bindPresenter(TopBarPresenter.class,TopBarPresenter.Display.class, TopBarView.class);
    bindPresenter(AppPresenter.class,AppPresenter.Display.class, AppView.class);
    bind(CachingDispatchAsync.class);
-   bind(GreetingPresenterPlace.class).in(Singleton.class);
-   bind(GreetingResponsePresenterPlace.class).in(Singleton.class);
-   bind(Resources.class).in(Singleton.class);
+//   bind(GreetingPresenterPlace.class).in(Singleton.class);
+//   bind(GreetingResponsePresenterPlace.class).in(Singleton.class);
    
  
  }

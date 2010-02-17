@@ -2,6 +2,12 @@ package com.philbeaudoin.gwt.presenter.client;
 
 import com.google.gwt.event.shared.GwtEvent;
 
+/**
+ * Presenters can send this event to the {@link EventBus} to notify other
+ * interested parties when the presenter state has been changed.
+ *
+ * @author David Peterson
+ */
 public class PresenterChangedEvent extends GwtEvent<PresenterChangedHandler> {
 
     private static final Type<PresenterChangedHandler> TYPE = new Type<PresenterChangedHandler>();

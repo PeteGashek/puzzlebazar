@@ -2,7 +2,6 @@ package com.philbeaudoin.gwt.presenter.client.place;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.philbeaudoin.gwt.presenter.client.*;
-import com.philbeaudoin.gwt.presenter.client.widget.WidgetPresenter;
 
 /**
  * This is a subclass of {@link Place} with some helper values for working with
@@ -25,7 +24,7 @@ public abstract class PresenterPlace<T extends Presenter> extends Place {
      * presenter.
      */
     @Override
-    public void reveal() {
+    public final void reveal() {
         getPresenter().revealDisplay();
     }
 
@@ -34,53 +33,15 @@ public abstract class PresenterPlace<T extends Presenter> extends Place {
      * any custom handling.
      */
     @Override
-    protected void handleRequest( PlaceRequest request ) {
+    protected final void handleRequest( PlaceRequest request ) {
         T presenter = getPresenter();
-        preparePresenter( request, presenter );
+        presenter.prepareFromRequest( request );
         presenter.revealDisplay();
     }
 
-    /**
-     * This method is called on matching place requests before the presenter is
-     * revealed. Subclasses can perform any calls to the presenter to prepare it
-     * for display based on the request.
-     *
-     * @param request   The request.
-     * @param presenter The presenter.
-     */
-    protected abstract void preparePresenter( PlaceRequest request, T presenter );
-
     @Override
-    protected PlaceRequest prepareRequest( PlaceRequest request ) {
-        return prepareRequest( request, getPresenter() );
-    }
-
-    /**
-     * This method is called when creating a {@link PlaceRequest} for this
-     * place. It should add any state to the request as defined by the current
-     * presenter.
-     * <p/>
-     * <p/>
-     * If nothing is to be done, simply return the <code>request</code>
-     * unchanged. Otherwise, call {@link PlaceRequest#with(String, String)} to
-     * add parameters. Eg:
-     * <p/>
-     * <pre>
-     * return request.with( &quot;id&quot;, presenter.getId() );
-     * </pre>
-     *
-     * @param request   The current request.
-     * @param presenter The presenter.
-     * @return The prepared place request.
-     */
-    protected abstract PlaceRequest prepareRequest( PlaceRequest request, T presenter );
-
-    public static WidgetPresenter<?> getWidgetPresenter( Place place ) {
-        Presenter presenter = getPresenter( place );
-        if ( presenter instanceof WidgetPresenter<?> )
-            return (WidgetPresenter<?>) presenter;
-        else
-            return null;
+    protected final PlaceRequest prepareRequest( PlaceRequest request ) {
+        return getPresenter().prepareRequest( request );
     }
 
     /**
@@ -121,7 +82,7 @@ public abstract class PresenterPlace<T extends Presenter> extends Place {
 
         presenterRevealedRegistration = eventBus.addHandler( PresenterRevealedEvent.getType(), new PresenterRevealedHandler() {
             public void onPresenterRevealed( PresenterRevealedEvent event ) {
-                if ( event.isOriginator() && PresenterPlace.this.getPresenter() == event.getPresenter() )
+                if ( PresenterPlace.this.getPresenter() == event.getPresenter() )
                     PlaceRevealedEvent.fire( eventBus, PresenterPlace.this );
             }
         } );
