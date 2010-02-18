@@ -1,7 +1,5 @@
 package com.puzzlebazar.client.presenter;
 
-import net.customware.gwt.dispatch.client.DispatchAsync;
-
 import com.google.inject.Inject;
 import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
@@ -11,14 +9,10 @@ public class LinkColumnPresenter extends BasicPresenter<LinkColumnPresenter.Disp
   public interface Display extends com.philbeaudoin.gwt.presenter.client.Display {
   }
 
-  private DispatchAsync dispatcher;
 
   @Inject
-  public LinkColumnPresenter(final Display display, final EventBus eventBus,
-      final DispatchAsync dispatcher) {
+  public LinkColumnPresenter(final Display display, final EventBus eventBus) {
     super(display, eventBus);
-
-    this.dispatcher = dispatcher;
 
     bind();
   }

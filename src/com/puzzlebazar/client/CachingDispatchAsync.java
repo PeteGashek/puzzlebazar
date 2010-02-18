@@ -2,11 +2,12 @@ package com.puzzlebazar.client;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
-import net.customware.gwt.dispatch.client.DispatchAsync;
-import net.customware.gwt.dispatch.shared.Action;
-import net.customware.gwt.dispatch.shared.Result;
+import com.philbeaudoin.gwt.dispatch.client.DispatchAsync;
+import com.philbeaudoin.gwt.dispatch.shared.Action;
+import com.philbeaudoin.gwt.dispatch.shared.Result;
 
 /**
  * Dispatcher which support caching of data in memory

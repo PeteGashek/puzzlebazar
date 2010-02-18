@@ -1,8 +1,9 @@
 package com.puzzlebazar.server.guice;
 
-import net.customware.gwt.dispatch.server.guice.ActionHandlerModule;
+import com.philbeaudoin.gwt.dispatch.server.guice.ActionHandlerModule;
 
-import com.puzzlebazar.server.handler.SendGreetingHandler;
+import com.puzzlebazar.server.handler.LoginHandler;
+import com.puzzlebazar.shared.action.Login;
 
 /**
  * Module which binds the handlers and configurations
@@ -10,8 +11,8 @@ import com.puzzlebazar.server.handler.SendGreetingHandler;
  */
 public class ServerModule extends ActionHandlerModule {
 
- @Override
- protected void configureHandlers() {
-  bindHandler(SendGreetingHandler.class);
- }
+  @Override
+  protected void configureHandlers() {
+    bindHandler(Login.class, LoginHandler.class);
+  }
 }

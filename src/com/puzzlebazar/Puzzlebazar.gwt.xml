@@ -6,7 +6,7 @@
 	<inherits name="com.google.gwt.xml.XML" />
   <inherits name="com.google.gwt.resources.Resources" />
 	<inherits name="com.google.gwt.uibinder.UiBinder" />
-
+  
 	<!-- Inherit the default GWT style sheet.  You can change       -->
 	<!-- the theme of your GWT application by uncommenting          -->
 	<!-- any one of the following lines.                            -->
@@ -15,12 +15,18 @@
 	<!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
 
 	<!-- Other module inherits                                      -->
-	<inherits name='net.customware.gwt.dispatch.Dispatch' />
+	<inherits name='com.philbeaudoin.gwt.dispatch.Dispatch' />
 	<inherits name='com.philbeaudoin.gwt.presenter.Presenter' />
 
 	<!-- Specify the app entry point class.                         -->
 	<entry-point class='com.puzzlebazar.client.Puzzlebazar' />
 
+  <!-- French language, independent of country -->
+  <extend-property name="locale" values="fr"/>
+  <!-- English language, independent of country -->
+  <extend-property name="locale" values="en"/>
+  <set-property-fallback name="locale" value="en"/>
+  
 	<!-- Specify the paths for translatable code                    -->
 	<source path='client' />
 	<source path='shared' />

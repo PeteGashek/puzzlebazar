@@ -30,7 +30,7 @@ java.util.ConcurrentModificationException, true, true, false, false, java.util.C
 java.util.EmptyStackException, true, true, false, false, java.util.EmptyStackException/89438517, 89438517
 java.util.NoSuchElementException, true, true, false, false, java.util.NoSuchElementException/1559248883, 1559248883
 java.util.TooManyListenersException, true, true, false, false, java.util.TooManyListenersException/2023078032, 2023078032
-net.customware.gwt.dispatch.client.service.DispatchService, false, false, false, false, _, 2549755243
-net.customware.gwt.dispatch.shared.ActionException, true, true, false, false, net.customware.gwt.dispatch.shared.ActionException/1936455038, 1936455038
-net.customware.gwt.dispatch.shared.UnsupportedActionException, true, true, false, false, net.customware.gwt.dispatch.shared.UnsupportedActionException/3409690421, 3409690421
-net.customware.gwt.presenter.client.place.PlaceParsingException, true, true, false, false, net.customware.gwt.presenter.client.place.PlaceParsingException/2584348558, 2584348558
+com.philbeaudoin.gwt.dispatch.client.service.DispatchService, false, false, false, false, _, 2549755243
+com.philbeaudoin.gwt.dispatch.shared.ActionException, true, true, false, false, com.philbeaudoin.gwt.dispatch.shared.ActionException/1936455038, 1936455038
+com.philbeaudoin.gwt.dispatch.shared.UnsupportedActionException, true, true, false, false, com.philbeaudoin.gwt.dispatch.shared.UnsupportedActionException/3409690421, 3409690421
+com.philbeaudoin.gwt.presenter.client.place.PlaceParsingException, true, true, false, false, com.philbeaudoin.gwt.presenter.client.place.PlaceParsingException/2584348558, 2584348558

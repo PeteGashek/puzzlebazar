@@ -14,5 +14,6 @@ public interface Resources extends ClientBundle {
 
   public interface Style extends CssResource {
     String username();
+    String splitMainView();
   }  
 }

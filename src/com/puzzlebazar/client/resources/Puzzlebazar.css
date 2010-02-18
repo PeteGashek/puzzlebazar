@@ -1,3 +1,17 @@
 .username {
-  font-weight: bold;
+	font-weight: bold;
 }
+
+.splitMainView {
+	max-width: 1160px;
+}
+/*
+.splitMainViewOld {
+  height: auto !important;
+  margin: 0px;
+  max-width: 1160px;
+  min-height: 100%;
+  padding: 0px;
+  position: relative;
+}
+*/

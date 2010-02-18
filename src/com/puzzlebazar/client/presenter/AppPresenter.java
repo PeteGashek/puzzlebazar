@@ -5,29 +5,33 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
+import com.philbeaudoin.gwt.presenter.client.Presenter;
+import com.puzzlebazar.client.gin.annotations.DefaultMainPresenter;
+import com.puzzlebazar.client.presenter.event.NewMainDisplayEvent;
+import com.puzzlebazar.client.presenter.event.NewMainDisplayHandler;
 
 
 
-public class AppPresenter extends BasicPresenter<AppPresenter.Display> {
+public class AppPresenter extends BasicPresenter<AppPresenter.Display> implements NewMainDisplayHandler {
 
   public interface Display extends com.philbeaudoin.gwt.presenter.client.Display {
     void setTopBar( Widget topBar );
-    void setLinkColumn( Widget linkColumn );
+    void setMain( Widget linkColumn );
   }
 
   private final TopBarPresenter topBarPresenter;
-  private final LinkColumnPresenter linkColumnPresenter;
+  private Presenter mainPresenter = null;
 
   @Inject
   public AppPresenter(final Display display, final EventBus eventBus,       
       TopBarPresenter  topBarPresenter,
-      LinkColumnPresenter linkColumnPresenter ) {
+      @DefaultMainPresenter Presenter defaultMainPresenter ) {
     super(display, eventBus);
 
     RootLayoutPanel.get().add(getWidget());
     
     this.topBarPresenter  = topBarPresenter;
-    this.linkColumnPresenter = linkColumnPresenter;
+    this.mainPresenter    = defaultMainPresenter;
 
     bind();
   }  
@@ -35,8 +39,10 @@ public class AppPresenter extends BasicPresenter<AppPresenter.Display> {
   @Override
   protected void onBind() {
     display.setTopBar( this.topBarPresenter.getWidget() );
-    display.setLinkColumn( this.linkColumnPresenter.getWidget() );
     
+    registerHandler( eventBus.addHandler( NewMainDisplayEvent.getType(), this ) ); 
+
+    displayMainView();
   }
 
   @Override
@@ -46,7 +52,22 @@ public class AppPresenter extends BasicPresenter<AppPresenter.Display> {
 
   @Override
   public void revealDisplay() {
-    // TODO Auto-generated method stub    
+  }
+
+  @Override
+  public void onNewMainDisplay(NewMainDisplayEvent event) {
+    if( mainPresenter != event.getPresenter() ) {
+    mainPresenter = event.getPresenter();
+    displayMainView();
+    }
+  }
+  
+  /**
+   * Make sure the main view is the correct one
+   */
+  private void displayMainView() {
+    display.setMain( mainPresenter.getWidget() );
+    revealDisplay();
   }
 
 

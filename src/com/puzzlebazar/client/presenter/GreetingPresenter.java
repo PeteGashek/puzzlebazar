@@ -8,7 +8,7 @@
 //import com.google.gwt.user.client.ui.HasValue;
 //import com.google.inject.Inject;
 //
-//import net.customware.gwt.dispatch.client.DispatchAsync;
+//import com.philbeaudoin.gwt.dispatch.client.DispatchAsync;
 //
 //import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
 //import com.philbeaudoin.gwt.presenter.client.EventBus;
