@@ -1,36 +1,27 @@
 package com.puzzlebazar.client.presenter;
 
-import com.philbeaudoin.gwt.dispatch.client.DispatchAsync;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.puzzlebazar.client.presenter.event.LoginEvent;
-import com.puzzlebazar.client.presenter.event.LoginHandler;
-import com.puzzlebazar.shared.action.Login;
-import com.puzzlebazar.shared.action.LoginResult;
+import com.puzzlebazar.client.presenter.event.CurrentUserInfoAvailableEvent;
+import com.puzzlebazar.client.presenter.event.CurrentUserInfoAvailableHandler;
+import com.puzzlebazar.client.presenter.event.LoginURLsAvailableEvent;
+import com.puzzlebazar.client.presenter.event.LoginURLsAvailableHandler;
 
-public class TopBarPresenter extends BasicPresenter<TopBarPresenter.Display> implements LoginHandler {
+public class TopBarPresenter extends BasicPresenter<TopBarPresenter.Display> implements LoginURLsAvailableHandler, CurrentUserInfoAvailableHandler {
 
   public interface Display extends com.philbeaudoin.gwt.presenter.client.Display {
     public void setLoggedIn( String username );
     public void setLoggedOut();
+    public void setSignInURL( String signInURL );
+    public void setSignOutURL( String signOutURL );
     public HasClickHandlers getSignInButton();
   }
-
-  private DispatchAsync dispatcher;
-
+  
   @Inject
-  public TopBarPresenter(final Display display, final EventBus eventBus,
-      final DispatchAsync dispatcher) {
+  public TopBarPresenter(final Display display, final EventBus eventBus) {
     super(display, eventBus);
-
-    this.dispatcher = dispatcher;
 
     bind();
   }
@@ -39,14 +30,9 @@ public class TopBarPresenter extends BasicPresenter<TopBarPresenter.Display> imp
   protected void onBind() {
     display.setLoggedOut();
     
-    registerHandler( display.getSignInButton().addClickHandler( new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        doLogin();
-      }
-    }) );
+    registerHandler( eventBus.addHandler( LoginURLsAvailableEvent.getType(), this ));
     
-    registerHandler( eventBus.addHandler( LoginEvent.getType(), this ) );     
+    registerHandler( eventBus.addHandler( CurrentUserInfoAvailableEvent.getType(), this ) );     
     
   }
 
@@ -58,32 +44,15 @@ public class TopBarPresenter extends BasicPresenter<TopBarPresenter.Display> imp
   public void revealDisplay() {
   }
 
-  /**
-   * Performs the login
-   */
-  public void doLogin() {
-    dispatcher.execute(new Login("MisterTest"),
-        new AsyncCallback<LoginResult>() {
-
-      @Override
-      public void onFailure(Throwable caught) {
-        Window.alert("Login failed!");
-      }
-
-      @Override
-      public void onSuccess(LoginResult result) {
-        // take the result from the server and notify client interested
-        // components
-        eventBus.fireEvent(new LoginEvent(result.getLoginInfo()));
-      }
-
-
-    });    
+  @Override
+  public void onCurrentUserInfoAvailable(CurrentUserInfoAvailableEvent event) {
+    display.setLoggedIn( event.getUserInfo().getEmail() );
   }
 
   @Override
-  public void onLogin(LoginEvent event) {
-    display.setLoggedIn( event.getLoginInfo().getUsername() );
+  public void onLoginURLsAvailable(LoginURLsAvailableEvent event) {
+    display.setSignInURL( event.getLoginURL() );
+    display.setSignOutURL( event.getLogoutURL() );
   }
 
 }

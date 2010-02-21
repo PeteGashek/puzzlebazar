@@ -23,7 +23,7 @@ import com.puzzlebazar.client.view.TopBarView;
 
 import com.google.inject.Singleton;
 
-public class GreetingClientModule extends AbstractPresenterModule {
+public class PuzzlebazarClientModule extends AbstractPresenterModule {
 
  @Override
  protected void configure() {  

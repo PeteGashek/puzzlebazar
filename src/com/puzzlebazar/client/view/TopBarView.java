@@ -37,11 +37,17 @@ public class TopBarView implements TopBarPresenter.Display {
   Anchor signOut;
 
   private final Widget widget;
+
+  private boolean loggedIn = false;
+  private String signInURL = null;
+  private String signOutURL = null;
   
   @Inject
   public TopBarView( Resources resources ) {
     this.resources = resources;
     widget =  binder.createAndBindUi(this);
+    signIn.setHref("");
+    signOut.setHref("");
   }
 
   @Override
@@ -52,27 +58,43 @@ public class TopBarView implements TopBarPresenter.Display {
   @Override
   public void setLoggedIn(String username) {
     this.username.setText(username);
-    setLoggedInVisibility(true);
+    loggedIn  = true;
+    setLoggedInVisibility();
   }
 
   @Override
   public void setLoggedOut() {
     username.setText("");
-    setLoggedInVisibility(false);
+    loggedIn = false;
+    setLoggedInVisibility();
   }
 
-  private void setLoggedInVisibility(boolean loggedIn) {
+  private void setLoggedInVisibility() {
     bar.setWidgetVisible( notSignedIn, !loggedIn );
-    bar.setWidgetVisible( signIn, !loggedIn );
+    bar.setWidgetVisible( signIn, !loggedIn && signInURL != null );
     bar.setWidgetVisible( username, loggedIn );
     bar.setWidgetVisible( settings, loggedIn );
     bar.setWidgetVisible( administration, loggedIn );
-    bar.setWidgetVisible( signOut, loggedIn );
+    bar.setWidgetVisible( signOut, loggedIn && signOutURL != null );
   }
 
   @Override
   public HasClickHandlers getSignInButton() {
     return signIn;
+  }
+
+  @Override
+  public void setSignInURL(String signInURL) {
+    this.signInURL = signInURL;
+    signIn.setHref( signInURL );
+    setLoggedInVisibility();
+  }
+
+  @Override
+  public void setSignOutURL(String signOutURL) {
+    this.signOutURL = signOutURL;
+    signOut.setHref( signOutURL );
+    setLoggedInVisibility();
   }
 
 }
