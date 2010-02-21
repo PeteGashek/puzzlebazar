@@ -9,21 +9,21 @@ import com.philbeaudoin.gwt.presenter.client.Presenter;
  *
  * @author Philippe Beaudoin
  */
-public class NewMainDisplayEvent extends GwtEvent<NewMainDisplayHandler> {
+public class NewMainContentEvent extends GwtEvent<NewMainContentHandler> {
 
-    private static final Type<NewMainDisplayHandler> TYPE = new Type<NewMainDisplayHandler>();
+    private static final Type<NewMainContentHandler> TYPE = new Type<NewMainContentHandler>();
 
-    public static Type<NewMainDisplayHandler> getType() {
+    public static Type<NewMainContentHandler> getType() {
         return TYPE;
     }
 
     public static void fire( EventBus eventBus, Presenter presenter ) {
-        eventBus.fireEvent( new NewMainDisplayEvent( presenter ) );
+        eventBus.fireEvent( new NewMainContentEvent( presenter ) );
     }
 
     private final Presenter presenter;
 
-    public NewMainDisplayEvent( Presenter presenter ) {
+    public NewMainContentEvent( Presenter presenter ) {
         this.presenter = presenter;
     }
 
@@ -32,12 +32,12 @@ public class NewMainDisplayEvent extends GwtEvent<NewMainDisplayHandler> {
     }
 
     @Override
-    protected void dispatch( NewMainDisplayHandler handler ) {
-        handler.onNewMainDisplay( this );
+    protected void dispatch( NewMainContentHandler handler ) {
+        handler.onNewMainContent( this );
     }
 
     @Override
-    public com.google.gwt.event.shared.GwtEvent.Type<NewMainDisplayHandler> getAssociatedType() {
+    public com.google.gwt.event.shared.GwtEvent.Type<NewMainContentHandler> getAssociatedType() {
         return getType();
     }
 }

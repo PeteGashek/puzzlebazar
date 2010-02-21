@@ -13,15 +13,16 @@ import com.philbeaudoin.gwt.presenter.client.Presenter;
  * The presenter class type.
  */
 public abstract class BasicPresenterPlace<T extends Presenter> extends PresenterPlace<T> {
-    private final T presenter;
+  private final T presenter;
 
-    public BasicPresenterPlace( T presenter ) {
-        this.presenter = presenter;
-    }
+  public BasicPresenterPlace( T presenter, PlaceManager placeManager ) {
+    super(placeManager);
+    this.presenter = presenter;
+  }
 
-    @Override
-    public T getPresenter() {
-        return presenter;
-    }
+  @Override
+  public T getPresenter() {
+    return presenter;
+  }
 
 }

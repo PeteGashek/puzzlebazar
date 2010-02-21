@@ -12,10 +12,12 @@ public abstract class DefaultPlaceManager implements PlaceManager {
   private class PlaceEventHandler implements ValueChangeHandler<String>, PlaceRevealedHandler,
   PlaceChangedHandler {
 
+    @Override
     public void onPlaceRevealed( PlaceRevealedEvent event ) {
       updateHistory( event.getPlace() );
     }
 
+    @Override
     public void onPlaceChanged( PlaceChangedEvent event ) {
       Place place = event.getPlace();
       try {
@@ -32,6 +34,7 @@ public abstract class DefaultPlaceManager implements PlaceManager {
     /**
      * Handles change events from {@link History}.
      */
+    @Override
     public void onValueChange( ValueChangeEvent<String> event ) {
       try {
         PlaceRequestEvent.fire( eventBus, tokenFormatter.toPlaceRequest( event.getValue() ), true );
@@ -49,10 +52,6 @@ public abstract class DefaultPlaceManager implements PlaceManager {
   private final Map<Class<? extends Place>, Place> placeMap;
 
   public DefaultPlaceManager( EventBus eventBus, TokenFormatter tokenFormatter ) {
-    this( eventBus, tokenFormatter, (Place[]) null );
-  }
-
-  public DefaultPlaceManager( EventBus eventBus, TokenFormatter tokenFormatter, Place... places ) {
     this.eventBus = eventBus;
     this.tokenFormatter = tokenFormatter;
 
@@ -69,13 +68,9 @@ public abstract class DefaultPlaceManager implements PlaceManager {
 
     placeMap = new HashMap<Class<? extends Place>, Place>();
 
-    if ( places != null ) {
-      for ( Place place : places ) {
-        registerPlace( place );
-      }
-    }
   }
 
+  @Override
   public boolean registerPlace( Place place ) {
     if ( !placeMap.containsKey( place.getClass() ) ) {
       place.addHandlers( eventBus );
@@ -85,6 +80,7 @@ public abstract class DefaultPlaceManager implements PlaceManager {
     return false;
   }
 
+  @Override
   public boolean deregisterPlace( Place place ) {
     if ( !placeMap.containsKey( place.getClass() ) ) {
       place.removeHandlers( eventBus );
@@ -117,6 +113,7 @@ public abstract class DefaultPlaceManager implements PlaceManager {
    *
    * @return <code>true</code>
    */
+  @Override
   public boolean fireCurrentPlace() {
     String current = History.getToken();
     if ( current != null && current.trim().length() > 0 ) {

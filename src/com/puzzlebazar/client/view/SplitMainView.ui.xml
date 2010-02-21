@@ -19,13 +19,11 @@
 		</g:north>
 
 		<g:west size='200'>
-			<g:FlowPanel ui:field='linkColumnContainer' />
+			<g:FlowPanel ui:field='sideBarContainer' />
 		</g:west>
 
 		<g:center>
-			<g:ScrollPanel>
-				<g:Label>Content Area</g:Label>
-			</g:ScrollPanel>
+			<g:FlowPanel ui:field='centerContentContainer' />
 		</g:center>
 	</g:DockLayoutPanel>
 

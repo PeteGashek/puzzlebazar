@@ -4,6 +4,7 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.inject.Inject;
 import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
+import com.puzzlebazar.client.place.UserSettingsPresenterPlace;
 import com.puzzlebazar.client.presenter.event.CurrentUserInfoAvailableEvent;
 import com.puzzlebazar.client.presenter.event.CurrentUserInfoAvailableHandler;
 import com.puzzlebazar.client.presenter.event.LoginURLsAvailableEvent;
@@ -17,12 +18,15 @@ public class TopBarPresenter extends BasicPresenter<TopBarPresenter.Display> imp
     public void setSignInURL( String signInURL );
     public void setSignOutURL( String signOutURL );
     public HasClickHandlers getSignInButton();
+    public void setUserSettingsHistoryToken(String historyToken);
   }
   
   @Inject
-  public TopBarPresenter(final Display display, final EventBus eventBus) {
+  public TopBarPresenter(final Display display, final EventBus eventBus, 
+      final UserSettingsPresenterPlace userSettingsPresenterPlace ) {
     super(display, eventBus);
-
+    display.setUserSettingsHistoryToken( userSettingsPresenterPlace.getName() );
+    
     bind();
   }
 

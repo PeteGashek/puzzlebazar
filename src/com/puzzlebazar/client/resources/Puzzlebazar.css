@@ -1,7 +1,7 @@
 a {
-  text-decoration: underline;
-  cursor: pointer;
-  cursor: hand; 
+	text-decoration: underline;
+	cursor: pointer;
+	cursor: hand;
 }
 
 .username {
@@ -10,4 +10,50 @@ a {
 
 .splitMainView {
 	max-width: 1160px;
+}
+
+/* For tabs */
+.round1,.round2,.round4 {
+	font-size: 0px;
+	height: 1px;
+	margin: 0px;
+	padding: 0px;
+}
+
+.round1 {
+	border-left: 1px solid white;
+	border-right: 1px solid white;
+}
+
+.round2 {
+	border-left: 2px solid white;
+	border-right: 2px solid white;
+}
+
+.round4 {
+	border-left: 4px solid white;
+	border-right: 4px solid white;
+}
+
+.active {
+	background-color: #C3D9FF;
+}
+
+.inactive {
+	background: #E5ECF9;
+}
+
+.tab {
+	float: left;
+	margin-right: 8px;
+}
+
+.tab_inner {
+	margin: 0px;
+	padding: 0px 13px;
+}
+
+.horizontalBar {
+  width: 100%;
+  height: 5px;
 }

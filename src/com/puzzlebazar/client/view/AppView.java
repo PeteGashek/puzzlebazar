@@ -15,7 +15,7 @@ public class AppView implements AppPresenter.Display {
   private static final Binder binder = GWT.create(Binder.class);
 
   @UiField LayoutPanel topBarContainer;
-  @UiField LayoutPanel mainContainer;
+  @UiField LayoutPanel mainContentContainer;
 
   private final Widget panel;
 
@@ -26,9 +26,9 @@ public class AppView implements AppPresenter.Display {
   }
 
   @Override
-  public void setMain(Widget main) {
-    mainContainer.clear();
-    mainContainer.add( main );
+  public void setMainContent(Widget mainContent) {
+    mainContentContainer.clear();
+    mainContentContainer.add( mainContent );
   }
 
   @Override

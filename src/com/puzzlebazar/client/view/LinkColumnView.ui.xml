@@ -2,7 +2,7 @@
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 
 	<g:FlowPanel>
-	   <g:Label>Toto tototo</g:Label>
+	   <g:Label>Link Column Placeholder</g:Label>
 	</g:FlowPanel>
 
 </ui:UiBinder>

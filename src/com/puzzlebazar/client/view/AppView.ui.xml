@@ -13,7 +13,7 @@
 			<g:LayoutPanel ui:field='topBarContainer' />
 		</g:north>
 		<g:center>
-			<g:LayoutPanel ui:field='mainContainer' />
+			<g:LayoutPanel ui:field='mainContentContainer' />
 		</g:center>
 	</g:DockLayoutPanel>
 

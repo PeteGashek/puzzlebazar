@@ -97,4 +97,9 @@ public class TopBarView implements TopBarPresenter.Display {
     setLoggedInVisibility();
   }
 
+  @Override
+  public void setUserSettingsHistoryToken(String historyToken) {
+    settings.setTargetHistoryToken( historyToken );
+  }
+
 }

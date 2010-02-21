@@ -14,7 +14,8 @@ public abstract class PresenterPlace<T extends Presenter> extends Place {
     private HandlerRegistration presenterChangedRegistration;
     private HandlerRegistration presenterRevealedRegistration;
 
-    public PresenterPlace() {
+    public PresenterPlace( PlaceManager placeManager ) {
+      placeManager.registerPlace( this );
     }
 
     public abstract T getPresenter();

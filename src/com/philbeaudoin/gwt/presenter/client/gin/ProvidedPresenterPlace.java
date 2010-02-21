@@ -2,6 +2,7 @@ package com.philbeaudoin.gwt.presenter.client.gin;
 
 import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.Presenter;
+import com.philbeaudoin.gwt.presenter.client.place.PlaceManager;
 import com.philbeaudoin.gwt.presenter.client.place.PresenterPlace;
 
 /**
@@ -27,15 +28,16 @@ import com.philbeaudoin.gwt.presenter.client.place.PresenterPlace;
  * @author David Peterson
  */
 public abstract class ProvidedPresenterPlace<T extends Presenter> extends PresenterPlace<T> {
-    private final Provider<T> presenter;
+  private final Provider<T> presenter;
 
-    public ProvidedPresenterPlace( Provider<T> presenter ) {
-        this.presenter = presenter;
-    }
+  public ProvidedPresenterPlace( Provider<T> presenter, PlaceManager placeManager ) {
+    super(placeManager);
+    this.presenter = presenter;
+  }
 
-    @Override
-    public T getPresenter() {
-        return presenter.get();
-    }
+  @Override
+  public T getPresenter() {
+    return presenter.get();
+  }
 
 }

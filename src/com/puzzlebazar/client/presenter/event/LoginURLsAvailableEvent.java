@@ -11,39 +11,39 @@ import com.philbeaudoin.gwt.presenter.client.EventBus;
  */
 public class LoginURLsAvailableEvent extends GwtEvent<LoginURLsAvailableHandler> {
 
-    private static final Type<LoginURLsAvailableHandler> TYPE = new Type<LoginURLsAvailableHandler>();
+  private static final Type<LoginURLsAvailableHandler> TYPE = new Type<LoginURLsAvailableHandler>();
 
-    public static Type<LoginURLsAvailableHandler> getType() {
-        return TYPE;
-    }
-
-    public static void fire( EventBus eventBus, String loginURL, String logoutURL ) {
-        eventBus.fireEvent( new LoginURLsAvailableEvent( loginURL, logoutURL ) );
-    }
-
-    private final String loginURL;
-    private final String logoutURL;
-
-    public LoginURLsAvailableEvent( String loginURL, String logoutURL ) {
-      this.loginURL = loginURL;
-      this.logoutURL = logoutURL;
-    }
-
-    public String getLoginURL() {
-        return loginURL;
-    }
-
-    public String getLogoutURL() {
-      return logoutURL;
+  public static Type<LoginURLsAvailableHandler> getType() {
+    return TYPE;
   }
 
-    @Override
-    protected void dispatch( LoginURLsAvailableHandler handler ) {
-        handler.onLoginURLsAvailable( this );
-    }
+  public static void fire( EventBus eventBus, String loginURL, String logoutURL ) {
+    eventBus.fireEvent( new LoginURLsAvailableEvent( loginURL, logoutURL ) );
+  }
 
-    @Override
-    public Type<LoginURLsAvailableHandler> getAssociatedType() {
-        return getType();
-    }
+  private final String loginURL;
+  private final String logoutURL;
+
+  public LoginURLsAvailableEvent( String loginURL, String logoutURL ) {
+    this.loginURL = loginURL;
+    this.logoutURL = logoutURL;
+  }
+
+  public String getLoginURL() {
+    return loginURL;
+  }
+
+  public String getLogoutURL() {
+    return logoutURL;
+  }
+
+  @Override
+  protected void dispatch( LoginURLsAvailableHandler handler ) {
+    handler.onLoginURLsAvailable( this );
+  }
+
+  @Override
+  public Type<LoginURLsAvailableHandler> getAssociatedType() {
+    return getType();
+  }
 }

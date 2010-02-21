@@ -14,7 +14,8 @@ public class SplitMainView implements SplitMainPresenter.Display {
   interface Binder extends UiBinder<Widget, SplitMainView> { }
   private static final Binder binder = GWT.create(Binder.class);
 
-  @UiField FlowPanel linkColumnContainer;
+  @UiField FlowPanel sideBarContainer;
+  @UiField FlowPanel centerContentContainer;
 
   private final Widget panel;
 
@@ -28,9 +29,15 @@ public class SplitMainView implements SplitMainPresenter.Display {
   }
 
   @Override
-  public void setLinkColumn(Widget linkColumn) {
-    linkColumnContainer.clear();
-    linkColumnContainer.add( linkColumn );
+  public void setSideBar(Widget sideBar) {
+    sideBarContainer.clear();
+    sideBarContainer.add( sideBar );
+  }
+
+  @Override
+  public void setCenterContent(Widget centerContent) {
+    centerContentContainer.clear();
+    centerContentContainer.add( centerContent );
   }
 
   @Override

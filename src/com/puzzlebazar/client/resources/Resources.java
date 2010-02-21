@@ -15,5 +15,13 @@ public interface Resources extends ClientBundle {
   public interface Style extends CssResource {
     String username();
     String splitMainView();
+    String round1();
+    String round2();
+    String round4();
+    String active();
+    String inactive();
+    String tab();    
+    String tab_inner();    
+    String horizontalBar();
   }  
 }

@@ -7,16 +7,16 @@ import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.Presenter;
 import com.puzzlebazar.client.gin.annotations.DefaultMainPresenter;
-import com.puzzlebazar.client.presenter.event.NewMainDisplayEvent;
-import com.puzzlebazar.client.presenter.event.NewMainDisplayHandler;
+import com.puzzlebazar.client.presenter.event.NewMainContentEvent;
+import com.puzzlebazar.client.presenter.event.NewMainContentHandler;
 
 
 
-public class AppPresenter extends BasicPresenter<AppPresenter.Display> implements NewMainDisplayHandler {
+public class AppPresenter extends BasicPresenter<AppPresenter.Display> implements NewMainContentHandler {
 
   public interface Display extends com.philbeaudoin.gwt.presenter.client.Display {
     void setTopBar( Widget topBar );
-    void setMain( Widget linkColumn );
+    void setMainContent( Widget mainContent );
   }
 
   private final TopBarPresenter topBarPresenter;
@@ -40,9 +40,9 @@ public class AppPresenter extends BasicPresenter<AppPresenter.Display> implement
   protected void onBind() {
     display.setTopBar( this.topBarPresenter.getWidget() );
     
-    registerHandler( eventBus.addHandler( NewMainDisplayEvent.getType(), this ) ); 
+    registerHandler( eventBus.addHandler( NewMainContentEvent.getType(), this ) ); 
 
-    displayMainView();
+    displayMainContent();
   }
 
   @Override
@@ -55,18 +55,18 @@ public class AppPresenter extends BasicPresenter<AppPresenter.Display> implement
   }
 
   @Override
-  public void onNewMainDisplay(NewMainDisplayEvent event) {
+  public void onNewMainContent(NewMainContentEvent event) {
     if( mainPresenter != event.getPresenter() ) {
     mainPresenter = event.getPresenter();
-    displayMainView();
+    displayMainContent();
     }
   }
   
   /**
-   * Make sure the main view is the correct one
+   * Make sure the main content is the correct one
    */
-  private void displayMainView() {
-    display.setMain( mainPresenter.getWidget() );
+  private void displayMainContent() {
+    display.setMainContent( mainPresenter.getWidget() );
     revealDisplay();
   }
 
