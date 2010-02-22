@@ -30,7 +30,7 @@ public class UserInfoJdo {
     destination.setFirstname(firstname);
     destination.setLastname(lastname);
     destination.setNickname(username);
-    destination.setAdministrator(administrator);    
+    destination.setAdministrator(administrator);
   }
 
   /**

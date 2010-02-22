@@ -20,7 +20,7 @@ public class TopBarView implements TopBarPresenter.Display {
 
   @UiField(provided = true)
   final Resources resources;
-  
+
   @UiField
   TokenSeparatedList bar;
   @UiField
@@ -39,15 +39,11 @@ public class TopBarView implements TopBarPresenter.Display {
   private final Widget widget;
 
   private boolean loggedIn = false;
-  private String signInURL = null;
-  private String signOutURL = null;
-  
+
   @Inject
   public TopBarView( Resources resources ) {
     this.resources = resources;
     widget =  binder.createAndBindUi(this);
-    signIn.setHref("");
-    signOut.setHref("");
   }
 
   @Override
@@ -71,35 +67,26 @@ public class TopBarView implements TopBarPresenter.Display {
 
   private void setLoggedInVisibility() {
     bar.setWidgetVisible( notSignedIn, !loggedIn );
-    bar.setWidgetVisible( signIn, !loggedIn && signInURL != null );
+    bar.setWidgetVisible( signIn, !loggedIn );
     bar.setWidgetVisible( username, loggedIn );
     bar.setWidgetVisible( settings, loggedIn );
     bar.setWidgetVisible( administration, loggedIn );
-    bar.setWidgetVisible( signOut, loggedIn && signOutURL != null );
-  }
-
-  @Override
-  public HasClickHandlers getSignInButton() {
-    return signIn;
-  }
-
-  @Override
-  public void setSignInURL(String signInURL) {
-    this.signInURL = signInURL;
-    signIn.setHref( signInURL );
-    setLoggedInVisibility();
-  }
-
-  @Override
-  public void setSignOutURL(String signOutURL) {
-    this.signOutURL = signOutURL;
-    signOut.setHref( signOutURL );
-    setLoggedInVisibility();
+    bar.setWidgetVisible( signOut, loggedIn );
   }
 
   @Override
   public void setUserSettingsHistoryToken(String historyToken) {
     settings.setTargetHistoryToken( historyToken );
+  }
+
+  @Override
+  public HasClickHandlers getSignIn() {
+    return signIn;
+  }
+
+  @Override
+  public HasClickHandlers getSignOut() {
+    return signOut;
   }
 
 }

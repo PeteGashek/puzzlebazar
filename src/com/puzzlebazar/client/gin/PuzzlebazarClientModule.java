@@ -8,7 +8,6 @@ import com.philbeaudoin.gwt.presenter.client.place.ParameterTokenFormatter;
 import com.philbeaudoin.gwt.presenter.client.place.PlaceManager;
 import com.philbeaudoin.gwt.presenter.client.place.TokenFormatter;
 
-import com.puzzlebazar.client.CachingDispatchAsync;
 import com.puzzlebazar.client.gin.annotations.DefaultMainPresenter;
 import com.puzzlebazar.client.place.PuzzlebazarPlaceManager;
 import com.puzzlebazar.client.place.UserSettingsPresenterPlace;
@@ -35,7 +34,6 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
    bind(EventBus.class).to(DefaultEventBus.class).in(Singleton.class);
    bind(PlaceManager.class).to(PuzzlebazarPlaceManager.class);
    bind(TokenFormatter.class).to(ParameterTokenFormatter.class);
-   bind(CachingDispatchAsync.class);
 
    // Presenters
    bindPresenter(AppPresenter.class,AppPresenter.Display.class, AppView.class);

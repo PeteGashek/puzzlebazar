@@ -2,9 +2,11 @@ package com.puzzlebazar.server.guice;
 
 import com.philbeaudoin.gwt.dispatch.server.guice.ActionHandlerModule;
 
-import com.puzzlebazar.server.handler.GetLoginURLsHandler;
+import com.puzzlebazar.server.handler.DoLoginHandler;
+import com.puzzlebazar.server.handler.DoLogoutHandler;
 import com.puzzlebazar.server.handler.GetUserInfoHandler;
-import com.puzzlebazar.shared.action.GetLoginURLs;
+import com.puzzlebazar.shared.action.DoLogin;
+import com.puzzlebazar.shared.action.DoLogout;
 import com.puzzlebazar.shared.action.GetUserInfo;
 
 /**
@@ -15,7 +17,8 @@ public class ServerModule extends ActionHandlerModule {
 
   @Override
   protected void configureHandlers() {
-    bindHandler(GetLoginURLs.class, GetLoginURLsHandler.class);
+    bindHandler(DoLogin.class, DoLoginHandler.class);
+    bindHandler(DoLogout.class, DoLogoutHandler.class);
     bindHandler(GetUserInfo.class, GetUserInfoHandler.class);
   }
 }
