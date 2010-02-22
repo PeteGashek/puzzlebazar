@@ -1,27 +1,8 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+  xmlns:m='urn:import:com.puzzlebazar.client.ui'>
 
-  <ui:with field='resources' type='com.puzzlebazar.client.resources.Resources' />
-
-	<g:HTMLPanel>
-		<div class="{resources.style.tab} {resources.style.active}">
-			<div class="{resources.style.round4}" />
-			<div class="{resources.style.round2}" />
-			<div class="{resources.style.round1}" />
-			<div class="{resources.style.tab_inner}">
-				Super
-      </div>
-		</div>
-    <div class="{resources.style.tab} {resources.style.inactive}">
-      <div class="{resources.style.round4}" />
-      <div class="{resources.style.round2}" />
-      <div class="{resources.style.round1}" />
-      <div class="{resources.style.tab_inner}">
-        Less Super
-      </div>
-    </div>
-    <div style="clear: both;"></div>
-    <div class="{resources.style.horizontalBar} {resources.style.active}" />
-	</g:HTMLPanel>
+	<m:TabbedContainer ui:field="tabbedContainer">
+	</m:TabbedContainer>
 
 </ui:UiBinder>

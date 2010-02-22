@@ -4,11 +4,13 @@ import com.google.inject.Inject;
 import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.puzzlebazar.client.presenter.event.NewCenterContentEvent;
+import com.puzzlebazar.client.ui.HasTabs;
+import com.puzzlebazar.client.ui.Tab;
 
 
 public class UserSettingsPresenter extends BasicPresenter<UserSettingsPresenter.Display> {
 
-  public interface Display extends com.philbeaudoin.gwt.presenter.client.Display {
+  public interface Display extends com.philbeaudoin.gwt.presenter.client.Display, HasTabs {
   }
 
   @Inject
@@ -20,6 +22,9 @@ public class UserSettingsPresenter extends BasicPresenter<UserSettingsPresenter.
 
   @Override
   protected void onBind() {
+    Tab tab1 = display.addTab("Test", "settings");
+    display.addTab("Return", "");
+    display.setActiveTab(tab1);
   }
 
   @Override
