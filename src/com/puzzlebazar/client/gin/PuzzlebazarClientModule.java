@@ -17,6 +17,7 @@ import com.puzzlebazar.client.presenter.SplitMainPresenter;
 import com.puzzlebazar.client.presenter.TopBarPresenter;
 import com.puzzlebazar.client.presenter.UserSettingsPresenter;
 import com.puzzlebazar.client.resources.Resources;
+import com.puzzlebazar.client.ui.Tab;
 import com.puzzlebazar.client.view.AppView;
 import com.puzzlebazar.client.view.LinkColumnView;
 import com.puzzlebazar.client.view.SplitMainView;
@@ -34,7 +35,7 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
    bind(EventBus.class).to(DefaultEventBus.class).in(Singleton.class);
    bind(PlaceManager.class).to(PuzzlebazarPlaceManager.class);
    bind(TokenFormatter.class).to(ParameterTokenFormatter.class);
-
+   
    // Presenters
    bindPresenter(AppPresenter.class,AppPresenter.Display.class, AppView.class);
    bind(Presenter.class).annotatedWith(DefaultMainPresenter.class).to(SplitMainPresenter.class);      
@@ -46,6 +47,8 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
    // Places
    bind(UserSettingsPresenterPlace.class).asEagerSingleton();
    
- 
+   // Static injectors for UIBinder instanciable widgets
+   requestStaticInjection( Tab.class );
+   
  }
 }

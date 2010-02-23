@@ -3,17 +3,17 @@ package com.puzzlebazar.client.ui;
 public interface HasTabs {
 
   /**
-   * Adds a new tab to the widget
+   * Adds a new tab to the widget.
    * 
-   * @param tabName The name of the newly added tab
-   * @param historyToken The history token the tab points to
-   * @return The newly added tab (a semi-opaque object)
+   * @param text The text to display on the tab.
+   * @param historyToken The history token the tab points to.
+   * @return The newly added tab.
    */
-  public Tab addTab( String tabName, String historyToken );
+  public Tab addTab( String text, String historyToken );
   
   
   /**
-   * Removes a tab from the widget
+   * Removes a tab from the widget.
    * 
    * @param tab The tab to remove
    */
