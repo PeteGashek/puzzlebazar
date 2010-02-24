@@ -4,8 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
-import com.philbeaudoin.gwt.presenter.client.PresenterWrapper;
-import com.puzzlebazar.client.place.UserSettingsMainPresenterPlace;
+import com.philbeaudoin.gwt.presenter.client.BasicPresenterWrapper;
 import com.puzzlebazar.client.ui.HasTabs;
 
 
@@ -19,14 +18,14 @@ public class UserSettingsPresenter extends TabbedPresenter<UserSettingsPresenter
   public interface Display extends PresenterDisplay, HasTabs {
   }
 
-  public static class MainSlot extends TabSlot<UserSettingsPresenter> {
+  public static class MainSlot extends TabPaneSlot<UserSettingsPresenter> {
     @Inject
     public MainSlot(Provider<UserSettingsPresenter> presenter) {
       super(presenter);
     }
   }
 
-  public static class Wrapper extends PresenterWrapper<UserSettingsPresenter> {
+  public static class Wrapper extends BasicPresenterWrapper<UserSettingsPresenter> {
     @Inject
     public Wrapper(EventBus eventBus, Provider<UserSettingsPresenter> presenter) {
       super(eventBus, presenter);
@@ -36,8 +35,9 @@ public class UserSettingsPresenter extends TabbedPresenter<UserSettingsPresenter
   @Inject
   public UserSettingsPresenter(final Display display, final EventBus eventBus, 
       final Wrapper wrapper, final SplitMainPresenter.CenterSlot parentSlot,
-      UserSettingsMainPresenterPlace tab1 ) {
-    super(display, eventBus, wrapper, parentSlot, tab1 );   
+      final UserSettingsMainPresenter.Wrapper tab1,
+      final UserSettingsDetailsPresenter.Wrapper tab2 ) {
+    super(display, eventBus, wrapper, parentSlot, tab1, tab2 );   
     bind();
   }  
 

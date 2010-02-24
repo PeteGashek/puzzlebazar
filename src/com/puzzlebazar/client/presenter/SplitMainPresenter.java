@@ -6,7 +6,7 @@ import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
-import com.philbeaudoin.gwt.presenter.client.PresenterWrapper;
+import com.philbeaudoin.gwt.presenter.client.BasicPresenterWrapper;
 import com.philbeaudoin.gwt.presenter.client.Slot;
 
 
@@ -25,8 +25,8 @@ public class SplitMainPresenter extends BasicPresenter<SplitMainPresenter.Displa
     }
     @Override
     protected void displayContent() {
-      if( activePresenter != null )
-        getPresenter().getDisplay().setSideBarContent( activePresenter.getWidget() );
+      if( content != null )
+        getPresenter().getDisplay().setSideBarContent( content.getWidget() );
     }
   }
 
@@ -37,12 +37,12 @@ public class SplitMainPresenter extends BasicPresenter<SplitMainPresenter.Displa
     }
     @Override
     protected void displayContent() {
-      if( activePresenter != null )
-        getPresenter().getDisplay().setCenterContent( activePresenter.getWidget() );
+      if( content != null )
+        getPresenter().getDisplay().setCenterContent( content.getWidget() );
     }
   }
 
-  public static class Wrapper extends PresenterWrapper<SplitMainPresenter> {
+  public static class Wrapper extends BasicPresenterWrapper<SplitMainPresenter> {
     @Inject
     public Wrapper(EventBus eventBus, Provider<SplitMainPresenter> presenter ) {
       super(eventBus, presenter);
@@ -66,7 +66,7 @@ public class SplitMainPresenter extends BasicPresenter<SplitMainPresenter.Displa
 
   @Override
   protected void onBind() {
-    sideBarSlot.setPresenter( linkColumnPresenter );
+    sideBarSlot.setContent( linkColumnPresenter );
   }
 
   @Override

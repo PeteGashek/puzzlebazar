@@ -11,6 +11,13 @@ public interface Presenter {
      * @return The display.
      */
     PresenterDisplay getDisplay();
+
+    /**
+     * Returns the {@link PresenterWrapper} areound the current presenter.
+     *
+     * @return The wrapper.
+     */
+    PresenterWrapper getWrapper();
     
     /**
      * Requests the presenter to reveal the display on screen. 

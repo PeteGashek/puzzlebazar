@@ -5,32 +5,32 @@ import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
-import com.puzzlebazar.client.place.UserSettingsMainPlace;
+import com.puzzlebazar.client.place.UserSettingsDetailsPlace;
 import com.puzzlebazar.client.resources.Translations;
 
 /**
- * This is the main presenter of the user settings tab presenter
+ * This is the details presenter of the user settings tab presenter
  * 
  * @author beaudoin
  */
-public class UserSettingsMainPresenter extends BasicPresenter<UserSettingsMainPresenter.Display, UserSettingsMainPresenter.Wrapper> {
+public class UserSettingsDetailsPresenter extends BasicPresenter<UserSettingsDetailsPresenter.Display, UserSettingsDetailsPresenter.Wrapper> {
 
   public interface Display extends PresenterDisplay { }
 
-  public static class Wrapper extends TabPresenterWrapper<UserSettingsMainPresenter, UserSettingsMainPlace> {
+  public static class Wrapper extends TabPresenterWrapper<UserSettingsDetailsPresenter, UserSettingsDetailsPlace> {
     @Inject
-    public Wrapper(final EventBus eventBus, final Provider<UserSettingsMainPresenter> presenter, 
-        final Provider<UserSettingsMainPlace> place, final Translations translations) {
+    public Wrapper(final EventBus eventBus, final Provider<UserSettingsDetailsPresenter> presenter, 
+        final Provider<UserSettingsDetailsPlace> place, final Translations translations) {
       super(eventBus, presenter, place, translations);
     }
     @Override
     public String getText() {
-      return translations.settings();
+      return translations.details();
     }
   }
 
   @Inject
-  public UserSettingsMainPresenter(final Display display, final EventBus eventBus, 
+  public UserSettingsDetailsPresenter(final Display display, final EventBus eventBus, 
       final Wrapper wrapper, final UserSettingsPresenter.MainSlot parentSlot) {
     super(display, eventBus, wrapper, parentSlot);
     bind();

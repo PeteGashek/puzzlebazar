@@ -31,25 +31,25 @@ public abstract class Place extends HandlerContainer {
    *
    * @return The place ID.
    */
-  public abstract String getName();
+  public abstract String getHistoryToken();
 
   @Override
   public boolean equals( Object o ) {
     if ( o instanceof Place ) {
       Place place = (Place) o;
-      return getName().equals( place.getName() );
+      return getHistoryToken().equals( place.getHistoryToken() );
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return 17 * getName().hashCode();
+    return 17 * getHistoryToken().hashCode();
   }
 
   @Override
   public String toString() {
-    return getName();
+    return getHistoryToken();
   }
 
   /**
@@ -67,7 +67,7 @@ public abstract class Place extends HandlerContainer {
    * @return <code>true</code> if the ID matches this place's name.
    */
   public boolean matchesRequest( PlaceRequest request ) {
-    return getName().equals( request.getName() );
+    return getHistoryToken().equals( request.getName() );
   }
 
   /**
@@ -77,7 +77,7 @@ public abstract class Place extends HandlerContainer {
    * @return The new {@link PlaceRequest}.
    */
   public PlaceRequest createRequest() {
-    return prepareRequest( new PlaceRequest( getName() ) );
+    return prepareRequest( new PlaceRequest( getHistoryToken() ) );
   }
 
   /**

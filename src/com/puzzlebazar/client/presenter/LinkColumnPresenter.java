@@ -5,14 +5,14 @@ import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
-import com.philbeaudoin.gwt.presenter.client.PresenterWrapper;
+import com.philbeaudoin.gwt.presenter.client.BasicPresenterWrapper;
 
 public class LinkColumnPresenter extends BasicPresenter<LinkColumnPresenter.Display, LinkColumnPresenter.Wrapper> {
 
   public interface Display extends PresenterDisplay {
   }
   
-  public static class Wrapper extends PresenterWrapper<LinkColumnPresenter> {
+  public static class Wrapper extends BasicPresenterWrapper<LinkColumnPresenter> {
     @Inject
     public Wrapper(EventBus eventBus, Provider<LinkColumnPresenter> presenter) {
       super(eventBus, presenter);

@@ -10,7 +10,7 @@ import com.google.inject.Provider;
  */
 public abstract class Slot<P extends Presenter>  {
 
-  protected Presenter activePresenter = null;
+  protected Presenter content = null;
   private final Provider<P> presenter;
   
   protected Slot(Provider<P> presenter) {
@@ -21,9 +21,9 @@ public abstract class Slot<P extends Presenter>  {
     return presenter.get();
   }
   
-  public void setPresenter(Presenter presenter) {
-    if( activePresenter  != presenter ) {
-      activePresenter = presenter;
+  public void setContent(Presenter content) {
+    if( this.content  != content ) {
+      this.content = content;
       displayContent();
     }
   }

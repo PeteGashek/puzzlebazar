@@ -3,7 +3,7 @@ package com.philbeaudoin.gwt.presenter.client;
 import com.google.gwt.user.client.ui.Widget;
 import com.philbeaudoin.gwt.presenter.client.place.PlaceRequest;
 
-public abstract class BasicPresenter<D extends PresenterDisplay, W extends PresenterWrapper<?>> 
+public abstract class BasicPresenter<D extends PresenterDisplay, W extends PresenterWrapper> 
 extends HandlerContainer implements Presenter {
 
   /**
@@ -48,14 +48,15 @@ extends HandlerContainer implements Presenter {
     return display;
   }
 
-  protected final W getWrapper() {
+  @Override
+  public final W getWrapper() {
     return wrapper;
   }
 
   @Override
   public void revealDisplay() {
     if( parentSlot != null ) {
-      parentSlot.setPresenter( this );
+      parentSlot.setContent( this );
       parentSlot.getPresenter().revealDisplay();
     }
   }

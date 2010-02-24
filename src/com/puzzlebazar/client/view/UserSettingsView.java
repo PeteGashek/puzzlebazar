@@ -30,8 +30,8 @@ public class UserSettingsView implements UserSettingsPresenter.Display {
   }
 
   @Override
-  public Tab addTab( String tabName, String tabLink ) {
-    return tabbedContainer.addTab(tabName, tabLink);
+  public Tab addTab( String tabName, String historyToken ) {
+    return tabbedContainer.addTab(tabName, historyToken);
   }
 
   @Override

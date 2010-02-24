@@ -1,12 +1,13 @@
 package com.philbeaudoin.gwt.presenter.client.place;
 
+import com.google.inject.Provider;
+import com.philbeaudoin.gwt.presenter.client.BasicPresenterWrapper;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.Presenter;
 import com.philbeaudoin.gwt.presenter.client.PresenterChangedEvent;
 import com.philbeaudoin.gwt.presenter.client.PresenterChangedHandler;
 import com.philbeaudoin.gwt.presenter.client.PresenterRevealedEvent;
 import com.philbeaudoin.gwt.presenter.client.PresenterRevealedHandler;
-import com.philbeaudoin.gwt.presenter.client.PresenterWrapper;
 
 /**
  * This is a subclass of {@link Place} with some helper values for working with
@@ -14,18 +15,18 @@ import com.philbeaudoin.gwt.presenter.client.PresenterWrapper;
  *
  * @author David Peterson
  */
-public abstract class PresenterPlace<W extends PresenterWrapper<P>, P extends Presenter> extends Place {
+public abstract class PresenterPlace<W extends BasicPresenterWrapper<P>, P extends Presenter> extends Place {
 
   private final PlaceManager placeManager;
-  private final W presenterWrapper;
+  private final Provider<W> presenterWrapper;
 
-  public PresenterPlace( final EventBus eventBus, final PlaceManager placeManager, final W presenterWrapper ) {
+  public PresenterPlace( final EventBus eventBus, final PlaceManager placeManager, final Provider<W> presenterWrapper ) {
     super(eventBus);
     this.placeManager = placeManager;
     this.presenterWrapper = presenterWrapper;
   }
 
-  public final W getPresenterWrapper() { return presenterWrapper; }
+  public final W getPresenterWrapper() { return presenterWrapper.get(); }
 
   public final P getPresenter() { return getPresenterWrapper().getPresenter(); }
 

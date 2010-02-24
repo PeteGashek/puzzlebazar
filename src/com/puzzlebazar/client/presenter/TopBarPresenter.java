@@ -11,8 +11,8 @@ import com.philbeaudoin.gwt.dispatch.client.DispatchAsync;
 import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
-import com.philbeaudoin.gwt.presenter.client.PresenterWrapper;
-import com.puzzlebazar.client.place.UserSettingsMainPresenterPlace;
+import com.philbeaudoin.gwt.presenter.client.BasicPresenterWrapper;
+import com.puzzlebazar.client.place.UserSettingsMainPlace;
 import com.puzzlebazar.client.presenter.event.CurrentUserInfoAvailableEvent;
 import com.puzzlebazar.client.presenter.event.CurrentUserInfoAvailableHandler;
 import com.puzzlebazar.shared.action.DoLogin;
@@ -30,7 +30,7 @@ implements CurrentUserInfoAvailableHandler {
     public void setUserSettingsHistoryToken(String historyToken);
   }
 
-  public static class Wrapper extends PresenterWrapper<TopBarPresenter> {
+  public static class Wrapper extends BasicPresenterWrapper<TopBarPresenter> {
     @Inject
     public Wrapper(EventBus eventBus, Provider<TopBarPresenter> presenter) {
       super(eventBus, presenter);
@@ -43,11 +43,11 @@ implements CurrentUserInfoAvailableHandler {
   @Inject
   public TopBarPresenter(final Display display, final EventBus eventBus, final Wrapper wrapper,
       final DispatchAsync dispatcher,
-      final UserSettingsMainPresenterPlace userSettingsMainPresenterPlace ) {
+      final UserSettingsMainPlace userSettingsMainPresenterPlace ) {
     super(display, eventBus, wrapper, null);
 
     this.dispatcher = dispatcher;
-    display.setUserSettingsHistoryToken( userSettingsMainPresenterPlace.getName() );
+    display.setUserSettingsHistoryToken( userSettingsMainPresenterPlace.getHistoryToken() );
 
     bind();
   }
