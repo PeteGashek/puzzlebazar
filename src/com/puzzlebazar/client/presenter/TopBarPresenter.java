@@ -6,19 +6,23 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.philbeaudoin.gwt.dispatch.client.DispatchAsync;
 import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.puzzlebazar.client.place.UserSettingsPresenterPlace;
+import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
+import com.philbeaudoin.gwt.presenter.client.PresenterWrapper;
+import com.puzzlebazar.client.place.UserSettingsMainPresenterPlace;
 import com.puzzlebazar.client.presenter.event.CurrentUserInfoAvailableEvent;
 import com.puzzlebazar.client.presenter.event.CurrentUserInfoAvailableHandler;
 import com.puzzlebazar.shared.action.DoLogin;
 import com.puzzlebazar.shared.action.DoLogout;
 import com.puzzlebazar.shared.action.StringResult;
 
-public class TopBarPresenter extends BasicPresenter<TopBarPresenter.Display> implements CurrentUserInfoAvailableHandler {
+public class TopBarPresenter extends BasicPresenter<TopBarPresenter.Display,TopBarPresenter.Wrapper> 
+implements CurrentUserInfoAvailableHandler {
 
-  public interface Display extends com.philbeaudoin.gwt.presenter.client.Display {
+  public interface Display extends PresenterDisplay {
     public void setLoggedIn( String username );
     public void setLoggedOut();
     public HasClickHandlers getSignIn();
@@ -26,16 +30,25 @@ public class TopBarPresenter extends BasicPresenter<TopBarPresenter.Display> imp
     public void setUserSettingsHistoryToken(String historyToken);
   }
 
+  public static class Wrapper extends PresenterWrapper<TopBarPresenter> {
+    @Inject
+    public Wrapper(EventBus eventBus, Provider<TopBarPresenter> presenter) {
+      super(eventBus, presenter);
+      bind();
+    }
+  }
+
+
   private final DispatchAsync dispatcher;
 
   @Inject
-  public TopBarPresenter(final Display display, final EventBus eventBus,
+  public TopBarPresenter(final Display display, final EventBus eventBus, final Wrapper wrapper,
       final DispatchAsync dispatcher,
-      final UserSettingsPresenterPlace userSettingsPresenterPlace ) {
-    super(display, eventBus);
+      final UserSettingsMainPresenterPlace userSettingsMainPresenterPlace ) {
+    super(display, eventBus, wrapper, null);
 
     this.dispatcher = dispatcher;
-    display.setUserSettingsHistoryToken( userSettingsPresenterPlace.getName() );
+    display.setUserSettingsHistoryToken( userSettingsMainPresenterPlace.getName() );
 
     bind();
   }
@@ -58,18 +71,11 @@ public class TopBarPresenter extends BasicPresenter<TopBarPresenter.Display> imp
       }
     } ) );
 
-    registerHandler( eventBus.addHandler( CurrentUserInfoAvailableEvent.getType(), this ) );     
-
-
-
+    registerHandler( eventBus.addHandler( CurrentUserInfoAvailableEvent.getType(), this ) );
   }
 
   @Override
   protected void onUnbind() {
-  }
-
-  @Override
-  public void revealDisplay() {
   }
 
   @Override
@@ -111,4 +117,6 @@ public class TopBarPresenter extends BasicPresenter<TopBarPresenter.Display> imp
     } );
   }
 
+  
+  
 }

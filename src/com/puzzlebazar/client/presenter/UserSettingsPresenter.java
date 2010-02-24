@@ -1,30 +1,49 @@
 package com.puzzlebazar.client.presenter;
 
 import com.google.inject.Inject;
-import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
+import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.puzzlebazar.client.presenter.event.NewCenterContentEvent;
+import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
+import com.philbeaudoin.gwt.presenter.client.PresenterWrapper;
+import com.puzzlebazar.client.place.UserSettingsMainPresenterPlace;
 import com.puzzlebazar.client.ui.HasTabs;
-import com.puzzlebazar.client.ui.Tab;
 
 
-public class UserSettingsPresenter extends BasicPresenter<UserSettingsPresenter.Display> {
+/**
+ * This is a tabbed presenter that will contain the different tabs for user settings 
+ * 
+ * @author beaudoin
+ */
+public class UserSettingsPresenter extends TabbedPresenter<UserSettingsPresenter.Display,UserSettingsPresenter.Wrapper> {
 
-  public interface Display extends com.philbeaudoin.gwt.presenter.client.Display, HasTabs {
+  public interface Display extends PresenterDisplay, HasTabs {
   }
 
+  public static class MainSlot extends TabSlot<UserSettingsPresenter> {
+    @Inject
+    public MainSlot(Provider<UserSettingsPresenter> presenter) {
+      super(presenter);
+    }
+  }
+
+  public static class Wrapper extends PresenterWrapper<UserSettingsPresenter> {
+    @Inject
+    public Wrapper(EventBus eventBus, Provider<UserSettingsPresenter> presenter, MainSlot mainSlot) {
+      super(eventBus, presenter, mainSlot);
+      bind();
+    }
+  }
+  
   @Inject
-  public UserSettingsPresenter(final Display display, final EventBus eventBus) {
-    super(display, eventBus);
-   
+  public UserSettingsPresenter(final Display display, final EventBus eventBus, 
+      final Wrapper wrapper, final SplitMainPresenter.CenterSlot parentSlot,
+      UserSettingsMainPresenterPlace tab1 ) {
+    super(display, eventBus, wrapper, parentSlot, tab1 );   
     bind();
   }  
 
   @Override
   protected void onBind() {
-    Tab tab1 = display.addTab("Test", "settings");
-    display.addTab("Return", "");
-    display.setActiveTab(tab1);
   }
 
   @Override
@@ -32,10 +51,6 @@ public class UserSettingsPresenter extends BasicPresenter<UserSettingsPresenter.
     
   }
 
-  @Override
-  public void revealDisplay() {
-    NewCenterContentEvent.fire(eventBus, this);    
-  }
-
+  
 
 }

@@ -1,16 +1,14 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-  xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 
-  <ui:with field='resources' type='com.puzzlebazar.client.resources.Resources' />
+	<ui:with field='resources' type='com.puzzlebazar.client.resources.Resources' />
 
-  <g:FlowPanel>
-  <g:HTMLPanel ui:field="tabPanel">
-    <div style="clear: both;" ui:field="endTabMarker"></div>
-    <div class="{resources.style.horizontalBar} {resources.style.active}" />
-  </g:HTMLPanel>
-  <g:FlowPanel>
-    <g:Label>Content</g:Label>  
-  </g:FlowPanel>
-  </g:FlowPanel>
-  
+	<g:FlowPanel>
+		<g:HTMLPanel ui:field="tabPanel">
+			<div style="clear: both;" ui:field="endTabMarker"></div>
+			<div class="{resources.style.horizontalBar} {resources.style.active}" />
+		</g:HTMLPanel>
+		<g:FlowPanel ui:field="tabContentContainer" />
+	</g:FlowPanel>
+
 </ui:UiBinder>

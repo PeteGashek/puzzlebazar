@@ -1,12 +1,10 @@
 package com.philbeaudoin.gwt.presenter.client;
 
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 import com.philbeaudoin.gwt.presenter.client.place.PlaceRequest;
 
-import java.util.List;
-
-public abstract class BasicPresenter<D extends Display> implements Presenter {
+public abstract class BasicPresenter<D extends PresenterDisplay, W extends PresenterWrapper<?>> 
+extends HandlerContainer implements Presenter {
 
   /**
    * The display for the presenter.
@@ -17,96 +15,66 @@ public abstract class BasicPresenter<D extends Display> implements Presenter {
    * The {@link EventBus} for the application.
    */
   protected final EventBus eventBus;
-
-  private List<HandlerRegistration> handlerRegistrations = new java.util.ArrayList<HandlerRegistration>();
-
-  private boolean bound = false;
-
+  
+  /**
+   * The light-weight {@PresenterWrapper} around this presenter.
+   */
+  protected final W wrapper;
 
   /**
-   * Creates a basic top-level {@link Presenter}, that is, a presenter without a parent.
+   * The slot into which this presenter should display itself. 
+   * Can be null if the presenter is top-level of if it is
+   * statically inserted in a slot and never modified or revealed.
+   */
+  protected Slot<? extends Presenter> parentSlot;
+  
+  /**
+   * Creates a basic {@link Presenter}.
    * 
    * @param display  The display attached to this presenter.
    * @param eventBus The event bus.
+   * @param wrapper The presenter wrapper.
    */
-  public BasicPresenter( D display, EventBus eventBus ) {
+  public BasicPresenter( final D display, final EventBus eventBus, final W wrapper, 
+      final Slot<? extends Presenter> parentSlot ) {
     this.display = display;
     this.eventBus = eventBus;
+    this.wrapper = wrapper;
+    this.parentSlot = parentSlot;
   }
   
-  @Override
-  public final void bind() {
-    if ( !bound ) {
-      onBind();
-      bound = true;
-    }
-  }
-
-  /**
-   * Any {@link HandlerRegistration}s added will be removed when
-   * {@link #unbind()} is called. This provides a handy way to track event
-   * handler registrations when binding and unbinding.
-   *
-   * @param handlerRegistration The registration.
-   */
-  protected void registerHandler( HandlerRegistration handlerRegistration ) {
-    handlerRegistrations.add( handlerRegistration );
-  }
-
-  @Override
-  public final void unbind() {
-    if ( bound ) {
-      bound = false;
-
-      for ( HandlerRegistration reg : handlerRegistrations ) {
-        reg.removeHandler();
-      }
-      handlerRegistrations.clear();
-
-      onUnbind();
-    }
-
-  }
-
-  /**
-   * This method is called when binding the presenter. Any additional bindings
-   * should be done here.
-   */
-  protected abstract void onBind();
-
-  /**
-   * This method is called when unbinding the presenter. Any handler
-   * registrations recorded with {@link #registerHandler(HandlerRegistration)}
-   * will have already been removed at this point.
-   */
-  protected abstract void onUnbind();
-
-  @Override
-  public final boolean isBound() {
-    return bound;
-  }
-
   @Override
   public final D getDisplay() {
     return display;
   }
 
+  protected final W getWrapper() {
+    return wrapper;
+  }
+
+  @Override
+  public void revealDisplay() {
+    if( parentSlot != null )
+      parentSlot.fireSetContentEvent( eventBus, this );
+  }
+  
   /**
-   * Fires a {@link PresenterChangedEvent} to the {@link EventBus}.
+   * Fires the {@link PresenterChangedEvent} specific to that presenter to the {@link EventBus}.
    * Call this method any time the presenter's state has been modified.
    */
-  protected void firePresenterChangedEvent() {
-    PresenterChangedEvent.fire( eventBus, this );
+  protected final void firePresenterChangedEvent() {
+    wrapper.firePresenterChangedEvent();
   }
 
   /**
-   * Fires a {@link PresenterRevealedEvent} to the {@link EventBus}.
+   * Fires the {@link PresenterRevealedEvent} specific to that presenter to the {@link EventBus}.
    * Call this method any time the presenter's state has been modified.
    */
-  protected void firePresenterRevealedEvent() {
-    PresenterRevealedEvent.fire( eventBus, this );
-  }  
-
+  protected final void firePresenterRevealedEvent() {
+    wrapper.firePresenterRevealedEvent();
+  }
+  
+  
   @Override
   public void prepareFromRequest(PlaceRequest request) {
     // By default, no parameter to extract from request.

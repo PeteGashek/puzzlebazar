@@ -2,68 +2,76 @@ package com.puzzlebazar.client.presenter;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.Presenter;
-import com.puzzlebazar.client.presenter.event.NewCenterContentEvent;
-import com.puzzlebazar.client.presenter.event.NewCenterContentHandler;
-import com.puzzlebazar.client.presenter.event.NewMainContentEvent;
+import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
+import com.philbeaudoin.gwt.presenter.client.PresenterWrapper;
+import com.philbeaudoin.gwt.presenter.client.Slot;
 
 
 
-public class SplitMainPresenter extends BasicPresenter<SplitMainPresenter.Display> implements NewCenterContentHandler {
+public class SplitMainPresenter extends BasicPresenter<SplitMainPresenter.Display, SplitMainPresenter.Wrapper> {
 
-  public interface Display extends com.philbeaudoin.gwt.presenter.client.Display {
-    void setSideBar( Widget sideBar );
+  public interface Display extends PresenterDisplay {
+    void setSideBarContent( Widget sideBarContent );
     void setCenterContent( Widget centerContent );
+  }
+  
+  public static class SideBarSlot extends Slot<SplitMainPresenter> {
+    @Inject
+    public SideBarSlot(Provider<SplitMainPresenter> presenter) {
+      super(presenter);
+    }
+    @Override
+    protected void displayContent() {
+      if( activePresenter != null )
+        getPresenter().getDisplay().setSideBarContent( activePresenter.getWidget() );
+    }
+  }
+
+  public static class CenterSlot extends Slot<SplitMainPresenter> {
+    @Inject
+    public CenterSlot(Provider<SplitMainPresenter> presenter) {
+      super(presenter);
+    }
+    @Override
+    protected void displayContent() {
+      if( activePresenter != null )
+        getPresenter().getDisplay().setCenterContent( activePresenter.getWidget() );
+    }
+  }
+
+  public static class Wrapper extends PresenterWrapper<SplitMainPresenter> {
+    private final SideBarSlot sideBarSlot;
+    @Inject
+    public Wrapper(EventBus eventBus, Provider<SplitMainPresenter> presenter,
+        final SideBarSlot sideBarSlot, final CenterSlot centerSlot ) {
+      super(eventBus, presenter, sideBarSlot, centerSlot);
+      this.sideBarSlot = sideBarSlot;
+      bind();
+    }
   }
 
   private final LinkColumnPresenter linkColumnPresenter;
-  private Presenter centerPresenter = null;
 
   @Inject
-  public SplitMainPresenter(final Display display, final EventBus eventBus,       
-      LinkColumnPresenter  linkColumnPresenter ) {
-    super(display, eventBus);
+  public SplitMainPresenter(final Display display, final EventBus eventBus, final Wrapper wrapper,
+      final LinkColumnPresenter  linkColumnPresenter ) {
+    super(display, eventBus, wrapper, null);
 
     this.linkColumnPresenter = linkColumnPresenter;
-
+    
     bind();
   }  
 
   @Override
   protected void onBind() {
-    registerHandler( eventBus.addHandler( NewCenterContentEvent.getType(), this ) ); 
-
-    display.setSideBar( this.linkColumnPresenter.getWidget() );
+    getWrapper().sideBarSlot.setActivePresenter( linkColumnPresenter );
   }
 
   @Override
   protected void onUnbind() {
-
   }
 
-  @Override
-  public void revealDisplay() {
-    NewMainContentEvent.fire(eventBus, this);    
-  }
-
-  @Override
-  public void onNewCenterContent(NewCenterContentEvent event) {
-    if( centerPresenter  != event.getPresenter() ) {
-      centerPresenter = event.getPresenter();
-      displayCenterContent();
-    }
-    revealDisplay();
-  }
-
-  /**
-   * Make sure the center content is the correct one
-   */
-  private void displayCenterContent() {
-    if( centerPresenter == null )
-      return;
-    display.setCenterContent( centerPresenter.getWidget() );
-    revealDisplay();
-  }
 }

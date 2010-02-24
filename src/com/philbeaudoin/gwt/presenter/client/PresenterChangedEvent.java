@@ -3,22 +3,13 @@ package com.philbeaudoin.gwt.presenter.client;
 import com.google.gwt.event.shared.GwtEvent;
 
 /**
- * Presenters can send this event to the {@link EventBus} to notify other
- * interested parties when the presenter state has been changed.
+ * Abstract event type. Presenters should implement their own version of PresenterChangedEvent.
+ * This event is fired whenever the presenter is changed in a way that requires a change to
+ * the parameters on the URL.
  *
  * @author David Peterson
  */
-public class PresenterChangedEvent extends GwtEvent<PresenterChangedHandler> {
-
-    private static final Type<PresenterChangedHandler> TYPE = new Type<PresenterChangedHandler>();
-
-    public static Type<PresenterChangedHandler> getType() {
-        return TYPE;
-    }
-
-    public static void fire( EventBus eventBus, Presenter presenter ) {
-        eventBus.fireEvent( new PresenterChangedEvent( presenter ) );
-    }
+public abstract class PresenterChangedEvent extends GwtEvent<PresenterChangedHandler> {
 
     private final Presenter presenter;
 
@@ -33,10 +24,5 @@ public class PresenterChangedEvent extends GwtEvent<PresenterChangedHandler> {
     @Override
     protected void dispatch( PresenterChangedHandler handler ) {
         handler.onPresenterChanged( this );
-    }
-
-    @Override
-    public com.google.gwt.event.shared.GwtEvent.Type<PresenterChangedHandler> getAssociatedType() {
-        return getType();
     }
 }

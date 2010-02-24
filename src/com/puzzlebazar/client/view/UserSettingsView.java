@@ -44,5 +44,10 @@ public class UserSettingsView implements UserSettingsPresenter.Display {
     tabbedContainer.setActiveTab(tab);
   }
 
+  @Override
+  public void setTabContent(Widget widget) {
+    tabbedContainer.setTabContent(widget);
+  }
+
 
 }

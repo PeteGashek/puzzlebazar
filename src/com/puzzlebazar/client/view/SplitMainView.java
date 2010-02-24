@@ -29,9 +29,9 @@ public class SplitMainView implements SplitMainPresenter.Display {
   }
 
   @Override
-  public void setSideBar(Widget sideBar) {
+  public void setSideBarContent(Widget sideBarContent) {
     sideBarContainer.clear();
-    sideBarContainer.add( sideBar );
+    sideBarContainer.add( sideBarContent );
   }
 
   @Override

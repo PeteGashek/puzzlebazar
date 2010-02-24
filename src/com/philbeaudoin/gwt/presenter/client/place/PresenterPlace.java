@@ -1,7 +1,12 @@
 package com.philbeaudoin.gwt.presenter.client.place;
 
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.philbeaudoin.gwt.presenter.client.*;
+import com.philbeaudoin.gwt.presenter.client.EventBus;
+import com.philbeaudoin.gwt.presenter.client.Presenter;
+import com.philbeaudoin.gwt.presenter.client.PresenterChangedEvent;
+import com.philbeaudoin.gwt.presenter.client.PresenterChangedHandler;
+import com.philbeaudoin.gwt.presenter.client.PresenterRevealedEvent;
+import com.philbeaudoin.gwt.presenter.client.PresenterRevealedHandler;
+import com.philbeaudoin.gwt.presenter.client.PresenterWrapper;
 
 /**
  * This is a subclass of {@link Place} with some helper values for working with
@@ -9,100 +14,61 @@ import com.philbeaudoin.gwt.presenter.client.*;
  *
  * @author David Peterson
  */
-public abstract class PresenterPlace<T extends Presenter> extends Place {
+public abstract class PresenterPlace<W extends PresenterWrapper<P>, P extends Presenter> extends Place {
 
-    private HandlerRegistration presenterChangedRegistration;
-    private HandlerRegistration presenterRevealedRegistration;
+  private final PlaceManager placeManager;
+  private final W presenterWrapper;
 
-    public PresenterPlace( PlaceManager placeManager ) {
-      placeManager.registerPlace( this );
-    }
+  public PresenterPlace( final EventBus eventBus, final PlaceManager placeManager, final W presenterWrapper ) {
+    super(eventBus);
+    this.placeManager = placeManager;
+    this.presenterWrapper = presenterWrapper;
+  }
 
-    public abstract T getPresenter();
+  public final W getPresenterWrapper() { return presenterWrapper; }
 
-    /**
-     * Calls the {@link Presenter#revealDisplay()} method for the place's
-     * presenter.
-     */
-    @Override
-    public final void reveal() {
-        getPresenter().revealDisplay();
-    }
+  public final P getPresenter() { return getPresenterWrapper().getPresenter(); }
 
-    /**
-     * Reveals the display. Subclasses should override this method to perform
-     * any custom handling.
-     */
-    @Override
-    protected final void handleRequest( PlaceRequest request ) {
-        T presenter = getPresenter();
-        presenter.prepareFromRequest( request );
-        presenter.revealDisplay();
-    }
+  /**
+   * Prepares the presenter with the information contained in the current request, then reveals the display.
+   */
+  @Override
+  protected void handleRequest( PlaceRequest request ) {
+    P presenter = getPresenter();
+    presenter.prepareFromRequest( request );
+    presenter.revealDisplay();
+  }
 
-    @Override
-    protected final PlaceRequest prepareRequest( PlaceRequest request ) {
-        return getPresenter().prepareRequest( request );
-    }
+  @Override
+  protected final PlaceRequest prepareRequest( PlaceRequest request ) {
+    return getPresenter().prepareRequest( request );
+  }
 
-    /**
-     * Returns the {@link Presenter} for the provided {@link Place} if the place
-     * is an instance of {@link PresenterPlace} and the contained
-     * {@link Presenter} is an instance of the <code>presenterClass</code>.
-     * If not, <code>null</code> is returned.
-     *
-     * @param place The place.
-     * @return The {@link Presenter}, if appropriate.
-     */
-    public static Presenter getPresenter( Place place ) {
-        if ( place instanceof PresenterPlace<?> ) {
-            return ( (PresenterPlace<?>) place ).getPresenter();
-        }
-        return null;
-    }
+  @Override
+  protected void onBind() {
+    super.onBind();
 
-    @Override
-    protected void addHandlers( final EventBus eventBus ) {
-        super.addHandlers( eventBus );
+    placeManager.registerPlace( this );
 
-        presenterChangedRegistration = eventBus.addHandler( PresenterChangedEvent.getType(), new PresenterChangedHandler() {
-            /**
-             * Listens for {@link com.philbeaudoin.gwt.presenter.client.PresenterChangedEvent}s that match the place's
-             * {@link Presenter} and fires {@link PlaceChangedEvent} based on the
-             * {@link Presenter}'s current state, calling
-             * {@link PresenterPlace#prepareRequest(PlaceRequest, Presenter)} to configure the
-             * request.
-             *
-             * @param event The event.
-             */
-            public void onPresenterChanged( PresenterChangedEvent event ) {
-                if ( PresenterPlace.this.getPresenter() == event.getPresenter() )
-                    PlaceChangedEvent.fire( eventBus, PresenterPlace.this );
-            }
-        } );
+    registerHandler( eventBus.addHandler( getPresenterWrapper().getPresenterChangedEventType(), 
+        new PresenterChangedHandler() {
+      @Override
+      public void onPresenterChanged( PresenterChangedEvent event ) {
+        PlaceChangedEvent.fire( eventBus, PresenterPlace.this );
+      } 
+    } ) );
 
-        presenterRevealedRegistration = eventBus.addHandler( PresenterRevealedEvent.getType(), new PresenterRevealedHandler() {
-            public void onPresenterRevealed( PresenterRevealedEvent event ) {
-                if ( PresenterPlace.this.getPresenter() == event.getPresenter() )
-                    PlaceRevealedEvent.fire( eventBus, PresenterPlace.this );
-            }
-        } );
+    registerHandler( eventBus.addHandler( getPresenterWrapper().getPresenterRevealedEventType(),  
+        new PresenterRevealedHandler() {
+      public void onPresenterRevealed( PresenterRevealedEvent event ) {
+        PlaceRevealedEvent.fire( eventBus, PresenterPlace.this );
+      } 
+    } ) );
 
-    }
+  }
 
-    @Override
-    protected void removeHandlers( EventBus eventBus ) {
-        super.removeHandlers( eventBus );
-
-        if ( presenterChangedRegistration != null ) {
-            presenterChangedRegistration.removeHandler();
-            presenterChangedRegistration = null;
-        }
-
-        if ( presenterRevealedRegistration != null ) {
-            presenterRevealedRegistration.removeHandler();
-            presenterRevealedRegistration = null;
-        }
-    }
-
+  @Override
+  protected void onUnbind() {
+    placeManager.deregisterPlace( this );
+  }
 }

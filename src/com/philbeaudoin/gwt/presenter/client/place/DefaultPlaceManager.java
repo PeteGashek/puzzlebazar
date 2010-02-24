@@ -73,7 +73,6 @@ public abstract class DefaultPlaceManager implements PlaceManager {
   @Override
   public boolean registerPlace( Place place ) {
     if ( !placeMap.containsKey( place.getClass() ) ) {
-      place.addHandlers( eventBus );
       placeMap.put( place.getClass(), place );
       return true;
     }
@@ -83,7 +82,6 @@ public abstract class DefaultPlaceManager implements PlaceManager {
   @Override
   public boolean deregisterPlace( Place place ) {
     if ( !placeMap.containsKey( place.getClass() ) ) {
-      place.removeHandlers( eventBus );
       placeMap.remove( place.getClass() );
       return true;
     }

@@ -5,11 +5,12 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * A container that can show multiple tabs, each with its own content.
+ * A widget that can show multiple tabs, each with its own content.
  * 
  * @author beaudoin
  */
@@ -23,6 +24,9 @@ public class TabbedContainer extends Composite implements HasTabs {
 
   @UiField
   DivElement endTabMarker;
+
+  @UiField
+  FlowPanel tabContentContainer;
 
   Tab currentActiveTab = null;
 
@@ -50,6 +54,12 @@ public class TabbedContainer extends Composite implements HasTabs {
       currentActiveTab.deactivate();
     tab.activate();
     currentActiveTab = tab;
+  }
+
+  @Override
+  public void setTabContent(Widget tabContent) {
+    tabContentContainer.clear();
+    tabContentContainer.add( tabContent );
   } 
 
 }
