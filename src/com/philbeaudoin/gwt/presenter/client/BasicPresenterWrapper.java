@@ -21,6 +21,7 @@ public class BasicPresenterWrapper<P extends Presenter> implements PresenterWrap
     public ChangedEvent(P presenter) {
       super(presenter);
     }
+    @Override
     public Type<PresenterChangedHandler> getAssociatedType() {
       return presenterChangedEventType;
     }
@@ -30,6 +31,7 @@ public class BasicPresenterWrapper<P extends Presenter> implements PresenterWrap
     public RevealedEvent(P presenter) {
       super(presenter);
     }
+    @Override
     public Type<PresenterRevealedHandler> getAssociatedType() {
       return presenterRevealedEventType;
     }
@@ -40,37 +42,27 @@ public class BasicPresenterWrapper<P extends Presenter> implements PresenterWrap
     this.presenter = presenter;
   }
   
-  /* (non-Javadoc)
-   * @see com.philbeaudoin.gwt.presenter.client.PresenterWrapper#getPresenter()
-   */
+  @Override
   public P getPresenter() {
     return presenter.get();
   }
 
-  /* (non-Javadoc)
-   * @see com.philbeaudoin.gwt.presenter.client.PresenterWrapper#getPresenterChangedEventType()
-   */
+  @Override
   public Type<PresenterChangedHandler> getPresenterChangedEventType() {
     return presenterChangedEventType;
   }
 
-  /* (non-Javadoc)
-   * @see com.philbeaudoin.gwt.presenter.client.PresenterWrapper#getPresenterRevealedEventType()
-   */
+  @Override
   public Type<PresenterRevealedHandler> getPresenterRevealedEventType() {
     return presenterRevealedEventType;
   }
   
-  /* (non-Javadoc)
-   * @see com.philbeaudoin.gwt.presenter.client.PresenterWrapper#firePresenterChangedEvent()
-   */
+  @Override
   public void firePresenterChangedEvent() {
     eventBus.fireEvent( new ChangedEvent(getPresenter()) );
   }
 
-  /* (non-Javadoc)
-   * @see com.philbeaudoin.gwt.presenter.client.PresenterWrapper#firePresenterRevealedEvent()
-   */
+  @Override
   public void firePresenterRevealedEvent() {
     eventBus.fireEvent( new RevealedEvent(getPresenter()) );
   }

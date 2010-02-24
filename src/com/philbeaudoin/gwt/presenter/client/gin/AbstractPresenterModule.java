@@ -28,7 +28,7 @@ public abstract class AbstractPresenterModule extends AbstractGinModule {
     bind( presenter ).in( Singleton.class );
     bindDisplay( display, displayImpl );
     bind( wrapper ).in( Singleton.class );
-      
+
   }
 
   /**

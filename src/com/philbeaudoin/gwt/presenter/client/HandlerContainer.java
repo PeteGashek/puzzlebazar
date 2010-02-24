@@ -47,12 +47,12 @@ public abstract class HandlerContainer {
   public final void unbind() {
     if ( bound ) {
       bound = false;
-  
+
       for ( HandlerRegistration reg : handlerRegistrations ) {
         reg.removeHandler();
       }
       handlerRegistrations.clear();
-  
+
       onUnbind();
     }  
   }

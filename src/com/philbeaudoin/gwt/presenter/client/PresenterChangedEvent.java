@@ -11,18 +11,18 @@ import com.google.gwt.event.shared.GwtEvent;
  */
 public abstract class PresenterChangedEvent extends GwtEvent<PresenterChangedHandler> {
 
-    private final Presenter presenter;
+  private final Presenter presenter;
 
-    public PresenterChangedEvent( Presenter presenter ) {
-        this.presenter = presenter;
-    }
+  public PresenterChangedEvent( Presenter presenter ) {
+    this.presenter = presenter;
+  }
 
-    public Presenter getPresenter() {
-        return presenter;
-    }
+  public Presenter getPresenter() {
+    return presenter;
+  }
 
-    @Override
-    protected void dispatch( PresenterChangedHandler handler ) {
-        handler.onPresenterChanged( this );
-    }
+  @Override
+  protected void dispatch( PresenterChangedHandler handler ) {
+    handler.onPresenterChanged( this );
+  }
 }
