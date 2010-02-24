@@ -28,9 +28,8 @@ public class UserSettingsPresenter extends TabbedPresenter<UserSettingsPresenter
 
   public static class Wrapper extends PresenterWrapper<UserSettingsPresenter> {
     @Inject
-    public Wrapper(EventBus eventBus, Provider<UserSettingsPresenter> presenter, MainSlot mainSlot) {
-      super(eventBus, presenter, mainSlot);
-      bind();
+    public Wrapper(EventBus eventBus, Provider<UserSettingsPresenter> presenter) {
+      super(eventBus, presenter);
     }
   }
   

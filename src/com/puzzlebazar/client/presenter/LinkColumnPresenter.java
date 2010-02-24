@@ -16,7 +16,6 @@ public class LinkColumnPresenter extends BasicPresenter<LinkColumnPresenter.Disp
     @Inject
     public Wrapper(EventBus eventBus, Provider<LinkColumnPresenter> presenter) {
       super(eventBus, presenter);
-      bind();
     }
   }
 

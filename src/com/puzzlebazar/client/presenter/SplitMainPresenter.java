@@ -43,23 +43,22 @@ public class SplitMainPresenter extends BasicPresenter<SplitMainPresenter.Displa
   }
 
   public static class Wrapper extends PresenterWrapper<SplitMainPresenter> {
-    private final SideBarSlot sideBarSlot;
     @Inject
-    public Wrapper(EventBus eventBus, Provider<SplitMainPresenter> presenter,
-        final SideBarSlot sideBarSlot, final CenterSlot centerSlot ) {
-      super(eventBus, presenter, sideBarSlot, centerSlot);
-      this.sideBarSlot = sideBarSlot;
-      bind();
+    public Wrapper(EventBus eventBus, Provider<SplitMainPresenter> presenter ) {
+      super(eventBus, presenter);
     }
   }
 
+  private final SideBarSlot sideBarSlot;
   private final LinkColumnPresenter linkColumnPresenter;
 
   @Inject
   public SplitMainPresenter(final Display display, final EventBus eventBus, final Wrapper wrapper,
+      final SideBarSlot sideBarSlot,
       final LinkColumnPresenter  linkColumnPresenter ) {
     super(display, eventBus, wrapper, null);
 
+    this.sideBarSlot = sideBarSlot;
     this.linkColumnPresenter = linkColumnPresenter;
     
     bind();
@@ -67,7 +66,7 @@ public class SplitMainPresenter extends BasicPresenter<SplitMainPresenter.Displa
 
   @Override
   protected void onBind() {
-    getWrapper().sideBarSlot.setActivePresenter( linkColumnPresenter );
+    sideBarSlot.setPresenter( linkColumnPresenter );
   }
 
   @Override

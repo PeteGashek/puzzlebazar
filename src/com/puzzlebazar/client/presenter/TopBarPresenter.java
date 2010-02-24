@@ -34,7 +34,6 @@ implements CurrentUserInfoAvailableHandler {
     @Inject
     public Wrapper(EventBus eventBus, Provider<TopBarPresenter> presenter) {
       super(eventBus, presenter);
-      bind();
     }
   }
 

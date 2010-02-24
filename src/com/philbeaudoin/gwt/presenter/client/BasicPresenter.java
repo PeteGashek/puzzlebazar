@@ -54,8 +54,10 @@ extends HandlerContainer implements Presenter {
 
   @Override
   public void revealDisplay() {
-    if( parentSlot != null )
-      parentSlot.fireSetContentEvent( eventBus, this );
+    if( parentSlot != null ) {
+      parentSlot.setPresenter( this );
+      parentSlot.getPresenter().revealDisplay();
+    }
   }
   
   /**

@@ -33,27 +33,26 @@ public class AppPresenter extends BasicPresenter<AppPresenter.Display, AppPresen
   }
 
   public static class Wrapper extends PresenterWrapper<AppPresenter> {
-    private MainSlot mainSlot;
     @Inject
-    public Wrapper(EventBus eventBus, Provider<AppPresenter> presenter,
-        final MainSlot mainSlot ) {
-      super(eventBus, presenter, mainSlot);
-      this.mainSlot = mainSlot;
-      bind();
+    public Wrapper(EventBus eventBus, Provider<AppPresenter> presenter ) {
+      super(eventBus, presenter);
     }
   }
 
+  private final MainSlot mainSlot;
   private final TopBarPresenter topBarPresenter;
   private final Presenter defaultMainPresenter;
 
   @Inject
   public AppPresenter(final Display display, final EventBus eventBus, final Wrapper wrapper,
+      final MainSlot mainSlot,
       final TopBarPresenter topBarPresenter,
       @DefaultMainPresenter final Presenter defaultMainPresenter ) {
     super(display, eventBus, wrapper, null);
 
     RootLayoutPanel.get().add(getWidget());
     
+    this.mainSlot = mainSlot;
     this.topBarPresenter  = topBarPresenter;
     this.defaultMainPresenter = defaultMainPresenter;
 
@@ -63,7 +62,7 @@ public class AppPresenter extends BasicPresenter<AppPresenter.Display, AppPresen
   @Override
   protected void onBind() {
     display.setTopBar( this.topBarPresenter.getWidget() );
-    getWrapper().mainSlot.setActivePresenter( defaultMainPresenter );
+    mainSlot.setPresenter( defaultMainPresenter );
   }
 
   @Override
