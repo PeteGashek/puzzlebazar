@@ -21,7 +21,7 @@ public interface Presenter {
 
   /**
    * Requests the presenter to reveal the display on screen. 
-   * Composite presenters should forward this call to their child presenters.
+   * Presenters should make sure their parent presenters are also revealed.
    * The presenter is also responsible of inserting itself in the DOM, often
    * by firing an appropriate event.
    */

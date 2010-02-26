@@ -39,9 +39,4 @@ public class LinkColumnPresenter extends BasicPresenter<LinkColumnPresenter.Disp
 
   }
 
-  @Override
-  public void revealDisplay() {
-    // TODO Auto-generated method stub
-
-  }
 }
