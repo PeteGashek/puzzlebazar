@@ -1,10 +1,70 @@
 '''
 Created on 2010-02-25
 
-@author: beaudoin
+This module contains a script for merging java properties 
+files for GWT internationalisation with UIBinder. For more
+information on the motivation for this script, see:
+  http://code.google.com/p/google-web-toolkit/issues/detail?id=4355
+  
+The basic use-case:
+  - You use internationalisation markup directly in your UIBinder xml files
+  - You may or may not use Constants or Messages resources within your java file
+  - You want to keep all your translations for a language in the same file
+  
+The required setup:
+  - You need the file src/com/google/gwt/i18n/client/LocalizableResource.properties
+    This file will contain all the default locale translations. It must be
+    named exactly this (see link above for details).
+  - In the same directory you need LocalizableResource_xxxx.properties for each
+    locale you want to support. For example, xxxx should be fr if you want to
+    translate to french.
+  - You need to GWT-compile your project with the "-extra" flag to generate extra
+    files, including UIBinder translations. For example: "-extra extras"
+  - If you use Constant or Message to define translations that are used within your
+    java code but not within UIBinder, then you should add a non-UIBinder section 
+    to your LocalizableResource file. This sections should begin with:
+    ### NON-UIBINDER TRANSLATIONS
+    And should contain all your translations  
+  
+Invoke in this way:
+   mergelocales Extras_dir LocalizableResource_dir
+   
+For example:
+   mergelocales ./extras/myproject ./src/com/google/gwt/i18n/client/
+
+The .properties files in LocalizableResource_dir will be overwritten.
+Although the new files should contain all the translations that were
+on the original, be on the safe side and backup your files before
+invoking this script. Needless to say, this script comes with no 
+warranty whatsoever, but please feel free to contact me if you have
+any questions, if you found bugs, or simply if you found the script 
+useful.
+
+@author: Philippe Beaudoin  (philippe.beaudoin@gmail.com)
 '''
 
 import os, re
+
+import sys
+import getopt
+
+def main():
+    # parse command line options
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "h", ["help"])
+        if len(args) != 2:
+            raise getopt.error( "Needs exactly two arguments." )            
+    except getopt.error, msg:
+        print msg
+        print "for help use --help"
+        sys.exit(2)
+    # process options
+    for o in opts:
+        if o in ("-h", "--help"):
+            print __doc__
+            sys.exit(0)
+    # process arguments
+    mergeLocales( args[0], args[1] )
 
 
 class InvalidProperty(Exception):
@@ -22,13 +82,14 @@ class Property(object):
     A property is a single element of translation. 
     '''
     
-    def __init__(self):
+    def __init__(self, nonUIBinder):
         '''
-        Initializes a new property.
+        Initialises a new property.
         '''
         self._comments = None
         self._key = None
         self._value = None
+        self._nonUIBinder = nonUIBinder
         
     def getFromFile(self, file):
         '''
@@ -37,20 +98,13 @@ class Property(object):
         comments, key and value of this Property object.
         
         @param file: The opened file object to read from.
-        @return: True on success, 
-                 An empty string if EOF is encountered,
-                 The entire non-UIBinder section (including leading comments) if no property is 
-                 found but this section is encountered. 
-                 The non-UIBinder section is indicated by a comment line starting with ###.
+        @return: True on success, False on EOF. 
         '''
         
-        # Skip blank lines. Return with false if EOF or non-UIBinder section is reached
-        line = file.readNonBlankLine()
-        if not line or line.startswith('###'):
-            nonUIBinderSection = line
-            while line:
-                nonUIBinderSection += file.readline()
-            return nonUIBinderSection 
+        # Skip blank lines. Return false if EOF is reached
+        line = readNonBlankLine(file)
+        if not line:
+            return False
 
         # Read the comment block
         self._comments = ''
@@ -63,13 +117,13 @@ class Property(object):
         if index < 0 :
             raise InvalidProperty( 'No key=value found. File: %s.\nComment block: %s' % ( file.name, self._comments ) )        
         
-        key = line[:index].strip()
-        if len(key) == 0:
+        self._key = line[:index].strip()
+        if len(self._key) == 0:
             raise InvalidProperty( 'Invalid key found. File: %s.\nLine: %sComment block: %s' % ( file.name, line, self._comments ) )
             
-        value = line[index+1:]
-        while value.endswith('\\\n'):
-            value += file.readline()
+        self._value = line[index+1:]
+        while self._value.endswith('\\\n'):
+            self._value += file.readline()
         
         return True
     
@@ -83,21 +137,24 @@ class Property(object):
             self._comments += deprecatedComment
         
     def __str__(self):
-        return "Comment block: %sKey: %sValue: %s\n" % ( self._comments, self._key, self._value ) 
+        comments = self._comments
+        if self._nonUIBinder :
+            comments += '# Non-UIBinder\n'
+        return comments+self._key+'='+self._value+'\n' 
 
 class PropertyCollection(object):
     '''
     A collection of Property object that can be merged or written to files 
     '''
     
-    def __init__(self, locale):
+    def __init__(self, comment):
         '''
         Initializes a new collection of Property objects.
-        
-        @param locale: The locale of this collection. Use the empty string for the default locale.
+
+        @param comment: The leading comment of this property object. (A string, each line should start with #)
         '''
-        self._locale = locale
-        self._properties = {}
+        self._comment = ''
+        self._properties = {}        
     
     def add(self, property):
         '''
@@ -107,13 +164,14 @@ class PropertyCollection(object):
         '''
         self._properties[ property._key ] = property 
     
-    def mergeWith(self, otherCollection):
+    def mergeWith(self, otherCollection, markDeprecated):
         '''
         Merge this collection with another one. Any key that is found in the other collection but not
-        in this one will be added. Any key that is found in this collection but not in the other one
-        will be marked as deprecated.  
+        in this one will be added. If the markDeprecated parameter is true, any key that is found in 
+        this collection but not in the other one will be marked as deprecated.  
         
         @param otherCollection: The collection to merge into this one.
+        @param markDeprecated: A boolean. True if deprecated translations should be indicated, false otherwise.
         '''
         
         # Bring properties over
@@ -121,11 +179,21 @@ class PropertyCollection(object):
             if not self._properties.has_key(key):
                 self._properties[key] = property
 
-        # Find deprecated properties
+        if not markDeprecated:
+            return
+        
+        # Mark deprecated properties
         for (key, property) in self._properties.iteritems():
             if not otherCollection._properties.has_key(key):
                 property.setDeprecated()
 
+    def __str__(self):
+        result = self._comment
+        if len(result) > 0:
+            result += '\n'        
+        for property in self._properties.values():        
+            result += str(property)
+        return result
         
 def readNonBlankLine(file):
     '''
@@ -141,10 +209,28 @@ def readNonBlankLine(file):
         line = file.readline()
     return line
 
+def readComments(file):
+    '''
+    Read a comment block from a file.
+    
+    @param file: The opened file to read from
+    @return: The comment block read (a string).
+    '''
+    
+    comments = ''
+    pos = file.tell()
+    line = readNonBlankLine(file)
+    while line.startswith('#'):
+        comments += line
+        pos = file.tell()
+        line = file.readline()
+    file.seek(pos)
+    return comments
+
 
 def enumeratePropertyFiles( path ):
     '''
-    Looks in the specified directory for all property files, that is, files inding in .properties.
+    Looks in the specified directory for all property files, that is, files ending in .properties.
      
     @param path: The directory to look in.
     @return: A list of files.
@@ -158,40 +244,81 @@ def readPropertiesFromFile( filename ):
     Read all the properties from a given file.
     
     @param filename: The name of the file to read properties from.
-    @return: A tuple ( leadingComments, properties, nonUIBinderSection ). Where:
-             leadingComments are comments found at the top of the file (a string).
-             properties is a PropertyCollection containing all Property objects found in the file.
-             nonUIBinderSection is the block following the properties not generated by UIBinder, see Properties.getFromFile (a string).
+    @return: A property collection
     '''
     
-    # Identify the locale from the filename
+    file = open(filename, 'r')
+    
+    try:
+        leadingComments = readComments(file)
+        
+        properties = PropertyCollection( leadingComments )
+        nonUIBinder = False
+        while(True):
+            comments = readComments(file)
+            if comments.startswith( '###' ):
+                # Entering the non-UIBinder section
+                nonUIBinder = True
+            property = Property(nonUIBinder)
+            result = property.getFromFile( file )
+            if not result:
+                break
+            properties.add(property)
+    finally:
+        file.close()
+    
+    return properties
+    
+def findLocale( filename ):
+    '''
+    Identifies the locale given the filename of a property file.
+    For example file_fr.properties will return fr.
+    If there is no locale in the filename, returns the empty string.
+    
+    @param filename: The filename from which to extract the locale.
+    @return: The locale or the empty string for the default locale.
+    '''
     locale = ''  # Default locale when none is found
     match = re.match( r'[^_]*_([^\.]*)\.properties', filename )
     if match:
         locale = match.group(1)
+    return locale
+         
+    
+def mergeLocales( extrasDir, resourcesDir ):
+    '''
+    The main process of this script.
+    
+    Takes every property file in extrasDir and merge them to the 
+    default locale file in resourcesDir. Then it merges this resource file with every other
+    non-default local file in the directory.
+    '''
+    extraFiles = enumeratePropertyFiles( extrasDir )
+    incomingProperties = PropertyCollection( '# Generated by mergelocales script\n# for default locale' )
+    for filename in extraFiles:
+        locale = findLocale( filename )
+        if locale != '':
+            print( "Skipping non-default locale in extra directory: " + filename )
+            continue
+        newProperties = readPropertiesFromFile( os.path.join( extrasDir, filename ), True )
+        incomingProperties.mergeWith( newProperties, False )
         
-    file = os.open(filename, 'r')
+    resourceFiles = enumeratePropertyFiles( resourcesDir )
+    defaultLocaleFilename = None    
+    for filename in resourceFiles:
+        locale = findLocale( filename )
+        if locale == '':
+            if defaultLocaleFilename is not None :
+                print( "Found multiple default locale resources. Using: %s  (Disregarding: %s)" % (defaultLocaleFilename, filename) )
+                continue
+            defaultLocaleFilename = filename
+        
+    defaultLocaleProperties = readPropertiesFromFile( os.path.join( resourceFiles, defaultLocaleFilename ) )
+    defaultLocaleProperties.mergeWith(  )
+        
+    return incomingProperties
+         
     
-    # Read the leading comments
-    leadingComments = ''
-    pos = file.tell()
-    line = file.readline()
-    while line.startswith('#') or re.match( r'\s*\n', line, re.L ):
-        leadingComments += line
-        pos = file.tell()
-        line = file.readline()
-    file.seek(pos)
-    
-    properties = PropertyCollection( locale )
-    while(True):
-        property = Property()
-        result = property.getFromFile( file )
-        if result is not True:
-            # result contains the non-UIBinder section
-            nonUIBinderSection = result
-            break
-        properties.add(property)
-    
-    return ( leadingComments, properties, nonUIBinderSection )
-    
+if __name__ == "__main__":
+    main()    
     
