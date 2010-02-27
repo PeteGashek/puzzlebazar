@@ -1,12 +1,12 @@
 package com.puzzlebazar.client.presenter;
 
 import com.google.inject.Inject;
-import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
+import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
 import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxy;
 
-public class LinkColumnPresenter extends BasicPresenter<LinkColumnPresenter.Display, LinkColumnPresenter.Proxy> {
+public class LinkColumnPresenter extends PresenterImpl<LinkColumnPresenter.Display, LinkColumnPresenter.Proxy> {
 
 
   public interface Display extends PresenterDisplay {

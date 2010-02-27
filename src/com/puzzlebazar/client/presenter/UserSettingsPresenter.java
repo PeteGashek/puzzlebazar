@@ -3,8 +3,9 @@ package com.puzzlebazar.client.presenter;
 import com.google.inject.Inject;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
+import com.philbeaudoin.gwt.presenter.client.TabContainerPresenterImpl;
+import com.philbeaudoin.gwt.presenter.client.proxy.TabContainerProxy;
 import com.puzzlebazar.client.proxy.SplitMainProxy;
-import com.puzzlebazar.client.proxy.TabContainerProxy;
 import com.puzzlebazar.client.proxy.UserSettingsDetailsProxy;
 import com.puzzlebazar.client.proxy.UserSettingsMainProxy;
 import com.puzzlebazar.client.ui.HasTabs;
@@ -15,7 +16,7 @@ import com.puzzlebazar.client.ui.HasTabs;
  * 
  * @author beaudoin
  */
-public class UserSettingsPresenter extends BasicTabContainerPresenter<UserSettingsPresenter.Display,UserSettingsPresenter.Proxy> {
+public class UserSettingsPresenter extends TabContainerPresenterImpl<UserSettingsPresenter.Display,UserSettingsPresenter.Proxy> {
 
   public interface Display extends PresenterDisplay, HasTabs {
   }

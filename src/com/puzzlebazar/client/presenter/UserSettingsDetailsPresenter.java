@@ -1,7 +1,7 @@
 package com.puzzlebazar.client.presenter;
 
 import com.google.inject.Inject;
-import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
+import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
 import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxy;
@@ -12,7 +12,7 @@ import com.puzzlebazar.client.proxy.UserSettingsProxy;
  * 
  * @author beaudoin
  */
-public class UserSettingsDetailsPresenter extends BasicPresenter<UserSettingsDetailsPresenter.Display, UserSettingsDetailsPresenter.Proxy> {
+public class UserSettingsDetailsPresenter extends PresenterImpl<UserSettingsDetailsPresenter.Display, UserSettingsDetailsPresenter.Proxy> {
 
 
   public interface Display extends PresenterDisplay { }

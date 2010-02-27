@@ -5,13 +5,13 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.History;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 
-public abstract class DefaultPlaceManager implements PlaceManager, ValueChangeHandler<String> {
+public abstract class PlaceManagerImpl implements PlaceManager, ValueChangeHandler<String> {
 
   private final EventBus eventBus;
 
   private final TokenFormatter tokenFormatter;
 
-  public DefaultPlaceManager( EventBus eventBus, TokenFormatter tokenFormatter ) {
+  public PlaceManagerImpl( EventBus eventBus, TokenFormatter tokenFormatter ) {
     this.eventBus = eventBus;
     this.tokenFormatter = tokenFormatter;
 

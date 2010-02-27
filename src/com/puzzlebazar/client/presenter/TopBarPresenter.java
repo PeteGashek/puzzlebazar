@@ -7,7 +7,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.philbeaudoin.gwt.dispatch.client.DispatchAsync;
-import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
+import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
 import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxy;
@@ -18,7 +18,7 @@ import com.puzzlebazar.shared.action.DoLogin;
 import com.puzzlebazar.shared.action.DoLogout;
 import com.puzzlebazar.shared.action.StringResult;
 
-public class TopBarPresenter extends BasicPresenter<TopBarPresenter.Display,TopBarPresenter.Proxy> 
+public class TopBarPresenter extends PresenterImpl<TopBarPresenter.Display,TopBarPresenter.Proxy> 
 implements CurrentUserInfoAvailableHandler {
 
   public interface Display extends PresenterDisplay {

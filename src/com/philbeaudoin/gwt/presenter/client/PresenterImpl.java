@@ -7,7 +7,7 @@ import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxy;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentHandler;
 
-public abstract class BasicPresenter<D extends PresenterDisplay, P extends PresenterProxy> 
+public abstract class PresenterImpl<D extends PresenterDisplay, P extends PresenterProxy> 
 extends HandlerContainer implements Presenter {
 
   /**
@@ -41,7 +41,7 @@ extends HandlerContainer implements Presenter {
    * @param proxy The presenter proxy.
    * @param setContentEventType The type of the event to fire when the presenter should be set as content
    */
-  public BasicPresenter( final EventBus eventBus, final D display, final P proxy, 
+  public PresenterImpl( final EventBus eventBus, final D display, final P proxy, 
       final Type<SetContentHandler> setContentEventType ) {
     this.display = display;
     this.eventBus = eventBus;

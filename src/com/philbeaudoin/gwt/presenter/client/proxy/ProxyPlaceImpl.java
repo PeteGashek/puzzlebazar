@@ -17,11 +17,11 @@ import com.philbeaudoin.gwt.presenter.client.Presenter;
  *
  * @author David Peterson
  */
-public abstract class BasicProxyPlace<P extends Presenter> extends BasicProxy<P> implements ProxyPlace {
+public abstract class ProxyPlaceImpl<P extends Presenter> extends ProxyImpl<P> implements ProxyPlace {
 
   private final PlaceManager placeManager;
 
-  public BasicProxyPlace( final EventBus eventBus, 
+  public ProxyPlaceImpl( final EventBus eventBus, 
       final PlaceManager placeManager, 
       final Provider<P> presenter ) {
     super( eventBus, presenter );

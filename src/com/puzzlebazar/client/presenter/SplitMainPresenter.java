@@ -2,14 +2,14 @@ package com.puzzlebazar.client.presenter;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
+import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.Presenter;
 import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
 import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxy;
 
 
-public class SplitMainPresenter extends BasicPresenter<SplitMainPresenter.Display, SplitMainPresenter.Proxy> {
+public class SplitMainPresenter extends PresenterImpl<SplitMainPresenter.Display, SplitMainPresenter.Proxy> {
 
 
   public interface Display extends PresenterDisplay {

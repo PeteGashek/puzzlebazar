@@ -1,6 +1,5 @@
-package com.puzzlebazar.client.presenter;
+package com.philbeaudoin.gwt.presenter.client;
 
-import com.philbeaudoin.gwt.presenter.client.Presenter;
 
 public interface TabContainerPresenter extends Presenter {
 

@@ -1,17 +1,14 @@
-package com.puzzlebazar.client.proxy;
+package com.philbeaudoin.gwt.presenter.client.proxy;
 
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.Presenter;
-import com.philbeaudoin.gwt.presenter.client.proxy.BasicProxy;
-import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
-import com.philbeaudoin.gwt.presenter.client.proxy.SetContentHandler;
-import com.puzzlebazar.client.presenter.TabContainerPresenter;
+import com.philbeaudoin.gwt.presenter.client.TabContainerPresenter;
 
 
-public class BasicTabContainerProxy<P extends TabContainerPresenter> extends
-    BasicProxy<P> implements TabContainerProxy {
+public class TabContainerProxyImpl<P extends TabContainerPresenter> extends
+    ProxyImpl<P> implements TabContainerProxy {
 
   /**
    * The {@link Type} of the event used by {@link Presenter} classes that want
@@ -27,7 +24,7 @@ public class BasicTabContainerProxy<P extends TabContainerPresenter> extends
    * @param setTabContentEventType The {@link Type} of the event used by 
    *        {@link Presenter} classes that want to be set within this container.
    */
-  public BasicTabContainerProxy(final EventBus eventBus, 
+  public TabContainerProxyImpl(final EventBus eventBus, 
       final Provider<P> presenter,
       final Type<SetContentHandler> setTabContentEventType ) {
     super(eventBus, presenter);

@@ -2,7 +2,7 @@ package com.puzzlebazar.client.proxy;
 
 import com.google.inject.Inject;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.proxy.DefaultPlaceManager;
+import com.philbeaudoin.gwt.presenter.client.proxy.PlaceManagerImpl;
 import com.philbeaudoin.gwt.presenter.client.proxy.TokenFormatter;
 
 
@@ -11,7 +11,7 @@ import com.philbeaudoin.gwt.presenter.client.proxy.TokenFormatter;
  * 
  *
  */
-public class PuzzlebazarPlaceManager extends DefaultPlaceManager{
+public class PuzzlebazarPlaceManager extends PlaceManagerImpl{
 
   @Inject
   public PuzzlebazarPlaceManager(EventBus eventBus, TokenFormatter tokenFormatter) {

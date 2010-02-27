@@ -1,6 +1,5 @@
-package com.puzzlebazar.client.proxy;
+package com.philbeaudoin.gwt.presenter.client.proxy;
 
-import com.philbeaudoin.gwt.presenter.client.proxy.ProxyPlace;
 import com.puzzlebazar.client.ui.Tab;
 
 public interface TabContentProxy extends ProxyPlace {
