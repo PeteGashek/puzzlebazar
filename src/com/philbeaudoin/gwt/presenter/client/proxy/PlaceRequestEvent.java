@@ -1,4 +1,4 @@
-package com.philbeaudoin.gwt.presenter.client.place;
+package com.philbeaudoin.gwt.presenter.client.proxy;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
@@ -23,15 +23,8 @@ public class PlaceRequestEvent extends GwtEvent<PlaceRequestHandler> {
 
   private final PlaceRequest request;
 
-  private final boolean fromHistory;
-
   public PlaceRequestEvent( PlaceRequest request ) {
-    this( request, false );
-  }
-
-  PlaceRequestEvent( PlaceRequest request, boolean fromHistory ) {
     this.request = request;
-    this.fromHistory = fromHistory;
   }
 
   @Override
@@ -48,9 +41,6 @@ public class PlaceRequestEvent extends GwtEvent<PlaceRequestHandler> {
     return request;
   }
 
-  boolean isFromHistory() {
-    return fromHistory;
-  }
 
   /**
    * Fires a {@link PlaceRequestEvent} into the {@link EventBus}, specifying that it
@@ -60,18 +50,6 @@ public class PlaceRequestEvent extends GwtEvent<PlaceRequestHandler> {
    * @param request   The request.
    */
   public static void fire( EventBus eventBus, PlaceRequest request ) {
-    fire( eventBus, request, false );
-  }
-
-  /**
-   * Fires a {@link PlaceRequestEvent} into the {@link EventBus}, specifying that it
-   * does not come from a modification in the History.
-   *
-   * @param eventBus    The event bus.
-   * @param request     The request.
-   * @param fromHistory true if the request fomes from a modification in the History, false otherwise. 
-   */
-  public static void fire( EventBus eventBus, PlaceRequest request, boolean fromHistory ) {
-    eventBus.fireEvent( new PlaceRequestEvent( request, fromHistory ) );
+    eventBus.fireEvent( new PlaceRequestEvent( request ) );
   }
 }

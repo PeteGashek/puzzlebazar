@@ -1,42 +1,33 @@
 package com.puzzlebazar.client.presenter;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
-import com.philbeaudoin.gwt.presenter.client.BasicPresenterWrapper;
+import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxy;
 
-public class LinkColumnPresenter extends BasicPresenter<LinkColumnPresenter.Display, LinkColumnPresenter.Wrapper> {
+public class LinkColumnPresenter extends BasicPresenter<LinkColumnPresenter.Display, LinkColumnPresenter.Proxy> {
+
 
   public interface Display extends PresenterDisplay {
   }
+
+  public interface Proxy extends PresenterProxy {}
   
-  public static class Wrapper extends BasicPresenterWrapper<LinkColumnPresenter> {
-    @Inject
-    public Wrapper(EventBus eventBus, Provider<LinkColumnPresenter> presenter) {
-      super(eventBus, presenter);
-    }
-  }
-
   @Inject
-  public LinkColumnPresenter(final Display display, final EventBus eventBus, 
-      final Wrapper wrapper ) {
-    super(display, eventBus, wrapper, null);
-
-    bind();
+  public LinkColumnPresenter(final EventBus eventBus, final Display display,  
+      final Proxy proxy ) {
+    super(eventBus, display, proxy, null);
   }
 
   @Override
-  protected void onBind() {
-    // TODO Auto-generated method stub
-
+  public void onBind() {
+    super.onBind();
   }
 
   @Override
-  protected void onUnbind() {
-    // TODO Auto-generated method stub
-
+  public void onUnbind() {
+    super.onBind();
   }
 
 }

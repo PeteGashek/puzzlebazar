@@ -1,9 +1,9 @@
 package com.philbeaudoin.gwt.presenter.client.gin;
 
 import com.google.gwt.inject.client.AbstractGinModule;
-import com.philbeaudoin.gwt.presenter.client.place.ParameterTokenFormatter;
-import com.philbeaudoin.gwt.presenter.client.place.PlaceManager;
-import com.philbeaudoin.gwt.presenter.client.place.TokenFormatter;
+import com.philbeaudoin.gwt.presenter.client.proxy.ParameterTokenFormatter;
+import com.philbeaudoin.gwt.presenter.client.proxy.PlaceManager;
+import com.philbeaudoin.gwt.presenter.client.proxy.TokenFormatter;
 
 /**
  * Configures the basic classes for presenter.

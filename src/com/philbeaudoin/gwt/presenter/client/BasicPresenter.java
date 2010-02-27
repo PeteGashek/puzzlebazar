@@ -1,9 +1,13 @@
 package com.philbeaudoin.gwt.presenter.client;
 
+import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.client.ui.Widget;
-import com.philbeaudoin.gwt.presenter.client.place.PlaceRequest;
+import com.philbeaudoin.gwt.presenter.client.proxy.PlaceRequest;
+import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxy;
+import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
+import com.philbeaudoin.gwt.presenter.client.proxy.SetContentHandler;
 
-public abstract class BasicPresenter<D extends PresenterDisplay, W extends PresenterWrapper> 
+public abstract class BasicPresenter<D extends PresenterDisplay, P extends PresenterProxy> 
 extends HandlerContainer implements Presenter {
 
   /**
@@ -17,30 +21,32 @@ extends HandlerContainer implements Presenter {
   protected final EventBus eventBus;
   
   /**
-   * The light-weight {@PresenterWrapper} around this presenter.
+   * The light-weight {@PresenterProxy} around this presenter.
    */
-  protected final W wrapper;
+  protected final P proxy;
 
   /**
-   * The slot into which this presenter should display itself. 
-   * Can be null if the presenter is top-level of if it is
-   * statically inserted in a slot and never modified or revealed.
+   * The type of the event this presenter will fire when it is
+   * revealed and needs to be set as content.
+   * Can be null if the presenter is top-level of if this
+   * presenter is inserted at bind-time and never modified 
+   * or revealed directly.
    */
-  protected Slot<? extends Presenter> parentSlot;
+  protected Type<SetContentHandler> setContentEventType;
   
   /**
    * Creates a basic {@link Presenter}.
-   * 
-   * @param display  The display attached to this presenter.
    * @param eventBus The event bus.
-   * @param wrapper The presenter wrapper.
+   * @param display  The display attached to this presenter.
+   * @param proxy The presenter proxy.
+   * @param setContentEventType The type of the event to fire when the presenter should be set as content
    */
-  public BasicPresenter( final D display, final EventBus eventBus, final W wrapper, 
-      final Slot<? extends Presenter> parentSlot ) {
+  public BasicPresenter( final EventBus eventBus, final D display, final P proxy, 
+      final Type<SetContentHandler> setContentEventType ) {
     this.display = display;
     this.eventBus = eventBus;
-    this.wrapper = wrapper;
-    this.parentSlot = parentSlot;
+    this.proxy = proxy;
+    this.setContentEventType = setContentEventType;
   }
   
   @Override
@@ -49,34 +55,16 @@ extends HandlerContainer implements Presenter {
   }
 
   @Override
-  public final W getWrapper() {
-    return wrapper;
+  public final P getProxy() {
+    return proxy;
   }
 
   @Override
   public void revealDisplay() {
-    if( parentSlot != null ) {
-      parentSlot.setContent( this );
-      parentSlot.getPresenter().revealDisplay();
+    if( setContentEventType != null ) {
+      eventBus.fireEvent( new SetContentEvent( setContentEventType, this) );
     }
   }
-  
-  /**
-   * Fires the {@link PresenterChangedEvent} specific to that presenter to the {@link EventBus}.
-   * Call this method any time the presenter's state has been modified.
-   */
-  protected final void firePresenterChangedEvent() {
-    wrapper.firePresenterChangedEvent();
-  }
-
-  /**
-   * Fires the {@link PresenterRevealedEvent} specific to that presenter to the {@link EventBus}.
-   * Call this method any time the presenter's state has been modified.
-   */
-  protected final void firePresenterRevealedEvent() {
-    wrapper.firePresenterRevealedEvent();
-  }
-  
   
   @Override
   public void prepareFromRequest(PlaceRequest request) {

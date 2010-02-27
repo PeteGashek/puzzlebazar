@@ -1,4 +1,4 @@
-package com.philbeaudoin.gwt.presenter.client.place;
+package com.philbeaudoin.gwt.presenter.client.proxy;
 
 public class TokenFormatException extends RuntimeException {
 

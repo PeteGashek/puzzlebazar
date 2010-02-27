@@ -1,4 +1,4 @@
-package com.philbeaudoin.gwt.presenter.client.place;
+package com.philbeaudoin.gwt.presenter.client.proxy;
 
 import java.util.Collections;
 import java.util.Map;

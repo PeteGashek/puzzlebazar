@@ -6,20 +6,19 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.philbeaudoin.gwt.dispatch.client.DispatchAsync;
 import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
-import com.philbeaudoin.gwt.presenter.client.BasicPresenterWrapper;
-import com.puzzlebazar.client.place.UserSettingsMainPlace;
+import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxy;
 import com.puzzlebazar.client.presenter.event.CurrentUserInfoAvailableEvent;
 import com.puzzlebazar.client.presenter.event.CurrentUserInfoAvailableHandler;
+import com.puzzlebazar.client.proxy.UserSettingsMainProxy;
 import com.puzzlebazar.shared.action.DoLogin;
 import com.puzzlebazar.shared.action.DoLogout;
 import com.puzzlebazar.shared.action.StringResult;
 
-public class TopBarPresenter extends BasicPresenter<TopBarPresenter.Display,TopBarPresenter.Wrapper> 
+public class TopBarPresenter extends BasicPresenter<TopBarPresenter.Display,TopBarPresenter.Proxy> 
 implements CurrentUserInfoAvailableHandler {
 
   public interface Display extends PresenterDisplay {
@@ -30,30 +29,24 @@ implements CurrentUserInfoAvailableHandler {
     public void setUserSettingsHistoryToken(String historyToken);
   }
 
-  public static class Wrapper extends BasicPresenterWrapper<TopBarPresenter> {
-    @Inject
-    public Wrapper(EventBus eventBus, Provider<TopBarPresenter> presenter) {
-      super(eventBus, presenter);
-    }
-  }
-
+  public interface Proxy extends PresenterProxy {}
 
   private final DispatchAsync dispatcher;
 
   @Inject
-  public TopBarPresenter(final Display display, final EventBus eventBus, final Wrapper wrapper,
+  public TopBarPresenter(final EventBus eventBus, final Display display, final Proxy proxy,
       final DispatchAsync dispatcher,
-      final UserSettingsMainPlace userSettingsMainPresenterPlace ) {
-    super(display, eventBus, wrapper, null);
+      final UserSettingsMainProxy userSettingsMainPresenterPlace ) {
+    super(eventBus, display, proxy, null);
 
     this.dispatcher = dispatcher;
     display.setUserSettingsHistoryToken( userSettingsMainPresenterPlace.getHistoryToken() );
-
-    bind();
   }
 
   @Override
-  protected void onBind() {
+  public void onBind() {
+    super.onBind();
+    
     display.setLoggedOut();
 
     registerHandler( display.getSignIn().addClickHandler( new ClickHandler() {
@@ -71,10 +64,6 @@ implements CurrentUserInfoAvailableHandler {
     } ) );
 
     registerHandler( eventBus.addHandler( CurrentUserInfoAvailableEvent.getType(), this ) );
-  }
-
-  @Override
-  protected void onUnbind() {
   }
 
   @Override

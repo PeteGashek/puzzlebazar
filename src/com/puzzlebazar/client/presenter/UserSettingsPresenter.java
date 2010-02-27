@@ -1,10 +1,12 @@
 package com.puzzlebazar.client.presenter;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
-import com.philbeaudoin.gwt.presenter.client.BasicPresenterWrapper;
+import com.puzzlebazar.client.proxy.SplitMainProxy;
+import com.puzzlebazar.client.proxy.TabContainerProxy;
+import com.puzzlebazar.client.proxy.UserSettingsDetailsProxy;
+import com.puzzlebazar.client.proxy.UserSettingsMainProxy;
 import com.puzzlebazar.client.ui.HasTabs;
 
 
@@ -13,43 +15,20 @@ import com.puzzlebazar.client.ui.HasTabs;
  * 
  * @author beaudoin
  */
-public class UserSettingsPresenter extends TabbedPresenter<UserSettingsPresenter.Display,UserSettingsPresenter.Wrapper> {
+public class UserSettingsPresenter extends BasicTabContainerPresenter<UserSettingsPresenter.Display,UserSettingsPresenter.Proxy> {
 
   public interface Display extends PresenterDisplay, HasTabs {
   }
 
-  public static class MainSlot extends TabPaneSlot<UserSettingsPresenter> {
-    @Inject
-    public MainSlot(Provider<UserSettingsPresenter> presenter) {
-      super(presenter);
-    }
-  }
-
-  public static class Wrapper extends BasicPresenterWrapper<UserSettingsPresenter> {
-    @Inject
-    public Wrapper(EventBus eventBus, Provider<UserSettingsPresenter> presenter) {
-      super(eventBus, presenter);
-    }
-  }
+  public interface Proxy extends TabContainerProxy {}
   
   @Inject
-  public UserSettingsPresenter(final Display display, final EventBus eventBus, 
-      final Wrapper wrapper, final SplitMainPresenter.CenterSlot parentSlot,
-      final UserSettingsMainPresenter.Wrapper tab1,
-      final UserSettingsDetailsPresenter.Wrapper tab2 ) {
-    super(display, eventBus, wrapper, parentSlot, tab1, tab2 );   
-    bind();
+  public UserSettingsPresenter(final EventBus eventBus, final Display display, 
+      final Proxy proxy,
+      final UserSettingsMainProxy tab1,
+      final UserSettingsDetailsProxy tab2 ) {
+    super(eventBus, display, proxy, SplitMainProxy.TYPE_SetCenterContent, tab1, tab2 );   
   }  
-
-  @Override
-  protected void onBind() {
-  }
-
-  @Override
-  protected void onUnbind() {
-    
-  }
-
   
 
 }

@@ -1,7 +1,8 @@
-package com.philbeaudoin.gwt.presenter.client.place;
+package com.philbeaudoin.gwt.presenter.client.proxy;
 
+import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.HandlerContainer;
+import com.philbeaudoin.gwt.presenter.client.Presenter;
 
 /**
  * A place represents a particular 'bookmark' or location inside the
@@ -16,21 +17,18 @@ import com.philbeaudoin.gwt.presenter.client.HandlerContainer;
  *
  * @author David Peterson
  */
-public abstract class Place extends HandlerContainer {
+public abstract class BasicProxyPlace<P extends Presenter> extends BasicProxy<P> implements ProxyPlace {
 
-  protected final EventBus eventBus;
+  private final PlaceManager placeManager;
 
-  public Place( EventBus eventBus ) {
-    this.eventBus = eventBus;
+  public BasicProxyPlace( final EventBus eventBus, 
+      final PlaceManager placeManager, 
+      final Provider<P> presenter ) {
+    super( eventBus, presenter );
+    this.placeManager = placeManager;
   }
 
-  /**
-   * Returns the unique name for this place. Uniqueness is not enforced -
-   * creators must ensure that the name is unique or there will be potential
-   * issues with multiple places responding to the same History token.
-   *
-   * @return The place ID.
-   */
+  @Override
   public abstract String getHistoryToken();
 
   @Override
@@ -53,31 +51,14 @@ public abstract class Place extends HandlerContainer {
   }
 
   /**
-   * This method is called when a matching request is received.
+   * Prepares the presenter with the information contained in the current request, then reveals the display.
    *
-   * @param request The place request.
+   * @param request The request to handle.
    */
-  protected abstract void handleRequest( PlaceRequest request );
-
-  /**
-   * This method is checked before calling
-   * {@link #handleRequest(PlaceRequest)}.
-   *
-   * @param request The request to check.
-   * @return <code>true</code> if the ID matches this place's name.
-   */
-  public boolean matchesRequest( PlaceRequest request ) {
-    return getHistoryToken().equals( request.getName() );
-  }
-
-  /**
-   * Returns a new request for this place in its current state. This method
-   * calls {@link #prepareRequest(PlaceRequest)} before returning.
-   *
-   * @return The new {@link PlaceRequest}.
-   */
-  public PlaceRequest createRequest() {
-    return prepareRequest( new PlaceRequest( getHistoryToken() ) );
+  protected void handleRequest( PlaceRequest request ) {
+    P presenter = getPresenter();
+    presenter.prepareFromRequest( request );
+    presenter.revealDisplay();
   }
 
   /**
@@ -95,19 +76,46 @@ public abstract class Place extends HandlerContainer {
    * @param request The current request object.
    * @return The prepared request.
    */
-  protected abstract PlaceRequest prepareRequest( PlaceRequest request );
+  protected final PlaceRequest prepareRequest( PlaceRequest request ) {
+    return getPresenter().prepareRequest( request );
+  }
 
   @Override
-  protected void onBind() {
+  public boolean matchesRequest( PlaceRequest request ) {
+    return getHistoryToken().equals( request.getName() );
+  }
+
+  @Override
+  public PlaceRequest createRequest() {
+    return prepareRequest( new PlaceRequest( getHistoryToken() ) );
+  }
+
+  @Override
+  public void onBind() {
+    super.onBind();
+
     registerHandler( eventBus.addHandler( PlaceRequestEvent.getType(), new PlaceRequestHandler() {
       public void onPlaceRequest( PlaceRequestEvent event ) {
         PlaceRequest request = event.getRequest();
         if ( matchesRequest( request ) ) {
           handleRequest( request );
-          eventBus.fireEvent( new PlaceRevealedEvent( Place.this ) );
         }
       }
     } ) );
   }
 
+  @Override
+  public void onPresenterChanged() {
+    super.onPresenterChanged();
+    
+    placeManager.onPlaceChanged( this );  
+  }
+
+  @Override
+  public void onPresenterRevealed() {
+    super.onPresenterRevealed();
+    
+    placeManager.onPlaceRevealed( this );  
+  }
 }
+

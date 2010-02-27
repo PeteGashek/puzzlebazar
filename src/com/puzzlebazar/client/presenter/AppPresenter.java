@@ -3,70 +3,54 @@ package com.puzzlebazar.client.presenter;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.BasicPresenter;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.Presenter;
 import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
-import com.philbeaudoin.gwt.presenter.client.BasicPresenterWrapper;
-import com.philbeaudoin.gwt.presenter.client.Slot;
+import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxy;
 import com.puzzlebazar.client.gin.annotations.DefaultMainPresenter;
 
 
-public class AppPresenter extends BasicPresenter<AppPresenter.Display, AppPresenter.Wrapper> {
+public class AppPresenter extends BasicPresenter<AppPresenter.Display, AppPresenter.Proxy> {
 
   public interface Display extends PresenterDisplay {
     void setTopBar( Widget topBar );
     void setMainContent( Widget mainContent );
   }
   
-  public static class MainSlot extends Slot<AppPresenter> {
-    @Inject
-    public MainSlot(Provider<AppPresenter> presenter) {
-      super(presenter);
-    }
-    @Override
-    protected void displayContent() {
-      if( content != null )
-        getPresenter().getDisplay().setMainContent( content.getWidget() );
-    }
-  }
+  public interface Proxy extends PresenterProxy {}  
 
-  public static class Wrapper extends BasicPresenterWrapper<AppPresenter> {
-    @Inject
-    public Wrapper(EventBus eventBus, Provider<AppPresenter> presenter ) {
-      super(eventBus, presenter);
-    }
-  }
-
-  private final MainSlot mainSlot;
   private final TopBarPresenter topBarPresenter;
   private final Presenter defaultMainPresenter;
 
+  private Presenter mainContent = null;
+
+  
   @Inject
-  public AppPresenter(final Display display, final EventBus eventBus, final Wrapper wrapper,
-      final MainSlot mainSlot,
+  public AppPresenter(final EventBus eventBus, final Display display, final Proxy proxy,
       final TopBarPresenter topBarPresenter,
       @DefaultMainPresenter final Presenter defaultMainPresenter ) {
-    super(display, eventBus, wrapper, null);
+    super(eventBus, display, proxy, null);
 
     RootLayoutPanel.get().add(getWidget());
     
-    this.mainSlot = mainSlot;
     this.topBarPresenter  = topBarPresenter;
     this.defaultMainPresenter = defaultMainPresenter;
-
-    bind();
   }  
 
   @Override
-  protected void onBind() {
+  public void onBind() {
+    super.onBind();
     display.setTopBar( this.topBarPresenter.getWidget() );
-    mainSlot.setContent( defaultMainPresenter );
+    setMainContent( defaultMainPresenter );
   }
 
-  @Override
-  protected void onUnbind() {
+  public void setMainContent(Presenter content) {
+    if( mainContent != content ) {
+      mainContent = content;
+      getDisplay().setMainContent( content.getWidget() );      
+    }
   }
-
+  
+  
 }

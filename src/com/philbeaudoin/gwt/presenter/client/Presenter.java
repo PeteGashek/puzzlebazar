@@ -1,7 +1,8 @@
 package com.philbeaudoin.gwt.presenter.client;
 
 import com.google.gwt.user.client.ui.Widget;
-import com.philbeaudoin.gwt.presenter.client.place.PlaceRequest;
+import com.philbeaudoin.gwt.presenter.client.proxy.PlaceRequest;
+import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxy;
 
 public interface Presenter {
 
@@ -13,11 +14,11 @@ public interface Presenter {
   PresenterDisplay getDisplay();
 
   /**
-   * Returns the {@link PresenterWrapper} areound the current presenter.
+   * Returns the {@link PresenterProxy} for the current presenter.
    *
-   * @return The wrapper.
+   * @return The proxy.
    */
-  PresenterWrapper getWrapper();
+  PresenterProxy getProxy();
 
   /**
    * Requests the presenter to reveal the display on screen. 

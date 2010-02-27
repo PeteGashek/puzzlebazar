@@ -1,9 +1,9 @@
-package com.puzzlebazar.client.place;
+package com.puzzlebazar.client.proxy;
 
 import com.google.inject.Inject;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.place.DefaultPlaceManager;
-import com.philbeaudoin.gwt.presenter.client.place.TokenFormatter;
+import com.philbeaudoin.gwt.presenter.client.proxy.DefaultPlaceManager;
+import com.philbeaudoin.gwt.presenter.client.proxy.TokenFormatter;
 
 
 /**

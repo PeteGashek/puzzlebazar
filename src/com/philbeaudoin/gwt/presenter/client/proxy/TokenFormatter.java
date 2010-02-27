@@ -1,4 +1,4 @@
-package com.philbeaudoin.gwt.presenter.client.place;
+package com.philbeaudoin.gwt.presenter.client.proxy;
 
 /**
  * Provides services to convert a  {@link PlaceRequest} to and from a History token value.
