@@ -9,8 +9,6 @@ import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
 import com.philbeaudoin.gwt.presenter.client.TabContainerPresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContainerProxy;
 import com.puzzlebazar.client.proxy.SplitMainProxy;
-import com.puzzlebazar.client.proxy.UserSettingsDetailsProxy;
-import com.puzzlebazar.client.proxy.UserSettingsMainProxy;
 
 
 /**
@@ -29,9 +27,7 @@ public class UserSettingsPresenter extends TabContainerPresenterImpl<UserSetting
   
   @Inject
   public UserSettingsPresenter(final EventBus eventBus, final Display display, 
-      final Proxy proxy,
-      final UserSettingsMainProxy tab1,
-      final UserSettingsDetailsProxy tab2 ) {
+      final Proxy proxy ) {
     super(eventBus, display, proxy, SplitMainProxy.TYPE_SetCenterContent, TYPE_RequestTabs );   
   }  
   
