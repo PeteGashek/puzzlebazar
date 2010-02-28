@@ -5,9 +5,9 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.philbeaudoin.gwt.presenter.client.Tab;
 import com.puzzlebazar.client.presenter.UserSettingsPresenter;
-import com.puzzlebazar.client.ui.Tab;
-import com.puzzlebazar.client.ui.TabbedContainer;
+import com.puzzlebazar.client.ui.RoundTabPanel;
 
 public class UserSettingsView implements UserSettingsPresenter.Display {
   
@@ -17,7 +17,7 @@ public class UserSettingsView implements UserSettingsPresenter.Display {
   private final Widget widget;
   
   @UiField
-  TabbedContainer tabbedContainer;
+  RoundTabPanel tabPanel;
   
   @Inject
   public UserSettingsView() {
@@ -30,23 +30,28 @@ public class UserSettingsView implements UserSettingsPresenter.Display {
   }
 
   @Override
-  public Tab addTab( String tabName, String historyToken ) {
-    return tabbedContainer.addTab(tabName, historyToken);
+  public Tab addTab( String tabName, String historyToken, float priority ) {
+    return tabPanel.addTab(tabName, historyToken, priority);
   }
 
   @Override
   public void removeTab(Tab tab) {
-    tabbedContainer.removeTab(tab);
+    tabPanel.removeTab(tab);
+  }
+
+  @Override
+  public void removeTabs() {
+    tabPanel.removeTabs();
   }
 
   @Override
   public void setActiveTab(Tab tab) {
-    tabbedContainer.setActiveTab(tab);
+    tabPanel.setActiveTab(tab);
   }
 
   @Override
   public void setTabContent(Widget widget) {
-    tabbedContainer.setTabContent(widget);
+    tabPanel.setTabContent(widget);
   }
 
 

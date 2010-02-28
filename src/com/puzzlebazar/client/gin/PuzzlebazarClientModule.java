@@ -26,7 +26,7 @@ import com.puzzlebazar.client.proxy.UserSettingsMainProxy;
 import com.puzzlebazar.client.proxy.UserSettingsProxy;
 import com.puzzlebazar.client.resources.Resources;
 import com.puzzlebazar.client.resources.Translations;
-import com.puzzlebazar.client.ui.Tab;
+import com.puzzlebazar.client.ui.RoundTab;
 import com.puzzlebazar.client.view.AppView;
 import com.puzzlebazar.client.view.LinkColumnView;
 import com.puzzlebazar.client.view.SplitMainView;
@@ -59,7 +59,7 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     bindPresenter(UserSettingsDetailsPresenter.class, UserSettingsDetailsPresenter.Display.class, UserSettingsDetailsView.class, UserSettingsDetailsPresenter.Proxy.class, UserSettingsDetailsProxy.class);
 
     // Static injectors for UIBinder instantiable widgets
-    requestStaticInjection( Tab.class );
+    requestStaticInjection( RoundTab.class );
 
   }
 }

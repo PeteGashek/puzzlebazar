@@ -18,11 +18,11 @@ extends PresenterImpl<UserSettingsMainPresenter.Display, UserSettingsMainPresent
   public interface Display extends PresenterDisplay { }
 
   public interface Proxy extends PresenterProxy {}
-  
+
   @Inject
   public UserSettingsMainPresenter(final EventBus eventBus, 
       final Display display, 
-      final Proxy proxy) {
+      final Proxy proxy ) {
     super(eventBus, display, proxy, UserSettingsProxy.TYPE_SetTabContent );
   }
 

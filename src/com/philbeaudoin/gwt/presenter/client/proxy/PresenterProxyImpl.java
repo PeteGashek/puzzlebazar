@@ -5,18 +5,18 @@ import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.HandlerContainer;
 import com.philbeaudoin.gwt.presenter.client.Presenter;
 
-public class ProxyImpl<P extends Presenter> extends HandlerContainer implements PresenterProxy {
+public class PresenterProxyImpl<P extends Presenter> extends HandlerContainer implements PresenterProxy {
 
   protected final EventBus eventBus;
   private final Provider<P> presenter;
 
   /**
-   * Creates a BasicProxy class for a specific presenter.
+   * Creates a Proxy class for a specific presenter.
    * 
-   * @param eventBus The event bus.
-   * @param presenter A provider for the {@link Presenter} of which this class is a proxy. 
+   * @param eventBus The {@link EventBus}.
+   * @param presenter A {@link Provider} for the {@link Presenter} of which this class is a proxy. 
    */
-  public ProxyImpl( final EventBus eventBus, final Provider<P> presenter ) {
+  public PresenterProxyImpl( final EventBus eventBus, final Provider<P> presenter ) {
     this.eventBus = eventBus;
     this.presenter = presenter;
   }

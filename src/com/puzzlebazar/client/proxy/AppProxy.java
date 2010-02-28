@@ -7,12 +7,12 @@ import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.proxy.ProxyImpl;
+import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxyImpl;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentHandler;
 import com.puzzlebazar.client.presenter.AppPresenter;
 
-public class AppProxy extends ProxyImpl<AppPresenter> implements AppPresenter.Proxy {
+public class AppProxy extends PresenterProxyImpl<AppPresenter> implements AppPresenter.Proxy {
 
   public static final Type<SetContentHandler> TYPE_SetMainContent = new Type<SetContentHandler>();
 
@@ -28,7 +28,7 @@ public class AppProxy extends ProxyImpl<AppPresenter> implements AppPresenter.Pr
       @Override
       public void onSetContent(SetContentEvent setContentEvent) {
         getPresenter().setMainContent( setContentEvent.getContent() );
-        getPresenter().revealDisplay();
+        getPresenter().reveal();
       }
     } ) );
   }

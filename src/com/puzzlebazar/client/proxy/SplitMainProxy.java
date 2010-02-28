@@ -7,12 +7,12 @@ import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.proxy.ProxyImpl;
+import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxyImpl;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentHandler;
 import com.puzzlebazar.client.presenter.SplitMainPresenter;
 
-public class SplitMainProxy extends ProxyImpl<SplitMainPresenter>  implements SplitMainPresenter.Proxy {
+public class SplitMainProxy extends PresenterProxyImpl<SplitMainPresenter>  implements SplitMainPresenter.Proxy {
 
   public static final Type<SetContentHandler> TYPE_SetSideBarContent = new Type<SetContentHandler>();
   public static final Type<SetContentHandler> TYPE_SetCenterContent = new Type<SetContentHandler>();
@@ -29,7 +29,7 @@ public class SplitMainProxy extends ProxyImpl<SplitMainPresenter>  implements Sp
       @Override
       public void onSetContent(SetContentEvent setContentEvent) {
         getPresenter().setSideBarContent( setContentEvent.getContent() );
-        getPresenter().revealDisplay();        
+        getPresenter().reveal();        
       }
     } ) );
 
@@ -37,7 +37,7 @@ public class SplitMainProxy extends ProxyImpl<SplitMainPresenter>  implements Sp
       @Override
       public void onSetContent(SetContentEvent setContentEvent) {
         getPresenter().setCenterContent( setContentEvent.getContent() );
-        getPresenter().revealDisplay();        
+        getPresenter().reveal();        
       }
     } ) );
   }

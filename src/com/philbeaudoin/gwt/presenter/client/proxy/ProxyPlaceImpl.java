@@ -5,7 +5,7 @@ import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.Presenter;
 
 /**
- * A place represents a particular 'bookmark' or location inside the
+ * A proxy with a place represents a particular 'bookmark' or location inside the
  * application. A place is stateful - it may represent a location with it's
  * current settings, such as a particular ID value, or other unique indicators
  * that will allow a user to track back to that location later, either via a
@@ -13,14 +13,24 @@ import com.philbeaudoin.gwt.presenter.client.Presenter;
  * <p/>
  * However, there may be more than one instance of concrete Place classes, so
  * the state should be shared between all instances of any given class. Usually
- * this is done via a shared class, such as a {@link com.philbeaudoin.gwt.presenter.client.Presenter} instance.
+ * this is done via a shared class, such as a {@link Presenter} instance.
  *
  * @author David Peterson
  */
-public abstract class ProxyPlaceImpl<P extends Presenter> extends ProxyImpl<P> implements ProxyPlace {
+public abstract class ProxyPlaceImpl<P extends Presenter> extends PresenterProxyImpl<P> 
+implements ProxyPlace {
 
   private final PlaceManager placeManager;
 
+  /**
+   * Creates a {@link PresenterProxy} for a {@link Presenter} that 
+   * is attached to a {@link Place}. That is, this presenter can
+   * be invoked by setting its specific history token in the URL bar.
+   * 
+   * @param eventBus The {@link EventBus}.
+   * @param placeManager The {@link PlaceManager}.
+   * @param presenter A {@link Provider} for the {@link Presenter} of which this class is a proxy. 
+   */
   public ProxyPlaceImpl( final EventBus eventBus, 
       final PlaceManager placeManager, 
       final Provider<P> presenter ) {
@@ -55,10 +65,10 @@ public abstract class ProxyPlaceImpl<P extends Presenter> extends ProxyImpl<P> i
    *
    * @param request The request to handle.
    */
-  protected void handleRequest( PlaceRequest request ) {
+  private void handleRequest( PlaceRequest request ) {
     P presenter = getPresenter();
     presenter.prepareFromRequest( request );
-    presenter.revealDisplay();
+    presenter.reveal();
   }
 
   /**

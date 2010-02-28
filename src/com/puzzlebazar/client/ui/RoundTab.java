@@ -2,88 +2,71 @@ package com.puzzlebazar.client.ui;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.philbeaudoin.gwt.presenter.client.Tab;
 import com.puzzlebazar.client.resources.Resources;
 
 /**
- * A tab contained within an {@link TabbedContainer}.
+ * A tab contained within an {@link RoundTabPanel}.
  * 
  * @author beaudoin
  */
-public class Tab extends Composite implements HasText {
+public class RoundTab extends Composite implements Tab {
 
-  interface Binder extends UiBinder<Widget, Tab> { }
+  interface Binder extends UiBinder<Widget, RoundTab> { }
   private static final Binder binder = GWT.create(Binder.class);
 
-  @UiField
-  Hyperlink hyperlink;
-
-
   /**
-   * Using a static  
+   * Using static injection because elements accessible within 
+   * UIBinder don't collaborate very well with GIN/Guice. 
    */
   @Inject static Resources resources;
   
-  /**
-   * This constructor is 
-   */
-  Tab() {
+  @UiField
+  Hyperlink hyperlink;
+
+  private final float priority;
+
+  @UiConstructor RoundTab(float priority) {
+    this.priority = priority;
     initWidget( binder.createAndBindUi( this ) );
   }
 
-  /**
-   * Sets the text displayed on the tab.
-   * 
-   * @param text The text.
-   */
   @Override
   public void setText(String text) {
     hyperlink.setText(text);
   }
 
-  /**
-   * Gets the text displayed on the tab.
-   * 
-   * @return The text.
-   * 
-   * @see com.google.gwt.user.client.ui.HasText#getText()
-   */
   @Override
   public String getText() {
     return hyperlink.getText();
   }
   
-  /**
-   * Sets the history token this tab links to.
-   * 
-   * @param historyToken The history token.
-   */
+  @Override
   public void setHistoryToken(String historyToken) {
     hyperlink.setTargetHistoryToken(historyToken);      
   }
 
-  /**
-   * Should not be called directly. Call
-   * {@link TabbedContainer#setActiveTab(Tab)} instead.
-   */
-  void activate() {
+  @Override
+  public void activate() {
     removeStyleName( resources.style().inactive() );
     addStyleName( resources.style().active() );
   }
 
-  /**
-   * Should not be called directly. Call
-   * {@link TabbedContainer#setActiveTab(Tab)} instead.
-   */
-  void deactivate() {
+  @Override
+  public void deactivate() {
     removeStyleName( resources.style().active() );
     addStyleName( resources.style().inactive() );
   }
 
+  @Override
+  public float getPriority() {
+    return priority;
+  }
 
 }

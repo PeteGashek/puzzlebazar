@@ -1,17 +1,18 @@
-package com.puzzlebazar.client.ui;
+package com.philbeaudoin.gwt.presenter.client;
 
 import com.google.gwt.user.client.ui.Widget;
 
-public interface HasTabs {
+public interface TabPanel {
 
   /**
    * Adds a new tab to the widget.
    * 
    * @param text The text to display on the tab.
    * @param historyToken The history token the tab points to.
-   * @return The newly added tab.
+   * @param priority The priority of the {@link Tab} to add.
+   * @return The newly added {@link Tab}.
    */
-  public Tab addTab( String text, String historyToken );
+  public Tab addTab( String text, String historyToken, float priority );
   
   
   /**
@@ -20,6 +21,12 @@ public interface HasTabs {
    * @param tab The tab to remove
    */
   public void removeTab( Tab tab );
+
+  
+  /**
+   * Removes all tabs from the widget.
+   */
+  public void removeTabs();
 
   /**
    * Sets the currently active tab.

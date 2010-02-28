@@ -1,26 +1,28 @@
 package com.philbeaudoin.gwt.presenter.client;
 
 import com.google.gwt.event.shared.GwtEvent.Type;
+import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxy;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxyImpl;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentHandler;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContainerProxy;
-import com.puzzlebazar.client.ui.HasTabs;
-import com.puzzlebazar.client.ui.Tab;
 
-public abstract class TabContainerPresenterImpl<D extends PresenterDisplay & HasTabs, P extends TabContainerProxy> 
+public abstract class TabContainerPresenterImpl<D extends PresenterDisplay & TabPanel, P extends TabContainerProxy> 
 extends PresenterImpl<D, P> implements TabContainerPresenter  {
 
+  private final Type<RequestTabsHandler> requestTabsEventType;
+
   private Presenter tabContent = null;
-  
+
   public TabContainerPresenterImpl(final EventBus eventBus, final D display, final P proxy, 
-      final Type<SetContentHandler> setContentEventType, final TabContentProxyImpl<?>... tabs ) {
-    super(eventBus, display, proxy, setContentEventType);
-    for( TabContentProxyImpl<?> tabProxy : tabs )
-      addTab(tabProxy);
+      final Type<SetContentHandler> setContentInParentEventType,
+      final Type<RequestTabsHandler> requestTabsEventType ) {
+    super(eventBus, display, proxy, setContentInParentEventType);
+    this.requestTabsEventType = requestTabsEventType;
   }
 
-  public void addTab( final TabContentProxyImpl<?> tabProxy ) {
-    tabProxy.setTab( display.addTab( tabProxy.getText(), tabProxy.getHistoryToken() ) );
+  @Override
+  public Tab addTab( final TabContentProxy tabProxy ) {
+    return display.addTab( tabProxy.getText(), tabProxy.getHistoryToken(), tabProxy.getPriority() );
   }
 
   @Override
@@ -33,6 +35,23 @@ extends PresenterImpl<D, P> implements TabContainerPresenter  {
         display.setActiveTab( tab );
       }
     }
+  }
+
+  @Override
+  public void onBind() {
+    super.onBind();
+    
+    // The following call will trigger a series of call to addTab, so
+    // we should make sure we clear all the tabs when unbinding.
+    eventBus.fireEvent( new RequestTabsEvent(requestTabsEventType, this) );
+  }
+
+  @Override
+  public void onUnbind() {  
+    super.onUnbind();
+
+    // The tabs are added indirectly in onBind(), so we clear them now.
+    display.removeTabs();
   }
   
 }

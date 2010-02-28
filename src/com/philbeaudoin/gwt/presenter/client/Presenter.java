@@ -3,6 +3,7 @@ package com.philbeaudoin.gwt.presenter.client;
 import com.google.gwt.user.client.ui.Widget;
 import com.philbeaudoin.gwt.presenter.client.proxy.PlaceRequest;
 import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxy;
+import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 
 public interface Presenter {
 
@@ -21,13 +22,32 @@ public interface Presenter {
   PresenterProxy getProxy();
 
   /**
-   * Requests the presenter to reveal the display on screen. 
-   * Presenters should make sure their parent presenters are also revealed.
-   * The presenter is also responsible of inserting itself in the DOM, often
-   * by firing an appropriate event.
+   * Requests the presenter to reveal itself on screen.
+   * Upon being revealed presenters will ask to be inserted within 
+   * their parent presenters by firing a {@link SetContentEvent}
+   * which will cause the parent to be revealed too.
    */
-  void revealDisplay();
+  void reveal();
 
+  /**
+   * Notify others that this presenter has been changed. This is especially
+   * useful for stateful presenters that store parameters within the
+   * history token. Calling this will make sure the history token is
+   * updated with the right parameters.
+   */
+  void notifyChange();
+
+  /**
+   * <b>Important:</b> Make sure you call your parent class onReveal().
+   * <p />
+   * This method will be called whenever the presenter is revealed. Override
+   * it to perform any action (such as refreshing content) that needs
+   * to be done when the presenter is revealed.
+   * <p />
+   * This should never be called directly. Call {@link reveal()} instead.
+   */
+  void onReveal();
+  
   /**
    * This method is called when a {@link Presenter} should prepare itself
    * based on a {@link PlaceRequest}. The presenter should extract

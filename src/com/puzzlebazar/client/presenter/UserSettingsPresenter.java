@@ -1,14 +1,16 @@
 package com.puzzlebazar.client.presenter;
 
+import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
+import com.philbeaudoin.gwt.presenter.client.RequestTabsHandler;
+import com.philbeaudoin.gwt.presenter.client.TabPanel;
 import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
 import com.philbeaudoin.gwt.presenter.client.TabContainerPresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContainerProxy;
 import com.puzzlebazar.client.proxy.SplitMainProxy;
 import com.puzzlebazar.client.proxy.UserSettingsDetailsProxy;
 import com.puzzlebazar.client.proxy.UserSettingsMainProxy;
-import com.puzzlebazar.client.ui.HasTabs;
 
 
 /**
@@ -18,7 +20,9 @@ import com.puzzlebazar.client.ui.HasTabs;
  */
 public class UserSettingsPresenter extends TabContainerPresenterImpl<UserSettingsPresenter.Display,UserSettingsPresenter.Proxy> {
 
-  public interface Display extends PresenterDisplay, HasTabs {
+  public static Type<RequestTabsHandler> TYPE_RequestTabs = new Type<RequestTabsHandler>();
+  
+  public interface Display extends PresenterDisplay, TabPanel {
   }
 
   public interface Proxy extends TabContainerProxy {}
@@ -28,7 +32,7 @@ public class UserSettingsPresenter extends TabContainerPresenterImpl<UserSetting
       final Proxy proxy,
       final UserSettingsMainProxy tab1,
       final UserSettingsDetailsProxy tab2 ) {
-    super(eventBus, display, proxy, SplitMainProxy.TYPE_SetCenterContent, tab1, tab2 );   
+    super(eventBus, display, proxy, SplitMainProxy.TYPE_SetCenterContent, TYPE_RequestTabs );   
   }  
   
 

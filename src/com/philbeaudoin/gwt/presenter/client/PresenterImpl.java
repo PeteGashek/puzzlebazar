@@ -26,27 +26,31 @@ extends HandlerContainer implements Presenter {
   protected final P proxy;
 
   /**
-   * The type of the event this presenter will fire when it is
-   * revealed and needs to be set as content.
-   * Can be null if the presenter is top-level of if this
+   * The {@link Type} of the event this presenter will fire when it is
+   * revealed and needs to be set as content within its parent.
+   * Can be null if the presenter is top-level or if this
    * presenter is inserted at bind-time and never modified 
    * or revealed directly.
    */
-  protected Type<SetContentHandler> setContentEventType;
+  protected Type<SetContentHandler> setContentInParentEventType;
   
   /**
    * Creates a basic {@link Presenter}.
    * @param eventBus The event bus.
    * @param display  The display attached to this presenter.
    * @param proxy The presenter proxy.
-   * @param setContentEventType The type of the event to fire when the presenter should be set as content
+   * @param setContentEventType  The {@link Type} of the event this presenter will fire when it is
+   *        revealed and needs to be set as content within its parent.
+   *        Can be null if the presenter is top-level or if this
+   *        presenter is inserted at bind-time and never modified 
+   *        or revealed directly.
    */
   public PresenterImpl( final EventBus eventBus, final D display, final P proxy, 
-      final Type<SetContentHandler> setContentEventType ) {
+      final Type<SetContentHandler> setContentInParentEventType ) {
     this.display = display;
     this.eventBus = eventBus;
     this.proxy = proxy;
-    this.setContentEventType = setContentEventType;
+    this.setContentInParentEventType = setContentInParentEventType;
   }
   
   @Override
@@ -60,10 +64,21 @@ extends HandlerContainer implements Presenter {
   }
 
   @Override
-  public void revealDisplay() {
-    if( setContentEventType != null ) {
-      eventBus.fireEvent( new SetContentEvent( setContentEventType, this) );
+  public final void reveal() {
+    onReveal();
+    if( setContentInParentEventType != null ) {
+      eventBus.fireEvent( new SetContentEvent( setContentInParentEventType, this) );
     }
+    getProxy().onPresenterRevealed();
+  }
+
+  @Override
+  public void onReveal() {    
+  }
+  
+  @Override
+  public final void notifyChange() {
+    getProxy().onPresenterChanged();
   }
   
   @Override
