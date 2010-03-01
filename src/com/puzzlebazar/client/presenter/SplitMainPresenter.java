@@ -7,6 +7,7 @@ import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.Presenter;
 import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
 import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxy;
+import com.puzzlebazar.client.proxy.AppProxy;
 
 
 public class SplitMainPresenter extends PresenterImpl<SplitMainPresenter.Display, SplitMainPresenter.Proxy> {
@@ -27,7 +28,7 @@ public class SplitMainPresenter extends PresenterImpl<SplitMainPresenter.Display
   @Inject
   public SplitMainPresenter(final EventBus eventBus, final Display display, final Proxy proxy,
       final LinkColumnPresenter  linkColumnPresenter ) {
-    super(eventBus, display, proxy, null);
+    super(eventBus, display, proxy, AppProxy.TYPE_SetMainContent);
 
     this.linkColumnPresenter = linkColumnPresenter;
   }  

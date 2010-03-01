@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
-import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxy;
+import com.philbeaudoin.gwt.presenter.client.proxy.ProxyPlace;
 import com.puzzlebazar.client.proxy.UserSettingsProxy;
 
 /**
@@ -17,7 +17,7 @@ extends PresenterImpl<UserSettingsMainPresenter.Display, UserSettingsMainPresent
 
   public interface Display extends PresenterDisplay { }
 
-  public interface Proxy extends PresenterProxy {}
+  public interface Proxy extends ProxyPlace {}
 
   @Inject
   public UserSettingsMainPresenter(final EventBus eventBus, 

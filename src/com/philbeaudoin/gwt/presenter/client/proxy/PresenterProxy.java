@@ -21,19 +21,26 @@ import com.philbeaudoin.gwt.presenter.client.Presenter;
  */
 public interface PresenterProxy {
 
-  public abstract Presenter getPresenter();
+  /**
+   * Access the presenter associated with this proxy. This method should be invoked only
+   * when the presenter is or needs to be revealed, as it will cause the presenter and
+   * its view to be instantiated. 
+   * 
+   * @return The associated presenter.
+   */
+  public Presenter getPresenter();
 
   /**
    * Called by this proxy's presenter whenever it has changed in a way that would require 
    * the parameters in the HistoryToken bar to be changed. If you override, make sure you call
    * your parent onPresenterChanged().
    */
-  public abstract void onPresenterChanged();
+  public void onPresenterChanged();
 
   /**
    * Called by this proxy's presenter whenever it has been revealed. If you override, make sure you call
    * your parent onPresenterRevealed().
    */
-  public abstract void onPresenterRevealed();
+  public void onPresenterRevealed();
   
 }

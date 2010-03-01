@@ -35,12 +35,11 @@ implements CurrentUserInfoAvailableHandler {
 
   @Inject
   public TopBarPresenter(final EventBus eventBus, final Display display, final Proxy proxy,
-      final DispatchAsync dispatcher,
-      final UserSettingsMainProxy userSettingsMainPresenterPlace ) {
+      final DispatchAsync dispatcher ) {
     super(eventBus, display, proxy, null);
 
     this.dispatcher = dispatcher;
-    display.setUserSettingsHistoryToken( userSettingsMainPresenterPlace.getHistoryToken() );
+    display.setUserSettingsHistoryToken( UserSettingsMainProxy.getProxyHistoryToken() );
   }
 
   @Override

@@ -1,8 +1,10 @@
 package com.philbeaudoin.gwt.presenter.client;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.philbeaudoin.gwt.presenter.client.proxy.PlaceManager;
 import com.philbeaudoin.gwt.presenter.client.proxy.PlaceRequest;
 import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxy;
+import com.philbeaudoin.gwt.presenter.client.proxy.ProxyPlace;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 
 public interface Presenter {
@@ -22,6 +24,11 @@ public interface Presenter {
   PresenterProxy getProxy();
 
   /**
+   * <b>Important:</b> Do not call directly. Call {@link ProxyPlace#reveal()}
+   * instead. This way you can make sure you don't inadvertently reveal a 
+   * non-leaf Presenter. Also, you will benefit from the change confirmation
+   * mechanism. (See {@link PlaceManager#setOnLeaveConfirmation(String)}).
+   * <p />
    * Requests the presenter to reveal itself on screen.
    * Upon being revealed presenters will ask to be inserted within 
    * their parent presenters by firing a {@link SetContentEvent}

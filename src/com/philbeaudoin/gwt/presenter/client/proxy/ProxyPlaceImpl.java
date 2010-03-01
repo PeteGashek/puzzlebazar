@@ -20,7 +20,7 @@ import com.philbeaudoin.gwt.presenter.client.Presenter;
 public abstract class ProxyPlaceImpl<P extends Presenter> extends PresenterProxyImpl<P> 
 implements ProxyPlace {
 
-  private final PlaceManager placeManager;
+  protected final PlaceManager placeManager;
 
   /**
    * Creates a {@link PresenterProxy} for a {@link Presenter} that 
@@ -39,10 +39,7 @@ implements ProxyPlace {
   }
 
   @Override
-  public abstract String getHistoryToken();
-
-  @Override
-  public boolean equals( Object o ) {
+  public final boolean equals( Object o ) {
     if ( o instanceof Place ) {
       Place place = (Place) o;
       return getHistoryToken().equals( place.getHistoryToken() );
@@ -51,12 +48,12 @@ implements ProxyPlace {
   }
 
   @Override
-  public int hashCode() {
+  public final int hashCode() {
     return 17 * getHistoryToken().hashCode();
   }
 
   @Override
-  public String toString() {
+  public final String toString() {
     return getHistoryToken();
   }
 
@@ -65,7 +62,9 @@ implements ProxyPlace {
    *
    * @param request The request to handle.
    */
-  private void handleRequest( PlaceRequest request ) {
+  private final void handleRequest( PlaceRequest request ) {
+    if( !placeManager.confirmLeaveState() )
+      return;    
     P presenter = getPresenter();
     presenter.prepareFromRequest( request );
     presenter.reveal();
@@ -86,17 +85,17 @@ implements ProxyPlace {
    * @param request The current request object.
    * @return The prepared request.
    */
-  protected final PlaceRequest prepareRequest( PlaceRequest request ) {
+  private final PlaceRequest prepareRequest( PlaceRequest request ) {
     return getPresenter().prepareRequest( request );
   }
 
   @Override
-  public boolean matchesRequest( PlaceRequest request ) {
+  public final boolean matchesRequest( PlaceRequest request ) {
     return getHistoryToken().equals( request.getName() );
   }
 
   @Override
-  public PlaceRequest createRequest() {
+  public final PlaceRequest createRequest() {
     return prepareRequest( new PlaceRequest( getHistoryToken() ) );
   }
 
@@ -126,6 +125,11 @@ implements ProxyPlace {
     super.onPresenterRevealed();
     
     placeManager.onPlaceRevealed( this );  
+  }
+
+  @Override
+  public final void reveal() {
+    handleRequest( createRequest() );
   }
 }
 

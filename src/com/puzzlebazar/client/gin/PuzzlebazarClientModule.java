@@ -2,13 +2,13 @@ package com.puzzlebazar.client.gin;
 
 import com.philbeaudoin.gwt.presenter.client.DefaultEventBus;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.Presenter;
 import com.philbeaudoin.gwt.presenter.client.gin.AbstractPresenterModule;
 import com.philbeaudoin.gwt.presenter.client.proxy.ParameterTokenFormatter;
 import com.philbeaudoin.gwt.presenter.client.proxy.PlaceManager;
+import com.philbeaudoin.gwt.presenter.client.proxy.ProxyPlace;
 import com.philbeaudoin.gwt.presenter.client.proxy.TokenFormatter;
 
-import com.puzzlebazar.client.gin.annotations.DefaultMainPresenter;
+import com.puzzlebazar.client.gin.annotations.DefaultPlace;
 import com.puzzlebazar.client.presenter.AppPresenter;
 import com.puzzlebazar.client.presenter.LinkColumnPresenter;
 import com.puzzlebazar.client.presenter.SplitMainPresenter;
@@ -42,15 +42,16 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
   @Override
   protected void configure() {  
 
+
     bind(Resources.class).in(Singleton.class);
     bind(Translations.class).in(Singleton.class);
     bind(EventBus.class).to(DefaultEventBus.class).in(Singleton.class);
-    bind(PlaceManager.class).to(PuzzlebazarPlaceManager.class);
-    bind(TokenFormatter.class).to(ParameterTokenFormatter.class);
+    bind(PlaceManager.class).to(PuzzlebazarPlaceManager.class).in(Singleton.class);
+    bind(TokenFormatter.class).to(ParameterTokenFormatter.class).in(Singleton.class);
 
     // Presenters
+    bind(ProxyPlace.class).annotatedWith(DefaultPlace.class).to(UserSettingsMainProxy.class);
     bindPresenter(AppPresenter.class,AppPresenter.Display.class, AppView.class, AppPresenter.Proxy.class, AppProxy.class);
-    bind(Presenter.class).annotatedWith(DefaultMainPresenter.class).to(SplitMainPresenter.class);
     bindPresenter(SplitMainPresenter.class, SplitMainPresenter.Display.class, SplitMainView.class, SplitMainPresenter.Proxy.class, SplitMainProxy.class );
     bindPresenter(LinkColumnPresenter.class, LinkColumnPresenter.Display.class, LinkColumnView.class, LinkColumnPresenter.Proxy.class, LinkColumnProxy.class );
     bindPresenter(TopBarPresenter.class, TopBarPresenter.Display.class, TopBarView.class, TopBarPresenter.Proxy.class, TopBarProxy.class );

@@ -19,7 +19,7 @@ public class Puzzlebazar implements EntryPoint {
     injector.getAppPresenter();
     injector.getResources().style().ensureInjected();
 
-    injector.getPlaceManager().fireCurrentPlace();
+    injector.getPlaceManager().revealCurrentPlace();
 
     getUserInfo();
   }

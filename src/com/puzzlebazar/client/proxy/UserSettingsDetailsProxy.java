@@ -14,6 +14,17 @@ import com.puzzlebazar.client.resources.Translations;
 
 public class UserSettingsDetailsProxy extends TabContentProxyImpl<UserSettingsDetailsPresenter> 
 implements UserSettingsDetailsPresenter.Proxy {
+
+  private static final String historyToken = "Details";
+
+  /**
+   * A static method to access the history token of this proxy
+   * 
+   * @return The history token.
+   */
+  public static final String getProxyHistoryToken() {
+    return historyToken;
+  }
   
   private final Translations translations;
   
@@ -35,7 +46,7 @@ implements UserSettingsDetailsPresenter.Proxy {
   
   @Override
   public String getHistoryToken() {
-    return "Details";
+    return historyToken;
   }
 
   @Override

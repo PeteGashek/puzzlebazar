@@ -2,6 +2,12 @@ package com.philbeaudoin.gwt.presenter.client.proxy;
 
 public interface Place {
 
+  public boolean equals(Object o);
+
+  public int hashCode();
+
+  public String toString();
+  
   /**
    * Returns the unique name for this place. Uniqueness is not enforced -
    * creators must ensure that the name is unique or there will be potential
@@ -9,13 +15,7 @@ public interface Place {
    *
    * @return The place ID.
    */
-  public abstract String getHistoryToken();
-
-  public abstract boolean equals(Object o);
-
-  public abstract int hashCode();
-
-  public abstract String toString();
+  public String getHistoryToken();
 
   /**
    * This method is checked before calling
@@ -24,7 +24,7 @@ public interface Place {
    * @param request The request to check.
    * @return <code>true</code> if the ID matches this place's name.
    */
-  public abstract boolean matchesRequest(PlaceRequest request);
+  public boolean matchesRequest(PlaceRequest request);
 
   /**
    * Returns a new request for this place in its current state. This method
@@ -32,6 +32,6 @@ public interface Place {
    *
    * @return The new {@link PlaceRequest}.
    */
-  public abstract PlaceRequest createRequest();
+  public PlaceRequest createRequest();
 
 }
