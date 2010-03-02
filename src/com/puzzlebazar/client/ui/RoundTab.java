@@ -12,9 +12,9 @@ import com.philbeaudoin.gwt.presenter.client.Tab;
 import com.puzzlebazar.client.resources.Resources;
 
 /**
- * A tab contained within an {@link RoundTabPanel}.
+ * A tab with rounded corner contained within an {@link RoundTabPanel}.
  * 
- * @author beaudoin
+ * @author Philippe Beaudoin
  */
 public class RoundTab extends Composite implements Tab {
 
@@ -48,25 +48,30 @@ public class RoundTab extends Composite implements Tab {
   }
   
   @Override
-  public void setHistoryToken(String historyToken) {
+  public void setTargetHistoryToken(String historyToken) {
     hyperlink.setTargetHistoryToken(historyToken);      
   }
 
   @Override
   public void activate() {
-    removeStyleName( resources.style().inactive() );
-    addStyleName( resources.style().active() );
+    removeStyleName( resources.style().roundtab_inactive() );
+    addStyleName( resources.style().roundtab_active() );
   }
 
   @Override
   public void deactivate() {
-    removeStyleName( resources.style().active() );
-    addStyleName( resources.style().inactive() );
+    removeStyleName( resources.style().roundtab_active() );
+    addStyleName( resources.style().roundtab_inactive() );
   }
 
   @Override
   public float getPriority() {
     return priority;
+  }
+
+  @Override
+  public Widget asWidget() {
+    return this;
   }
 
 }

@@ -3,12 +3,12 @@
 
 	<ui:with field='resources' type='com.puzzlebazar.client.resources.Resources' />
 
-	<g:HTMLPanel addStyleNames="{resources.style.tab} {resources.style.inactive}"
+	<g:HTMLPanel addStyleNames="{resources.style.roundtab} {resources.style.roundtab_inactive}"
 		ui:field="sampleTab">
 		<div class="{resources.style.round4}" />
 		<div class="{resources.style.round2}" />
 		<div class="{resources.style.round1}" />
-		<div class="{resources.style.tab_inner}">
+		<div class="{resources.style.roundtab_inner}">
 			<g:Hyperlink ui:field="hyperlink" />
 		</div>
 	</g:HTMLPanel>

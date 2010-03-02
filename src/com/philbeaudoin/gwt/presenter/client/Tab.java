@@ -1,7 +1,7 @@
 package com.philbeaudoin.gwt.presenter.client;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.Widget;
 
 public interface Tab extends HasText {
 
@@ -30,7 +30,7 @@ public interface Tab extends HasText {
    * 
    * @param historyToken The history token.
    */
-  public abstract void setHistoryToken(String historyToken);
+  public abstract void setTargetHistoryToken(String historyToken);
 
   
   /**
@@ -42,16 +42,15 @@ public interface Tab extends HasText {
    * @return The priority.
    */
   public abstract float getPriority();
-  
+
+
   /**
-   * Every tab should be able to return the DOM {@link Element} that
-   * represents it. This makes it possible for tab panels to
-   * add or remove tabs within the DOM.
+   * Every tab should be able to return itself as an instance of a 
+   * widget class.
    * 
-   * @return The {@link Element}.
+   * @return The tab as a {@link Widget}.
    */
-  public abstract Element getElement();
-  
+  public abstract Widget asWidget();
 
   /**
    * Should not be called directly. Call

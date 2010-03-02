@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.philbeaudoin.gwt.presenter.client.Tab;
 import com.puzzlebazar.client.presenter.UserSettingsPresenter;
-import com.puzzlebazar.client.ui.RoundTabPanel;
+import com.puzzlebazar.client.ui.SimpleTabPanel;
 
 public class UserSettingsView implements UserSettingsPresenter.Display {
   
@@ -17,7 +17,7 @@ public class UserSettingsView implements UserSettingsPresenter.Display {
   private final Widget widget;
   
   @UiField
-  RoundTabPanel tabPanel;
+  SimpleTabPanel tabPanel;
   
   @Inject
   public UserSettingsView() {

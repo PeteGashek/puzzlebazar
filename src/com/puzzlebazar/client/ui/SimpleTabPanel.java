@@ -20,9 +20,9 @@ import com.philbeaudoin.gwt.presenter.client.Tab;
  * 
  * @author Philippe Beaudoin
  */
-public class RoundTabPanel extends Composite implements TabPanel {
+public class SimpleTabPanel extends Composite implements TabPanel {
 
-  interface Binder extends UiBinder<Widget, RoundTabPanel> { }
+  interface Binder extends UiBinder<Widget, SimpleTabPanel> { }
   private static final Binder binder = GWT.create(Binder.class);
 
   private final List<Tab> tabList = new ArrayList<Tab>();
@@ -39,13 +39,13 @@ public class RoundTabPanel extends Composite implements TabPanel {
   Tab currentActiveTab = null;
 
 
-  public RoundTabPanel() {
+  public SimpleTabPanel() {
     initWidget( binder.createAndBindUi( this ) );
   }
   
   @Override
   public Tab addTab( String text, String historyToken, float priority ) {
-    RoundTab newTab = new RoundTab( priority );
+    SimpleTab newTab = new SimpleTab( priority );
     newTab.setText( text );
     newTab.setTargetHistoryToken( historyToken );
     Element addBeforeElement = null;

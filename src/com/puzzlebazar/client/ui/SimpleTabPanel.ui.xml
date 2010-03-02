@@ -1,0 +1,16 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+  xmlns:m='urn:import:com.puzzlebazar.client.ui'>
+
+	<ui:with field='resources' type='com.puzzlebazar.client.resources.Resources' />
+
+	<g:FlowPanel addStyleNames="{resources.style.simpletab_container}">
+    <g:HTMLPanel ui:field="tabPanel" addStyleNames="{resources.style.simpletab_bar}" >
+      <div style="clear: both;" ui:field="endTabMarker"></div>
+    </g:HTMLPanel>
+		<g:FlowPanel ui:field="tabContentContainer" addStyleNames="{resources.style.simpletab_panel}" />
+	</g:FlowPanel>
+
+</ui:UiBinder>

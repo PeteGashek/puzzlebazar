@@ -6,7 +6,7 @@
 	<g:FlowPanel>
 		<g:HTMLPanel ui:field="tabPanel">
 			<div style="clear: both;" ui:field="endTabMarker"></div>
-			<div class="{resources.style.horizontalBar} {resources.style.active}" />
+			<div class="{resources.style.horizontalBar} {resources.style.roundtab_active}" />
 		</g:HTMLPanel>
 		<g:FlowPanel ui:field="tabContentContainer" />
 	</g:FlowPanel>

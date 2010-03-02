@@ -2,7 +2,6 @@
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'
   xmlns:m='urn:import:com.puzzlebazar.client.ui'>
 
-	<m:RoundTabPanel ui:field="tabPanel">
-	</m:RoundTabPanel>
+	<m:SimpleTabPanel ui:field="tabPanel" />
 
 </ui:UiBinder>
