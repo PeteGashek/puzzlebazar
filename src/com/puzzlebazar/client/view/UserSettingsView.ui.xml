@@ -2,6 +2,6 @@
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'
   xmlns:m='urn:import:com.puzzlebazar.client.ui'>
 
-	<m:SimpleTabPanel ui:field="tabPanel" />
+	<m:SimpleTabPanel title="User Settings" ui:field="tabPanel" />
 
 </ui:UiBinder>

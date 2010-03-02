@@ -1,15 +1,14 @@
 package com.puzzlebazar.client.ui;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.inject.Inject;
 import com.philbeaudoin.gwt.presenter.client.Tab;
-import com.puzzlebazar.client.resources.Resources;
 
 /**
  * A tab with rounded corner contained within an {@link RoundTabPanel}.
@@ -18,15 +17,17 @@ import com.puzzlebazar.client.resources.Resources;
  */
 public class RoundTab extends Composite implements Tab {
 
+  interface Style extends CssResource {
+    String active();
+    String inactive();
+  }
+
   interface Binder extends UiBinder<Widget, RoundTab> { }
   private static final Binder binder = GWT.create(Binder.class);
-
-  /**
-   * Using static injection because elements accessible within 
-   * UIBinder don't collaborate very well with GIN/Guice. 
-   */
-  @Inject static Resources resources;
   
+  @UiField 
+  Style style;
+
   @UiField
   Hyperlink hyperlink;
 
@@ -54,14 +55,14 @@ public class RoundTab extends Composite implements Tab {
 
   @Override
   public void activate() {
-    removeStyleName( resources.style().roundtab_inactive() );
-    addStyleName( resources.style().roundtab_active() );
+    removeStyleName( style.inactive() );
+    addStyleName( style.active() );
   }
 
   @Override
   public void deactivate() {
-    removeStyleName( resources.style().roundtab_active() );
-    addStyleName( resources.style().roundtab_inactive() );
+    removeStyleName( style.active() );
+    addStyleName( style.inactive() );
   }
 
   @Override

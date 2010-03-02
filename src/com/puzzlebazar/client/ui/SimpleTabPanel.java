@@ -5,12 +5,14 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.philbeaudoin.gwt.presenter.client.TabPanel;
 import com.philbeaudoin.gwt.presenter.client.Tab;
@@ -28,6 +30,9 @@ public class SimpleTabPanel extends Composite implements TabPanel {
   private final List<Tab> tabList = new ArrayList<Tab>();
 
   @UiField
+  Label title;
+  
+  @UiField
   HTMLPanel tabPanel;
 
   @UiField
@@ -39,8 +44,14 @@ public class SimpleTabPanel extends Composite implements TabPanel {
   Tab currentActiveTab = null;
 
 
-  public SimpleTabPanel() {
+  /**
+   * Creates a panel a title and simple tabs under it.
+   * 
+   * @param title The title to display on the panel
+   */
+  @UiConstructor public SimpleTabPanel( String title ) {
     initWidget( binder.createAndBindUi( this ) );
+    this.title.setText( title );
   }
   
   @Override
@@ -87,5 +98,5 @@ public class SimpleTabPanel extends Composite implements TabPanel {
     tabContentContainer.clear();
     tabContentContainer.add( tabContent );
   }
-
+  
 }

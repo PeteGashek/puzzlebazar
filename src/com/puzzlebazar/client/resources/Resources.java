@@ -12,22 +12,20 @@ public interface Resources extends ClientBundle {
   @Source("Puzzlebazar.css")
   Style style();
 
+  @Source("defines.css")
+  Defines defines();
+
   public interface Style extends CssResource {
     String username();
     String splitMainView();
-    String horizontalBar();
-    String round1();
-    String round2();
-    String round4();
-    String roundtab_active();
-    String roundtab_inactive();
-    String roundtab();    
-    String roundtab_inner();
-    String simpletab_container();
-    String simpletab_bar();    
-    String simpletab_panel();    
-    String simpletab();    
-    String simpletab_active();    
-    String simpletab_inactive();    
   }  
+
+  public interface Defines extends CssResource {
+    String darkPanelColor();
+    String lightPanelColor();
+    String titleFontWeight();
+    String titleFontSize();
+    String titleColor();
+  }  
+
 }
