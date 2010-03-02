@@ -73,10 +73,6 @@ public class TokenSeparatedList extends FlowPanel  {
       throw new NoSuchElementException( "Widget not found." );
     widget.setVisible(visible);
     
-    //TODO Temp, test
-    updateVisibility();
-    return;
-    /*
     // Check special cases
     if( index < leftmostVisibleIndex && visible ) {
       // Making a widget visible to the left of the current leftmost visible widget.
@@ -105,7 +101,7 @@ public class TokenSeparatedList extends FlowPanel  {
       // Typical case, apply the same visibility to the widget's separator.
       if( index > 0 )
         getWidget(index-1).setVisible(visible);
-    } */
+    }
   }
 
   /**

@@ -62,7 +62,7 @@
 				<g:Label addStyleNames="{style.title}" ui:field="title" />
 			</g:FlowPanel>
 			<g:HTMLPanel ui:field="tabPanel" addStyleNames="{style.bar}">
-				<div style="clear: both;" ui:field="endTabMarker"></div>
+				<div style="clear: both;" ui:field="endTabMarker" />
 			</g:HTMLPanel>
 			<g:FlowPanel ui:field="tabContentContainer"
 				addStyleNames="{style.panel}" />

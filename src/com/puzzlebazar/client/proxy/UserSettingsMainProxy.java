@@ -50,14 +50,5 @@ public class UserSettingsMainProxy extends TabContentProxyImpl<UserSettingsMainP
   public float getPriority() {
     return 0;
   }
-  
-  @Override
-  public void onPresenterRevealed() {
-    super.onPresenterRevealed();
-    // TODO Temporary, just a demonstration
-    placeManager.setOnLeaveConfirmation( "You are about to navigate away from this page. This happened because you " +
-        "tried to go to another page in this application, a URL outside this application, or because you" +
-        "closed the browser window. Do you want to do this?" );
-  }  
-  
+    
 }

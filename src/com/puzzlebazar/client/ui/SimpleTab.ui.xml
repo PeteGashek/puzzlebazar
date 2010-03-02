@@ -1,7 +1,7 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 
-	<ui:style src='../resources/defines.css' type='com.puzzlebazar.client.ui.SimpleTab.Style'>
+	<ui:style src='../resources/defines.css' type='com.puzzlebazar.client.ui.BaseTab.Style'>
 		.tab {
 			float: left;
 			margin-right: 8px;
@@ -18,12 +18,13 @@
 			font-weight: bold;
 		}
 		
-		.active a {
+		.active a,.active a:visited,.active a:hover {
 			text-decoration: none;
 			color: black;
 		}
 	</ui:style>
 
-	<g:Hyperlink addStyleNames="{style.tab} {style.inactive}" ui:field="hyperlink" />
+	<g:Hyperlink addStyleNames="{style.tab} {style.inactive}"
+		ui:field="hyperlink" />
 
 </ui:UiBinder>

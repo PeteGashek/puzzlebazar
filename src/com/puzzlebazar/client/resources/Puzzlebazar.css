@@ -1,13 +1,10 @@
-a {
+a,a:visited,a:hover {
 	text-decoration: underline;
 	cursor: pointer;
 	cursor: hand;
+	color: #e8351d;
 }
 
 .username {
 	font-weight: bold;
-}
-
-.splitMainView {
-	max-width: 1160px;
 }

@@ -1,7 +1,7 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 
-	<ui:style src='../resources/defines.css'  type='com.puzzlebazar.client.ui.RoundTab.Style'>
+	<ui:style src='../resources/defines.css' type='com.puzzlebazar.client.ui.BaseTab.Style'>
 		.round1,.round2,.round4 {
 			font-size: 0px;
 			height: 1px;
@@ -29,7 +29,7 @@
 			margin-right: 8px;
 		}
 		
-		.tab a {
+		.tab a,.tab a:visited,.tab a:hover {
 			text-decoration: none;
 			cursor: pointer;
 			cursor: hand;
@@ -44,10 +44,10 @@
 		.active {
 			background-color: darkPanelColor;
 		}
-    
-    .inactive {
-      background-color: lightPanelColor;
-    }
+		
+		.inactive {
+			background-color: lightPanelColor;
+		}
 	</ui:style>
 
 
