@@ -15,6 +15,7 @@ import com.puzzlebazar.client.core.presenter.AdminUsersPresenter;
 import com.puzzlebazar.client.core.presenter.AppPresenter;
 import com.puzzlebazar.client.core.presenter.LinkColumnPresenter;
 import com.puzzlebazar.client.core.presenter.SplitMainPresenter;
+import com.puzzlebazar.client.core.presenter.TabbedPresenterBundle;
 import com.puzzlebazar.client.core.presenter.TopBarPresenter;
 import com.puzzlebazar.client.core.presenter.UserSettingsAccountsPresenter;
 import com.puzzlebazar.client.core.presenter.UserSettingsGeneralPresenter;
@@ -55,6 +56,9 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     bind(EventBus.class).to(DefaultEventBus.class).in(Singleton.class);
     bind(PlaceManager.class).to(PuzzlebazarPlaceManager.class).in(Singleton.class);
     bind(TokenFormatter.class).to(ParameterTokenFormatter.class).in(Singleton.class);
+
+    // Presenter bundles
+    bind(TabbedPresenterBundle.class).in(Singleton.class);
 
     // Presenters
     bind(ProxyPlace.class).annotatedWith(DefaultPlace.class).to(UserSettingsGeneralProxy.class);
