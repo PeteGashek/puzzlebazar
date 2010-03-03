@@ -1,6 +1,0 @@
-<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-
-	<g:Label>test 4321</g:Label>
-
-</ui:UiBinder>

@@ -1,0 +1,60 @@
+
+	<!--
+		This file is the typical main view. It has a search header, a left
+		column (usually for links), and a footer.
+	-->
+
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui' 
+	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+	ui:generateKeys="com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator"
+	ui:generateLocales="en">
+
+	<ui:with field='resources' type='com.puzzlebazar.client.resources.Resources' />
+
+	<ui:style src='../../resources/defines.css'>
+		.mainContainer {
+			margin: 0 6px;
+		}
+		
+		.logo {
+			margin: 6px 14px 8px 11px;
+			float: left;
+		}
+		
+		.searchBox {
+			width: 260px;
+			margin: 27px 0 0;
+			float: left;
+		}
+		
+		.searchButton {
+			height: 24px;
+			margin: 27px 5px 0;
+			float: left;
+		}
+	</ui:style>
+
+	<g:DockLayoutPanel unit='PX' addStyleNames="{style.mainContainer}">
+
+		<g:north size='75'>
+			<g:HTMLPanel>
+				<g:Image resource='{resources.logo}' addStyleNames="{style.logo}" />
+				<g:TextBox addStyleNames="{style.searchBox}" />
+				<g:Button addStyleNames="{style.searchButton}">
+					<ui:msg description='Search button on main page'>Search</ui:msg>
+				</g:Button>
+				<div style="clear: both;" />
+			</g:HTMLPanel>
+		</g:north>
+
+		<g:west size='200'>
+			<g:FlowPanel ui:field='sideBarContainer' />
+		</g:west>
+
+		<g:center>
+			<g:FlowPanel ui:field='centerContentContainer' />
+		</g:center>
+	</g:DockLayoutPanel>
+
+</ui:UiBinder>

@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
  * Naming this interface Display would therefore be impractical
  * for code-writing purposes.
  * 
- * @author beaudoin
+ * @author Philippe Beaudoin
  */
 public interface PresenterDisplay {
 

@@ -1,0 +1,12 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+  xmlns:m='urn:import:com.puzzlebazar.client.ui'
+  ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+  ui:generateKeys="com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator"
+  ui:generateLocales="en">
+
+	<m:SimpleTabPanel title="Administration" ui:field="tabPanel">
+  	<ui:attribute name='title' description='Main title of the Administration page'/>
+	</m:SimpleTabPanel>
+
+</ui:UiBinder>

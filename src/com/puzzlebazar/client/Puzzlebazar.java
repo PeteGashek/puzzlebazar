@@ -5,8 +5,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import com.puzzlebazar.client.core.presenter.CurrentUserInfoAvailableEvent;
 import com.puzzlebazar.client.gin.PuzzlebazarGinjector;
-import com.puzzlebazar.client.presenter.event.CurrentUserInfoAvailableEvent;
 import com.puzzlebazar.shared.action.GetUserInfo;
 import com.puzzlebazar.shared.action.GetUserInfoResult;
 
