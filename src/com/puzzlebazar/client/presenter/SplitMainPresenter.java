@@ -2,6 +2,7 @@ package com.puzzlebazar.client.presenter;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.Presenter;
@@ -26,7 +27,10 @@ public class SplitMainPresenter extends PresenterImpl<SplitMainPresenter.Display
   private Presenter centerContent = null;
 
   @Inject
-  public SplitMainPresenter(final EventBus eventBus, final Display display, final Proxy proxy,
+  public SplitMainPresenter(
+      final EventBus eventBus, 
+      final Provider<Display> display, 
+      final Proxy proxy,
       final LinkColumnPresenter  linkColumnPresenter ) {
     super(eventBus, display, proxy, AppProxy.TYPE_SetMainContent);
 

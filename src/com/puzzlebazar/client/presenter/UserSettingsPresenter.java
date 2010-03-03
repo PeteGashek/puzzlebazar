@@ -2,6 +2,7 @@ package com.puzzlebazar.client.presenter;
 
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.RequestTabsHandler;
 import com.philbeaudoin.gwt.presenter.client.TabPanel;
@@ -26,7 +27,9 @@ public class UserSettingsPresenter extends TabContainerPresenterImpl<UserSetting
   public interface Proxy extends TabContainerProxy {}
   
   @Inject
-  public UserSettingsPresenter(final EventBus eventBus, final Display display, 
+  public UserSettingsPresenter(
+      final EventBus eventBus, 
+      final Provider<Display> display, 
       final Proxy proxy ) {
     super(eventBus, display, proxy, SplitMainProxy.TYPE_SetCenterContent, TYPE_RequestTabs );   
   }  

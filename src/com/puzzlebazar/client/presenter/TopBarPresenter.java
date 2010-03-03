@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.philbeaudoin.gwt.dispatch.client.DispatchAsync;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
@@ -34,28 +35,31 @@ implements CurrentUserInfoAvailableHandler {
   private final DispatchAsync dispatcher;
 
   @Inject
-  public TopBarPresenter(final EventBus eventBus, final Display display, final Proxy proxy,
+  public TopBarPresenter(
+      final EventBus eventBus, 
+      final Provider<Display> display, 
+      final Proxy proxy,
       final DispatchAsync dispatcher ) {
     super(eventBus, display, proxy, null);
 
     this.dispatcher = dispatcher;
-    display.setUserSettingsHistoryToken( UserSettingsMainProxy.getProxyHistoryToken() );
+    getDisplay().setUserSettingsHistoryToken( UserSettingsMainProxy.getProxyHistoryToken() );
   }
 
   @Override
   public void onBind() {
     super.onBind();
     
-    display.setLoggedOut();
+    getDisplay().setLoggedOut();
 
-    registerHandler( display.getSignIn().addClickHandler( new ClickHandler() {
+    registerHandler( getDisplay().getSignIn().addClickHandler( new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
         doSignIn();
       }
     } ) );
 
-    registerHandler( display.getSignOut().addClickHandler( new ClickHandler() {
+    registerHandler( getDisplay().getSignOut().addClickHandler( new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
         doSignOut();
@@ -67,7 +71,7 @@ implements CurrentUserInfoAvailableHandler {
 
   @Override
   public void onCurrentUserInfoAvailable(CurrentUserInfoAvailableEvent event) {
-    display.setLoggedIn( event.getUserInfo().getEmail() );
+    getDisplay().setLoggedIn( event.getUserInfo().getEmail() );
   }
 
   public void doSignIn() {

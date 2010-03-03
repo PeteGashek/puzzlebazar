@@ -57,6 +57,6 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     bindPresenter(UserSettingsPresenter.class, UserSettingsPresenter.Display.class, UserSettingsView.class, UserSettingsPresenter.Proxy.class, UserSettingsProxy.class );
     bindPresenter(UserSettingsMainPresenter.class, UserSettingsMainPresenter.Display.class, UserSettingsMainView.class, UserSettingsMainPresenter.Proxy.class, UserSettingsMainProxy.class);
     bindPresenter(UserSettingsDetailsPresenter.class, UserSettingsDetailsPresenter.Display.class, UserSettingsDetailsView.class, UserSettingsDetailsPresenter.Proxy.class, UserSettingsDetailsProxy.class);
-
+    
   }
 }

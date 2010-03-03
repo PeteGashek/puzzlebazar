@@ -3,8 +3,8 @@
  */
 package com.puzzlebazar.client.proxy;
 
+import com.google.gwt.inject.client.AsyncProvider;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxyImpl;
 import com.philbeaudoin.gwt.presenter.client.proxy.PlaceManager;
@@ -29,10 +29,12 @@ implements UserSettingsDetailsPresenter.Proxy {
   private final Translations translations;
   
   @Inject
-  public UserSettingsDetailsProxy(final EventBus eventBus, final PlaceManager placeManager, 
-      final Provider<UserSettingsDetailsPresenter> presenter, 
+  public UserSettingsDetailsProxy(
+      final EventBus eventBus, 
+      final PlaceManager placeManager, 
+      final AsyncProvider<UserSettingsDetailsPresenter> presenter, 
       final Translations translations) {
-    super(eventBus, placeManager, presenter, 
+    super(eventBus, placeManager, new CodeSplitProvider<UserSettingsDetailsPresenter>(presenter, translations), 
         UserSettingsPresenter.TYPE_RequestTabs);
 
     this.translations = translations;

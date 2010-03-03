@@ -3,6 +3,7 @@ package com.puzzlebazar.client.presenter;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.Presenter;
@@ -25,7 +26,10 @@ public class AppPresenter extends PresenterImpl<AppPresenter.Display, AppPresent
 
   
   @Inject
-  public AppPresenter(final EventBus eventBus, final Display display, final Proxy proxy,
+  public AppPresenter(
+      final EventBus eventBus, 
+      final Provider<Display> display, 
+      final Proxy proxy,
       final TopBarPresenter topBarPresenter ) {
     super(eventBus, display, proxy, null);
 
@@ -37,7 +41,7 @@ public class AppPresenter extends PresenterImpl<AppPresenter.Display, AppPresent
   @Override
   public void onBind() {
     super.onBind();
-    display.setTopBar( this.topBarPresenter.getWidget() );
+    getDisplay().setTopBar( this.topBarPresenter.getWidget() );
   }
 
   public void setMainContent(Presenter content) {
