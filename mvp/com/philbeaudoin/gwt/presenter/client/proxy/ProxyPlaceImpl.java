@@ -10,12 +10,9 @@ import com.philbeaudoin.gwt.presenter.client.Presenter;
  * current settings, such as a particular ID value, or other unique indicators
  * that will allow a user to track back to that location later, either via a
  * browser bookmark, or by clicking the 'back' button.
- * <p/>
- * However, there may be more than one instance of concrete Place classes, so
- * the state should be shared between all instances of any given class. Usually
- * this is done via a shared class, such as a {@link Presenter} instance.
  *
  * @author David Peterson
+ * @author Philippe Beaudoin
  */
 public abstract class ProxyPlaceImpl<P extends Presenter> extends PresenterProxyImpl<P> 
 implements ProxyPlace {
@@ -23,38 +20,43 @@ implements ProxyPlace {
   protected final PlaceManager placeManager;
 
   /**
-   * Creates a {@link PresenterProxy} for a {@link Presenter} that 
+   * Creates a {@link ProxyPlace} for a {@link Presenter} that 
    * is attached to a {@link Place}. That is, this presenter can
-   * be invoked by setting its specific history token in the URL bar.
+   * be invoked by setting its a history token that matches
+   * its name token in the URL bar.
    * 
    * @param eventBus The {@link EventBus}.
    * @param placeManager The {@link PlaceManager}.
    * @param presenter A {@link Provider} for the {@link Presenter} of which this class is a proxy. 
    */
-  public ProxyPlaceImpl( final EventBus eventBus, 
+  public ProxyPlaceImpl( 
+      final EventBus eventBus, 
       final PlaceManager placeManager, 
       final CallbackProvider<P> presenter ) {
     super( eventBus, presenter );
     this.placeManager = placeManager;
   }
 
+  /**
+   * Proxy places are equal if their name token matches.
+   */
   @Override
   public final boolean equals( Object o ) {
     if ( o instanceof Place ) {
       Place place = (Place) o;
-      return getHistoryToken().equals( place.getHistoryToken() );
+      return getNameToken().equals( place.getNameToken() );
     }
     return false;
   }
 
   @Override
   public final int hashCode() {
-    return 17 * getHistoryToken().hashCode();
+    return 17 * getNameToken().hashCode();
   }
 
   @Override
   public final String toString() {
-    return getHistoryToken();
+    return getNameToken();
   }
 
   /**
@@ -76,7 +78,7 @@ implements ProxyPlace {
 
   @Override
   public final boolean matchesRequest( PlaceRequest request ) {
-    return request.isPlace( getHistoryToken() );
+    return request.matchesNameToken( getNameToken() );
   }
 
   @Override
@@ -85,8 +87,11 @@ implements ProxyPlace {
 
     registerHandler( eventBus.addHandler( PlaceRequestEvent.getType(), new PlaceRequestHandler() {
       public void onPlaceRequest( PlaceRequestEvent event ) {
+        if( event.isHandled() )
+          return;
         PlaceRequest request = event.getRequest();
         if ( matchesRequest( request ) ) {
+          event.setHandled();
           handleRequest( request );
         }
       }
@@ -96,14 +101,14 @@ implements ProxyPlace {
   @Override
   public void onPresenterChanged( Presenter presenter ) {
     super.onPresenterChanged( presenter );    
-    placeManager.onPlaceChanged( presenter.prepareRequest( new PlaceRequest(getHistoryToken())) );  
+    placeManager.onPlaceChanged( presenter.prepareRequest( new PlaceRequest(getNameToken())) );  
   }
 
   @Override
   public void onPresenterRevealed( Presenter presenter ) {
     super.onPresenterRevealed( presenter );
     
-    placeManager.onPlaceRevealed( presenter.prepareRequest( new PlaceRequest(getHistoryToken())) );  
+    placeManager.onPlaceRevealed( presenter.prepareRequest( new PlaceRequest(getNameToken())) );  
   }
 
   @Override

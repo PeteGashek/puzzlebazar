@@ -12,10 +12,10 @@ import java.util.Set;
  * <p/>
  * Place request tokens are formatted like this:
  * <p/>
- * <code>#id(;key=value)*</code>
+ * <code>#nameToken(;key=value)*</code>
  * <p/>
  * <p/>
- * There is a mandatory 'id' value, followed by 0 or more key/value pairs,
+ * There is a mandatory 'nameToken' value, followed by 0 or more key/value pairs,
  * separated by semi-colons (';'). A few examples follow:
  * <p/>
  * <ul>
@@ -23,22 +23,44 @@ import java.util.Set;
  * <li> <code>#user;name=j.blogs</code> </li>
  * <li> <code>#user-email;name=j.blogs;type=home</code> </li>
  * </ul>
+ * The separators (';' and '=') can be modified in {@link ParameterTokenFormatter}.
  *
  * @author David Peterson
+ * @author Philippe Beaudoin
  */
 public class PlaceRequest {
 
-  private final String historyToken;
+  private final String nameToken;
 
   private final Map<String, String> params;
 
-  public PlaceRequest( String name ) {
-    this.historyToken = name;
+  /**
+   * Builds a request with the specified name token and
+   * without parameters.
+   * 
+   * @param nameToken The name token for the request.
+   */
+  public PlaceRequest( String nameToken ) {
+    this.nameToken = nameToken;
+    // Note: No parameter map attached.
+    //       Calling PlaceRequest#with(String, String) will
+    //       invoke the other constructor and instantiate a map.
+    //       This choice makes it efficient to instantiate
+    //       parameter-less PlaceRequest and slightly more
+    //       costly to instantiate PlaceRequest with parameters.    
     this.params = null;
   }
 
+  /**
+   * Builds a place request that copies all the parameters of the passed
+   * request and adds a new parameter.  
+   * 
+   * @param req   The {@link PlaceRequest} to copy.
+   * @param name  The new parameter name.
+   * @param value The new parameter value.
+   */
   private PlaceRequest( PlaceRequest req, String name, String value ) {
-    this.historyToken = req.historyToken;
+    this.nameToken = req.nameToken;
     this.params = new java.util.HashMap<String, String>();
     if ( req.params != null )
       this.params.putAll( req.params );
@@ -46,8 +68,8 @@ public class PlaceRequest {
       this.params.put( name, value );
   }
 
-  public String getHistoryToken() {
-    return historyToken;
+  public String getNameToken() {
+    return nameToken;
   }
 
   public Set<String> getParameterNames() {
@@ -70,23 +92,23 @@ public class PlaceRequest {
   }
 
   /**
-   * Checks if this place request is the same as the one passed.
+   * Checks if this place request has the same name token as the one passed in.
    * 
    * @param other The {@link PlaceRequest} to check against.
-   * @return <code>true</code> if both requests refer to the same place. <code>false</code> otherwise.
+   * @return <code>true</code> if both requests share the same name token. <code>false</code> otherwise.
    */
-  public boolean isPlace(PlaceRequest other) {
-    return historyToken.equals(other.historyToken);
+  public boolean hasSameNameToken(PlaceRequest other) {
+    return nameToken.equals(other.nameToken);
   }
 
   /**
-   * Checks if this place request is the same as the one passed.
+   * Checks if this place request matches the name token passed.
    * 
-   * @param otherHistoryToken A string indicating the history token to check against.
-   * @return <code>true</code> if the request refer to the specified history token. <code>false</code> otherwise.
+   * @param nameToken The name token to match.
+   * @return <code>true</code> if the request matches. <code>false</code> otherwise.
    */
-  public boolean isPlace(String otherHistoryToken) {
-    return historyToken.equals(otherHistoryToken);
+  public boolean matchesNameToken(String nameToken) {
+    return this.nameToken.equals(nameToken);
   }
   
   /**
@@ -99,6 +121,11 @@ public class PlaceRequest {
    * @return The new place request instance.
    */
   public PlaceRequest with( String name, String value ) {
+    // Note: Copying everything to a new PlaceRequest is slightly
+    //       less efficient than modifying the current request, but
+    //       it reduces unexpected side-effects. Moreover, it lets
+    //       us instantiate the parameter map only when needed.
+    //       (See the PlaceRequest constructors.)
     return new PlaceRequest( this, name, value );
   }
 
@@ -106,7 +133,7 @@ public class PlaceRequest {
   public boolean equals( Object obj ) {
     if ( obj instanceof PlaceRequest ) {
       PlaceRequest req = (PlaceRequest) obj;
-      if ( !historyToken.equals( req.historyToken ) )
+      if ( !nameToken.equals( req.nameToken ) )
         return false;
 
       if ( params == null )
@@ -119,13 +146,13 @@ public class PlaceRequest {
 
   @Override
   public int hashCode() {
-    return 11 * ( historyToken.hashCode() + ( params == null ? 0 : params.hashCode() ) );
+    return 11 * ( nameToken.hashCode() + ( params == null ? 0 : params.hashCode() ) );
   }
 
   @Override
   public String toString() {
     StringBuilder out = new StringBuilder();
-    out.append( "{" ).append( historyToken );
+    out.append( "{" ).append( nameToken );
     if ( params != null && params.size() > 0 ) {
       out.append( ": " );
       for ( Map.Entry<String, String> entry : params.entrySet() ) {

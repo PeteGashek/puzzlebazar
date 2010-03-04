@@ -9,6 +9,7 @@ import com.philbeaudoin.gwt.presenter.client.EventBus;
  * history navigation or directly 
  * 
  * @author David Peterson
+ * @author Philippe Beaudoin
  *
  */
 public class PlaceRequestEvent extends GwtEvent<PlaceRequestHandler> {
@@ -22,6 +23,14 @@ public class PlaceRequestEvent extends GwtEvent<PlaceRequestHandler> {
   }
 
   private final PlaceRequest request;
+  
+  /**
+   * The handled flag can let others know when the event has been handled.
+   * Handlers should call {@link setHandled()} as soon as they figure they
+   * are be responsible for this event. Handlers should not process
+   * this event if {@link isHandled()} return <code>true</code>. 
+   */
+  private boolean handled = false;
 
   public PlaceRequestEvent( PlaceRequest request ) {
     this.request = request;
@@ -41,7 +50,24 @@ public class PlaceRequestEvent extends GwtEvent<PlaceRequestHandler> {
     return request;
   }
 
+  /**
+   * Indicates that the event was handled and that other handlers
+   * should not process it.
+   */
+  public void setHandled() {
+    handled = true;
+  }
 
+  /**
+   * Checks if the event was handled. If it was, then it should not
+   * be processed further.
+   * 
+   * @return <code>true</code> if the event was handled. <code>false</code> otherwise.
+   */
+  public boolean isHandled() {
+    return handled;
+  }
+  
   /**
    * Fires a {@link PlaceRequestEvent} into the {@link EventBus}, specifying that it
    * does not come from a modification in the History.

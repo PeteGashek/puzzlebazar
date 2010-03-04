@@ -25,10 +25,8 @@ public class PuzzlebazarPlaceManager extends PlaceManagerImpl {
   }
   
   @Override
-  public boolean revealCurrentPlace() {
-    if( !super.revealCurrentPlace() )
-      defaultProxy.get().reveal();
-    return true;
+  public void revealDefaultPlace() {
+    defaultProxy.get().reveal();
   }
 
 }

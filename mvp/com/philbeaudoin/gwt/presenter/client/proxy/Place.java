@@ -9,13 +9,14 @@ public interface Place {
   public String toString();
   
   /**
-   * Returns the unique name for this place. Uniqueness is not enforced -
-   * creators must ensure that the name is unique or there will be potential
-   * issues with multiple places responding to the same History token.
+   * The name token is the first part of the history token, before the 
+   * parameters. It is meant to be a unique identifier of a place.
+   * An exception will be thrown if two places are registered with the
+   * same name token.
    *
-   * @return The place ID.
+   * @return The name token for this place.
    */
-  public String getHistoryToken();
+  public String getNameToken();
 
   /**
    * This method is checked before calling

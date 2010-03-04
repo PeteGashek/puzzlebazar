@@ -26,7 +26,7 @@ extends PresenterImpl<D, P> implements TabContainerPresenter  {
 
   @Override
   public Tab addTab( final TabContentProxy tabProxy ) {
-    return getDisplay().addTab( tabProxy.getText(), tabProxy.getHistoryToken(), tabProxy.getPriority() );
+    return getDisplay().addTab( tabProxy.getText(), tabProxy.getNameToken(), tabProxy.getPriority() );
   }
 
   @Override

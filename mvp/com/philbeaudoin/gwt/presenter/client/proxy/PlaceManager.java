@@ -11,13 +11,26 @@ public interface PlaceManager {
   /**
    * Reveals the place corresponding to the current value of the history token
    * in the URL bar. This will result in a {@link PlaceRequestEvent} being fired.
-   * No check is made to see if the history token is valid. 
-   * Your application should override this so that a default place is revealed
-   * when no history token is set.
-   *
-   * @return <code>true</code> if he history token is set, <code>false</code> otherwise.
    */
-  public boolean revealCurrentPlace();
+  public void revealCurrentPlace();
+
+  /**
+   * Reveals the default place. This is invoked when the history token is empty
+   * and no places handled it. Application-specific place managers should fire the 
+   * {@link PlaceRequestEvent} corresponding to their default place.
+   */
+  public void revealDefaultPlace();
+  
+  /**
+   * Reveals an error place. This is invoked when the history token was not
+   * handled by any place within the application. Application-specific place
+   * managers should fire the {@link PlaceRequestEvent} corresponding to a 
+   * place that displays an error. The default implementation is simply to
+   * call {@link revealDefaultPlace()}.
+   * 
+   * @param invalidHistoryToken The history token that was not recognised.
+   */
+  public void revealErrorPlace( String invalidHistoryToken );
 
   /**
    * Sets the question that will be displayed whenever the user tries to
@@ -58,9 +71,5 @@ public interface PlaceManager {
    * @param placeRequest The {@link PlaceRequest} for the place that has just been revealed.
    */
   public void onPlaceRevealed( PlaceRequest placeRequest );
-
-  
-  
-  
   
 }

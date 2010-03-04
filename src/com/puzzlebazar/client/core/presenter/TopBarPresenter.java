@@ -43,8 +43,8 @@ implements CurrentUserInfoAvailableHandler {
     super(eventBus, display, proxy, null);
 
     this.dispatcher = dispatcher;
-    getDisplay().setUserSettingsHistoryToken( UserSettingsGeneralProxy.getProxyHistoryToken() );
-    getDisplay().setAdministrationHistoryToken( AdminGeneralProxy.getProxyHistoryToken() );
+    getDisplay().setUserSettingsHistoryToken( UserSettingsGeneralProxy.getProxyNameToken() );
+    getDisplay().setAdministrationHistoryToken( AdminGeneralProxy.getProxyNameToken() );
   }
 
   @Override

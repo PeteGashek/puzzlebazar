@@ -50,19 +50,19 @@ public abstract class PlaceManagerImpl implements PlaceManager, ValueChangeHandl
   }
 
   @Override
-  public boolean revealCurrentPlace() {
-    String current = History.getToken();
-    if ( current != null && current.trim().length() > 0 ) {
-      History.fireCurrentHistoryState();
-      return true;
-    }
-    return false;
+  public void revealCurrentPlace() {
+    History.fireCurrentHistoryState();
   }
 
   @Override
+  public void revealErrorPlace(String invalidHistoryToken) {
+    revealDefaultPlace();
+  }
+  
+  @Override
   public final void onPlaceChanged( PlaceRequest placeRequest ) {
     try {
-      if ( placeRequest.isPlace( tokenFormatter.toPlaceRequest( History.getToken() ) ) ) {
+      if ( placeRequest.hasSameNameToken( tokenFormatter.toPlaceRequest( History.getToken() ) ) ) {
         // Only update if the change comes from a place that matches
         // the current location.
         updateHistory( placeRequest );
@@ -83,7 +83,18 @@ public abstract class PlaceManagerImpl implements PlaceManager, ValueChangeHandl
   @Override
   public final void onValueChange( ValueChangeEvent<String> event ) {
     try {
-      PlaceRequestEvent.fire( eventBus, tokenFormatter.toPlaceRequest( event.getValue() ) );
+      String historyToken = event.getValue();
+      PlaceRequestEvent requestEvent = 
+        new PlaceRequestEvent( tokenFormatter.toPlaceRequest( historyToken ) );
+      eventBus.fireEvent(requestEvent);
+      if( !requestEvent.isHandled() ) {
+        
+        if ( historyToken.trim() == "" )
+          revealDefaultPlace();
+        else
+          revealErrorPlace( historyToken );
+      }
+      
     } catch ( TokenFormatException e ) {
       e.printStackTrace();
     }
@@ -122,4 +133,5 @@ public abstract class PlaceManagerImpl implements PlaceManager, ValueChangeHandl
     }
     return confirmed;
   }
+
 }

@@ -26,7 +26,7 @@ public class ParameterTokenFormatter implements TokenFormatter {
 
   public String toHistoryToken( PlaceRequest placeRequest ) {
     StringBuilder out = new StringBuilder();
-    out.append( placeRequest.getHistoryToken() );
+    out.append( placeRequest.getNameToken() );
 
     Set<String> params = placeRequest.getParameterNames();
     if ( params != null && params.size() > 0 ) {
