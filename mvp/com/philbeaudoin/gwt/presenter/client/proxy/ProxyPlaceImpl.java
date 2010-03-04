@@ -60,16 +60,21 @@ implements ProxyPlace {
   }
 
   /**
-   * Prepares the presenter with the information contained in the current request, then reveals the display.
+   * Prepares the presenter with the information contained in the current 
+   * request, then reveals it. Will refuse to reveal the display and do 
+   * nothing if {@link canReveal()} returns <code>false</code>. 
    *
-   * @param request The request to handle.
+   * @param request The request to handle. Can pass <code>null</code> if
+   *                no request is used, in which case the presenter will
+   *                be directly revealed. 
    */
   private final void handleRequest( final PlaceRequest request ) {
-    if( !placeManager.confirmLeaveState() )
+    if( !canReveal() || !placeManager.confirmLeaveState() )
       return;
     presenter.get( new Callback<P>() {
       @Override public void execute(P presenter) {
-        presenter.prepareFromRequest( request );
+        if( request != null )
+          presenter.prepareFromRequest( request );
         presenter.reveal();
       }
     } );
@@ -90,7 +95,7 @@ implements ProxyPlace {
         if( event.isHandled() )
           return;
         PlaceRequest request = event.getRequest();
-        if ( matchesRequest( request ) ) {
+        if ( matchesRequest( request ) && canReveal() ) {
           event.setHandled();
           handleRequest( request );
         }
@@ -113,14 +118,12 @@ implements ProxyPlace {
 
   @Override
   public final void reveal() {
-    if( !placeManager.confirmLeaveState() )
-      return;    
-    presenter.get( new Callback<P>() {
-      @Override public void execute(P presenter) {
-        presenter.reveal();
-      }
-    } );
-    
-  }  
+    handleRequest(null);
+  }
+  
+  @Override
+  public boolean canReveal() {
+    return true;
+  }
 }
 
