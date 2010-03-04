@@ -9,7 +9,7 @@ import com.google.inject.Inject;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContainerProxyImpl;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentHandler;
-import com.puzzlebazar.client.Bundle;
+import com.puzzlebazar.client.ProviderBundle;
 import com.puzzlebazar.client.core.presenter.TabbedPresenterBundle;
 import com.puzzlebazar.client.core.presenter.UserSettingsPresenter;
 import com.puzzlebazar.client.resources.Translations;
@@ -25,7 +25,7 @@ public class UserSettingsProxy extends TabContainerProxyImpl<UserSettingsPresent
       final Translations translations) {
     super(
         eventBus,  
-        new Bundle.CodeSplitProvider<UserSettingsPresenter>(
+        new ProviderBundle.CodeSplit<UserSettingsPresenter,TabbedPresenterBundle>(
             presenterBundle,
             TabbedPresenterBundle.ID_UserSettingsPresenter,
             translations), 

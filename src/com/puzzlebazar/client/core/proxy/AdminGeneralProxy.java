@@ -35,7 +35,10 @@ implements AdminGeneralPresenter.Proxy {
       final PlaceManager placeManager,
       final AsyncProvider<AdminGeneralPresenter> presenter, 
       final Translations translations) {
-    super(eventBus, placeManager, new CodeSplitProvider<AdminGeneralPresenter>(presenter, translations),
+    super(
+        eventBus, 
+        placeManager, 
+        new CodeSplitProvider<AdminGeneralPresenter>(presenter, translations),
         AdminPresenter.TYPE_RequestTabs);
     
     this.translations = translations;

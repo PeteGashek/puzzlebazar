@@ -9,7 +9,7 @@ import com.google.inject.Inject;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContainerProxyImpl;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentHandler;
-import com.puzzlebazar.client.Bundle;
+import com.puzzlebazar.client.ProviderBundle;
 import com.puzzlebazar.client.core.presenter.AdminPresenter;
 import com.puzzlebazar.client.core.presenter.TabbedPresenterBundle;
 import com.puzzlebazar.client.resources.Translations;
@@ -24,7 +24,7 @@ public class AdminProxy extends TabContainerProxyImpl<AdminPresenter> implements
       final AsyncProvider<TabbedPresenterBundle> presenterBundle,
       final Translations translations) {
     super(eventBus,  
-        new Bundle.CodeSplitProvider<AdminPresenter>(
+        new ProviderBundle.CodeSplit<AdminPresenter,TabbedPresenterBundle>(
             presenterBundle,
             TabbedPresenterBundle.ID_AdminPresenter,
             translations), 

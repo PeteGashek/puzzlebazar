@@ -2,9 +2,9 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.puzzlebazar.client.Bundle;
+import com.puzzlebazar.client.ProviderBundle;
 
-public class TabbedPresenterBundle extends Bundle {
+public class TabbedPresenterBundle extends ProviderBundle {
 
   public final static int ID_AdminPresenter = 0;
   public final static int ID_UserSettingsPresenter = 1;
