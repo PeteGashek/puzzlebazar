@@ -3,7 +3,7 @@ package com.philbeaudoin.gwt.presenter.client;
 import com.google.gwt.user.client.ui.Widget;
 import com.philbeaudoin.gwt.presenter.client.proxy.PlaceManager;
 import com.philbeaudoin.gwt.presenter.client.proxy.PlaceRequest;
-import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxy;
+import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
 import com.philbeaudoin.gwt.presenter.client.proxy.ProxyPlace;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 
@@ -34,18 +34,18 @@ public interface Presenter {
   public void prepareFromRequest( PlaceRequest request );
   
   /**
-   * Returns the {@link PresenterDisplay} for the current presenter.
+   * Returns the {@link Display} for the current presenter.
    *
    * @return The display.
    */
-  PresenterDisplay getDisplay();
+  Display getDisplay();
 
   /**
-   * Returns the {@link PresenterProxy} for the current presenter.
+   * Returns the {@link Proxy} for the current presenter.
    *
    * @return The proxy.
    */
-  PresenterProxy getProxy();
+  Proxy getProxy();
 
   /**
    * Notify others that this presenter has been changed. This is especially

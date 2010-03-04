@@ -10,8 +10,6 @@ import com.google.inject.Provider;
 import com.philbeaudoin.gwt.dispatch.client.DispatchAsync;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
-import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxy;
 import com.puzzlebazar.client.core.proxy.AdminGeneralProxy;
 import com.puzzlebazar.client.core.proxy.UserSettingsGeneralProxy;
 import com.puzzlebazar.shared.action.DoLogin;
@@ -21,7 +19,7 @@ import com.puzzlebazar.shared.action.StringResult;
 public class TopBarPresenter extends PresenterImpl<TopBarPresenter.Display,TopBarPresenter.Proxy> 
 implements CurrentUserInfoAvailableHandler {
 
-  public interface Display extends PresenterDisplay {
+  public interface Display extends com.philbeaudoin.gwt.presenter.client.Display {
     public void setLoggedIn( String username );
     public void setLoggedOut();
     public HasClickHandlers getSignIn();
@@ -30,7 +28,7 @@ implements CurrentUserInfoAvailableHandler {
     public void setAdministrationHistoryToken(String proxyHistoryToken);
   }
 
-  public interface Proxy extends PresenterProxy {}
+  public interface Proxy extends com.philbeaudoin.gwt.presenter.client.proxy.Proxy {}
 
   private final DispatchAsync dispatcher;
 

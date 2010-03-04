@@ -1,6 +1,6 @@
 package com.philbeaudoin.gwt.presenter.client.proxy;
 
-public interface ProxyPlace extends PresenterProxy, Place {
+public interface ProxyPlace extends Proxy, Place {
 
   /**
    * Requests the presenter to reveal itself on screen.

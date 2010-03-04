@@ -7,18 +7,16 @@ import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.Presenter;
-import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
-import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxy;
 
 
 public class AppPresenter extends PresenterImpl<AppPresenter.Display, AppPresenter.Proxy> {
 
-  public interface Display extends PresenterDisplay {
+  public interface Display extends com.philbeaudoin.gwt.presenter.client.Display {
     void setTopBar( Widget topBar );
     void setMainContent( Widget mainContent );
   }
   
-  public interface Proxy extends PresenterProxy {}  
+  public interface Proxy extends com.philbeaudoin.gwt.presenter.client.proxy.Proxy {}  
 
   private final TopBarPresenter topBarPresenter;
 

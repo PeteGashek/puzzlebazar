@@ -5,7 +5,7 @@ import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.HandlerContainer;
 import com.philbeaudoin.gwt.presenter.client.Presenter;
 
-public class PresenterProxyImpl<P extends Presenter> extends HandlerContainer implements PresenterProxy {
+public class PresenterProxyImpl<P extends Presenter> extends HandlerContainer implements Proxy {
 
   protected final EventBus eventBus;
   protected final CallbackProvider<P> presenter;

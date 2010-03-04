@@ -19,7 +19,7 @@ import com.philbeaudoin.gwt.presenter.client.Presenter;
  * 
  * @author beaudoin
  */
-public interface PresenterProxy {
+public interface Proxy {
   
   /**
    * Called by this proxy's presenter whenever it has changed in a way that would require 

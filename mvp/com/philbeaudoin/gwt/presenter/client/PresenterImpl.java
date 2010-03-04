@@ -4,11 +4,11 @@ import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.proxy.PlaceRequest;
-import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxy;
+import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentHandler;
 
-public abstract class PresenterImpl<D extends PresenterDisplay, P extends PresenterProxy> 
+public abstract class PresenterImpl<D extends Display, P extends Proxy> 
 extends HandlerContainer implements Presenter {
 
   /**

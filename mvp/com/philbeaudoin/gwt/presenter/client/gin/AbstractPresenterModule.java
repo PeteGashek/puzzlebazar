@@ -3,8 +3,8 @@ package com.philbeaudoin.gwt.presenter.client.gin;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Singleton;
 import com.philbeaudoin.gwt.presenter.client.Presenter;
-import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
-import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxy;
+import com.philbeaudoin.gwt.presenter.client.Display;
+import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
 
 public abstract class AbstractPresenterModule extends AbstractGinModule {
 
@@ -20,7 +20,7 @@ public abstract class AbstractPresenterModule extends AbstractGinModule {
    * @param display     The display type.
    * @param displayImpl The display implementation.
    */
-  protected <P extends Presenter, D extends PresenterDisplay, W extends PresenterProxy> void bindPresenter( 
+  protected <P extends Presenter, D extends Display, W extends Proxy> void bindPresenter( 
       Class<P> presenter, 
       Class<D> display,
       Class<? extends D> displayImpl,

@@ -6,7 +6,6 @@ import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.RequestTabsHandler;
 import com.philbeaudoin.gwt.presenter.client.TabPanel;
-import com.philbeaudoin.gwt.presenter.client.PresenterDisplay;
 import com.philbeaudoin.gwt.presenter.client.TabContainerPresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContainerProxy;
 import com.puzzlebazar.client.core.proxy.SplitMainProxy;
@@ -21,7 +20,7 @@ public class AdminPresenter extends TabContainerPresenterImpl<AdminPresenter.Dis
 
   public static Type<RequestTabsHandler> TYPE_RequestTabs = new Type<RequestTabsHandler>();
   
-  public interface Display extends PresenterDisplay, TabPanel {
+  public interface Display extends TabPanel, com.philbeaudoin.gwt.presenter.client.Display {
   }
 
   public interface Proxy extends TabContainerProxy {}

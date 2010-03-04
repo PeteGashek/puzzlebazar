@@ -16,7 +16,7 @@ extends ProxyPlaceImpl<P> implements TabContentProxy {
   private Tab tab = null;
 
   /**
-   * Creates a {@link PresenterProxy} for a {@link Presenter} that 
+   * Creates a {@link Proxy} for a {@link Presenter} that 
    * is meant to be contained within at {@link TabContainerPresenter}.
    * As such, these proxy hold a string that can be displayed on the 
    * tab. 

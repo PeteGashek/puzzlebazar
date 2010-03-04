@@ -7,7 +7,7 @@ import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxyImpl;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentHandler;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContainerProxy;
 
-public abstract class TabContainerPresenterImpl<D extends PresenterDisplay & TabPanel, P extends TabContainerProxy> 
+public abstract class TabContainerPresenterImpl<D extends Display & TabPanel, P extends TabContainerProxy> 
 extends PresenterImpl<D, P> implements TabContainerPresenter  {
 
   private final Type<RequestTabsHandler> requestTabsEventType;
