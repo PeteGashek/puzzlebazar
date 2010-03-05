@@ -69,7 +69,7 @@ extends HandlerContainer implements Presenter {
 
   @Override
   public final void reveal() {
-    onRevealed();
+    onReveal();
     if( setContentInParentEventType != null ) {
       eventBus.fireEvent( new SetContentEvent( setContentInParentEventType, this) );
     }
@@ -77,7 +77,11 @@ extends HandlerContainer implements Presenter {
   }
 
   @Override
-  public void onRevealed() {    
+  public void onReveal() {    
+  }
+
+  @Override
+  public void onHide() {    
   }
   
   @Override

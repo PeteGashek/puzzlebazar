@@ -38,14 +38,14 @@ public interface Presenter {
    *
    * @return The display.
    */
-  Display getDisplay();
+  public Display getDisplay();
 
   /**
    * Returns the {@link Proxy} for the current presenter.
    *
    * @return The proxy.
    */
-  Proxy getProxy();
+  public Proxy getProxy();
 
   /**
    * Notify others that this presenter has been changed. This is especially
@@ -53,18 +53,33 @@ public interface Presenter {
    * history token. Calling this will make sure the history token is
    * updated with the right parameters.
    */
-  void notifyChange();
+  public void notifyChange();
 
   /**
-   * <b>Important:</b> Make sure you call your parent class onReveal().
+   * <b>Important:</b> Make sure you call your superclass {@link #onReveal()}.
    * <p />
    * This method will be called whenever the presenter is revealed. Override
    * it to perform any action (such as refreshing content) that needs
    * to be done when the presenter is revealed.
    * <p />
-   * This should never be called directly. Call {@link #reveal()} instead.
+   * This should never be called directly. Call 
+   * {@link ProxyPlace#reveal()} instead.
    */
-  void onRevealed();
+  public void onReveal();
+  
+  /**
+   * <b>Important:</b> Make sure you call your superclass {@link #onHide()}.
+   * <p />
+   * You should call this method on your child presenters:
+   * <ul>
+   * <li>Right before you remove it from the DOM; and</li>
+   * <li>Whenever you receive a call to {@link #onHide()}.</li>
+   * </ul>
+   * Override this method to perform any clean-up operation. For example,
+   * objects created directly or indirectly during the call to
+   * {@link #onReveal()} should be disposed of in this methods.
+   */
+  public void onHide();
   
   /**
    * This method is called when creating a {@link PlaceRequest} for this

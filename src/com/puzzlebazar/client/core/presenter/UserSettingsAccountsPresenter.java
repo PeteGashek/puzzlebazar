@@ -30,6 +30,5 @@ public class UserSettingsAccountsPresenter extends PresenterImpl<UserSettingsAcc
         proxy, 
         UserSettingsProxy.TYPE_SetTabContent );
   }
-
   
 }

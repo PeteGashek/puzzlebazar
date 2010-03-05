@@ -24,6 +24,12 @@ extends PresenterImpl<D, P> implements TabContainerPresenter  {
     this.requestTabsEventType = requestTabsEventType;
   }
 
+  @Override 
+  public void onHide() {
+    super.onHide();
+    hideTabContent();
+  }
+ 
   @Override
   public Tab addTab( final TabContentProxy tabProxy ) {
     return getDisplay().addTab( tabProxy.getText(), tabProxy.getNameToken(), tabProxy.getPriority() );
@@ -32,6 +38,7 @@ extends PresenterImpl<D, P> implements TabContainerPresenter  {
   @Override
   public void setTabContent(Presenter content) {
     if( tabContent != content ) {
+      hideTabContent();
       tabContent = content;
       getDisplay().setTabContent( content.getWidget() );
       if( content.getProxy() instanceof TabContentProxyImpl<?> ) {
@@ -58,4 +65,12 @@ extends PresenterImpl<D, P> implements TabContainerPresenter  {
     getDisplay().removeTabs();
   }
   
+  
+  /**
+   * Let child presenter know that it's about to be hidden.
+   */
+  private void hideTabContent() {
+    if( tabContent != null )
+      tabContent.onHide();    
+  }
 }

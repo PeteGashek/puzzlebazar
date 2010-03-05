@@ -37,24 +37,42 @@ public class SplitMainPresenter extends PresenterImpl<SplitMainPresenter.Display
 
   @Override
   public void onBind() {
+    super.onBind();
     setSideBarContent( linkColumnPresenter );
   }
 
   @Override
-  public void onUnbind() {
+  public void onHide() {
+    super.onHide();
+    hideSideBarContent();    
+    hideCenterContent();    
   }
+
 
   public void setSideBarContent(Presenter content) {
     if( sideBarContent != content ) {
+      hideSideBarContent();
       sideBarContent = content;
-      getDisplay().setSideBarContent( content.getWidget() );      
+      getDisplay().setSideBarContent( content.getWidget() );
     }
   }
   
   public void setCenterContent(Presenter content) {
     if( centerContent  != content ) {
+      hideCenterContent();
       centerContent = content;
-      getDisplay().setCenterContent( content.getWidget() );      
+      getDisplay().setCenterContent( content.getWidget() );
     }
+  } 
+
+  private void hideSideBarContent() {
+    if( sideBarContent != null )
+      sideBarContent.onHide();
   }  
+
+
+  private void hideCenterContent() {
+    if( centerContent != null )
+      centerContent.onHide();
+  }
 }

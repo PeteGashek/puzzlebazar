@@ -42,12 +42,22 @@ public class AppPresenter extends PresenterImpl<AppPresenter.Display, AppPresent
     getDisplay().setTopBar( this.topBarPresenter.getWidget() );
   }
 
+  @Override
+  public void onHide() {
+    super.onHide();
+    hideMainContent();    
+  }
+  
   public void setMainContent(Presenter content) {
     if( mainContent != content ) {
+      hideMainContent();
       mainContent = content;
-      getDisplay().setMainContent( content.getWidget() );      
+      getDisplay().setMainContent( content.getWidget() );
     }
   }
   
-  
+  private void hideMainContent() {
+    if( mainContent != null )
+      mainContent.onHide();
+  }
 }

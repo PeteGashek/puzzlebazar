@@ -31,7 +31,6 @@ public class UserSettingsPresenter extends TabContainerPresenterImpl<UserSetting
       final Provider<Display> display, 
       final Proxy proxy ) {
     super(eventBus, display, proxy, SplitMainProxy.TYPE_SetCenterContent, TYPE_RequestTabs );   
-  }  
-  
+  }
 
 }
