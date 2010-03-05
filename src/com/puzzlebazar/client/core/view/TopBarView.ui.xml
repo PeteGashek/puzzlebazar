@@ -25,6 +25,7 @@
 	</ui:style>
 
 	<ui:with field='resources' type='com.puzzlebazar.client.resources.Resources' />
+  <ui:with field='nameTokens' type='com.puzzlebazar.client.NameTokens' />
 
 	<g:HTMLPanel>
 		<m:TokenSeparatedList addStyleNames='{style.topBar}'
@@ -36,10 +37,10 @@
         <ui:msg description='Top bar, sign in link'>Sign in</ui:msg>
       </g:Anchor>
       <g:InlineLabel addStyleNames='{resources.style.username}' ui:field='username' />
-			<g:InlineHyperlink ui:field='settings'>
+			<g:InlineHyperlink ui:field='settings' targetHistoryToken='{nameTokens.getUserSettingsGeneral}' >
 				<ui:msg description='Top bar, access settings page'>Settings</ui:msg>
       </g:InlineHyperlink>
-      <g:InlineHyperlink ui:field='administration'>
+      <g:InlineHyperlink ui:field='administration' targetHistoryToken='{nameTokens.getAdminGeneral}' >
         <ui:msg description='Top bar, access administration page'>Administration</ui:msg>
       </g:InlineHyperlink>
       <g:Anchor ui:field='signOut'>

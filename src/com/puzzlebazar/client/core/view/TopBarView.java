@@ -75,16 +75,6 @@ public class TopBarView implements TopBarPresenter.Display {
   }
 
   @Override
-  public void setUserSettingsHistoryToken(String historyToken) {
-    settings.setTargetHistoryToken( historyToken );
-  }
-
-  @Override
-  public void setAdministrationHistoryToken(String historyToken) {
-    administration.setTargetHistoryToken( historyToken );
-  }
-
-  @Override
   public HasClickHandlers getSignIn() {
     return signIn;
   }
@@ -93,5 +83,5 @@ public class TopBarView implements TopBarPresenter.Display {
   public HasClickHandlers getSignOut() {
     return signOut;
   }
-
+  
 }

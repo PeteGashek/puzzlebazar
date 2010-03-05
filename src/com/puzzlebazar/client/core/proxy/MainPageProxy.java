@@ -9,22 +9,12 @@ import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.proxy.ProxyPlaceImpl;
 import com.philbeaudoin.gwt.presenter.client.proxy.PlaceManager;
 import com.puzzlebazar.client.CodeSplitProvider;
+import com.puzzlebazar.client.NameTokens;
 import com.puzzlebazar.client.core.presenter.MainPagePresenter;
 import com.puzzlebazar.client.resources.Translations;
 
 public class MainPageProxy extends ProxyPlaceImpl<MainPagePresenter> 
 implements MainPagePresenter.Proxy {
-
-  private static final String nameToken = "main";
-
-  /**
-   * A static method to access the name token of this proxy.
-   * 
-   * @return The name token.
-   */
-  public static final String getProxyNameToken() {
-    return nameToken;
-  }
   
   @Inject
   public MainPageProxy(
@@ -40,7 +30,7 @@ implements MainPagePresenter.Proxy {
   
   @Override
   public String getNameToken() {
-    return nameToken;
+    return NameTokens.getMainPage();
   }
 
 }

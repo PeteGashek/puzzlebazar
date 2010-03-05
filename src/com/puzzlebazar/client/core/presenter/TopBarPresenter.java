@@ -10,8 +10,6 @@ import com.google.inject.Provider;
 import com.philbeaudoin.gwt.dispatch.client.DispatchAsync;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.puzzlebazar.client.core.proxy.AdminGeneralProxy;
-import com.puzzlebazar.client.core.proxy.UserSettingsGeneralProxy;
 import com.puzzlebazar.shared.action.DoLogin;
 import com.puzzlebazar.shared.action.DoLogout;
 import com.puzzlebazar.shared.action.StringResult;
@@ -25,8 +23,6 @@ implements CurrentUserInfoAvailableHandler {
     public void setLoggedOut();
     public HasClickHandlers getSignIn();
     public HasClickHandlers getSignOut();
-    public void setUserSettingsHistoryToken(String historyToken);
-    public void setAdministrationHistoryToken(String proxyHistoryToken);
   }
 
   public interface Proxy extends com.philbeaudoin.gwt.presenter.client.proxy.Proxy {}
@@ -42,8 +38,6 @@ implements CurrentUserInfoAvailableHandler {
     super(eventBus, display, proxy, null);
 
     this.dispatcher = dispatcher;
-    getDisplay().setUserSettingsHistoryToken( UserSettingsGeneralProxy.getProxyNameToken() );
-    getDisplay().setAdministrationHistoryToken( AdminGeneralProxy.getProxyNameToken() );
   }
 
   @Override

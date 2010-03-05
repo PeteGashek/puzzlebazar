@@ -9,23 +9,13 @@ import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.proxy.PlaceManager;
 import com.puzzlebazar.client.CodeSplitProvider;
 import com.puzzlebazar.client.CurrentUser;
+import com.puzzlebazar.client.NameTokens;
 import com.puzzlebazar.client.core.presenter.AdminGeneralPresenter;
 import com.puzzlebazar.client.core.presenter.AdminPresenter;
 import com.puzzlebazar.client.resources.Translations;
 
 public class AdminGeneralProxy extends AdminTabContentProxy<AdminGeneralPresenter>
 implements AdminGeneralPresenter.Proxy {
-  
-  private static final String nameToken = "admin";
-
-  /**
-   * A static method to access the name token of this proxy.
-   * 
-   * @return The name token.
-   */
-  public static final String getProxyNameToken() {
-    return nameToken;
-  }
   
   @Inject
   public AdminGeneralProxy(
@@ -50,7 +40,7 @@ implements AdminGeneralPresenter.Proxy {
   
   @Override
   public String getNameToken() {
-    return nameToken;
+    return NameTokens.getAdminGeneral();
   }
   
   @Override

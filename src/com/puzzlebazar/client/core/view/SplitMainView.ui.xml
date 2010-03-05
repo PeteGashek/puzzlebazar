@@ -6,11 +6,13 @@
 
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 	xmlns:g='urn:import:com.google.gwt.user.client.ui' 
+  xmlns:m='urn:import:com.puzzlebazar.client.ui' 
 	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
 	ui:generateKeys="com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator"
 	ui:generateLocales="en">
 
 	<ui:with field='resources' type='com.puzzlebazar.client.resources.Resources' />
+  <ui:with field='nameTokens' type='com.puzzlebazar.client.NameTokens' />
 
 	<ui:style src='../../resources/defines.css'>
 		.mainContainer {
@@ -39,7 +41,7 @@
 
 		<g:north size='75'>
 			<g:HTMLPanel>
-				<g:Image resource='{resources.logo}' addStyleNames="{style.logo}" />
+				<m:ImageHyperlink resource='{resources.logo}' addStyleNames="{style.logo}" targetHistoryToken='{nameTokens.getMainPage}' />
 				<g:TextBox addStyleNames="{style.searchBox}" />
 				<g:Button addStyleNames="{style.searchButton}">
 					<ui:msg description='Search button on main page'>Search</ui:msg>

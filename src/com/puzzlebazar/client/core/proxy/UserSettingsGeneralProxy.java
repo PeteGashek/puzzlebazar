@@ -9,6 +9,7 @@ import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.proxy.PlaceManager;
 import com.puzzlebazar.client.CodeSplitProvider;
 import com.puzzlebazar.client.CurrentUser;
+import com.puzzlebazar.client.NameTokens;
 import com.puzzlebazar.client.core.presenter.UserSettingsGeneralPresenter;
 import com.puzzlebazar.client.core.presenter.UserSettingsPresenter;
 import com.puzzlebazar.client.resources.Translations;
@@ -16,17 +17,6 @@ import com.puzzlebazar.client.resources.Translations;
 public class UserSettingsGeneralProxy 
 extends UserSettingsTabContentProxy<UserSettingsGeneralPresenter> 
 implements UserSettingsGeneralPresenter.Proxy {
-  
-  private static final String nameToken = "settings";
-
-  /**
-   * A static method to access the name token of this proxy.
-   * 
-   * @return The name token.
-   */
-  public static final String getProxyNameToken() {
-    return nameToken;
-  }
   
   @Inject
   public UserSettingsGeneralProxy(
@@ -51,7 +41,7 @@ implements UserSettingsGeneralPresenter.Proxy {
   
   @Override
   public String getNameToken() {
-    return nameToken;
+    return NameTokens.getUserSettingsGeneral();
   }
   
   @Override
