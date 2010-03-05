@@ -2,10 +2,13 @@ package com.philbeaudoin.gwt.presenter.client.proxy;
 
 public interface Place {
 
+  @Override
   public boolean equals(Object o);
 
+  @Override
   public int hashCode();
 
+  @Override
   public String toString();
   
   /**
@@ -19,8 +22,7 @@ public interface Place {
   public String getNameToken();
 
   /**
-   * This method is checked before calling
-   * {@link #handleRequest(PlaceRequest)}.
+   * Makes sure the method matches the passed request.
    *
    * @param request The request to check.
    * @return <code>true</code> if the ID matches this place's name.

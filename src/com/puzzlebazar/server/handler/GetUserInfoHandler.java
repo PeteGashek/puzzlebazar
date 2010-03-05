@@ -53,6 +53,7 @@ public class GetUserInfoHandler implements ActionHandler<GetUserInfo, GetUserInf
         // copy known information.
         userInfo.setEmail( user.getEmail() );
         userInfo.setNickname( user.getNickname() );
+        userInfo.setAdministrator( userService.isUserAdmin() );
       }
       finally {
         persistenceManager.get().close();

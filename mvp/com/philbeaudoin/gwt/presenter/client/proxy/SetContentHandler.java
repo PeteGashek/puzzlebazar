@@ -12,7 +12,7 @@ public abstract class SetContentHandler<P extends Presenter> implements EventHan
   }
   
   /**
-   * This is the dispatched method. Override {@link onSetContent} instead.
+   * This is the dispatched method. Override {@link #onSetContent(P, SetContentEvent)} instead.
    * 
    * @param setContentEvent The event containing the presenter that wants to bet set as content.
    */

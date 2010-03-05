@@ -69,7 +69,7 @@ public class Validation {
 	 * @param string String string to validate
 	 * @param minLength Minimum string length (inclusive)
 	 * @param maxLength Maximum string length (inclusive)
-	 * @return
+	 * @return <code>true</code> if the string is valid, <code>false</code> otherwise
 	 */
 	public static boolean validateString(String string,
 			int minLength, int maxLength) {

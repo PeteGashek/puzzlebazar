@@ -26,7 +26,7 @@ public interface PlaceManager {
    * handled by any place within the application. Application-specific place
    * managers should fire the {@link PlaceRequestEvent} corresponding to a 
    * place that displays an error. The default implementation is simply to
-   * call {@link revealDefaultPlace()}.
+   * call {@link #revealDefaultPlace()}.
    * 
    * @param invalidHistoryToken The history token that was not recognised.
    */
@@ -50,7 +50,7 @@ public interface PlaceManager {
   /**
    * <b>Important:</b> Do not call directly from outside the presenter package.
    * 
-   * If a confirmation question is set (see {@link setOnLeaveConfirmation}, this asks
+   * If a confirmation question is set (see {@link #setOnLeaveConfirmation()}), this asks
    * the user if he wants to leave the current page.
    * 
    * @return true if the user accepts to leave. false if he refuses.

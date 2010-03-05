@@ -41,6 +41,7 @@ public class TopBarView implements TopBarPresenter.Display {
   Anchor signOut;
 
   private boolean loggedIn = false;
+  private boolean isAdministrator = false;
 
   @Inject
   public TopBarView( Resources resources ) {
@@ -49,9 +50,10 @@ public class TopBarView implements TopBarPresenter.Display {
   }
 
   @Override
-  public void setLoggedIn(String username) {
+  public void setLoggedIn(String username, boolean isAdministrator ) {
     this.username.setText(username);
     loggedIn  = true;
+    this.isAdministrator = isAdministrator;
     setLoggedInVisibility();
   }
 
@@ -59,6 +61,7 @@ public class TopBarView implements TopBarPresenter.Display {
   public void setLoggedOut() {
     username.setText("");
     loggedIn = false;
+    isAdministrator = false;
     setLoggedInVisibility();
   }
 
@@ -67,7 +70,7 @@ public class TopBarView implements TopBarPresenter.Display {
     bar.setWidgetVisible( signIn, !loggedIn );
     bar.setWidgetVisible( username, loggedIn );
     bar.setWidgetVisible( settings, loggedIn );
-    bar.setWidgetVisible( administration, loggedIn );
+    bar.setWidgetVisible( administration, loggedIn && isAdministrator );
     bar.setWidgetVisible( signOut, loggedIn );
   }
 

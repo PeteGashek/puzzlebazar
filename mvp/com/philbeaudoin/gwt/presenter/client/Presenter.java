@@ -62,9 +62,9 @@ public interface Presenter {
    * it to perform any action (such as refreshing content) that needs
    * to be done when the presenter is revealed.
    * <p />
-   * This should never be called directly. Call {@link reveal()} instead.
+   * This should never be called directly. Call {@link #reveal()} instead.
    */
-  void onReveal();
+  void onRevealed();
   
   /**
    * This method is called when creating a {@link PlaceRequest} for this

@@ -76,6 +76,7 @@ public class TokenSeparatedList extends FlowPanel  {
     // Check special cases
     if( index < leftmostVisibleIndex && visible ) {
       // Making a widget visible to the left of the current leftmost visible widget.
+      // or making the leftmost visible widget visible again.
 
       // Make visible the separator of the previous leftmost visible widget, unless none were visible.
       if( leftmostVisibleIndex < getWidgetCount() )
@@ -97,10 +98,9 @@ public class TokenSeparatedList extends FlowPanel  {
       if( leftmostVisibleIndex < getWidgetCount() )
         getWidget(leftmostVisibleIndex-1).setVisible(false);
     }
-    else {
+    else if( index > leftmostVisibleIndex ) {
       // Typical case, apply the same visibility to the widget's separator.
-      if( index > 0 )
-        getWidget(index-1).setVisible(visible);
+      getWidget(index-1).setVisible(visible);
     }
   }
 

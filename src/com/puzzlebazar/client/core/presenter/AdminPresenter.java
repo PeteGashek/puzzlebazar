@@ -12,9 +12,9 @@ import com.puzzlebazar.client.core.proxy.SplitMainProxy;
 
 
 /**
- * This is a tabbed presenter that will contain the different tabs for user settings 
+ * This is a tabbed presenter that will contain the different tabs for administration page. 
  * 
- * @author beaudoin
+ * @author Philippe Beaudoin
  */
 public class AdminPresenter extends TabContainerPresenterImpl<AdminPresenter.Display,AdminPresenter.Proxy> {
 

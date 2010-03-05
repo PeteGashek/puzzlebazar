@@ -1,11 +1,12 @@
 package com.philbeaudoin.gwt.dispatch.client.gin;
 
 import com.google.gwt.inject.client.AbstractGinModule;
+import com.philbeaudoin.gwt.dispatch.client.AbstractDispatchAsync;
 import com.philbeaudoin.gwt.dispatch.client.ExceptionHandler;
 
 /**
  * Abstract base class that binds an instance of {@link ExceptionHandler} for use
- * by {@link net.com.philbeaudoin.gwt.dispatch.client.AbstractDispatchAsync} implementations.
+ * by {@link AbstractDispatchAsync} implementations.
  *
  * @author David Peterson
  */

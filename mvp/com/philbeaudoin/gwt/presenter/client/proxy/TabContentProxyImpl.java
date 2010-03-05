@@ -24,7 +24,7 @@ extends ProxyPlaceImpl<P> implements TabContentProxy {
    * @param eventBus The {@link EventBus}.
    * @param placeManager The {@link PlaceManager}.
    * @param presenter A {@link Provider} for the {@link Presenter} of which this class is a proxy. 
-   * @param requestTabsEventType The {@Type} of the {@link RequestTabsEvent} this proxy will 
+   * @param requestTabsEventType The {@link Type} of the {@link RequestTabsEvent} this proxy will 
    *        listen to. Whenever this event is received, this proxy will add itself as a tab
    *        to the {@link TabContainerPresenter} specified in the event.
    */

@@ -40,7 +40,7 @@ extends HandlerContainer implements Presenter {
    * @param eventBus The event bus.
    * @param display  The display attached to this presenter.
    * @param proxy The presenter proxy.
-   * @param setContentEventType  The {@link Type} of the event this presenter will fire when it is
+   * @param setContentInParentEventType  The {@link Type} of the event this presenter will fire when it is
    *        revealed and needs to be set as content within its parent.
    *        Can be null if the presenter is top-level or if this
    *        presenter is inserted at bind-time and never modified 
@@ -69,7 +69,7 @@ extends HandlerContainer implements Presenter {
 
   @Override
   public final void reveal() {
-    onReveal();
+    onRevealed();
     if( setContentInParentEventType != null ) {
       eventBus.fireEvent( new SetContentEvent( setContentInParentEventType, this) );
     }
@@ -77,7 +77,7 @@ extends HandlerContainer implements Presenter {
   }
 
   @Override
-  public void onReveal() {    
+  public void onRevealed() {    
   }
   
   @Override

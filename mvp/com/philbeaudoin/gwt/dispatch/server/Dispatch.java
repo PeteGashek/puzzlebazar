@@ -9,7 +9,7 @@ public interface Dispatch {
     /**
      * Executes the specified action and returns the appropriate result.
      * 
-     * @param <T>
+     * @param <R>
      *            The {@link Result} type.
      * @param action
      *            The {@link Action}.

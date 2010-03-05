@@ -12,7 +12,7 @@ import com.puzzlebazar.client.core.proxy.SplitMainProxy;
 
 
 /**
- * This is a tabbed presenter that will contain the different tabs for user settings 
+ * This is a tabbed presenter that will contain the different tabs for user settings page.
  * 
  * @author Philippe Beaudoin
  */

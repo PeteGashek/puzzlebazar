@@ -1,5 +1,6 @@
 package com.philbeaudoin.gwt.presenter.client.proxy;
 
+import com.google.inject.Provider;
 
 /**
  * Act as a {@link Provider}, but instead of returning the provided

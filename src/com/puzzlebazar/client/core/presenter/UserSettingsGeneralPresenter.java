@@ -8,9 +8,9 @@ import com.philbeaudoin.gwt.presenter.client.proxy.ProxyPlace;
 import com.puzzlebazar.client.core.proxy.UserSettingsProxy;
 
 /**
- * This is the main presenter of the user settings tab presenter
+ * This is the presenter of the general tab in the user settings page.
  * 
- * @author beaudoin
+ * @author Philippe Beaudoin
  */
 public class UserSettingsGeneralPresenter 
 extends PresenterImpl<UserSettingsGeneralPresenter.Display, UserSettingsGeneralPresenter.Proxy> {

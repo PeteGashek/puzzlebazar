@@ -15,12 +15,13 @@ import com.puzzlebazar.client.core.proxy.UserSettingsGeneralProxy;
 import com.puzzlebazar.shared.action.DoLogin;
 import com.puzzlebazar.shared.action.DoLogout;
 import com.puzzlebazar.shared.action.StringResult;
+import com.puzzlebazar.shared.model.UserInfo;
 
 public class TopBarPresenter extends PresenterImpl<TopBarPresenter.Display,TopBarPresenter.Proxy> 
 implements CurrentUserInfoAvailableHandler {
 
   public interface Display extends com.philbeaudoin.gwt.presenter.client.Display {
-    public void setLoggedIn( String username );
+    public void setLoggedIn( String username, boolean isAdministrator );
     public void setLoggedOut();
     public HasClickHandlers getSignIn();
     public HasClickHandlers getSignOut();
@@ -70,7 +71,8 @@ implements CurrentUserInfoAvailableHandler {
 
   @Override
   public void onCurrentUserInfoAvailable(CurrentUserInfoAvailableEvent event) {
-    getDisplay().setLoggedIn( event.getUserInfo().getEmail() );
+    UserInfo userInfo = event.getUserInfo();
+    getDisplay().setLoggedIn( userInfo.getEmail(), userInfo.isAdministrator() );
   }
 
   public void doSignIn() {

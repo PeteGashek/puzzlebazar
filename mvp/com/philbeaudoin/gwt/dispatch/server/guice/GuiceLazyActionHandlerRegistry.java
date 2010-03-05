@@ -6,6 +6,7 @@ import com.google.inject.Singleton;
 
 import com.philbeaudoin.gwt.dispatch.server.ActionHandler;
 import com.philbeaudoin.gwt.dispatch.server.LazyActionHandlerRegistry;
+import com.philbeaudoin.gwt.dispatch.shared.Action;
 
 /**
  * This will use Guice to create instances of registered {@link ActionHandler}s
