@@ -82,8 +82,8 @@ public abstract class PlaceManagerImpl implements PlaceManager, ValueChangeHandl
    */
   @Override
   public final void onValueChange( ValueChangeEvent<String> event ) {
+    String historyToken = event.getValue();
     try {
-      String historyToken = event.getValue();
       PlaceRequestEvent requestEvent = 
         new PlaceRequestEvent( tokenFormatter.toPlaceRequest( historyToken ) );
       eventBus.fireEvent(requestEvent);
@@ -96,7 +96,7 @@ public abstract class PlaceManagerImpl implements PlaceManager, ValueChangeHandl
       }
       
     } catch ( TokenFormatException e ) {
-      e.printStackTrace();
+      revealErrorPlace( historyToken );
     }
   }
 
