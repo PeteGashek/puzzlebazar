@@ -2,9 +2,14 @@ package com.puzzlebazar.shared.model;
 
 import java.io.Serializable;
 
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+
 import com.puzzlebazar.client.util.Validation;
 
-public class UserInfo implements Serializable {
+@PersistenceCapable
+public class User implements Serializable {
 
   /**
    * 
@@ -30,14 +35,19 @@ public class UserInfo implements Serializable {
   };
 
 
+  @PrimaryKey
+  @Persistent
   private String email;
+  @Persistent
   private String firstname;
+  @Persistent
   private String lastname;
+  @Persistent
   private String nickname;
   private boolean administrator = false;
-  private boolean authenticated = false;;
+  private boolean authenticated = false;
 
-  public UserInfo() {
+  public User() {
     email = "";
     firstname = "";
     lastname = "";
@@ -116,7 +126,7 @@ public class UserInfo implements Serializable {
   }
 
   /**
-   * @param authenticated True if the user is authenticade via Google User Service, false if not.
+   * @param authenticated True if the user is authenticated via Google User Service, false if not.
    */
   public void setAuthenticated(boolean authenticated) {
     this.authenticated = authenticated;

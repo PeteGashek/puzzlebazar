@@ -2,7 +2,7 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.puzzlebazar.shared.model.UserInfo;
+import com.puzzlebazar.shared.model.User;
 
 /**
  * This event is sent to the {@link EventBus} when the login/logout URLs for the Google User Service
@@ -18,17 +18,17 @@ public class CurrentUserInfoAvailableEvent extends GwtEvent<CurrentUserInfoAvail
         return TYPE;
     }
 
-    public static void fire( EventBus eventBus, UserInfo userInfo ) {
+    public static void fire( EventBus eventBus, User userInfo ) {
         eventBus.fireEvent( new CurrentUserInfoAvailableEvent( userInfo ) );
     }
 
-    private final UserInfo userInfo;
+    private final User userInfo;
 
-    public CurrentUserInfoAvailableEvent( UserInfo userInfo ) {
+    public CurrentUserInfoAvailableEvent( User userInfo ) {
         this.userInfo = userInfo;
     }
 
-    public UserInfo getUserInfo() {
+    public User getUserInfo() {
         return userInfo;
     }
 

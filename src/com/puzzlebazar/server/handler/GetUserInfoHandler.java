@@ -1,68 +1,75 @@
 package com.puzzlebazar.server.handler;
 
+import java.util.logging.Logger;
+
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
+import javax.jdo.PersistenceManagerFactory;
 
-import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
-
 import com.philbeaudoin.gwt.dispatch.server.ActionHandler;
 import com.philbeaudoin.gwt.dispatch.server.ExecutionContext;
+import com.philbeaudoin.gwt.dispatch.server.Util;
 import com.philbeaudoin.gwt.dispatch.shared.ActionException;
+import com.philbeaudoin.gwt.dispatch.shared.ServiceException;
 
-import com.puzzlebazar.server.datastore.UserInfoJdo;
 import com.puzzlebazar.shared.action.GetUserInfo;
 import com.puzzlebazar.shared.action.GetUserInfoResult;
-import com.puzzlebazar.shared.model.UserInfo;
+import com.puzzlebazar.shared.model.User;
 
 public class GetUserInfoHandler implements ActionHandler<GetUserInfo, GetUserInfoResult> {
 
   private final UserService userService;
-  private final Provider<PersistenceManager> persistenceManager;
+  private final PersistenceManagerFactory persistenceManagerFactory;
+  private final Logger log;
   
   @Inject
   public GetUserInfoHandler(
       final UserService userService,
-      final Provider<PersistenceManager> persistenceManager ) {
+      final PersistenceManagerFactory persistenceManagerFactory,
+      final Logger log) {
     this.userService = userService;
-    this.persistenceManager = persistenceManager;
+    this.persistenceManagerFactory = persistenceManagerFactory;    
+    this.log = log;
   }
 
   @Override
-  public GetUserInfoResult execute(final GetUserInfo action,
-      final ExecutionContext context ) throws ActionException {
+  public GetUserInfoResult execute(
+      final GetUserInfo action,
+      final ExecutionContext context ) throws ActionException, ServiceException {
     try {
 
-      User user = userService.getCurrentUser();      
+      com.google.appengine.api.users.User appengineUser = 
+        userService.getCurrentUser();      
 
-      if( user == null ) return null;
+      if( appengineUser == null ) 
+        return null;
 
-      UserInfo userInfo = new UserInfo();
-      
-      // User is authenticated via Google UserService
-      userInfo.setAuthenticated( true );
-
-      UserInfoJdo jdo;
+      User userInfo = new User();
+      PersistenceManager persistenceManager = persistenceManagerFactory.getPersistenceManager();
       try {
-        jdo = persistenceManager.get().getObjectById(UserInfoJdo.class, user.getEmail());
-        jdo.to( userInfo );
-      } catch( JDOObjectNotFoundException exception ) {
-        // User is authenticated via google User Service, but it is not in the database yet,
-        // copy known information.
-        userInfo.setEmail( user.getEmail() );
-        userInfo.setNickname( user.getNickname() );
-        userInfo.setAdministrator( userService.isUserAdmin() );
+        try {
+          userInfo = persistenceManager.getObjectById(User.class, appengineUser.getEmail());
+        } catch( JDOObjectNotFoundException exception ) {
+          // User is authenticated via Google User Service, but it is not in the database yet,
+          // copy known information.
+          userInfo.setEmail( appengineUser.getEmail() );
+          userInfo.setNickname( appengineUser.getNickname() );
+          persistenceManager.makePersistent( userInfo );
+        } 
       }
       finally {
-        persistenceManager.get().close();
+        userInfo.setAuthenticated( true );
+        userInfo.setAdministrator( userService.isUserAdmin() );
+        persistenceManager.close();
       }
-
+      
       return new GetUserInfoResult(userInfo);
     }
     catch (Exception cause) {
-      throw new ActionException(cause);
+      Util.logException( log, this, cause );
+      throw new ServiceException(cause);
     }
   }
 

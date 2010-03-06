@@ -3,6 +3,7 @@ package com.philbeaudoin.gwt.dispatch.server;
 import com.philbeaudoin.gwt.dispatch.shared.Action;
 import com.philbeaudoin.gwt.dispatch.shared.ActionException;
 import com.philbeaudoin.gwt.dispatch.shared.Result;
+import com.philbeaudoin.gwt.dispatch.shared.ServiceException;
 
 /**
  * Instances of this interface will handle specific types of {@link Action}
@@ -30,7 +31,7 @@ public interface ActionHandler<A extends Action<R>, R extends Result> {
      * @throws ServiceException
      *             if there is a low-level problem.
      */
-    R execute( A action, ExecutionContext context ) throws ActionException;
+    R execute( A action, ExecutionContext context ) throws ActionException, ServiceException;
 
     /**
      * Attempts to roll back the specified action.
@@ -41,8 +42,10 @@ public interface ActionHandler<A extends Action<R>, R extends Result> {
      *            The result of the action.
      * @param context
      *            The execution context.
-     * @throws ServiceException
      * @throws ActionException
+     *             if there is a problem performing the specified action.
+     * @throws ServiceException
+     *             if there is a low-level problem.
      */
-    void rollback( A action, R result, ExecutionContext context ) throws ActionException;
+    void rollback( A action, R result, ExecutionContext context ) throws ActionException, ServiceException;
 }

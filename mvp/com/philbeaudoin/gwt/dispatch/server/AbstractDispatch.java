@@ -5,6 +5,7 @@ import java.util.List;
 import com.philbeaudoin.gwt.dispatch.shared.Action;
 import com.philbeaudoin.gwt.dispatch.shared.ActionException;
 import com.philbeaudoin.gwt.dispatch.shared.Result;
+import com.philbeaudoin.gwt.dispatch.shared.ServiceException;
 import com.philbeaudoin.gwt.dispatch.shared.UnsupportedActionException;
 
 public abstract class AbstractDispatch implements Dispatch {
@@ -19,12 +20,13 @@ public abstract class AbstractDispatch implements Dispatch {
             this.actionResults = new java.util.ArrayList<ActionResult<?, ?>>();
         }
 
-        public <A extends Action<R>, R extends Result> R execute( A action ) throws ActionException {
+        public <A extends Action<R>, R extends Result> R execute( A action ) 
+        throws ActionException, ServiceException {
             return execute( action, true );
         }
 
         public <A extends Action<R>, R extends Result> R execute( A action, boolean allowRollback )
-                throws ActionException {
+                throws ActionException, ServiceException {
             R result = dispatch.doExecute( action, this );
             if ( allowRollback )
                 actionResults.add( new ActionResult<A, R>( action, result ) );
@@ -39,7 +41,7 @@ public abstract class AbstractDispatch implements Dispatch {
          * @throws ServiceException
          *             If there is a low level problem while rolling back.
          */
-        private void rollback() throws ActionException {
+        private void rollback() throws ActionException, ServiceException {
             for ( int i = actionResults.size() - 1; i >= 0; i-- ) {
                 ActionResult<?, ?> actionResult = actionResults.get( i );
                 rollback( actionResult );
@@ -47,13 +49,14 @@ public abstract class AbstractDispatch implements Dispatch {
         }
 
         private <A extends Action<R>, R extends Result> void rollback( ActionResult<A, R> actionResult )
-                throws ActionException {
+                throws ActionException, ServiceException {
             dispatch.doRollback( actionResult.getAction(), actionResult.getResult(), this );
         }
 
     };
 
-    public <A extends Action<R>, R extends Result> R execute( A action ) throws ActionException {
+    public <A extends Action<R>, R extends Result> R execute( A action ) 
+    throws ActionException, ServiceException {
         DefaultExecutionContext ctx = new DefaultExecutionContext( this );
         try {
             return doExecute( action, ctx );
@@ -64,7 +67,7 @@ public abstract class AbstractDispatch implements Dispatch {
     }
 
     private <A extends Action<R>, R extends Result> R doExecute( A action, ExecutionContext ctx )
-            throws ActionException {
+            throws ActionException, ServiceException {
         ActionHandler<A, R> handler = findHandler( action );
         return handler.execute( action, ctx );
     }
@@ -81,7 +84,7 @@ public abstract class AbstractDispatch implements Dispatch {
     protected abstract ActionHandlerRegistry getHandlerRegistry();
 
     private <A extends Action<R>, R extends Result> void doRollback( A action, R result, ExecutionContext ctx )
-            throws ActionException {
+            throws ActionException, ServiceException {
         ActionHandler<A, R> handler = findHandler( action );
         handler.rollback( action, result, ctx );
     }

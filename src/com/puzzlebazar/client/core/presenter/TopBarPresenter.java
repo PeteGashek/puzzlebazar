@@ -13,7 +13,7 @@ import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.puzzlebazar.shared.action.DoLogin;
 import com.puzzlebazar.shared.action.DoLogout;
 import com.puzzlebazar.shared.action.StringResult;
-import com.puzzlebazar.shared.model.UserInfo;
+import com.puzzlebazar.shared.model.User;
 
 public class TopBarPresenter extends PresenterImpl<TopBarPresenter.Display,TopBarPresenter.Proxy> 
 implements CurrentUserInfoAvailableHandler {
@@ -65,7 +65,7 @@ implements CurrentUserInfoAvailableHandler {
 
   @Override
   public void onCurrentUserInfoAvailable(CurrentUserInfoAvailableEvent event) {
-    UserInfo userInfo = event.getUserInfo();
+    User userInfo = event.getUserInfo();
     getDisplay().setLoggedIn( userInfo.getEmail(), userInfo.isAdministrator() );
   }
 

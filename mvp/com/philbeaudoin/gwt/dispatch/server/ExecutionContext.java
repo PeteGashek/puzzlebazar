@@ -3,6 +3,7 @@ package com.philbeaudoin.gwt.dispatch.server;
 import com.philbeaudoin.gwt.dispatch.shared.Action;
 import com.philbeaudoin.gwt.dispatch.shared.ActionException;
 import com.philbeaudoin.gwt.dispatch.shared.Result;
+import com.philbeaudoin.gwt.dispatch.shared.ServiceException;
 
 /**
  * ExecutionContext instances are passed to {@link ActionHandler}s, and allows
@@ -28,10 +29,10 @@ public interface ExecutionContext {
      *            If <code>true</code>, any failure in the surrounding
      *            execution will trigger a rollback of the action.
      * @return The result.
-     * @throws ServiceException
      * @throws ActionException
+     * @throws ServiceException 
      */
-    <A extends Action<R>, R extends Result> R execute( A action, boolean allowRollback ) throws ActionException;
+    <A extends Action<R>, R extends Result> R execute( A action, boolean allowRollback ) throws ActionException, ServiceException;
 
     /**
      * Executes an action in the current context. If the surrounding execution
@@ -44,8 +45,8 @@ public interface ExecutionContext {
      * @param action
      *            The action.
      * @return The result.
-     * @throws ServiceException
      * @throws ActionException
+     * @throws ServiceException 
      */
-    <A extends Action<R>, R extends Result> R execute( A action ) throws ActionException;
+    <A extends Action<R>, R extends Result> R execute( A action ) throws ActionException, ServiceException;
 }

@@ -8,7 +8,7 @@ import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.puzzlebazar.client.core.presenter.CurrentUserInfoAvailableEvent;
 import com.puzzlebazar.shared.action.GetUserInfo;
 import com.puzzlebazar.shared.action.GetUserInfoResult;
-import com.puzzlebazar.shared.model.UserInfo;
+import com.puzzlebazar.shared.model.User;
 
 /**
  * A class that keeps information about the currently logged-in user.
@@ -23,7 +23,7 @@ public class CurrentUser {
   private final int refreshDelay;
   private final int retryDelay;
 
-  private UserInfo userInfo = null;
+  private User userInfo = null;
   
   /**
    * Creates
@@ -92,7 +92,7 @@ public class CurrentUser {
     timer.schedule( delay );
   }
 
-  public UserInfo getUserInfo() {
+  public User getUserInfo() {
     return userInfo;
   }
 
