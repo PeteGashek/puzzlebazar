@@ -2,9 +2,11 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.philbeaudoin.gwt.presenter.client.Display;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.proxy.ProxyPlace;
+import com.philbeaudoin.gwt.presenter.client.proxy.Place;
+import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
 import com.puzzlebazar.client.core.proxy.SplitMainProxy;
 
 /**
@@ -12,18 +14,18 @@ import com.puzzlebazar.client.core.proxy.SplitMainProxy;
  * 
  * @author Philippe Beaudoin
  */
-public class MainPagePresenter extends PresenterImpl<MainPagePresenter.Display, MainPagePresenter.Proxy> {
+public class MainPagePresenter extends 
+PresenterImpl<MainPagePresenter.MyDisplay, MainPagePresenter.MyProxy> {
 
+  public interface MyDisplay extends Display { }
 
-  public interface Display extends com.philbeaudoin.gwt.presenter.client.Display { }
-
-  public interface Proxy extends ProxyPlace {}
+  public interface MyProxy extends Proxy<MainPagePresenter>, Place {}
   
   @Inject
   public MainPagePresenter(
       final EventBus eventBus, 
-      final Provider<Display> display,  
-      final Proxy proxy ) {
+      final Provider<MyDisplay> display,  
+      final MyProxy proxy ) {
     super( eventBus, display, proxy, SplitMainProxy.TYPE_SetCenterContent );
   }
 

@@ -1,8 +1,9 @@
 package com.philbeaudoin.gwt.presenter.client.proxy;
 
+import com.philbeaudoin.gwt.presenter.client.Presenter;
 import com.philbeaudoin.gwt.presenter.client.Tab;
 
-public interface TabContentProxy extends ProxyPlace {
+public interface TabContentProxy<P extends Presenter> extends Proxy<P> {
 
   /**
    * Retrieves the tab object associated with this presenter.
@@ -18,6 +19,18 @@ public interface TabContentProxy extends ProxyPlace {
    */
   public String getText();
 
+  
+  /**
+   * Retrieves the history token to show when this tab is
+   * displayed. In the fairly typical scenario where a tab directly
+   * contains a {@link ProxyPlace}, this should return the name token
+   * of the proxy place. In the case of tabs that contain other
+   * tab presenters, this should return the name token of a leaf-level
+   * proxy.
+   * 
+   * @return The default history token to show.
+   */
+  public String getHistoryToken();
 
   /**
    * A tab priority indicates where it should appear within the tab 

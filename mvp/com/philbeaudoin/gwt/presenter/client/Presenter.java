@@ -45,7 +45,7 @@ public interface Presenter {
    *
    * @return The proxy.
    */
-  public Proxy getProxy();
+  public Proxy<?> getProxy();
 
   /**
    * Notify others that this presenter has been changed. This is especially

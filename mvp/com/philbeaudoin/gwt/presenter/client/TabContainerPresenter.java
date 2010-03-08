@@ -18,6 +18,6 @@ public interface TabContainerPresenter extends Presenter {
    * @param tabProxy The {@link TabContentProxy} containing information on the tab to add.
    * @return The newly added tab.
    */
-  public Tab addTab(TabContentProxy tabProxy);
+  public Tab addTab(TabContentProxy<?> tabProxy);
 
 }

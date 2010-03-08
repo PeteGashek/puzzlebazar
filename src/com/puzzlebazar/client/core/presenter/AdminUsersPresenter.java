@@ -2,10 +2,12 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.philbeaudoin.gwt.presenter.client.Display;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.proxy.ProxyPlace;
-import com.puzzlebazar.client.core.proxy.AdminProxy;
+import com.philbeaudoin.gwt.presenter.client.proxy.Place;
+import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxy;
+import com.puzzlebazar.client.core.proxy.AdminTabProxy;
 
 /**
  * This is the presenter of the general tab in the administration page.
@@ -13,16 +15,16 @@ import com.puzzlebazar.client.core.proxy.AdminProxy;
  * @author Philippe Beaudoin
  */
 public class AdminUsersPresenter 
-extends PresenterImpl<AdminUsersPresenter.Display, AdminUsersPresenter.Proxy> {
+extends PresenterImpl<AdminUsersPresenter.MyDisplay, AdminUsersPresenter.MyProxy> {
 
-  public interface Display extends com.philbeaudoin.gwt.presenter.client.Display { }
+  public interface MyDisplay extends Display { }
 
-  public interface Proxy extends ProxyPlace {}
+  public interface MyProxy extends TabContentProxy<AdminUsersPresenter>, Place {}
 
   @Inject
   public AdminUsersPresenter(final EventBus eventBus, 
-      final Provider<Display> display, 
-      final Proxy proxy ) {
-    super(eventBus, display, proxy, AdminProxy.TYPE_SetTabContent );
+      final Provider<MyDisplay> display, 
+      final MyProxy proxy ) {
+    super(eventBus, display, proxy, AdminTabProxy.TYPE_SetTabContent );
   }
 }

@@ -1,5 +1,6 @@
 package com.philbeaudoin.gwt.presenter.client.proxy;
 
+import com.philbeaudoin.gwt.presenter.client.HandlerContainer;
 import com.philbeaudoin.gwt.presenter.client.Presenter;
 
 /**
@@ -19,23 +20,14 @@ import com.philbeaudoin.gwt.presenter.client.Presenter;
  * 
  * @author beaudoin
  */
-public interface Proxy {
-  
-  /**
-   * Called by this proxy's presenter whenever it has changed in a way that would require 
-   * the parameters in the HistoryToken bar to be changed. If you override, make sure you call
-   * your parent onPresenterChanged().
-   * 
-   * @param presenter The {@link Presenter} that has just changed.
-   */
-  public void onPresenterChanged( Presenter presenter );
+public interface Proxy<P extends Presenter> extends ProxyBase, HandlerContainer {
 
   /**
-   * Called by this proxy's presenter whenever it has been revealed. If you override, make sure you call
-   * your parent onPresenterRevealed().
+   * Get the associated {@link Presenter}. The presenter can only be obtained in an asynchronous
+   * manner to support code splitting when needed. To access the presenter, pass a callback.
    * 
-   * @param presenter The {@link Presenter} that has just been revealed.
+   * @param callback The callback in which the {@link Presenter} will be passed as a parameter.
    */
-  public void onPresenterRevealed( Presenter presenter );
+  public void getPresenter( Callback<P> callback );
   
 }

@@ -9,7 +9,7 @@ import com.google.inject.Inject;
 import com.puzzlebazar.client.core.presenter.SplitMainPresenter;
 import com.puzzlebazar.client.resources.Resources;
 
-public class SplitMainView implements SplitMainPresenter.Display {
+public class SplitMainView implements SplitMainPresenter.MyDisplay {
 
   interface Binder extends UiBinder<Widget, SplitMainView> { }
   protected static final Binder binder = GWT.create(Binder.class);

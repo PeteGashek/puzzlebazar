@@ -2,33 +2,34 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.philbeaudoin.gwt.presenter.client.Display;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.proxy.ProxyPlace;
-import com.puzzlebazar.client.core.proxy.UserSettingsProxy;
+import com.philbeaudoin.gwt.presenter.client.proxy.Place;
+import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxy;
+import com.puzzlebazar.client.core.proxy.UserSettingsTabProxy;
 
 /**
  * This is the presenter of the accounts tab in the user settings page.
  * 
  * @author Philippe Beaudoin
  */
-public class UserSettingsAccountsPresenter extends PresenterImpl<UserSettingsAccountsPresenter.Display, UserSettingsAccountsPresenter.Proxy> {
+public class UserSettingsAccountsPresenter extends PresenterImpl<UserSettingsAccountsPresenter.MyDisplay, UserSettingsAccountsPresenter.MyProxy> {
 
+  public interface MyDisplay extends Display { }
 
-  public interface Display extends com.philbeaudoin.gwt.presenter.client.Display { }
-
-  public interface Proxy extends ProxyPlace {}
+  public interface MyProxy extends TabContentProxy<UserSettingsAccountsPresenter>, Place {}
 
   @Inject
   public UserSettingsAccountsPresenter(
       final EventBus eventBus, 
-      final Provider<Display> display,  
-      final Proxy proxy ) {
+      final Provider<MyDisplay> display,  
+      final MyProxy proxy ) {
     super(
         eventBus, 
         display, 
         proxy, 
-        UserSettingsProxy.TYPE_SetTabContent );
+        UserSettingsTabProxy.TYPE_SetTabContent );
   }
   
 }

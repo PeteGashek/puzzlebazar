@@ -2,7 +2,7 @@ package com.philbeaudoin.gwt.presenter.client.proxy;
 
 /**
  * Place managers work as an intermediary between the GWT {@link com.google.gwt.user.client.History} API
- * and {@link ProxyPlaceImpl}s. It sets up event listener relationships to synchronize them.
+ * and {@link ProxyPlaceAbstract}s. It sets up event listener relationships to synchronize them.
  *
  * @author David Peterson
  */

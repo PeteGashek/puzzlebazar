@@ -2,10 +2,12 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.philbeaudoin.gwt.presenter.client.Display;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.proxy.ProxyPlace;
-import com.puzzlebazar.client.core.proxy.UserSettingsProxy;
+import com.philbeaudoin.gwt.presenter.client.proxy.Place;
+import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxy;
+import com.puzzlebazar.client.core.proxy.UserSettingsTabProxy;
 
 /**
  * This is the presenter of the general tab in the user settings page.
@@ -13,16 +15,16 @@ import com.puzzlebazar.client.core.proxy.UserSettingsProxy;
  * @author Philippe Beaudoin
  */
 public class UserSettingsGeneralPresenter 
-extends PresenterImpl<UserSettingsGeneralPresenter.Display, UserSettingsGeneralPresenter.Proxy> {
+extends PresenterImpl<UserSettingsGeneralPresenter.MyDisplay, UserSettingsGeneralPresenter.MyProxy> {
 
-  public interface Display extends com.philbeaudoin.gwt.presenter.client.Display { }
+  public interface MyDisplay extends Display { }
 
-  public interface Proxy extends ProxyPlace {}
+  public interface MyProxy extends TabContentProxy<UserSettingsGeneralPresenter>, Place {}
 
   @Inject
   public UserSettingsGeneralPresenter(final EventBus eventBus, 
-      final Provider<Display> display, 
-      final Proxy proxy ) {
-    super(eventBus, display, proxy, UserSettingsProxy.TYPE_SetTabContent );
+      final Provider<MyDisplay> display, 
+      final MyProxy proxy ) {
+    super(eventBus, display, proxy, UserSettingsTabProxy.TYPE_SetTabContent );
   }
 }

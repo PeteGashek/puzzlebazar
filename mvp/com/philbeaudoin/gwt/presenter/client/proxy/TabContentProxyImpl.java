@@ -9,10 +9,14 @@ import com.philbeaudoin.gwt.presenter.client.RequestTabsHandler;
 import com.philbeaudoin.gwt.presenter.client.Tab;
 import com.philbeaudoin.gwt.presenter.client.TabContainerPresenter;
 
-public abstract class TabContentProxyImpl<P extends Presenter> 
-extends ProxyPlaceImpl<P> implements TabContentProxy {
+public class TabContentProxyImpl<P extends Presenter> 
+extends ProxyImpl<P> implements TabContentProxy<P> {
 
   private final Type<RequestTabsHandler> requestTabsEventType;
+  private final float priority;
+  private final String text;
+  private final String historyToken;
+
   private Tab tab = null;
 
   /**
@@ -29,12 +33,17 @@ extends ProxyPlaceImpl<P> implements TabContentProxy {
    *        to the {@link TabContainerPresenter} specified in the event.
    */
   public TabContentProxyImpl(final EventBus eventBus, 
-      final PlaceManager placeManager, 
       final CallbackProvider<P> presenter, 
-      final Type<RequestTabsHandler> requestTabsEventType ) {
-    super(eventBus, placeManager, presenter);
+      final Type<RequestTabsHandler> requestTabsEventType,
+      final float priority,
+      final String text,
+      final String historyToken ) {
+    super(eventBus, presenter);
     
     this.requestTabsEventType = requestTabsEventType;
+    this.priority = priority;
+    this.text = text;
+    this.historyToken = historyToken;
   }
 
   @Override
@@ -43,7 +52,7 @@ extends ProxyPlaceImpl<P> implements TabContentProxy {
   }
   
   @Override
-  public void onBind() {
+  protected void onBind() {
     super.onBind();
     
     registerHandler( eventBus.addHandler(requestTabsEventType, new RequestTabsHandler(){
@@ -53,6 +62,20 @@ extends ProxyPlaceImpl<P> implements TabContentProxy {
       }
     } ) );
   }
-  
+
+  @Override
+  public float getPriority() {
+    return priority;
+  }
+
+  @Override
+  public String getText() {
+    return text;
+  }
+
+  @Override
+  public String getHistoryToken() {
+    return historyToken;
+  }
   
 }

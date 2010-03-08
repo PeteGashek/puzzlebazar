@@ -3,12 +3,11 @@ package com.philbeaudoin.gwt.presenter.client;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxy;
-import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxyImpl;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentHandler;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContainerProxy;
 
-public abstract class TabContainerPresenterImpl<D extends Display & TabPanel, P extends TabContainerProxy> 
-extends PresenterImpl<D, P> implements TabContainerPresenter  {
+public abstract class TabContainerPresenterImpl<D extends Display & TabPanel, Proxy_ extends TabContainerProxy<?>> 
+extends PresenterImpl<D, Proxy_> implements TabContainerPresenter  {
 
   private final Type<RequestTabsHandler> requestTabsEventType;
 
@@ -17,7 +16,7 @@ extends PresenterImpl<D, P> implements TabContainerPresenter  {
   public TabContainerPresenterImpl(
       final EventBus eventBus, 
       final Provider<D> display, 
-      final P proxy, 
+      final Proxy_ proxy, 
       final Type<SetContentHandler<?>> setContentInParentEventType,
       final Type<RequestTabsHandler> requestTabsEventType ) {
     super(eventBus, display, proxy, setContentInParentEventType);
@@ -29,10 +28,10 @@ extends PresenterImpl<D, P> implements TabContainerPresenter  {
     super.onHide();
     hideTabContent();
   }
- 
+
   @Override
-  public Tab addTab( final TabContentProxy tabProxy ) {
-    return getDisplay().addTab( tabProxy.getText(), tabProxy.getNameToken(), tabProxy.getPriority() );
+  public Tab addTab( final TabContentProxy<?> tabProxy ) {
+    return getDisplay().addTab( tabProxy.getText(), tabProxy.getHistoryToken(), tabProxy.getPriority() );
   }
 
   @Override
@@ -41,31 +40,31 @@ extends PresenterImpl<D, P> implements TabContainerPresenter  {
       hideTabContent();
       tabContent = content;
       getDisplay().setTabContent( content.getWidget() );
-      if( content.getProxy() instanceof TabContentProxyImpl<?> ) {
-        Tab tab = ((TabContentProxyImpl<?>)content.getProxy()).getTab();
+      if( content.getProxy() instanceof TabContentProxy<?> ) {
+        Tab tab = ((TabContentProxy<?>)content.getProxy()).getTab();
         getDisplay().setActiveTab( tab );
       }
     }
   }
 
   @Override
-  public void onBind() {
+  protected void onBind() {
     super.onBind();
-    
+
     // The following call will trigger a series of call to addTab, so
     // we should make sure we clear all the tabs when unbinding.
     eventBus.fireEvent( new RequestTabsEvent(requestTabsEventType, this) );
   }
 
   @Override
-  public void onUnbind() {  
+  protected void onUnbind() {  
     super.onUnbind();
 
     // The tabs are added indirectly in onBind(), so we clear them now.
     getDisplay().removeTabs();
   }
-  
-  
+
+
   /**
    * Let child presenter know that it's about to be hidden.
    */

@@ -5,9 +5,9 @@ import com.philbeaudoin.gwt.presenter.client.Presenter;
 
 public abstract class SetContentHandler<P extends Presenter> implements EventHandler {
 
-  private final PresenterProxyImpl<P> proxy;
+  private final ProxyImpl<P> proxy;
 
-  public SetContentHandler( final PresenterProxyImpl<P> proxy ) {
+  public SetContentHandler( final ProxyImpl<P> proxy ) {
     this.proxy = proxy;
   }
   

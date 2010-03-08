@@ -12,8 +12,8 @@ public class TabbedPresenterBundle extends ProviderBundle {
   
   @Inject
   TabbedPresenterBundle(
-      final Provider<AdminPresenter> adminPresenter,
-      final Provider<UserSettingsPresenter> userSettingsPresenter) {
+      final Provider<AdminTabPresenter> adminPresenter,
+      final Provider<UserSettingsTabPresenter> userSettingsPresenter) {
     super( BUNDLE_SIZE );
     providers[ID_AdminPresenter] = adminPresenter;
     providers[ID_UserSettingsPresenter] = userSettingsPresenter;

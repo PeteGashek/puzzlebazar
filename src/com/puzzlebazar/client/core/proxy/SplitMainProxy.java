@@ -8,12 +8,12 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.proxy.DirectProvider;
-import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxyImpl;
+import com.philbeaudoin.gwt.presenter.client.proxy.ProxyImpl;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentHandler;
 import com.puzzlebazar.client.core.presenter.SplitMainPresenter;
 
-public class SplitMainProxy extends PresenterProxyImpl<SplitMainPresenter>  implements SplitMainPresenter.Proxy {
+public class SplitMainProxy extends ProxyImpl<SplitMainPresenter>  implements SplitMainPresenter.MyProxy {
 
   public static final Type<SetContentHandler<?>> TYPE_SetSideBarContent = new Type<SetContentHandler<?>>();
   public static final Type<SetContentHandler<?>> TYPE_SetCenterContent = new Type<SetContentHandler<?>>();
@@ -24,7 +24,7 @@ public class SplitMainProxy extends PresenterProxyImpl<SplitMainPresenter>  impl
   }
 
   @Override
-  public void onBind() {
+  protected void onBind() {
     super.onBind();
     
     registerHandler( eventBus.addHandler( TYPE_SetSideBarContent, 

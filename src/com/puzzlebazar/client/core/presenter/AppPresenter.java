@@ -4,19 +4,21 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.philbeaudoin.gwt.presenter.client.Display;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.Presenter;
+import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
 
 
-public class AppPresenter extends PresenterImpl<AppPresenter.Display, AppPresenter.Proxy> {
+public class AppPresenter extends PresenterImpl<AppPresenter.MyDisplay, AppPresenter.MyProxy> {
 
-  public interface Display extends com.philbeaudoin.gwt.presenter.client.Display {
+  public interface MyDisplay extends Display {
     void setTopBar( Widget topBar );
     void setMainContent( Widget mainContent );
   }
   
-  public interface Proxy extends com.philbeaudoin.gwt.presenter.client.proxy.Proxy {}  
+  public interface MyProxy extends Proxy<AppPresenter> {}  
 
   private final TopBarPresenter topBarPresenter;
 
@@ -26,8 +28,8 @@ public class AppPresenter extends PresenterImpl<AppPresenter.Display, AppPresent
   @Inject
   public AppPresenter(
       final EventBus eventBus, 
-      final Provider<Display> display, 
-      final Proxy proxy,
+      final Provider<MyDisplay> display, 
+      final MyProxy proxy,
       final TopBarPresenter topBarPresenter ) {
     super(eventBus, display, proxy, null);
 
@@ -37,7 +39,7 @@ public class AppPresenter extends PresenterImpl<AppPresenter.Display, AppPresent
   }  
 
   @Override
-  public void onBind() {
+  protected void onBind() {
     super.onBind();
     getDisplay().setTopBar( this.topBarPresenter.getWidget() );
   }

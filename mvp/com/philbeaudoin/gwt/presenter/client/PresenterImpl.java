@@ -8,8 +8,8 @@ import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentHandler;
 
-public abstract class PresenterImpl<D extends Display, P extends Proxy> 
-extends HandlerContainer implements Presenter {
+public abstract class PresenterImpl<D extends Display, Proxy_ extends Proxy<?>> 
+extends HandlerContainerImpl implements Presenter {
 
   /**
    * The display for the presenter.
@@ -24,7 +24,7 @@ extends HandlerContainer implements Presenter {
   /**
    * The light-weight {@PresenterProxy} around this presenter.
    */
-  protected final P proxy;
+  protected final Proxy_ proxy;
 
   /**
    * The {@link Type} of the event this presenter will fire when it is
@@ -49,7 +49,7 @@ extends HandlerContainer implements Presenter {
   public PresenterImpl( 
       final EventBus eventBus, 
       final Provider<D> display, 
-      final P proxy, 
+      final Proxy_ proxy, 
       final Type<SetContentHandler<?>> setContentInParentEventType ) {
     this.display = display;
     this.eventBus = eventBus;
@@ -63,7 +63,7 @@ extends HandlerContainer implements Presenter {
   }
 
   @Override
-  public final P getProxy() {
+  public final Proxy_ getProxy() {
     return proxy;
   }
 

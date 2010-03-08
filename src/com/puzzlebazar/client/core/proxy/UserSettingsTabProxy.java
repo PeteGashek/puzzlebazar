@@ -10,25 +10,26 @@ import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContainerProxyImpl;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentHandler;
 import com.puzzlebazar.client.ProviderBundle;
-import com.puzzlebazar.client.core.presenter.AdminPresenter;
 import com.puzzlebazar.client.core.presenter.TabbedPresenterBundle;
+import com.puzzlebazar.client.core.presenter.UserSettingsTabPresenter;
 import com.puzzlebazar.client.resources.Translations;
 
-public class AdminProxy extends TabContainerProxyImpl<AdminPresenter> implements AdminPresenter.Proxy {
+public class UserSettingsTabProxy extends TabContainerProxyImpl<UserSettingsTabPresenter> implements UserSettingsTabPresenter.MyProxy {
 
   public static final Type<SetContentHandler<?>> TYPE_SetTabContent = new Type<SetContentHandler<?>>();
   
   @Inject
-  public AdminProxy(
+  public UserSettingsTabProxy(
       final EventBus eventBus, 
       final AsyncProvider<TabbedPresenterBundle> presenterBundle,
       final Translations translations) {
-    super(eventBus,  
-        new ProviderBundle.CodeSplit<AdminPresenter,TabbedPresenterBundle>(
+    super(
+        eventBus,  
+        new ProviderBundle.CodeSplit<UserSettingsTabPresenter,TabbedPresenterBundle>(
             presenterBundle,
-            TabbedPresenterBundle.ID_AdminPresenter,
+            TabbedPresenterBundle.ID_UserSettingsPresenter,
             translations), 
-        TYPE_SetTabContent);
+         TYPE_SetTabContent);
   }
   
 }

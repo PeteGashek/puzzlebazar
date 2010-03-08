@@ -1,12 +1,15 @@
 package com.puzzlebazar.client;
 
+import com.google.gwt.inject.client.AsyncProvider;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
+import com.philbeaudoin.gwt.presenter.client.proxy.Callback;
+import com.philbeaudoin.gwt.presenter.client.proxy.CallbackProvider;
 import com.philbeaudoin.gwt.presenter.client.proxy.PlaceManagerImpl;
-import com.philbeaudoin.gwt.presenter.client.proxy.ProxyPlace;
+import com.philbeaudoin.gwt.presenter.client.proxy.ProxyBase;
 import com.philbeaudoin.gwt.presenter.client.proxy.TokenFormatter;
 import com.puzzlebazar.client.gin.DefaultPlace;
+import com.puzzlebazar.client.resources.Translations;
 
 
 /**
@@ -14,19 +17,27 @@ import com.puzzlebazar.client.gin.DefaultPlace;
  */
 public class PuzzlebazarPlaceManager extends PlaceManagerImpl {
 
-  private final Provider<ProxyPlace> defaultProxy;
+  private final CallbackProvider<ProxyBase> defaultProxy;
 
   @Inject
-  public PuzzlebazarPlaceManager(EventBus eventBus, TokenFormatter tokenFormatter,
-      @DefaultPlace Provider<ProxyPlace> defaultProxy ) {
+  public PuzzlebazarPlaceManager(
+      final EventBus eventBus, 
+      final TokenFormatter tokenFormatter,
+      @DefaultPlace final AsyncProvider<ProxyBase> defaultProxy,
+      final Translations translations ) {
     super(eventBus, tokenFormatter);
     
-    this.defaultProxy = defaultProxy;
+    this.defaultProxy = new CodeSplitProvider<ProxyBase>(defaultProxy, translations);
   }
   
   @Override
   public void revealDefaultPlace() {
-    defaultProxy.get().reveal();
+    defaultProxy.get( new Callback<ProxyBase>(){
+      @Override
+      public void execute(ProxyBase proxy) {
+        proxy.reveal();
+      }
+    } );
   }
 
 }

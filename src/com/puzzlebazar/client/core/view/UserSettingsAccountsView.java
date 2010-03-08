@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.puzzlebazar.client.core.presenter.UserSettingsAccountsPresenter;
 
-public class UserSettingsAccountsView implements UserSettingsAccountsPresenter.Display {
+public class UserSettingsAccountsView implements UserSettingsAccountsPresenter.MyDisplay {
 
   interface Binder extends UiBinder<Widget, UserSettingsAccountsView> { }
   protected static final Binder binder = GWT.create(Binder.class);

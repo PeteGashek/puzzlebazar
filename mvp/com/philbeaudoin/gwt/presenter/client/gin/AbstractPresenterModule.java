@@ -20,12 +20,12 @@ public abstract class AbstractPresenterModule extends AbstractGinModule {
    * @param display     The display type.
    * @param displayImpl The display implementation.
    */
-  protected <P extends Presenter, D extends Display, W extends Proxy> void bindPresenter( 
+  protected <P extends Presenter, D extends Display, Proxy_ extends Proxy<P>> void bindPresenter( 
       Class<P> presenter, 
       Class<D> display,
       Class<? extends D> displayImpl,
-      Class<W> proxy,
-      Class<? extends W> proxyImpl ) {
+      Class<Proxy_> proxy,
+      Class<? extends Proxy_> proxyImpl ) {
     bind( presenter ).in( Singleton.class );
     bind( displayImpl ).in( Singleton.class );
     bind( proxyImpl ).asEagerSingleton();

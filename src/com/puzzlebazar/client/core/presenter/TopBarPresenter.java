@@ -8,32 +8,34 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.philbeaudoin.gwt.dispatch.client.DispatchAsync;
+import com.philbeaudoin.gwt.presenter.client.Display;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
+import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
 import com.puzzlebazar.shared.action.DoLogin;
 import com.puzzlebazar.shared.action.DoLogout;
 import com.puzzlebazar.shared.action.StringResult;
 import com.puzzlebazar.shared.model.User;
 
-public class TopBarPresenter extends PresenterImpl<TopBarPresenter.Display,TopBarPresenter.Proxy> 
+public class TopBarPresenter extends PresenterImpl<TopBarPresenter.MyDisplay,TopBarPresenter.MyProxy> 
 implements CurrentUserInfoAvailableHandler {
 
-  public interface Display extends com.philbeaudoin.gwt.presenter.client.Display {
+  public interface MyDisplay extends Display {
     public void setLoggedIn( String username, boolean isAdministrator );
     public void setLoggedOut();
     public HasClickHandlers getSignIn();
     public HasClickHandlers getSignOut();
   }
 
-  public interface Proxy extends com.philbeaudoin.gwt.presenter.client.proxy.Proxy {}
+  public interface MyProxy extends Proxy<TopBarPresenter> {}
 
   private final DispatchAsync dispatcher;
 
   @Inject
   public TopBarPresenter(
       final EventBus eventBus, 
-      final Provider<Display> display, 
-      final Proxy proxy,
+      final Provider<MyDisplay> display, 
+      final MyProxy proxy,
       final DispatchAsync dispatcher ) {
     super(eventBus, display, proxy, null);
 
@@ -41,7 +43,7 @@ implements CurrentUserInfoAvailableHandler {
   }
 
   @Override
-  public void onBind() {
+  protected void onBind() {
     super.onBind();
     
     getDisplay().setLoggedOut();

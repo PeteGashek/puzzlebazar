@@ -6,23 +6,23 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.philbeaudoin.gwt.presenter.client.Tab;
-import com.puzzlebazar.client.core.presenter.AdminPresenter;
+import com.puzzlebazar.client.core.presenter.UserSettingsTabPresenter;
 import com.puzzlebazar.client.ui.SimpleTabPanel;
 
-public class AdminView implements AdminPresenter.Display {
-  
-  interface Binder extends UiBinder<Widget, AdminView> { }
+public class UserSettingsTabView implements UserSettingsTabPresenter.MyDisplay {
+
+  interface Binder extends UiBinder<Widget, UserSettingsTabView> { }
   protected static final Binder binder = GWT.create(Binder.class);
   private final Widget widget;
   @Override public Widget asWidget() {
     return widget;
   }
-
+  
   @UiField
   SimpleTabPanel tabPanel;
   
   @Inject
-  public AdminView() {
+  public UserSettingsTabView() {
     widget = binder.createAndBindUi(this);
   }
 

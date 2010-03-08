@@ -8,12 +8,12 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.proxy.DirectProvider;
-import com.philbeaudoin.gwt.presenter.client.proxy.PresenterProxyImpl;
+import com.philbeaudoin.gwt.presenter.client.proxy.ProxyImpl;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentHandler;
 import com.puzzlebazar.client.core.presenter.AppPresenter;
 
-public class AppProxy extends PresenterProxyImpl<AppPresenter> implements AppPresenter.Proxy {
+public class AppProxy extends ProxyImpl<AppPresenter> implements AppPresenter.MyProxy {
 
   public static final Type<SetContentHandler<?>> TYPE_SetMainContent = new Type<SetContentHandler<?>>();
 
@@ -23,7 +23,7 @@ public class AppProxy extends PresenterProxyImpl<AppPresenter> implements AppPre
   }
   
   @Override
-  public void onBind() {
+  protected void onBind() {
     super.onBind();
     registerHandler( eventBus.addHandler( TYPE_SetMainContent, new SetContentHandler<AppPresenter>(this){
       @Override

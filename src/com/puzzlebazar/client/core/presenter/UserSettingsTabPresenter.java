@@ -3,6 +3,7 @@ package com.puzzlebazar.client.core.presenter;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.philbeaudoin.gwt.presenter.client.Display;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.RequestTabsHandler;
 import com.philbeaudoin.gwt.presenter.client.TabPanel;
@@ -12,26 +13,24 @@ import com.puzzlebazar.client.core.proxy.SplitMainProxy;
 
 
 /**
- * This is a tabbed presenter that will contain the different tabs for administration page. 
+ * This is a tabbed presenter that will contain the different tabs for user settings page.
  * 
  * @author Philippe Beaudoin
  */
-public class AdminPresenter extends TabContainerPresenterImpl<AdminPresenter.Display,AdminPresenter.Proxy> {
+public class UserSettingsTabPresenter extends TabContainerPresenterImpl<UserSettingsTabPresenter.MyDisplay,UserSettingsTabPresenter.MyProxy> {
 
   public static Type<RequestTabsHandler> TYPE_RequestTabs = new Type<RequestTabsHandler>();
   
-  public interface Display extends TabPanel, com.philbeaudoin.gwt.presenter.client.Display {
-  }
+  public interface MyDisplay extends TabPanel, Display {}
 
-  public interface Proxy extends TabContainerProxy {}
+  public interface MyProxy extends TabContainerProxy<UserSettingsTabPresenter> {}
   
   @Inject
-  public AdminPresenter(
+  public UserSettingsTabPresenter(
       final EventBus eventBus, 
-      final Provider<Display> display, 
-      final Proxy proxy ) {
+      final Provider<MyDisplay> display, 
+      final MyProxy proxy ) {
     super(eventBus, display, proxy, SplitMainProxy.TYPE_SetCenterContent, TYPE_RequestTabs );   
-  }  
-  
+  }
 
 }

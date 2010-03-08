@@ -7,7 +7,7 @@ import com.philbeaudoin.gwt.presenter.client.TabContainerPresenter;
 
 
 public class TabContainerProxyImpl<P extends TabContainerPresenter> extends
-    PresenterProxyImpl<P> implements TabContainerProxy {
+    ProxyImpl<P> implements TabContainerProxy<P> {
 
   /**
    * The {@link Type} of the event used by {@link Presenter} classes that want
@@ -31,7 +31,7 @@ public class TabContainerProxyImpl<P extends TabContainerPresenter> extends
   }
 
   @Override
-  public void onBind() {
+  protected void onBind() {
     super.onBind();
     registerHandler( eventBus.addHandler( setTabContentEventType, new SetContentHandler<P>(this){
       @Override

@@ -7,46 +7,56 @@ import com.google.gwt.inject.client.AsyncProvider;
 import com.google.inject.Inject;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.proxy.PlaceManager;
+import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
+import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxyImpl;
+import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxyPlace;
 import com.puzzlebazar.client.CodeSplitProvider;
 import com.puzzlebazar.client.CurrentUser;
 import com.puzzlebazar.client.NameTokens;
 import com.puzzlebazar.client.core.presenter.UserSettingsGeneralPresenter;
-import com.puzzlebazar.client.core.presenter.UserSettingsPresenter;
+import com.puzzlebazar.client.core.presenter.UserSettingsTabPresenter;
 import com.puzzlebazar.client.resources.Translations;
 
+/**
+ * The {@link Proxy} for the general tab within the user settings panel.
+ * 
+ * @author Philippe Beaudoin
+ */
 public class UserSettingsGeneralProxy 
-extends UserSettingsTabContentProxy<UserSettingsGeneralPresenter> 
-implements UserSettingsGeneralPresenter.Proxy {
+extends TabContentProxyPlace<UserSettingsGeneralPresenter> 
+implements UserSettingsGeneralPresenter.MyProxy {
+
+  static private String getNameTokenStatic() {
+    return NameTokens.getUserSettingsGeneral();
+  }
+
+  public static class WrappedProxy extends TabContentProxyImpl<UserSettingsGeneralPresenter> {
+    @Inject
+    public WrappedProxy(
+        final EventBus eventBus,
+        final AsyncProvider<UserSettingsGeneralPresenter> presenter,
+        final Translations translations) {
+      super(
+          eventBus, 
+          new CodeSplitProvider<UserSettingsGeneralPresenter>(presenter, translations),
+          UserSettingsTabPresenter.TYPE_RequestTabs,
+          0, // Priority
+          translations.tabGeneral(),
+          getNameTokenStatic() );
+    }
+  }
   
   @Inject
   public UserSettingsGeneralProxy(
       final EventBus eventBus, 
-      final PlaceManager placeManager,
-      final AsyncProvider<UserSettingsGeneralPresenter> presenter, 
-      final CurrentUser currentUser,
-      final Translations translations) {
+      final PlaceManager placeManager, 
+      final WrappedProxy wrappedProxy,
+      final CurrentUser currentUser) {
     super(
         eventBus, 
-        placeManager, 
-        new CodeSplitProvider<UserSettingsGeneralPresenter>(presenter, translations),
-        UserSettingsPresenter.TYPE_RequestTabs,
-        currentUser,
-        translations);   
-  }
-
-  @Override
-  public String getText() {
-    return translations.tabGeneral();
+        placeManager,
+        wrappedProxy,
+        new LoggedInSecurePlace(getNameTokenStatic(), currentUser));
   }
   
-  @Override
-  public String getNameToken() {
-    return NameTokens.getUserSettingsGeneral();
-  }
-  
-  @Override
-  public float getPriority() {
-    return 0;
-  }
-    
 }
