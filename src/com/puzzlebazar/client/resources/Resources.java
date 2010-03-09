@@ -17,6 +17,8 @@ public interface Resources extends ClientBundle {
 
   public interface Style extends CssResource {
     String username();
+    String formMargin();
+    String errorText();
   }  
 
   public interface Defines extends CssResource {
@@ -25,6 +27,7 @@ public interface Resources extends ClientBundle {
     String titleFontWeight();
     String titleFontSize();
     String titleColor();
+    String formLineSpacing();
   }  
 
 }

@@ -17,26 +17,30 @@ public class TopBarView implements TopBarPresenter.MyDisplay {
 
   interface Binder extends UiBinder<Widget, TopBarView> { }
   protected static final Binder binder = GWT.create(Binder.class);
+  
   private final Widget widget;
-  @Override public Widget asWidget() {
-    return widget;
-  }
   
   @UiField(provided = true)
   final Resources resources;
 
   @UiField
   TokenSeparatedList bar;
+  
   @UiField
   InlineLabel notSignedIn;
+  
   @UiField
   Anchor signIn;
+  
   @UiField
   InlineLabel username;
+  
   @UiField
   InlineHyperlink settings;
+  
   @UiField
   InlineHyperlink administration;
+  
   @UiField
   Anchor signOut;
 
@@ -48,7 +52,12 @@ public class TopBarView implements TopBarPresenter.MyDisplay {
     this.resources = resources;
     widget = binder.createAndBindUi(this);  
   }
-
+  
+  @Override 
+  public Widget asWidget() {
+    return widget;
+  }
+  
   @Override
   public void setLoggedIn(String username, boolean isAdministrator ) {
     this.username.setText(username);

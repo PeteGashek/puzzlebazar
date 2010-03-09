@@ -7,4 +7,5 @@ public interface Translations extends Constants {
   String tabAccounts();
   String tabGeneral();
   String tabUsers();
+  String changeDetected();
 }

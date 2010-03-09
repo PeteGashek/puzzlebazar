@@ -10,14 +10,16 @@ public class UserSettingsAccountsView implements UserSettingsAccountsPresenter.M
 
   interface Binder extends UiBinder<Widget, UserSettingsAccountsView> { }
   protected static final Binder binder = GWT.create(Binder.class);
+  
   private final Widget widget;
-  @Override public Widget asWidget() {
-    return widget;
-  }
   
   @Inject
   public UserSettingsAccountsView() {
     widget = binder.createAndBindUi(this);
   }
 
+  @Override 
+  public Widget asWidget() {
+    return widget;
+  }
 }

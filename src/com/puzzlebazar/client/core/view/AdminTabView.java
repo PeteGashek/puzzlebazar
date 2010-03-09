@@ -13,10 +13,8 @@ public class AdminTabView implements AdminTabPresenter.MyDisplay {
   
   interface Binder extends UiBinder<Widget, AdminTabView> { }
   protected static final Binder binder = GWT.create(Binder.class);
+
   private final Widget widget;
-  @Override public Widget asWidget() {
-    return widget;
-  }
 
   @UiField
   SimpleTabPanel tabPanel;
@@ -24,6 +22,11 @@ public class AdminTabView implements AdminTabPresenter.MyDisplay {
   @Inject
   public AdminTabView() {
     widget = binder.createAndBindUi(this);
+  }
+
+  @Override 
+  public Widget asWidget() {
+    return widget;
   }
 
   @Override

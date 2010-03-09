@@ -16,12 +16,10 @@ public class User implements Serializable {
    */
   private static final long serialVersionUID = -6968794066096789377L;
 
-  public static final int MIN_FIRSTNAME_LENGTH = 1;
-  public static final int MIN_LASTNAME_LENGTH = 1;
+  public static final int MIN_REALNAME_LENGTH = 1;
   public static final int MIN_NICKNAME_LENGTH = 5;
 
-  public static final int MAX_FIRSTNAME_LENGTH = 30;
-  public static final int MAX_LASTNAME_LENGTH = 30;
+  public static final int MAX_REALNAME_LENGTH = 30;
   public static final int MAX_NICKNAME_LENGTH = 30;
   public static final int MAX_EMAIL_LENGTH = 80;
 
@@ -39,9 +37,7 @@ public class User implements Serializable {
   @Persistent
   private String email;
   @Persistent
-  private String firstname;
-  @Persistent
-  private String lastname;
+  private String realName;
   @Persistent
   private String nickname;
   private boolean administrator = false;
@@ -49,8 +45,7 @@ public class User implements Serializable {
 
   public User() {
     email = "";
-    firstname = "";
-    lastname = "";
+    realName = "";
     nickname = "";
   }
 
@@ -62,17 +57,10 @@ public class User implements Serializable {
   }
 
   /**
-   * @return The first name of this user 
+   * @return The real name of this user 
    */
-  public String getFirstname() {
-    return firstname;
-  }
-
-  /**
-   * @return The last name of this user 
-   */
-  public String getLastname() {
-    return lastname;
+  public String getRealname() {
+    return realName;
   }
 
   /**
@@ -97,18 +85,10 @@ public class User implements Serializable {
   }
 
   /**
-   * @param firstname The first name to set for this user
+   * @param realname The real name to set for this user
    */
-  public void setFirstname(String firstname) {
-    this.firstname = firstname;
-  }
-
-
-  /**
-   * @param lastname The last name to set for this user
-   */
-  public void setLastname(String lastname) {
-    this.lastname = lastname;
+  public void setRealname(String realName) {
+    this.realName = realName;
   }
 
   /**
@@ -143,8 +123,7 @@ public class User implements Serializable {
    * @return True if the information is valid, false if not
    */
   public boolean isValid() {		
-    return Validation.validateString( firstname, MIN_FIRSTNAME_LENGTH, MAX_FIRSTNAME_LENGTH ) &&
-    Validation.validateString( lastname, MIN_LASTNAME_LENGTH, MAX_LASTNAME_LENGTH ) &&
+    return Validation.validateString( realName, MIN_REALNAME_LENGTH, MAX_REALNAME_LENGTH ) &&
     Validation.validateString( email, 0, MAX_EMAIL_LENGTH ) &&
     Validation.validateEmail( email ) &&
     Validation.validateString( nickname, MIN_NICKNAME_LENGTH, MAX_NICKNAME_LENGTH );

@@ -48,6 +48,8 @@ import com.puzzlebazar.client.core.view.UserSettingsGeneralView;
 import com.puzzlebazar.client.core.view.UserSettingsTabView;
 import com.puzzlebazar.client.resources.Resources;
 import com.puzzlebazar.client.resources.Translations;
+import com.puzzlebazar.client.utils.ChangeMonitor;
+import com.puzzlebazar.client.utils.DefaultChangeMonitor;
 
 import com.google.inject.Singleton;
 
@@ -62,6 +64,7 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     bind(EventBus.class).to(DefaultEventBus.class).in(Singleton.class);
     bind(PlaceManager.class).to(PuzzlebazarPlaceManager.class).in(Singleton.class);
     bind(TokenFormatter.class).to(ParameterTokenFormatter.class).in(Singleton.class);
+    bind(ChangeMonitor.class).to(DefaultChangeMonitor.class).in(Singleton.class);
     bind(CurrentUser.class).asEagerSingleton();
     
     // Presenter bundles

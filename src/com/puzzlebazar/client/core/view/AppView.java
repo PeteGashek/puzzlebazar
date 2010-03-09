@@ -12,18 +12,23 @@ public class AppView implements AppPresenter.MyDisplay {
 
   interface Binder extends UiBinder<Widget, AppView> { }
   protected static final Binder binder = GWT.create(Binder.class);
+
   private final Widget widget;
-  @Override public Widget asWidget() {
-    return widget;
-  }
   
-  @UiField FlowPanel topBarContainer;
+  @UiField 
+  FlowPanel topBarContainer;
   
-  @UiField FlowPanel mainContentContainer;
+  @UiField 
+  FlowPanel mainContentContainer;
   
   @Inject
   public AppView() {
     widget = binder.createAndBindUi(this);
+  }
+  
+  @Override 
+  public Widget asWidget() {
+    return widget;
   }
 
   @Override

@@ -13,10 +13,8 @@ public class UserSettingsTabView implements UserSettingsTabPresenter.MyDisplay {
 
   interface Binder extends UiBinder<Widget, UserSettingsTabView> { }
   protected static final Binder binder = GWT.create(Binder.class);
+  
   private final Widget widget;
-  @Override public Widget asWidget() {
-    return widget;
-  }
   
   @UiField
   SimpleTabPanel tabPanel;
@@ -26,6 +24,11 @@ public class UserSettingsTabView implements UserSettingsTabPresenter.MyDisplay {
     widget = binder.createAndBindUi(this);
   }
 
+  @Override 
+  public Widget asWidget() {
+    return widget;
+  }
+  
   @Override
   public Tab addTab( String tabName, String historyToken, float priority ) {
     return tabPanel.addTab(tabName, historyToken, priority);

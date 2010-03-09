@@ -50,6 +50,7 @@
 		.panel {
 			background-color: lightPanelColor;
 			padding: 5px;
+			overflow: hidden;
 		}
 	</ui:style>
 

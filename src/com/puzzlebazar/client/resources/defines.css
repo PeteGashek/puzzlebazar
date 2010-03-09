@@ -3,3 +3,7 @@
 @def titleFontWeight  bold;
 @def titleFontSize    22px;
 @def titleColor #921b12;
+@def minAppWidth 700px;
+@def leftColWidth 200px;
+@def formLineSpacing 8px;
+

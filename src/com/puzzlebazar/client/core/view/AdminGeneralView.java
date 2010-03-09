@@ -10,14 +10,18 @@ public class AdminGeneralView implements AdminGeneralPresenter.MyDisplay {
 
   interface Binder extends UiBinder<Widget, AdminGeneralView> { }
   protected static final Binder binder = GWT.create(Binder.class);
+
   private final Widget widget;
-  @Override public Widget asWidget() {
-    return widget;
-  }
   
   @Inject
   public AdminGeneralView() {
     widget = binder.createAndBindUi(this);
   }
+
+  @Override 
+  public Widget asWidget() {
+    return widget;
+  }
+  
 
 }

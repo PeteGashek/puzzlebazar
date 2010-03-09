@@ -10,14 +10,17 @@ public class AdminUsersView implements AdminUsersPresenter.MyDisplay {
 
   interface Binder extends UiBinder<Widget, AdminUsersView> { }
   protected static final Binder binder = GWT.create(Binder.class);
+
   private final Widget widget;
-  @Override public Widget asWidget() {
-    return widget;
-  }
   
   @Inject
   public AdminUsersView() {
     widget = binder.createAndBindUi(this);
   }
 
+  @Override 
+  public Widget asWidget() {
+    return widget;
+  }
+  
 }

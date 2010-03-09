@@ -18,15 +18,16 @@ public class MainPageView implements MainPagePresenter.MyDisplay {
   @UiField
   FlowPanel newsPanel;
   
-  @Override public Widget asWidget() {
-    return widget;
-  }
-  
   @Inject
   public MainPageView() {
     widget = binder.createAndBindUi(this);
   }
-
+  
+  @Override 
+  public Widget asWidget() {
+    return widget;
+  }
+  
   @Override
   public void addNewsWidget(Widget widget) {
     newsPanel.add( widget );

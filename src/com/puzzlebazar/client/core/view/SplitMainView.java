@@ -13,13 +13,14 @@ public class SplitMainView implements SplitMainPresenter.MyDisplay {
 
   interface Binder extends UiBinder<Widget, SplitMainView> { }
   protected static final Binder binder = GWT.create(Binder.class);
-  private final Widget widget;
-  @Override public Widget asWidget() {
-    return widget;
-  }
   
-  @UiField FlowPanel sideBarContainer;
-  @UiField FlowPanel centerContentContainer;
+  private final Widget widget;
+  
+  @UiField 
+  FlowPanel sideBarContainer;
+  
+  @UiField 
+  FlowPanel centerContentContainer;
 
   @UiField(provided = true)
   final Resources resources;
@@ -29,7 +30,12 @@ public class SplitMainView implements SplitMainPresenter.MyDisplay {
     this.resources = resources;
     widget = binder.createAndBindUi(this);    
   }
-
+  
+  @Override 
+  public Widget asWidget() {
+    return widget;
+  }
+  
   @Override
   public void setSideBarContent(Widget sideBarContent) {
     sideBarContainer.clear();

@@ -36,12 +36,12 @@
 		}
 		
 		.sideBarContainer {
-			width: 200px;
+			width: leftColWidth;
 			float: left;			
 		}
 		
 		.centerContentContainer {
-			margin-left: 200px;
+			margin-left: leftColWidth;
 		}
 	</ui:style>
 

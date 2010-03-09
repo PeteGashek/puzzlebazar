@@ -18,15 +18,16 @@ public class NewsItemView implements NewsItemPresenter.MyDisplay {
   @UiField
   Label title;
   
-  @Override public Widget asWidget() {
-    return widget;
-  }
-  
   @Inject
   public NewsItemView() {
     widget = binder.createAndBindUi(this);
   }
 
+  @Override 
+  public Widget asWidget() {
+    return widget;
+  }
+  
   @Override
   public void setTitle(String title) {
     this.title.setText( title );

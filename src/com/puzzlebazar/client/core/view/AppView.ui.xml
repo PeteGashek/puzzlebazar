@@ -10,7 +10,7 @@
 
 	<ui:style src='../../resources/defines.css'>
 		.app {
-			min-width: 700px;
+			min-width: minAppWidth;
 		}
 	</ui:style>
 		

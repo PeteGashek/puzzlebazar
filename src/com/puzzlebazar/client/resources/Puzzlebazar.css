@@ -8,3 +8,14 @@ a,a:visited,a:hover {
 .username {
 	font-weight: bold;
 }
+
+/* Standard margins for forms embedded in tabs. */
+.formMargin {
+	margin: 10px;
+}
+
+.errorText {
+	color: red;
+	font-size: 80%;
+	margin-top: 2px;
+}

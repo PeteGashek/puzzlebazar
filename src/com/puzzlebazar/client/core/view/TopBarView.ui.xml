@@ -25,27 +25,31 @@
 	</ui:style>
 
 	<ui:with field='resources' type='com.puzzlebazar.client.resources.Resources' />
-  <ui:with field='nameTokens' type='com.puzzlebazar.client.NameTokens' />
+	<ui:with field='nameTokens' type='com.puzzlebazar.client.NameTokens' />
 
 	<g:HTMLPanel>
 		<m:TokenSeparatedList addStyleNames='{style.topBar}'
 			token='&nbsp;|&nbsp;' ui:field='bar'>
-			<g:InlineLabel addStyleNames='{resources.style.username}' ui:field='notSignedIn'>
+			<g:InlineLabel addStyleNames='{resources.style.username}'
+				ui:field='notSignedIn'>
 				<ui:msg description='Top bar indication, user not signed in.'>Not signed in</ui:msg>
-		  </g:InlineLabel>
-      <g:Anchor ui:field='signIn'>
-        <ui:msg description='Top bar, sign in link'>Sign in</ui:msg>
-      </g:Anchor>
-      <g:InlineLabel addStyleNames='{resources.style.username}' ui:field='username' />
-			<g:InlineHyperlink ui:field='settings' targetHistoryToken='{nameTokens.getUserSettingsGeneral}' >
+			</g:InlineLabel>
+			<g:Anchor ui:field='signIn'>
+				<ui:msg description='Top bar, sign in link'>Sign in</ui:msg>
+			</g:Anchor>
+			<g:InlineLabel addStyleNames='{resources.style.username}'
+				ui:field='username' />
+			<g:InlineHyperlink ui:field='settings'
+				targetHistoryToken='{nameTokens.getUserSettingsGeneral}'>
 				<ui:msg description='Top bar, access settings page'>Settings</ui:msg>
-      </g:InlineHyperlink>
-      <g:InlineHyperlink ui:field='administration' targetHistoryToken='{nameTokens.getAdminGeneral}' >
-        <ui:msg description='Top bar, access administration page'>Administration</ui:msg>
-      </g:InlineHyperlink>
-      <g:Anchor ui:field='signOut'>
-        <ui:msg description='Top bar, sign out link'>Sign out</ui:msg>
-      </g:Anchor>
+			</g:InlineHyperlink>
+			<g:InlineHyperlink ui:field='administration'
+				targetHistoryToken='{nameTokens.getAdminGeneral}'>
+				<ui:msg description='Top bar, access administration page'>Administration</ui:msg>
+			</g:InlineHyperlink>
+			<g:Anchor ui:field='signOut'>
+				<ui:msg description='Top bar, sign out link'>Sign out</ui:msg>
+			</g:Anchor>
 		</m:TokenSeparatedList>
 		<div class='{style.underline}' style='left: 0pt' />
 		<div class='{style.underline}' style='right: 0pt' />
