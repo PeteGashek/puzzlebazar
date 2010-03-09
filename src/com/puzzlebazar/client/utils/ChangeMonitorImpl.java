@@ -10,12 +10,10 @@ import com.philbeaudoin.gwt.presenter.client.HandlerContainerImpl;
  * <b>Important:</b> This class participates in dependency injection.
  * Make sure you inject it, never instantiate it with <code>new</code>.
  * <p />
- * Inherit from this class and implement the methods
- * {@link #changeDetected()} and {@link #modificationReverted}.
  * 
  * @author Philippe Beaudoin
  */
-public abstract class ChangeMonitorImpl 
+public class ChangeMonitorImpl 
 extends HandlerContainerImpl
 implements ChangeMonitor {
 
@@ -35,21 +33,17 @@ implements ChangeMonitor {
   }
 
   private final List<ChangeMonitorUnit> changeMonitors = new ArrayList<ChangeMonitorUnit>();
-  private final MonitoredObjectHandler handler = new MonitoredObjectHandler();
+  private final MonitoredObjectHandler subHandler = new MonitoredObjectHandler();
   private boolean changed = false;
-
+  private ChangeHandler handler = null;
+  
+  /**
+   * Creates a new {@link ChangeMonitor} object.
+   */
   public ChangeMonitorImpl() {
     super();
   }
-
-
-  /* (non-Javadoc)
-   * @see com.puzzlebazar.client.utils.ChangeMonitor#monitorWidget(com.google.gwt.user.client.ui.HasText)
-   */  
-  public void monitorWidget( HasText widget ) {
-    changeMonitors.add( new ChangeMonitorUnit(widget, handler) );
-  }
-
+  
   @Override
   protected void onUnbind() {
     super.onUnbind();
@@ -59,6 +53,28 @@ implements ChangeMonitor {
     changeMonitors.clear();
   }    
 
+  @Override
+  public void setHandler( ChangeHandler handler ) {
+    this.handler = handler;
+  }
+  
+  @Override
+  public void monitorWidget( HasText widget ) {
+    changeMonitors.add( new ChangeMonitorUnit(widget, subHandler) );
+  }
+
+  @Override
+  public void changeDetected() {
+    if( handler != null )
+      handler.changeDetected();
+  }
+
+  @Override
+  public void changeReverted() {
+    if( handler != null )
+      handler.changeReverted();
+  }
+  
   /**
    * A monitored object has recently changed, see if it affects our status.
    */
@@ -79,4 +95,13 @@ implements ChangeMonitor {
     changed = false;
     changeReverted();      
   }
+
+  @Override
+  public void revert() {
+    for( ChangeMonitorUnit changeMonitor : changeMonitors  ) {
+      changeMonitor.revert();
+    }
+    changed = false;
+  }
+
 }

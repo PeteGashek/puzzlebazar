@@ -1,8 +1,10 @@
 package com.puzzlebazar.client.core.view;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
@@ -31,6 +33,12 @@ public class UserSettingsGeneralView implements UserSettingsGeneralPresenter.MyD
 
   @UiField
   Label realNameError;
+
+  @UiField
+  Button applyButton;
+
+  @UiField
+  Button cancelButton;
   
   @Inject
   public UserSettingsGeneralView() {
@@ -50,6 +58,21 @@ public class UserSettingsGeneralView implements UserSettingsGeneralPresenter.MyD
   @Override
   public HasText getRealName() {
     return realName;
+  }
+
+  @Override
+  public void setApplyEnabled(boolean enabled) {
+    applyButton.setEnabled(enabled);
+  }
+
+  @Override
+  public HasClickHandlers getApply() {
+    return applyButton;
+  }
+
+  @Override
+  public HasClickHandlers getCancel() {
+    return cancelButton;
   }
 
 }

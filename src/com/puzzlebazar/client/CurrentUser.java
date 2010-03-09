@@ -23,7 +23,7 @@ public class CurrentUser {
   private final int refreshDelay;
   private final int retryDelay;
 
-  private User userInfo = null;
+  private User user = null;
   
   /**
    * Creates
@@ -60,7 +60,7 @@ public class CurrentUser {
       @Override
       public void onSuccess(GetUserInfoResult result) {
         if( result != null ) {
-          userInfo = result.getUserInfo();
+          user = result.getUserInfo();
           CurrentUserInfoAvailableEvent.fire( eventBus, result.getUserInfo() );
           scheduleFetch( refreshDelay );
         }
@@ -70,7 +70,7 @@ public class CurrentUser {
       }
 
       private void failed() {
-        userInfo = null; // Nobody is logged in
+        user = null; // Nobody is logged in
         scheduleFetch( retryDelay );
       }
     } );
@@ -92,8 +92,8 @@ public class CurrentUser {
     timer.schedule( delay );
   }
 
-  public User getUserInfo() {
-    return userInfo;
+  public User getUser() {
+    return user;
   }
 
   /**
@@ -103,7 +103,7 @@ public class CurrentUser {
    *         <code>false</code> if he is not logged in or if he is not administrator.  
    */
   public boolean isAdministrator() {
-    return userInfo != null && userInfo.isAdministrator();
+    return user != null && user.isAdministrator();
   }
 
   /**
@@ -112,7 +112,7 @@ public class CurrentUser {
    * @return <code>true</code> if a user is logged in. <code>false</code> otherwise. 
    */
   public boolean isLoggedIn() {
-    return userInfo != null;
+    return user != null;
   }
   
   

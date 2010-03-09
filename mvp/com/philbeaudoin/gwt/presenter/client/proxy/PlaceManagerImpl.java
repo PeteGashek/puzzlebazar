@@ -19,6 +19,7 @@ public abstract class PlaceManagerImpl implements PlaceManager, ValueChangeHandl
   private HandlerRegistration windowClosingHandlerRegistration = null;
   private String currentHistoryToken = "";
   private String currentLocation = "";
+  private String previousHistoryToken = null;
 
 
   public PlaceManagerImpl( EventBus eventBus, TokenFormatter tokenFormatter ) {
@@ -42,6 +43,7 @@ public abstract class PlaceManagerImpl implements PlaceManager, ValueChangeHandl
       if ( historyToken == null || !historyToken.equals( requestToken ) ) {
         History.newItem( requestToken, false );
       }
+      previousHistoryToken = currentHistoryToken;
       currentHistoryToken = requestToken;
       currentLocation = Window.Location.getHref();
     } catch ( TokenFormatException e ) {
@@ -94,7 +96,6 @@ public abstract class PlaceManagerImpl implements PlaceManager, ValueChangeHandl
         else
           revealErrorPlace( historyToken );
       }
-      
     } catch ( TokenFormatException e ) {
       revealErrorPlace( historyToken );
     }
@@ -134,4 +135,11 @@ public abstract class PlaceManagerImpl implements PlaceManager, ValueChangeHandl
     return confirmed;
   }
 
+  @Override
+  public final void navigateBack() {
+    if( previousHistoryToken != null )
+      History.newItem( previousHistoryToken );
+    else
+      revealDefaultPlace();
+  }
 }

@@ -25,9 +25,11 @@ public final class DefaultChangeMonitor extends ChangeMonitorImpl {
   public void changeDetected() {
     placeManager.setOnLeaveConfirmation( 
         translations.changeDetected() );
+    super.changeDetected();
   }
   @Override
   public void changeReverted() {
     placeManager.setOnLeaveConfirmation( null );
+    super.changeReverted();
   }
 }

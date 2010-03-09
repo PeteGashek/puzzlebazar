@@ -1,9 +1,13 @@
 package com.puzzlebazar.client.utils;
 
+import com.google.gwt.event.dom.client.HasAllKeyHandlers;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HasText;
 
 /**
@@ -16,11 +20,13 @@ import com.google.gwt.user.client.ui.HasText;
  * @author Philippe Beaudoin
  */
 public class ChangeMonitorUnit 
-implements ValueChangeHandler<String> {
+implements ValueChangeHandler<String>, KeyDownHandler {
   
   private final HasText widget;
   private final ChangeHandler handler;
   private final HandlerRegistration handlerRegistration;
+  private final Timer timer;
+  private boolean timerRunning = false;
   private String  originalValue;
   private boolean changed = false;
   
@@ -38,9 +44,20 @@ implements ValueChangeHandler<String> {
       final ChangeHandler handler ) {
     this.widget = widget;
     this.handler = handler;
-    resetOriginalValue();
-    if ( widget instanceof HasValueChangeHandlers<?> )
-      handlerRegistration = ((HasValueChangeHandlers<String>)widget).addValueChangeHandler( this );
+    this.timer = new Timer(){
+      @Override
+      public void run() {
+        checkChanges(widget.getText());
+        timerRunning = false;
+      }      
+    }; 
+
+    revert();
+    
+    if ( widget instanceof HasAllKeyHandlers )
+      handlerRegistration = ((HasAllKeyHandlers)widget).addKeyDownHandler( this );
+    else if ( widget instanceof HasValueChangeHandlers<?> )
+      handlerRegistration = ((HasValueChangeHandlers<String>)widget).addValueChangeHandler( this );    
     else
       handlerRegistration = null;
   }
@@ -63,16 +80,37 @@ implements ValueChangeHandler<String> {
   }
   
   /**
-   * Makes sure the original value is the one currently contained in the widget.
+   * Revert to the original value that was contained in the widget.
+   * Does not notify the handler. 
    */
-  public void resetOriginalValue() {
+  public void revert() {
     originalValue = widget.getText();
     changed = false;
   }
 
   @Override
   public void onValueChange(ValueChangeEvent<String> event) {
-    boolean newChanged = !event.getValue().equals( originalValue );
+    scheduleCheckChanges();
+  }
+
+  @Override
+  public void onKeyDown(KeyDownEvent event) {
+    scheduleCheckChanges();
+  }
+  
+  /**
+   * Schedule a check changes a short way into
+   * the future, to reduce UI stress.
+   */
+  private void scheduleCheckChanges() {
+    if( !timerRunning ) {
+      timer.schedule( 500 );
+      timerRunning = true;
+    }
+  }
+
+  private void checkChanges(String value) {
+    boolean newChanged = !value.equals( originalValue );
     if( changed == newChanged )
       return;
     changed = newChanged;
@@ -81,5 +119,6 @@ implements ValueChangeHandler<String> {
     else
       handler.changeReverted();
   }
+
   
 }

@@ -1,6 +1,7 @@
 package com.puzzlebazar.client.utils;
 
 import com.google.gwt.user.client.ui.HasText;
+import com.philbeaudoin.gwt.presenter.client.HandlerContainer;
 
 /**
  * Classes of this type contains a collection of {@link ChangeMonitorUnit}
@@ -11,7 +12,15 @@ import com.google.gwt.user.client.ui.HasText;
  * 
  * @author Philippe Beaudoin
  */
-public interface ChangeMonitor extends ChangeHandler {
+public interface ChangeMonitor extends ChangeHandler, HandlerContainer {
+
+  /**
+   * Indicates a handler that will be called whenever a
+   * change is detected.
+   * 
+   * @param handler The {@link ChangeHandler} to call.
+   */
+  void setHandler(ChangeHandler handler);
 
   /**
    * Starts monitoring changes on a new widget. This object will be
@@ -22,5 +31,11 @@ public interface ChangeMonitor extends ChangeHandler {
    *               change will not be monitored (silently).
    */
   public abstract void monitorWidget(HasText widget);
+
+  /**
+   * Revert all the changes so that objects go back to their original
+   * values. Does not notify the associated {@link ChangeHandler}.
+   */
+  void revert();
 
 }

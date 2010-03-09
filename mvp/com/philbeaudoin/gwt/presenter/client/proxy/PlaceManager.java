@@ -71,5 +71,10 @@ public interface PlaceManager {
    * @param placeRequest The {@link PlaceRequest} for the place that has just been revealed.
    */
   public void onPlaceRevealed( PlaceRequest placeRequest );
+
+  /**
+   * Navigate back to last visited history token.
+   */
+  public void navigateBack();
   
 }

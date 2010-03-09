@@ -76,11 +76,11 @@
 		<g:Label ui:field='realNameError' addStyleNames='{style.col3} {style.nudge} {resources.style.errorText}' />
 		<div class='{style.lineSkip}' />
 
-		<g:Button>
+		<g:Button ui:field='applyButton'>
 			<ui:msg description='Button to apply modifications in a form'>
 				Apply Modifications</ui:msg>
 		</g:Button>
-		<g:Button>
+		<g:Button ui:field='cancelButton'>
 			<ui:msg description='Cancel button within a form' meaning='A button'>
 				Cancel</ui:msg>
 		</g:Button>
