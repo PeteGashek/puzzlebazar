@@ -846,10 +846,10 @@ class BindingsProcessor implements BindingIndex {
       // Detect provider methods and handle them
       // TODO(bstoler): Update this when the SPI explicitly has a case for provider methods
       Provider<? extends T> provider = providerInstanceBinding.getProviderInstance();
-      if (provider instanceof ProviderMethod) {
+      if (provider instanceof ProviderMethod<?>) {
         ProviderMethodBinding binding = providerMethodBindingProvider.get();
         try {
-          binding.setProviderMethod((ProviderMethod) provider);
+          binding.setProviderMethod((ProviderMethod<?>) provider);
           addBinding(targetKey, binding);
         } catch (UnableToCompleteException e) {
           messages.add(new Message(providerInstanceBinding.getSource(),
@@ -858,7 +858,7 @@ class BindingsProcessor implements BindingIndex {
         return null;
       }
 
-      if (provider instanceof GwtDotCreateProvider) {
+      if (provider instanceof GwtDotCreateProvider<?>) {
         addImplicitBinding();
         return null;
       }

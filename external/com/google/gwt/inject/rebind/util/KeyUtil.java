@@ -56,6 +56,7 @@ import java.util.HashSet;
 @Singleton
 public class KeyUtil {
   private final TypeOracle typeOracle;
+  @SuppressWarnings("unused")
   private final NameGenerator nameGenerator;
   private final MemberCollector memberCollector;
 
@@ -89,10 +90,10 @@ public class KeyUtil {
 
   public Class<?> getRawType(Key<?> key) {
     Type type = key.getTypeLiteral().getType();
-    if (type instanceof Class) {
-      return (Class) type;
+    if (type instanceof Class<?>) {
+      return (Class<?>) type;
     } else if (type instanceof ParameterizedType) {
-      return (Class) ((ParameterizedType) type).getRawType();
+      return (Class<?>) ((ParameterizedType) type).getRawType();
     }
 
     throw new ProvisionException("Can't get raw type for " + key);
@@ -107,8 +108,8 @@ public class KeyUtil {
   }
 
   public JClassType getClassType(Type type) {
-    if (type instanceof Class) {
-      return typeOracle.findType(((Class) type).getCanonicalName());
+    if (type instanceof Class<?>) {
+      return typeOracle.findType(((Class<?>) type).getCanonicalName());
     } else if (type instanceof ParameterizedType) {
       ParameterizedType parameterized = (ParameterizedType) type;
 
@@ -118,7 +119,7 @@ public class KeyUtil {
         parameters[i++] = getClassType(paramType);
       }
 
-      Class rawClass = (Class) parameterized.getRawType();
+      Class<?> rawClass = (Class<?>) parameterized.getRawType();
       JClassType classType =
           typeOracle.findType(rawClass.getCanonicalName());
       JGenericType genericType = classType.isGenericType();
@@ -384,7 +385,7 @@ public class KeyUtil {
     if (primitiveType != null) {
       String boxClassName = primitiveType.getQualifiedBoxedSourceName();
       Class<?> boxClass = Class.forName(boxClassName, false, classLoader);
-      return (Class) boxClass.getField("TYPE").get(null);
+      return (Class<?>) boxClass.getField("TYPE").get(null);
     }
 
     JClassType classType = type.isClassOrInterface();

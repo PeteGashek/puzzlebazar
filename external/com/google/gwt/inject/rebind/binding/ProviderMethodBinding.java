@@ -43,6 +43,7 @@ public class ProviderMethodBinding implements Binding {
   private final KeyUtil keyUtil;
   private final SourceWriteUtil sourceWriteUtil;
   private final TreeLogger logger;
+  @SuppressWarnings("unused")
   private final NameGenerator nameGenerator;
 
   private Class<?> moduleClass;
@@ -58,7 +59,7 @@ public class ProviderMethodBinding implements Binding {
     this.nameGenerator = nameGenerator;
   }
 
-  public void setProviderMethod(ProviderMethod providerMethod) throws UnableToCompleteException {
+  public void setProviderMethod(ProviderMethod<?> providerMethod) throws UnableToCompleteException {
     try {
       this.gwtProviderMethod = keyUtil.javaToGwtMethod(providerMethod.getMethod());
     } catch (NotFoundException e) {

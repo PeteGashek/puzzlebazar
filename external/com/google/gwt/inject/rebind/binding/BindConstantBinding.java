@@ -30,6 +30,7 @@ import java.util.Collections;
  */
 public class BindConstantBinding implements Binding {
 
+  @SuppressWarnings("unused")
   private final NameGenerator nameGenerator;
   private String valueToOutput;
 
@@ -43,11 +44,11 @@ public class BindConstantBinding implements Binding {
   public static boolean isConstantKey(Key<?> key) {
     Type type = key.getTypeLiteral().getType();
 
-    if (!(type instanceof Class)) {
+    if (!(type instanceof Class<?>)) {
       return false;
     }
 
-    Class clazz = (Class) type;
+    Class<?> clazz = (Class<?>) type;
     return clazz == String.class || clazz.isPrimitive() || Number.class.isAssignableFrom(clazz)
         || Character.class.isAssignableFrom(clazz) || Boolean.class.isAssignableFrom(clazz)
         || clazz.isEnum();
@@ -83,7 +84,7 @@ public class BindConstantBinding implements Binding {
       valueToOutput = instance.toString() + "d";
     } else if (instance instanceof Number || instance instanceof Boolean) {
       valueToOutput = instance.toString(); // Includes int & short.
-    } else if (instance instanceof Enum) {
+    } else if (instance instanceof Enum<?>) {
       Class<?> clazz = instance.getClass();
 
       // Enums become anonymous inner classes if they have a custom
@@ -96,7 +97,7 @@ public class BindConstantBinding implements Binding {
       }
       String className = clazz.getCanonicalName();
 
-      valueToOutput = className + "." + ((Enum) instance).name();
+      valueToOutput = className + "." + ((Enum<?>) instance).name();
     } else {
       throw new IllegalArgumentException("Attempted to create a constant binding with a "
           + "non-constant type: " + type);

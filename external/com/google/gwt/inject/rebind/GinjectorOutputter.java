@@ -81,6 +81,7 @@ class GinjectorOutputter {
    * determine which methods need to be called during the initialization of an
    * object.
    */
+  @SuppressWarnings("unused")
   private final MemberCollector injectableCollector;
 
   private final SourceWriteUtil sourceWriteUtil;
