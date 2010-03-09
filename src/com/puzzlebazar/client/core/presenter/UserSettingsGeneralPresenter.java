@@ -113,6 +113,7 @@ implements ChangeHandler {
   }
 
   private void cancel() {
+    placeManager.setOnLeaveConfirmation(null);
     placeManager.navigateBack();
   }
 }
