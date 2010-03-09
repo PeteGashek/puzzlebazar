@@ -2,7 +2,7 @@ package com.philbeaudoin.gwt.presenter.client;
 
 /**
  * <b>Important:</b> This class participates in dependency injection
- * and should be injected, never instanciated with <code>new</code>.
+ * and should be injected, never instantiated with <code>new</code>.
  * <p />
  * A class that can contain handlers. These handlers are registered
  * when the class is bound and unregistered when the class is 
