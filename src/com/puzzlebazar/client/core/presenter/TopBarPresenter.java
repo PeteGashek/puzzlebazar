@@ -6,7 +6,6 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.philbeaudoin.gwt.dispatch.client.DispatchAsync;
 import com.philbeaudoin.gwt.presenter.client.Display;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
@@ -34,7 +33,7 @@ implements CurrentUserInfoAvailableHandler {
   @Inject
   public TopBarPresenter(
       final EventBus eventBus, 
-      final Provider<MyDisplay> display, 
+      final MyDisplay display, 
       final MyProxy proxy,
       final DispatchAsync dispatcher ) {
     super(eventBus, display, proxy);

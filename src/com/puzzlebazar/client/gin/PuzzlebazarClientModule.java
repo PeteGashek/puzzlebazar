@@ -16,6 +16,7 @@ import com.puzzlebazar.client.core.presenter.AdminUsersPresenter;
 import com.puzzlebazar.client.core.presenter.AppPresenter;
 import com.puzzlebazar.client.core.presenter.LinkColumnPresenter;
 import com.puzzlebazar.client.core.presenter.MainPagePresenter;
+import com.puzzlebazar.client.core.presenter.NewsItemPresenter;
 import com.puzzlebazar.client.core.presenter.SplitMainPresenter;
 import com.puzzlebazar.client.core.presenter.TabbedPresenterBundle;
 import com.puzzlebazar.client.core.presenter.TopBarPresenter;
@@ -39,6 +40,7 @@ import com.puzzlebazar.client.core.view.AdminTabView;
 import com.puzzlebazar.client.core.view.AppView;
 import com.puzzlebazar.client.core.view.LinkColumnView;
 import com.puzzlebazar.client.core.view.MainPageView;
+import com.puzzlebazar.client.core.view.NewsItemView;
 import com.puzzlebazar.client.core.view.SplitMainView;
 import com.puzzlebazar.client.core.view.TopBarView;
 import com.puzzlebazar.client.core.view.UserSettingsAccountsView;
@@ -64,6 +66,9 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     
     // Presenter bundles
     bind(TabbedPresenterBundle.class).in(Singleton.class);
+
+    // Presenter widget
+    bindPresenterWidget(NewsItemPresenter.class, NewsItemPresenter.MyDisplay.class, NewsItemView.class);
 
     // Presenters
     bind(ProxyBase.class).annotatedWith(DefaultPlace.class).to(MainPageProxy.class);

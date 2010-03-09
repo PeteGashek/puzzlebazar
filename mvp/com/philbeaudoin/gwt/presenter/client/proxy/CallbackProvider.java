@@ -15,5 +15,11 @@ import com.google.inject.Provider;
  * @author Philippe Beaudoin
  */
 public interface CallbackProvider<T> {
- void get(Callback<T> callback);
+  /**
+   * Asynchronously get the provided object.
+   * 
+   * @param callback The {@link Callback} to invoke once the object is available.
+   *                 The parameter to the callback will be the provided object.
+   */
+  void get(Callback<T> callback);
 }

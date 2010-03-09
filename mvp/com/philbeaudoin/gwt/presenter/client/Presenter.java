@@ -1,16 +1,27 @@
 package com.philbeaudoin.gwt.presenter.client;
 
-import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Singleton;
 import com.philbeaudoin.gwt.presenter.client.proxy.PlaceManager;
 import com.philbeaudoin.gwt.presenter.client.proxy.PlaceRequest;
 import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
-import com.philbeaudoin.gwt.presenter.client.proxy.ProxyPlace;
+import com.philbeaudoin.gwt.presenter.client.proxy.ProxyBase;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 
-public interface Presenter {
+/**
+ * A singleton presenter, one of the basic building block of
+ * the <a href="http://code.google.com/intl/nl/events/io/2009/sessions/GoogleWebToolkitBestPractices.html">
+ * model-view-presenter</a> architecture. Each page in your
+ * application should correspond to a singleton {@link Presenter}
+ * and it should have an accompanying singleton {@link Display} and
+ * {@link Proxy}.
+ * 
+ * @author Philippe Beaudoin
+ */
+@Singleton
+public interface Presenter extends PresenterWidget {
 
   /**
-   * <b>Important:</b> Do not call directly. Call {@link ProxyPlace#reveal()}
+   * <b>Important:</b> Do not call directly. Call {@link ProxyBase#reveal()}
    * instead. This way you can make sure you don't inadvertently reveal a 
    * non-leaf Presenter. Also, you will benefit from the change confirmation
    * mechanism. (See {@link PlaceManager#setOnLeaveConfirmation(String)}).
@@ -34,13 +45,6 @@ public interface Presenter {
   public void prepareFromRequest( PlaceRequest request );
   
   /**
-   * Returns the {@link Display} for the current presenter.
-   *
-   * @return The display.
-   */
-  public Display getDisplay();
-
-  /**
    * Returns the {@link Proxy} for the current presenter.
    *
    * @return The proxy.
@@ -55,32 +59,6 @@ public interface Presenter {
    */
   public void notifyChange();
 
-  /**
-   * <b>Important:</b> Make sure you call your superclass {@link #onReveal()}.
-   * <p />
-   * This method will be called whenever the presenter is revealed. Override
-   * it to perform any action (such as refreshing content) that needs
-   * to be done when the presenter is revealed.
-   * <p />
-   * This should never be called directly. Call 
-   * {@link ProxyPlace#reveal()} instead.
-   */
-  public void onReveal();
-  
-  /**
-   * <b>Important:</b> Make sure you call your superclass {@link #onHide()}.
-   * <p />
-   * You should call this method on your child presenters:
-   * <ul>
-   * <li>Right before you remove it from the DOM; and</li>
-   * <li>Whenever you receive a call to {@link #onHide()}.</li>
-   * </ul>
-   * Override this method to perform any clean-up operation. For example,
-   * objects created directly or indirectly during the call to
-   * {@link #onReveal()} should be disposed of in this methods.
-   */
-  public void onHide();
-  
   /**
    * This method is called when creating a {@link PlaceRequest} for this
    * {@link Presenter}. The presenter should add all the required parameters to the 
@@ -102,12 +80,5 @@ public interface Presenter {
    * @return The prepared place request.
    */
   public PlaceRequest prepareRequest( PlaceRequest request );
-
-  /**
-   * Makes it possible to access the {@link Widget} object associated with that presenter.
-   * 
-   * @return The Widget associated with that presenter.
-   */
-  public Widget getWidget();
 
 }

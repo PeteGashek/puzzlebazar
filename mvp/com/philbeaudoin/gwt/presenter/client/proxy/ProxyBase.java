@@ -28,6 +28,10 @@ public interface ProxyBase {
    * Upon being revealed presenters will ask to be inserted within 
    * their parent presenters by firing a {@link SetContentEvent}
    * which will cause the parent to be revealed too.
+   * <p />
+   * This call will fail for any non-leaf proxy. Usually only
+   * works for proxy that also have a {@link Place} (see
+   * {@link ProxyPlace}.
    */
   public abstract void reveal();
 

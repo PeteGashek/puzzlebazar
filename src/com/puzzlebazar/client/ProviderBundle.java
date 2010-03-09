@@ -25,14 +25,33 @@ public class ProviderBundle {
   public Provider<?> get(int providerId) {
     return providers[providerId];
   }
-  
+
+  /**
+   * Implements a {@link CallbackProvider} that implements code
+   * splitting for a specific type. The object will be provided 
+   * from a {@link ProviderBundle}.
+   * 
+   * @param <T> The type of the provided object.
+   * @param <B> The type of the {@link ProviderBundle} providing this object.
+   *
+   * @author Philippe Beaudoin
+   */
   public static class CodeSplit<T,B extends ProviderBundle> implements CallbackProvider<T> {
-  
+
     private final Translations translations;
-    
+
     private final AsyncProvider<B> bundleProvider;
     private final int providerId;
-    
+
+    /**
+     * Construct a {@link CallbackProvider}  that implements code
+     * splitting for a specific type. The object will be provided 
+     * from a {@link ProviderBundle}.
+     * 
+     * @param bundleProvider The {@link ProviderBundle} providing the object.
+     * @param providerId The identifier of the provided object, within the {@link ProviderBundle}.
+     * @param translations The {@link Translations}.
+     */
     public CodeSplit( 
         AsyncProvider<B> bundleProvider, 
         int providerId, 
@@ -41,14 +60,15 @@ public class ProviderBundle {
       this.providerId = providerId;
       this.translations = translations;
     }
-    
+
+    @Override
     public void get(final Callback<T> callback) {
       bundleProvider.get( new AsyncCallback<B>(){
         @Override
         public void onFailure(Throwable caught) {
           Window.alert( translations.codeLoadFailure() );
         }
-  
+
         @SuppressWarnings("unchecked")
         @Override
         public void onSuccess(B providerBundle) {
@@ -56,7 +76,7 @@ public class ProviderBundle {
         }
       } );
     }
-  
+
   }
 
 }

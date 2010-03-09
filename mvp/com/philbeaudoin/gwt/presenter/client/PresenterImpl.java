@@ -1,25 +1,13 @@
 package com.philbeaudoin.gwt.presenter.client;
 
 import com.google.gwt.event.shared.GwtEvent.Type;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.proxy.PlaceRequest;
 import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 
 public abstract class PresenterImpl<D extends Display, Proxy_ extends Proxy<?>> 
-extends HandlerContainerImpl implements Presenter {
+extends PresenterWidgetImpl<D> implements Presenter {
 
-  /**
-   * The display for the presenter.
-   */
-  protected final Provider<D> display;
-
-  /**
-   * The {@link EventBus} for the application.
-   */
-  protected final EventBus eventBus;
-  
   /**
    * The light-weight {@PresenterProxy} around this presenter.
    */
@@ -38,18 +26,12 @@ extends HandlerContainerImpl implements Presenter {
    */
   public PresenterImpl( 
       final EventBus eventBus, 
-      final Provider<D> display, 
+      final D display, 
       final Proxy_ proxy ) {
-    this.display = display;
-    this.eventBus = eventBus;
+    super(eventBus, display);
     this.proxy = proxy;
   }
   
-  @Override
-  public final D getDisplay() {
-    return display.get();
-  }
-
   @Override
   public final Proxy_ getProxy() {
     return proxy;
@@ -69,14 +51,6 @@ extends HandlerContainerImpl implements Presenter {
   protected abstract void setContentInParent();
 
   @Override
-  public void onReveal() {    
-  }
-
-  @Override
-  public void onHide() {    
-  }
-  
-  @Override
   public final void notifyChange() {
     getProxy().onPresenterChanged( this );
   }
@@ -90,11 +64,6 @@ extends HandlerContainerImpl implements Presenter {
   public PlaceRequest prepareRequest(PlaceRequest request) {
     // By default, no parameter to add to request
     return request;
-  }    
-
-  @Override
-  public Widget getWidget() {
-    return getDisplay().asWidget();
   }
   
 }

@@ -1,7 +1,6 @@
 package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.Display;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
@@ -24,7 +23,7 @@ public class UserSettingsAccountsPresenter extends PresenterImpl<UserSettingsAcc
   @Inject
   public UserSettingsAccountsPresenter(
       final EventBus eventBus, 
-      final Provider<MyDisplay> display,  
+      final MyDisplay display,  
       final MyProxy proxy ) {
     super(
         eventBus, 

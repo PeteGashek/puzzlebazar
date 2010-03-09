@@ -2,8 +2,8 @@
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 
 	<g:FlowPanel>
-	<g:Label>This is the main page. Welcome!</g:Label>
-	<g:FlowPanel ui:field="newsPanel" />    
+		<g:Label>This is a news item, its title is:</g:Label>
+		<g:Label ui:field="title" />
 	</g:FlowPanel>
 
 </ui:UiBinder>

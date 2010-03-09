@@ -3,11 +3,10 @@ package com.puzzlebazar.client.core.presenter;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.Display;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.Presenter;
+import com.philbeaudoin.gwt.presenter.client.PresenterWidget;
 import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
 
 
@@ -22,13 +21,13 @@ public class AppPresenter extends PresenterImpl<AppPresenter.MyDisplay, AppPrese
 
   private final TopBarPresenter topBarPresenter;
 
-  private Presenter mainContent = null;
+  private PresenterWidget mainContent = null;
 
   
   @Inject
   public AppPresenter(
       final EventBus eventBus, 
-      final Provider<MyDisplay> display, 
+      final MyDisplay display, 
       final MyProxy proxy,
       final TopBarPresenter topBarPresenter ) {
     super(eventBus, display, proxy);
@@ -53,7 +52,7 @@ public class AppPresenter extends PresenterImpl<AppPresenter.MyDisplay, AppPrese
     hideMainContent();    
   }
   
-  public void setMainContent(Presenter content) {
+  public void setMainContent(PresenterWidget content) {
     if( mainContent != content ) {
       hideMainContent();
       mainContent = content;

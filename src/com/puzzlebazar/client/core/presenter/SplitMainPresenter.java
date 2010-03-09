@@ -2,11 +2,10 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.Display;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.Presenter;
+import com.philbeaudoin.gwt.presenter.client.PresenterWidget;
 import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.puzzlebazar.client.core.proxy.AppProxy;
@@ -23,13 +22,13 @@ public class SplitMainPresenter extends PresenterImpl<SplitMainPresenter.MyDispl
   public interface MyProxy extends Proxy<SplitMainPresenter> {}
 
   private final LinkColumnPresenter linkColumnPresenter;
-  private Presenter sideBarContent = null;
-  private Presenter centerContent = null;
+  private PresenterWidget sideBarContent = null;
+  private PresenterWidget centerContent = null;
 
   @Inject
   public SplitMainPresenter(
       final EventBus eventBus, 
-      final Provider<MyDisplay> display, 
+      final MyDisplay display, 
       final MyProxy proxy,
       final LinkColumnPresenter  linkColumnPresenter ) {
     super(eventBus, display, proxy);
@@ -56,7 +55,7 @@ public class SplitMainPresenter extends PresenterImpl<SplitMainPresenter.MyDispl
   }
 
 
-  public void setSideBarContent(Presenter content) {
+  public void setSideBarContent(PresenterWidget content) {
     if( sideBarContent != content ) {
       hideSideBarContent();
       sideBarContent = content;
@@ -64,7 +63,7 @@ public class SplitMainPresenter extends PresenterImpl<SplitMainPresenter.MyDispl
     }
   }
   
-  public void setCenterContent(Presenter content) {
+  public void setCenterContent(PresenterWidget content) {
     if( centerContent  != content ) {
       hideCenterContent();
       centerContent = content;

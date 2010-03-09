@@ -2,6 +2,8 @@ package com.puzzlebazar.client.core.view;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.puzzlebazar.client.core.presenter.MainPagePresenter;
@@ -10,7 +12,12 @@ public class MainPageView implements MainPagePresenter.MyDisplay {
 
   interface Binder extends UiBinder<Widget, MainPageView> { }
   protected static final Binder binder = GWT.create(Binder.class);
+  
   private final Widget widget;
+  
+  @UiField
+  FlowPanel newsPanel;
+  
   @Override public Widget asWidget() {
     return widget;
   }
@@ -18,6 +25,16 @@ public class MainPageView implements MainPagePresenter.MyDisplay {
   @Inject
   public MainPageView() {
     widget = binder.createAndBindUi(this);
+  }
+
+  @Override
+  public void addNewsWidget(Widget widget) {
+    newsPanel.add( widget );
+  }
+
+  @Override
+  public void clearNewsWidgets() {
+    newsPanel.clear();
   }
 
 }
