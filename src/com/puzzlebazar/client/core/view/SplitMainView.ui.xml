@@ -5,14 +5,13 @@
 	-->
 
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-	xmlns:g='urn:import:com.google.gwt.user.client.ui' 
-  xmlns:m='urn:import:com.puzzlebazar.client.ui' 
+	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:m='urn:import:com.puzzlebazar.client.ui'
 	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
 	ui:generateKeys="com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator"
 	ui:generateLocales="en">
 
 	<ui:with field='resources' type='com.puzzlebazar.client.resources.Resources' />
-  <ui:with field='nameTokens' type='com.puzzlebazar.client.NameTokens' />
+	<ui:with field='nameTokens' type='com.puzzlebazar.client.NameTokens' />
 
 	<ui:style src='../../resources/defines.css'>
 		.mainContainer {
@@ -35,28 +34,36 @@
 			margin: 27px 5px 0;
 			float: left;
 		}
+		
+		.sideBarContainer {
+			width: 200px;
+			float: left;			
+		}
+		
+		.centerContentContainer {
+			margin-left: 200px;
+		}
 	</ui:style>
 
-	<g:DockLayoutPanel unit='PX' addStyleNames="{style.mainContainer}">
+	<g:HTMLPanel addStyleNames="{style.mainContainer}">
 
-		<g:north size='75'>
-			<g:HTMLPanel>
-				<m:ImageHyperlink resource='{resources.logo}' addStyleNames="{style.logo}" targetHistoryToken='{nameTokens.getMainPage}' />
-				<g:TextBox addStyleNames="{style.searchBox}" />
-				<g:Button addStyleNames="{style.searchButton}">
-					<ui:msg description='Search button on main page'>Search</ui:msg>
-				</g:Button>
-				<div style="clear: both;" />
-			</g:HTMLPanel>
-		</g:north>
+		<g:HTMLPanel>
+			<m:ImageHyperlink resource='{resources.logo}'
+				addStyleNames="{style.logo}" targetHistoryToken='{nameTokens.getMainPage}' />
+			<g:TextBox addStyleNames="{style.searchBox}" />
+			<g:Button addStyleNames="{style.searchButton}">
+				<ui:msg description='Search button on main page'>Search</ui:msg>
+			</g:Button>
+			<div style="clear: both;" />
+		</g:HTMLPanel>
 
-		<g:west size='200'>
-			<g:FlowPanel ui:field='sideBarContainer' />
-		</g:west>
+		<g:FlowPanel ui:field='sideBarContainer' addStyleNames="{style.sideBarContainer}" />
 
-		<g:center>
-			<g:FlowPanel ui:field='centerContentContainer' />
-		</g:center>
-	</g:DockLayoutPanel>
+		<g:FlowPanel ui:field='centerContentContainer'
+			addStyleNames="{style.centerContentContainer}" />
+
+		<div style="clear: both;" />
+
+	</g:HTMLPanel>
 
 </ui:UiBinder>

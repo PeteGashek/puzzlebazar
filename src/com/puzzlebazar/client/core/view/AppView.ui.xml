@@ -8,13 +8,15 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 
-	<g:DockLayoutPanel unit="PX">
-		<g:north size="25">
-			<g:LayoutPanel ui:field='topBarContainer' />
-		</g:north>
-		<g:center>
-			<g:LayoutPanel ui:field='mainContentContainer' />
-		</g:center>
-	</g:DockLayoutPanel>
+	<ui:style src='../../resources/defines.css'>
+		.app {
+			min-width: 700px;
+		}
+	</ui:style>
+		
+	<g:FlowPanel addStyleNames="{style.app}"  >
+		<g:FlowPanel ui:field='topBarContainer' />
+		<g:FlowPanel ui:field='mainContentContainer' />
+	</g:FlowPanel>
 
 </ui:UiBinder>

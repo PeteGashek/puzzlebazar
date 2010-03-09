@@ -1,6 +1,6 @@
 package com.puzzlebazar.client.core.presenter;
 
-import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.philbeaudoin.gwt.presenter.client.Display;
@@ -8,7 +8,6 @@ import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.PresenterWidget;
 import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
-
 
 public class AppPresenter extends PresenterImpl<AppPresenter.MyDisplay, AppPresenter.MyProxy> {
 
@@ -32,7 +31,7 @@ public class AppPresenter extends PresenterImpl<AppPresenter.MyDisplay, AppPrese
       final TopBarPresenter topBarPresenter ) {
     super(eventBus, display, proxy);
 
-    RootLayoutPanel.get().add(getWidget());
+    RootPanel.get().add(getWidget());
     
     this.topBarPresenter  = topBarPresenter;
   }  

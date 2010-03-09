@@ -3,7 +3,7 @@ package com.puzzlebazar.client.core.view;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.puzzlebazar.client.core.presenter.AppPresenter;
@@ -17,9 +17,9 @@ public class AppView implements AppPresenter.MyDisplay {
     return widget;
   }
   
-  @UiField LayoutPanel topBarContainer;
+  @UiField FlowPanel topBarContainer;
   
-  @UiField LayoutPanel mainContentContainer;
+  @UiField FlowPanel mainContentContainer;
   
   @Inject
   public AppView() {
