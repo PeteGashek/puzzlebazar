@@ -6,6 +6,7 @@ import com.philbeaudoin.gwt.presenter.client.Display;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.proxy.Place;
+import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxy;
 import com.puzzlebazar.client.core.proxy.AdminTabProxy;
 
@@ -25,6 +26,11 @@ extends PresenterImpl<AdminGeneralPresenter.MyDisplay, AdminGeneralPresenter.MyP
   public AdminGeneralPresenter(final EventBus eventBus, 
       final Provider<MyDisplay> display, 
       final MyProxy proxy ) {
-    super(eventBus, display, proxy, AdminTabProxy.TYPE_SetTabContent );
+    super(eventBus, display, proxy );
+  }
+
+  @Override
+  protected void setContentInParent() {
+    SetContentEvent.fire(eventBus, AdminTabProxy.TYPE_SetTabContent, this);
   }
 }

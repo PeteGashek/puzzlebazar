@@ -7,6 +7,7 @@ import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.proxy.Place;
 import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
+import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.puzzlebazar.client.core.proxy.SplitMainProxy;
 
 /**
@@ -26,7 +27,11 @@ PresenterImpl<MainPagePresenter.MyDisplay, MainPagePresenter.MyProxy> {
       final EventBus eventBus, 
       final Provider<MyDisplay> display,  
       final MyProxy proxy ) {
-    super( eventBus, display, proxy, SplitMainProxy.TYPE_SetCenterContent );
+    super( eventBus, display, proxy );
   }
 
+  @Override
+  protected void setContentInParent() {
+    SetContentEvent.fire(eventBus, SplitMainProxy.TYPE_SetCenterContent, this);
+  }
 }

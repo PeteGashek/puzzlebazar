@@ -8,6 +8,7 @@ import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.Presenter;
 import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
+import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.puzzlebazar.client.core.proxy.AppProxy;
 
 
@@ -31,11 +32,16 @@ public class SplitMainPresenter extends PresenterImpl<SplitMainPresenter.MyDispl
       final Provider<MyDisplay> display, 
       final MyProxy proxy,
       final LinkColumnPresenter  linkColumnPresenter ) {
-    super(eventBus, display, proxy, AppProxy.TYPE_SetMainContent);
+    super(eventBus, display, proxy);
 
     this.linkColumnPresenter = linkColumnPresenter;
   }  
 
+  @Override
+  protected void setContentInParent() {
+    SetContentEvent.fire(eventBus, AppProxy.TYPE_SetMainContent, this);
+  }
+  
   @Override
   protected void onBind() {
     super.onBind();

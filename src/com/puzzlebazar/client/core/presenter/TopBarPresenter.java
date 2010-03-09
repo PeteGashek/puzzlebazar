@@ -37,11 +37,14 @@ implements CurrentUserInfoAvailableHandler {
       final Provider<MyDisplay> display, 
       final MyProxy proxy,
       final DispatchAsync dispatcher ) {
-    super(eventBus, display, proxy, null);
+    super(eventBus, display, proxy);
 
     this.dispatcher = dispatcher;
   }
 
+  @Override
+  protected void setContentInParent() {}
+  
   @Override
   protected void onBind() {
     super.onBind();

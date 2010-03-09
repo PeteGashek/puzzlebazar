@@ -3,7 +3,6 @@ package com.philbeaudoin.gwt.presenter.client;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxy;
-import com.philbeaudoin.gwt.presenter.client.proxy.SetContentHandler;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContainerProxy;
 
 public abstract class TabContainerPresenterImpl<D extends Display & TabPanel, Proxy_ extends TabContainerProxy<?>> 
@@ -17,9 +16,8 @@ extends PresenterImpl<D, Proxy_> implements TabContainerPresenter  {
       final EventBus eventBus, 
       final Provider<D> display, 
       final Proxy_ proxy, 
-      final Type<SetContentHandler<?>> setContentInParentEventType,
       final Type<RequestTabsHandler> requestTabsEventType ) {
-    super(eventBus, display, proxy, setContentInParentEventType);
+    super(eventBus, display, proxy);
     this.requestTabsEventType = requestTabsEventType;
   }
 

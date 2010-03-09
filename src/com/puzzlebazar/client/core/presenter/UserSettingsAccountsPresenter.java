@@ -6,6 +6,7 @@ import com.philbeaudoin.gwt.presenter.client.Display;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.proxy.Place;
+import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxy;
 import com.puzzlebazar.client.core.proxy.UserSettingsTabProxy;
 
@@ -28,8 +29,12 @@ public class UserSettingsAccountsPresenter extends PresenterImpl<UserSettingsAcc
     super(
         eventBus, 
         display, 
-        proxy, 
-        UserSettingsTabProxy.TYPE_SetTabContent );
+        proxy );
+  }
+
+  @Override
+  protected void setContentInParent() {
+    SetContentEvent.fire(eventBus, UserSettingsTabProxy.TYPE_SetTabContent, this);
   }
   
 }

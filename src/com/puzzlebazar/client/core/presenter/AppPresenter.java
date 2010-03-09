@@ -31,13 +31,16 @@ public class AppPresenter extends PresenterImpl<AppPresenter.MyDisplay, AppPrese
       final Provider<MyDisplay> display, 
       final MyProxy proxy,
       final TopBarPresenter topBarPresenter ) {
-    super(eventBus, display, proxy, null);
+    super(eventBus, display, proxy);
 
     RootLayoutPanel.get().add(getWidget());
     
     this.topBarPresenter  = topBarPresenter;
   }  
 
+  @Override
+  protected void setContentInParent() {}
+  
   @Override
   protected void onBind() {
     super.onBind();

@@ -30,5 +30,6 @@ public class AdminTabProxy extends TabContainerProxyImpl<AdminTabPresenter> impl
             translations), 
         TYPE_SetTabContent);
   }
+
   
 }

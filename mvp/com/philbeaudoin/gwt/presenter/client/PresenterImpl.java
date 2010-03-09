@@ -6,7 +6,6 @@ import com.google.inject.Provider;
 import com.philbeaudoin.gwt.presenter.client.proxy.PlaceRequest;
 import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
-import com.philbeaudoin.gwt.presenter.client.proxy.SetContentHandler;
 
 public abstract class PresenterImpl<D extends Display, Proxy_ extends Proxy<?>> 
 extends HandlerContainerImpl implements Presenter {
@@ -25,15 +24,6 @@ extends HandlerContainerImpl implements Presenter {
    * The light-weight {@PresenterProxy} around this presenter.
    */
   protected final Proxy_ proxy;
-
-  /**
-   * The {@link Type} of the event this presenter will fire when it is
-   * revealed and needs to be set as content within its parent.
-   * Can be null if the presenter is top-level or if this
-   * presenter is inserted at bind-time and never modified 
-   * or revealed directly.
-   */
-  protected Type<SetContentHandler<?>> setContentInParentEventType;
   
   /**
    * Creates a basic {@link Presenter}.
@@ -49,12 +39,10 @@ extends HandlerContainerImpl implements Presenter {
   public PresenterImpl( 
       final EventBus eventBus, 
       final Provider<D> display, 
-      final Proxy_ proxy, 
-      final Type<SetContentHandler<?>> setContentInParentEventType ) {
+      final Proxy_ proxy ) {
     this.display = display;
     this.eventBus = eventBus;
     this.proxy = proxy;
-    this.setContentInParentEventType = setContentInParentEventType;
   }
   
   @Override
@@ -70,11 +58,15 @@ extends HandlerContainerImpl implements Presenter {
   @Override
   public final void reveal() {
     onReveal();
-    if( setContentInParentEventType != null ) {
-      eventBus.fireEvent( new SetContentEvent( setContentInParentEventType, this) );
-    }
+    setContentInParent();
     getProxy().onPresenterRevealed( this );
   }
+
+  /**
+   * Called whenever the presenter needs to set its content in 
+   * a parent. Should usually fire a {@link SetContentEvent}.
+   */
+  protected abstract void setContentInParent();
 
   @Override
   public void onReveal() {    

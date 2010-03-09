@@ -8,12 +8,14 @@ import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.RequestTabsHandler;
 import com.philbeaudoin.gwt.presenter.client.TabPanel;
 import com.philbeaudoin.gwt.presenter.client.TabContainerPresenterImpl;
+import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContainerProxy;
 import com.puzzlebazar.client.core.proxy.SplitMainProxy;
 
 
 /**
- * This is a tabbed presenter that will contain the different tabs for user settings page.
+ * This is a tabbed presenter that will contain the different tabs 
+ * for user settings page.
  * 
  * @author Philippe Beaudoin
  */
@@ -30,7 +32,12 @@ public class UserSettingsTabPresenter extends TabContainerPresenterImpl<UserSett
       final EventBus eventBus, 
       final Provider<MyDisplay> display, 
       final MyProxy proxy ) {
-    super(eventBus, display, proxy, SplitMainProxy.TYPE_SetCenterContent, TYPE_RequestTabs );   
+    super(eventBus, display, proxy, TYPE_RequestTabs );   
+  }
+
+  @Override
+  protected void setContentInParent() {
+    SetContentEvent.fire(eventBus, SplitMainProxy.TYPE_SetCenterContent, this);
   }
 
 }
