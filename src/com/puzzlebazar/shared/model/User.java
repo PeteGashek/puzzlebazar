@@ -59,7 +59,7 @@ public class User implements Serializable {
   /**
    * @return The real name of this user 
    */
-  public String getRealname() {
+  public String getRealName() {
     return realName;
   }
 

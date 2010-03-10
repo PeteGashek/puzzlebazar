@@ -28,6 +28,7 @@ extends PresenterImpl<UserSettingsGeneralPresenter.MyDisplay, UserSettingsGenera
 implements ChangeHandler {
 
   public interface MyDisplay extends Display {
+    HasText getEmail();
     HasText getNickname();
     HasText getRealName();
     void setApplyEnabled(boolean enabled);
@@ -79,9 +80,11 @@ implements ChangeHandler {
   public void onReveal() {
     super.onReveal();
     User user = currentUser.getUser(); 
+    display.getEmail().setText( user.getEmail() );
     display.getNickname().setText( user.getNickname() );
-    display.getRealName().setText( user.getRealname() );
+    display.getRealName().setText( user.getRealName() );
     display.setApplyEnabled(false);
+    changeMonitor.bind();
     changeMonitor.monitorWidget( display.getNickname() );
     changeMonitor.monitorWidget( display.getRealName() );
   }

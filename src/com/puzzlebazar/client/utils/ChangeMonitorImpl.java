@@ -51,6 +51,7 @@ implements ChangeMonitor {
       changeMonitor.release();      
     }
     changeMonitors.clear();
+    changed = false;
   }    
 
   @Override
@@ -60,6 +61,7 @@ implements ChangeMonitor {
   
   @Override
   public void monitorWidget( HasText widget ) {
+    assert isBound() : "Change monitor must be bound before widgets can be monitored.";
     changeMonitors.add( new ChangeMonitorUnit(widget, subHandler) );
   }
 

@@ -68,6 +68,7 @@ implements ValueChangeHandler<String>, KeyDownHandler {
   public void release() {
     if( handlerRegistration != null )
       handlerRegistration.removeHandler();
+    timer.cancel();
   }
   
   /**

@@ -51,6 +51,11 @@ public class UserSettingsGeneralView implements UserSettingsGeneralPresenter.MyD
   }
 
   @Override
+  public HasText getEmail() {
+    return email;
+  }
+
+  @Override
   public HasText getNickname() {
     return nickname;
   }
