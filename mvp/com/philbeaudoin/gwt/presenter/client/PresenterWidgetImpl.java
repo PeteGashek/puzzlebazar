@@ -2,7 +2,7 @@ package com.philbeaudoin.gwt.presenter.client;
 
 import com.google.gwt.user.client.ui.Widget;
 
-public class PresenterWidgetImpl<D extends Display>
+public class PresenterWidgetImpl<V extends View>
     extends HandlerContainerImpl implements PresenterWidget {
 
   /**
@@ -11,22 +11,22 @@ public class PresenterWidgetImpl<D extends Display>
   protected final EventBus eventBus;
   
   /**
-   * The display for the presenter.
+   * The view for the presenter.
    */
-  protected final D display;
+  protected final V view;
   
 
   public PresenterWidgetImpl(
       EventBus eventBus, 
-      D display) {
+      V view) {
     super();
-    this.display = display;
+    this.view = view;
     this.eventBus = eventBus;
   }
 
   @Override
-  public final D getDisplay() {
-    return display;
+  public final V getView() {
+    return view;
   }
 
   @Override
@@ -37,7 +37,7 @@ public class PresenterWidgetImpl<D extends Display>
 
   @Override
   public Widget getWidget() {
-    return getDisplay().asWidget();
+    return getView().asWidget();
   }
 
 }

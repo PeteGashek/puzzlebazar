@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.puzzlebazar.client.core.presenter.LinkColumnPresenter;
 
-public class LinkColumnView implements LinkColumnPresenter.MyDisplay {
+public class LinkColumnView implements LinkColumnPresenter.MyView {
 
   interface Binder extends UiBinder<Widget, LinkColumnView> { }
   protected static final Binder binder = GWT.create(Binder.class);

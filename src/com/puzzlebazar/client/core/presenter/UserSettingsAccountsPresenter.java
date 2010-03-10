@@ -1,10 +1,12 @@
 package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
-import com.philbeaudoin.gwt.presenter.client.Display;
+import com.philbeaudoin.gwt.presenter.client.View;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
+import com.philbeaudoin.gwt.presenter.client.ViewInterface;
 import com.philbeaudoin.gwt.presenter.client.proxy.Place;
+import com.philbeaudoin.gwt.presenter.client.proxy.ProxyInterface;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxy;
 import com.puzzlebazar.client.core.proxy.UserSettingsTabProxy;
@@ -14,20 +16,22 @@ import com.puzzlebazar.client.core.proxy.UserSettingsTabProxy;
  * 
  * @author Philippe Beaudoin
  */
-public class UserSettingsAccountsPresenter extends PresenterImpl<UserSettingsAccountsPresenter.MyDisplay, UserSettingsAccountsPresenter.MyProxy> {
+public class UserSettingsAccountsPresenter extends PresenterImpl<UserSettingsAccountsPresenter.MyView, UserSettingsAccountsPresenter.MyProxy> {
 
-  public interface MyDisplay extends Display { }
+  @ViewInterface
+  public interface MyView extends View { }
 
+  @ProxyInterface
   public interface MyProxy extends TabContentProxy<UserSettingsAccountsPresenter>, Place {}
 
   @Inject
   public UserSettingsAccountsPresenter(
       final EventBus eventBus, 
-      final MyDisplay display,  
+      final MyView view,  
       final MyProxy proxy ) {
     super(
         eventBus, 
-        display, 
+        view, 
         proxy );
   }
 

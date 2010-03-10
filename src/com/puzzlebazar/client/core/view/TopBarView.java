@@ -13,7 +13,7 @@ import com.puzzlebazar.client.core.presenter.TopBarPresenter;
 import com.puzzlebazar.client.resources.Resources;
 import com.puzzlebazar.client.ui.TokenSeparatedList;
 
-public class TopBarView implements TopBarPresenter.MyDisplay {
+public class TopBarView implements TopBarPresenter.MyView {
 
   interface Binder extends UiBinder<Widget, TopBarView> { }
   protected static final Binder binder = GWT.create(Binder.class);

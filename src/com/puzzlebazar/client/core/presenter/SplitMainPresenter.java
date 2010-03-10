@@ -2,23 +2,26 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.philbeaudoin.gwt.presenter.client.Display;
+import com.philbeaudoin.gwt.presenter.client.View;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.PresenterWidget;
+import com.philbeaudoin.gwt.presenter.client.ViewInterface;
 import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
+import com.philbeaudoin.gwt.presenter.client.proxy.ProxyInterface;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.puzzlebazar.client.core.proxy.AppProxy;
 
 
-public class SplitMainPresenter extends PresenterImpl<SplitMainPresenter.MyDisplay, SplitMainPresenter.MyProxy> {
-
-
-  public interface MyDisplay extends Display {
+public class SplitMainPresenter extends PresenterImpl<SplitMainPresenter.MyView, SplitMainPresenter.MyProxy> {
+  
+  @ViewInterface
+  public interface MyView extends View {
     void setSideBarContent( Widget sideBarContent );
     void setCenterContent( Widget centerContent );
   }
 
+  @ProxyInterface
   public interface MyProxy extends Proxy<SplitMainPresenter> {}
 
   private final LinkColumnPresenter linkColumnPresenter;
@@ -28,10 +31,10 @@ public class SplitMainPresenter extends PresenterImpl<SplitMainPresenter.MyDispl
   @Inject
   public SplitMainPresenter(
       final EventBus eventBus, 
-      final MyDisplay display, 
+      final MyView view, 
       final MyProxy proxy,
       final LinkColumnPresenter  linkColumnPresenter ) {
-    super(eventBus, display, proxy);
+    super(eventBus, view, proxy);
 
     this.linkColumnPresenter = linkColumnPresenter;
   }  
@@ -59,7 +62,7 @@ public class SplitMainPresenter extends PresenterImpl<SplitMainPresenter.MyDispl
     if( sideBarContent != content ) {
       hideSideBarContent();
       sideBarContent = content;
-      getDisplay().setSideBarContent( content.getWidget() );
+      getView().setSideBarContent( content.getWidget() );
     }
   }
   
@@ -67,7 +70,7 @@ public class SplitMainPresenter extends PresenterImpl<SplitMainPresenter.MyDispl
     if( centerContent  != content ) {
       hideCenterContent();
       centerContent = content;
-      getDisplay().setCenterContent( content.getWidget() );
+      getView().setCenterContent( content.getWidget() );
     }
   } 
 

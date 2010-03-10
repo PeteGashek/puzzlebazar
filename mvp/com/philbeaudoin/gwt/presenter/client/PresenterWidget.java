@@ -16,11 +16,11 @@ import com.philbeaudoin.gwt.presenter.client.proxy.ProxyPlace;
 public interface PresenterWidget {
 
   /**
-   * Returns the {@link Display} for the current presenter.
+   * Returns the {@link View} for the current presenter.
    *
-   * @return The display.
+   * @return The view.
    */
-  public abstract Display getDisplay();
+  public abstract View getView();
 
   /**
    * <b>Important:</b> Make sure you call your superclass {@link #onReveal()}.

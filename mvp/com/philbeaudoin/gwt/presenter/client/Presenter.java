@@ -12,7 +12,7 @@ import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
  * the <a href="http://code.google.com/intl/nl/events/io/2009/sessions/GoogleWebToolkitBestPractices.html">
  * model-view-presenter</a> architecture. Each page in your
  * application should correspond to a singleton {@link Presenter}
- * and it should have an accompanying singleton {@link Display} and
+ * and it should have an accompanying singleton {@link View} and
  * {@link Proxy}.
  * 
  * @author Philippe Beaudoin

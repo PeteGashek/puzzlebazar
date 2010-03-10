@@ -9,7 +9,7 @@ import com.philbeaudoin.gwt.presenter.client.Tab;
 import com.puzzlebazar.client.core.presenter.AdminTabPresenter;
 import com.puzzlebazar.client.ui.SimpleTabPanel;
 
-public class AdminTabView implements AdminTabPresenter.MyDisplay {
+public class AdminTabView implements AdminTabPresenter.MyView {
   
   interface Binder extends UiBinder<Widget, AdminTabView> { }
   protected static final Binder binder = GWT.create(Binder.class);

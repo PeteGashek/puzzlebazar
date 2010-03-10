@@ -70,24 +70,24 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     bind(ChangeMonitor.class).to(DefaultChangeMonitor.class);
     
     // Presenter widget
-    bindPresenterWidget(NewsItemPresenter.class, NewsItemPresenter.MyDisplay.class, NewsItemView.class);
+    bindPresenterWidget(NewsItemPresenter.class, NewsItemPresenter.MyView.class, NewsItemView.class);
 
     // Presenter bundles
     bind(TabbedPresenterBundle.class).in(Singleton.class);
 
     // Presenters
     bind(ProxyBase.class).annotatedWith(DefaultPlace.class).to(MainPageProxy.class);
-    bindPresenter(AppPresenter.class,AppPresenter.MyDisplay.class, AppView.class, AppPresenter.MyProxy.class, AppProxy.class);
-    bindPresenter(SplitMainPresenter.class, SplitMainPresenter.MyDisplay.class, SplitMainView.class, SplitMainPresenter.MyProxy.class, SplitMainProxy.class );
-    bindPresenter(LinkColumnPresenter.class, LinkColumnPresenter.MyDisplay.class, LinkColumnView.class, LinkColumnPresenter.MyProxy.class, LinkColumnProxy.class );
-    bindPresenter(TopBarPresenter.class, TopBarPresenter.MyDisplay.class, TopBarView.class, TopBarPresenter.MyProxy.class, TopBarProxy.class );
-    bindPresenter(UserSettingsTabPresenter.class, UserSettingsTabPresenter.MyDisplay.class, UserSettingsTabView.class, UserSettingsTabPresenter.MyProxy.class, UserSettingsTabProxy.class );
-    bindPresenter(UserSettingsGeneralPresenter.class, UserSettingsGeneralPresenter.MyDisplay.class, UserSettingsGeneralView.class, UserSettingsGeneralPresenter.MyProxy.class, UserSettingsGeneralProxy.class);
-    bindPresenter(UserSettingsAccountsPresenter.class, UserSettingsAccountsPresenter.MyDisplay.class, UserSettingsAccountsView.class, UserSettingsAccountsPresenter.MyProxy.class, UserSettingsAccountsProxy.class);
-    bindPresenter(AdminTabPresenter.class, AdminTabPresenter.MyDisplay.class, AdminTabView.class, AdminTabPresenter.MyProxy.class, AdminTabProxy.class );
-    bindPresenter(AdminGeneralPresenter.class, AdminGeneralPresenter.MyDisplay.class, AdminGeneralView.class, AdminGeneralPresenter.MyProxy.class, AdminGeneralProxy.class);
-    bindPresenter(AdminUsersPresenter.class, AdminUsersPresenter.MyDisplay.class, AdminUsersView.class, AdminUsersPresenter.MyProxy.class, AdminUsersProxy.class);
-    bindPresenter(MainPagePresenter.class, MainPagePresenter.MyDisplay.class, MainPageView.class, MainPagePresenter.MyProxy.class, MainPageProxy.class);
+    bindPresenter(AppPresenter.class,AppPresenter.MyView.class, AppView.class, AppPresenter.MyProxy.class, AppProxy.class);
+    bindPresenter(SplitMainPresenter.class, SplitMainPresenter.MyView.class, SplitMainView.class, SplitMainPresenter.MyProxy.class, SplitMainProxy.class );
+    bindPresenter(LinkColumnPresenter.class, LinkColumnPresenter.MyView.class, LinkColumnView.class, LinkColumnPresenter.MyProxy.class, LinkColumnProxy.class );
+    bindPresenter(TopBarPresenter.class, TopBarPresenter.MyView.class, TopBarView.class, TopBarPresenter.MyProxy.class, TopBarProxy.class );
+    bindPresenter(UserSettingsTabPresenter.class, UserSettingsTabPresenter.MyView.class, UserSettingsTabView.class, UserSettingsTabPresenter.MyProxy.class, UserSettingsTabProxy.class );
+    bindPresenter(UserSettingsGeneralPresenter.class, UserSettingsGeneralPresenter.MyView.class, UserSettingsGeneralView.class, UserSettingsGeneralPresenter.MyProxy.class, UserSettingsGeneralProxy.class);
+    bindPresenter(UserSettingsAccountsPresenter.class, UserSettingsAccountsPresenter.MyView.class, UserSettingsAccountsView.class, UserSettingsAccountsPresenter.MyProxy.class, UserSettingsAccountsProxy.class);
+    bindPresenter(AdminTabPresenter.class, AdminTabPresenter.MyView.class, AdminTabView.class, AdminTabPresenter.MyProxy.class, AdminTabProxy.class );
+    bindPresenter(AdminGeneralPresenter.class, AdminGeneralPresenter.MyView.class, AdminGeneralView.class, AdminGeneralPresenter.MyProxy.class, AdminGeneralProxy.class);
+    bindPresenter(AdminUsersPresenter.class, AdminUsersPresenter.MyView.class, AdminUsersView.class, AdminUsersPresenter.MyProxy.class, AdminUsersProxy.class);
+    bindPresenter(MainPagePresenter.class, MainPagePresenter.MyView.class, MainPageView.class, MainPagePresenter.MyProxy.class, MainPageProxy.class);
     
   }
 }

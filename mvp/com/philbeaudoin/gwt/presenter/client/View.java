@@ -11,12 +11,12 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Philippe Beaudoin
  */
-public interface Display {
+public interface View {
 
   /**
-   * Retreives this display as a {@link Widget} so that it can be inserted within the DOM.
+   * Retrieves this view as a {@link Widget} so that it can be inserted within the DOM.
    * 
-   * @return This display as a DOM object.
+   * @return This view as a DOM object.
    */
   public Widget asWidget();
 

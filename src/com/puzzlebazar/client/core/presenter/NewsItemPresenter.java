@@ -1,10 +1,11 @@
 package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
-import com.philbeaudoin.gwt.presenter.client.Display;
+import com.philbeaudoin.gwt.presenter.client.View;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.PresenterWidget;
 import com.philbeaudoin.gwt.presenter.client.PresenterWidgetImpl;
+import com.philbeaudoin.gwt.presenter.client.ViewInterface;
 
 /**
  * The presenter for a single news item in the application.
@@ -14,23 +15,24 @@ import com.philbeaudoin.gwt.presenter.client.PresenterWidgetImpl;
  * @author Philippe Beaudoin
  */
 public class NewsItemPresenter 
-extends PresenterWidgetImpl<NewsItemPresenter.MyDisplay> {
+extends PresenterWidgetImpl<NewsItemPresenter.MyView> {
 
-  public interface MyDisplay extends Display {
+  @ViewInterface
+  public interface MyView extends View {
     void setTitle( String title );    
   }
 
   @Inject
   public NewsItemPresenter(
       final EventBus eventBus, 
-      final MyDisplay display) {
+      final MyView view) {
     super(
         eventBus, 
-        display);
+        view);
   }
   
   void setTitle( String title ) {
-    display.setTitle( title );
+    view.setTitle( title );
   }
 
 }
