@@ -5,11 +5,13 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.inject.Inject;
-import com.philbeaudoin.gwt.presenter.client.Display;
+import com.philbeaudoin.gwt.presenter.client.View;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
+import com.philbeaudoin.gwt.presenter.client.ViewInterface;
 import com.philbeaudoin.gwt.presenter.client.proxy.Place;
 import com.philbeaudoin.gwt.presenter.client.proxy.PlaceManager;
+import com.philbeaudoin.gwt.presenter.client.proxy.ProxyInterface;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxy;
 import com.puzzlebazar.client.CurrentUser;
@@ -24,10 +26,11 @@ import com.puzzlebazar.shared.model.User;
  * @author Philippe Beaudoin
  */
 public class UserSettingsGeneralPresenter 
-extends PresenterImpl<UserSettingsGeneralPresenter.MyDisplay, UserSettingsGeneralPresenter.MyProxy>
+extends PresenterImpl<UserSettingsGeneralPresenter.MyView, UserSettingsGeneralPresenter.MyProxy>
 implements ChangeHandler {
 
-  public interface MyDisplay extends Display {
+  @ViewInterface
+  public interface MyView extends View {
     HasText getEmail();
     HasText getNickname();
     HasText getRealName();
@@ -36,6 +39,7 @@ implements ChangeHandler {
     HasClickHandlers getCancel();
   }
 
+  @ProxyInterface
   public interface MyProxy extends TabContentProxy<UserSettingsGeneralPresenter>, Place {}
 
   private final PlaceManager placeManager;
@@ -46,11 +50,11 @@ implements ChangeHandler {
   public UserSettingsGeneralPresenter(
       final EventBus eventBus,
       final PlaceManager placeManager,
-      final MyDisplay display, 
+      final MyView view, 
       final MyProxy proxy,
       final CurrentUser currentUser,
       final ChangeMonitor changeMonitor ) {
-    super(eventBus, display, proxy );
+    super(eventBus, view, proxy );
     this.placeManager = placeManager;
     this.currentUser = currentUser;
     this.changeMonitor = changeMonitor;
@@ -60,14 +64,14 @@ implements ChangeHandler {
   @Override
   protected void onBind() {
     super.onBind();
-    registerHandler( display.getApply().addClickHandler(
+    registerHandler( view.getApply().addClickHandler(
         new ClickHandler() {          
           @Override
           public void onClick(ClickEvent event) {
             apply();
           }
         } ) );
-    registerHandler( display.getCancel().addClickHandler(
+    registerHandler( view.getCancel().addClickHandler(
         new ClickHandler() {          
           @Override
           public void onClick(ClickEvent event) {
@@ -80,13 +84,13 @@ implements ChangeHandler {
   public void onReveal() {
     super.onReveal();
     User user = currentUser.getUser(); 
-    display.getEmail().setText( user.getEmail() );
-    display.getNickname().setText( user.getNickname() );
-    display.getRealName().setText( user.getRealName() );
-    display.setApplyEnabled(false);
+    view.getEmail().setText( user.getEmail() );
+    view.getNickname().setText( user.getNickname() );
+    view.getRealName().setText( user.getRealName() );
+    view.setApplyEnabled(false);
     changeMonitor.bind();
-    changeMonitor.monitorWidget( display.getNickname() );
-    changeMonitor.monitorWidget( display.getRealName() );
+    changeMonitor.monitorWidget( view.getNickname() );
+    changeMonitor.monitorWidget( view.getRealName() );
   }
 
   @Override
@@ -102,12 +106,12 @@ implements ChangeHandler {
 
   @Override
   public void changeDetected() {
-    display.setApplyEnabled(true);
+    view.setApplyEnabled(true);
   }
 
   @Override
   public void changeReverted() {
-    display.setApplyEnabled(false);
+    view.setApplyEnabled(false);
   }
   
   private void apply() {

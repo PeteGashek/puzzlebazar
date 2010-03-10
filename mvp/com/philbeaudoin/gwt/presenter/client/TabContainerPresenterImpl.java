@@ -4,8 +4,8 @@ import com.google.gwt.event.shared.GwtEvent.Type;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxy;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContainerProxy;
 
-public abstract class TabContainerPresenterImpl<D extends Display & TabPanel, Proxy_ extends TabContainerProxy<?>> 
-extends PresenterImpl<D, Proxy_> implements TabContainerPresenter  {
+public abstract class TabContainerPresenterImpl<V extends View & TabPanel, Proxy_ extends TabContainerProxy<?>> 
+extends PresenterImpl<V, Proxy_> implements TabContainerPresenter  {
 
   private final Type<RequestTabsHandler> requestTabsEventType;
 
@@ -13,10 +13,10 @@ extends PresenterImpl<D, Proxy_> implements TabContainerPresenter  {
 
   public TabContainerPresenterImpl(
       final EventBus eventBus, 
-      final D display, 
+      final V view, 
       final Proxy_ proxy, 
       final Type<RequestTabsHandler> requestTabsEventType ) {
-    super(eventBus, display, proxy);
+    super(eventBus, view, proxy);
     this.requestTabsEventType = requestTabsEventType;
   }
 
@@ -28,7 +28,7 @@ extends PresenterImpl<D, Proxy_> implements TabContainerPresenter  {
 
   @Override
   public Tab addTab( final TabContentProxy<?> tabProxy ) {
-    return getDisplay().addTab( tabProxy.getText(), tabProxy.getHistoryToken(), tabProxy.getPriority() );
+    return getView().addTab( tabProxy.getText(), tabProxy.getHistoryToken(), tabProxy.getPriority() );
   }
 
   @Override
@@ -36,10 +36,10 @@ extends PresenterImpl<D, Proxy_> implements TabContainerPresenter  {
     if( tabContent != content ) {
       hideTabContent();
       tabContent = content;
-      getDisplay().setTabContent( content.getWidget() );
+      getView().setTabContent( content.getWidget() );
       if( content.getProxy() instanceof TabContentProxy<?> ) {
         Tab tab = ((TabContentProxy<?>)content.getProxy()).getTab();
-        getDisplay().setActiveTab( tab );
+        getView().setActiveTab( tab );
       }
     }
   }
@@ -58,7 +58,7 @@ extends PresenterImpl<D, Proxy_> implements TabContainerPresenter  {
     super.onUnbind();
 
     // The tabs are added indirectly in onBind(), so we clear them now.
-    getDisplay().removeTabs();
+    getView().removeTabs();
   }
 
 

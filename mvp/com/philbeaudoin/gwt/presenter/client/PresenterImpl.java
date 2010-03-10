@@ -1,12 +1,11 @@
 package com.philbeaudoin.gwt.presenter.client;
 
-import com.google.gwt.event.shared.GwtEvent.Type;
 import com.philbeaudoin.gwt.presenter.client.proxy.PlaceRequest;
 import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 
-public abstract class PresenterImpl<D extends Display, Proxy_ extends Proxy<?>> 
-extends PresenterWidgetImpl<D> implements Presenter {
+public abstract class PresenterImpl<V extends View, Proxy_ extends Proxy<?>> 
+extends PresenterWidgetImpl<V> implements Presenter {
 
   /**
    * The light-weight {@PresenterProxy} around this presenter.
@@ -16,19 +15,14 @@ extends PresenterWidgetImpl<D> implements Presenter {
   /**
    * Creates a basic {@link Presenter}.
    * @param eventBus The event bus.
-   * @param display  The display attached to this presenter.
+   * @param view  The view attached to this presenter.
    * @param proxy The presenter proxy.
-   * @param setContentInParentEventType  The {@link Type} of the event this presenter will fire when it is
-   *        revealed and needs to be set as content within its parent.
-   *        Can be null if the presenter is top-level or if this
-   *        presenter is inserted at bind-time and never modified 
-   *        or revealed directly.
    */
   public PresenterImpl( 
       final EventBus eventBus, 
-      final D display, 
+      final V view, 
       final Proxy_ proxy ) {
-    super(eventBus, display);
+    super(eventBus, view);
     this.proxy = proxy;
   }
   
