@@ -22,11 +22,34 @@ import com.google.gwt.user.client.ui.HasText;
 public class ChangeMonitorUnit 
 implements ValueChangeHandler<String>, KeyDownHandler {
   
+  private class MyTimer extends Timer {
+
+    private String previousText = null;
+    
+    public void start() {
+      previousText = null;
+      this.schedule(50);
+    }
+    
+    @Override
+    public void run() {
+      final String text = widget.getText();
+      if( previousText == null || !previousText.equals(text) ) {
+        previousText = text;
+        checkChanges(text);
+        this.schedule(1500);
+      }
+      else {
+        assert handlerRegistration == null;
+        handlerRegistration = ((HasAllKeyHandlers)widget).addKeyDownHandler( ChangeMonitorUnit.this );        
+      }
+    }      
+  }
+  
   private final HasText widget;
   private final ChangeHandler handler;
-  private final HandlerRegistration handlerRegistration;
-  private final Timer timer;
-  private boolean timerRunning = false;
+  private final MyTimer timer = new MyTimer();
+  private HandlerRegistration handlerRegistration;
   private String  originalValue;
   private boolean changed = false;
   
@@ -44,14 +67,6 @@ implements ValueChangeHandler<String>, KeyDownHandler {
       final ChangeHandler handler ) {
     this.widget = widget;
     this.handler = handler;
-    this.timer = new Timer(){
-      @Override
-      public void run() {
-        checkChanges(widget.getText());
-        timerRunning = false;
-      }      
-    }; 
-
     revert();
     
     if ( widget instanceof HasAllKeyHandlers )
@@ -91,7 +106,7 @@ implements ValueChangeHandler<String>, KeyDownHandler {
 
   @Override
   public void onValueChange(ValueChangeEvent<String> event) {
-    scheduleCheckChanges();
+    checkChanges( event.getValue() );
   }
 
   @Override
@@ -100,14 +115,15 @@ implements ValueChangeHandler<String>, KeyDownHandler {
   }
   
   /**
-   * Schedule a check changes a short way into
-   * the future, to reduce UI stress.
+   * Schedule a check changes after a key down a short way into
+   * the future, to reduce UI stress. Only call from
+   * onKeyDown, because it assumes the monitored object implements
+   * HasAllKeyHandlers.
    */
   private void scheduleCheckChanges() {
-    if( !timerRunning ) {
-      timer.schedule( 500 );
-      timerRunning = true;
-    }
+    handlerRegistration.removeHandler();
+    handlerRegistration = null;
+    timer.start();
   }
 
   private void checkChanges(String value) {
