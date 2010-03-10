@@ -14,8 +14,8 @@ import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxy;
 import com.puzzlebazar.client.CurrentUser;
 import com.puzzlebazar.client.core.proxy.UserSettingsTabProxy;
-import com.puzzlebazar.client.utils.ChangeHandler;
-import com.puzzlebazar.client.utils.ChangeMonitor;
+import com.puzzlebazar.client.util.ChangeHandler;
+import com.puzzlebazar.client.util.ChangeMonitor;
 import com.puzzlebazar.shared.model.User;
 
 /**

@@ -1,4 +1,4 @@
-package com.puzzlebazar.client.utils;
+package com.puzzlebazar.client.util;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.puzzlebazar.client.utils;
+package com.puzzlebazar.client.util;
 
 import com.google.gwt.event.dom.client.HasAllKeyHandlers;
 import com.google.gwt.event.dom.client.KeyDownEvent;

@@ -1,4 +1,4 @@
-package com.puzzlebazar.client.utils;
+package com.puzzlebazar.client.util;
 
 /**
  * The interface of an object that can react to changes

@@ -1,4 +1,4 @@
-package com.puzzlebazar.client.util;
+package com.puzzlebazar.shared.util;
 
 public class Validation {
 	

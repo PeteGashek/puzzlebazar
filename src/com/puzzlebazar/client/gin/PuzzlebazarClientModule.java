@@ -48,8 +48,8 @@ import com.puzzlebazar.client.core.view.UserSettingsGeneralView;
 import com.puzzlebazar.client.core.view.UserSettingsTabView;
 import com.puzzlebazar.client.resources.Resources;
 import com.puzzlebazar.client.resources.Translations;
-import com.puzzlebazar.client.utils.ChangeMonitor;
-import com.puzzlebazar.client.utils.DefaultChangeMonitor;
+import com.puzzlebazar.client.util.ChangeMonitor;
+import com.puzzlebazar.client.util.DefaultChangeMonitor;
 
 import com.google.inject.Singleton;
 
@@ -64,14 +64,16 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     bind(EventBus.class).to(DefaultEventBus.class).in(Singleton.class);
     bind(PlaceManager.class).to(PuzzlebazarPlaceManager.class).in(Singleton.class);
     bind(TokenFormatter.class).to(ParameterTokenFormatter.class).in(Singleton.class);
-    bind(ChangeMonitor.class).to(DefaultChangeMonitor.class).in(Singleton.class);
     bind(CurrentUser.class).asEagerSingleton();
-    
-    // Presenter bundles
-    bind(TabbedPresenterBundle.class).in(Singleton.class);
 
+    // Non-singletons
+    bind(ChangeMonitor.class).to(DefaultChangeMonitor.class);
+    
     // Presenter widget
     bindPresenterWidget(NewsItemPresenter.class, NewsItemPresenter.MyDisplay.class, NewsItemView.class);
+
+    // Presenter bundles
+    bind(TabbedPresenterBundle.class).in(Singleton.class);
 
     // Presenters
     bind(ProxyBase.class).annotatedWith(DefaultPlace.class).to(MainPageProxy.class);

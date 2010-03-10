@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.puzzlebazar.client.utils;
+package com.puzzlebazar.client.util;
 
 import com.google.inject.Inject;
 import com.philbeaudoin.gwt.presenter.client.proxy.PlaceManager;

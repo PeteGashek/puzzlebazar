@@ -6,7 +6,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import com.puzzlebazar.client.util.Validation;
+import com.puzzlebazar.shared.util.Validation;
 
 @PersistenceCapable
 public class User implements Serializable {
