@@ -13,13 +13,14 @@ import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.ViewInterface;
 import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
 import com.philbeaudoin.gwt.presenter.client.proxy.ProxyInterface;
+import com.puzzlebazar.client.CurrentUser;
 import com.puzzlebazar.shared.action.DoLogin;
 import com.puzzlebazar.shared.action.DoLogout;
 import com.puzzlebazar.shared.action.StringResult;
 import com.puzzlebazar.shared.model.User;
 
 public class TopBarPresenter extends PresenterImpl<TopBarPresenter.MyView,TopBarPresenter.MyProxy> 
-implements CurrentUserInfoAvailableHandler {
+implements CurrentUserChangedHandler {
 
   @ViewInterface
   public interface MyView extends View {
@@ -33,16 +34,19 @@ implements CurrentUserInfoAvailableHandler {
   public interface MyProxy extends Proxy<TopBarPresenter> {}
 
   private final DispatchAsync dispatcher;
+  private final CurrentUser currentUser;
 
   @Inject
   public TopBarPresenter(
       final EventBus eventBus, 
       final MyView view, 
       final MyProxy proxy,
-      final DispatchAsync dispatcher ) {
+      final DispatchAsync dispatcher,
+      final CurrentUser currentUser ) {
     super(eventBus, view, proxy);
 
     this.dispatcher = dispatcher;
+    this.currentUser = currentUser;
   }
 
   @Override
@@ -52,7 +56,7 @@ implements CurrentUserInfoAvailableHandler {
   protected void onBind() {
     super.onBind();
     
-    getView().setLoggedOut();
+    checkUserStatus();
 
     registerHandler( getView().getSignIn().addClickHandler( new ClickHandler() {
       @Override
@@ -68,13 +72,21 @@ implements CurrentUserInfoAvailableHandler {
       }
     } ) );
 
-    registerHandler( eventBus.addHandler( CurrentUserInfoAvailableEvent.getType(), this ) );
+    registerHandler( eventBus.addHandler( CurrentUserChangedEvent.getType(), this ) );
+  }
+
+  private void checkUserStatus() {
+    if( currentUser.isLoggedIn() ) {
+      User user = currentUser.getUser();
+      getView().setLoggedIn( user.getEmail(), user.isAdministrator() );
+    }
+    else
+      getView().setLoggedOut();
   }
 
   @Override
-  public void onCurrentUserInfoAvailable(CurrentUserInfoAvailableEvent event) {
-    User userInfo = event.getUserInfo();
-    getView().setLoggedIn( userInfo.getEmail(), userInfo.isAdministrator() );
+  public void onCurrentUserChanged(CurrentUserChangedEvent event) {
+    checkUserStatus();
   }
 
   public void doSignIn() {

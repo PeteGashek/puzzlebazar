@@ -5,7 +5,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.philbeaudoin.gwt.dispatch.client.DispatchAsync;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.puzzlebazar.client.core.presenter.CurrentUserInfoAvailableEvent;
+import com.puzzlebazar.client.core.presenter.CurrentUserChangedEvent;
 import com.puzzlebazar.shared.action.GetUserInfo;
 import com.puzzlebazar.shared.action.GetUserInfoResult;
 import com.puzzlebazar.shared.model.User;
@@ -24,6 +24,7 @@ public class CurrentUser {
   private final int retryDelay;
 
   private User user = null;
+  private boolean confirmed = false;
   
   /**
    * Creates
@@ -46,7 +47,7 @@ public class CurrentUser {
   
   /**
    * Fetches the user information from the server. Fires a
-   * {@link CurrentUserInfoAvailableEvent} when successful.
+   * {@link CurrentUserChangedEvent} when successful.
    */
   private void fetchUserInfo() {
   
@@ -54,14 +55,16 @@ public class CurrentUser {
       
       @Override
       public void onFailure(Throwable caught) {
+        confirmed = true; // Async call is back. We know if user is logged-in or not.
         failed();
       }
 
       @Override
       public void onSuccess(GetUserInfoResult result) {
+        confirmed = true; // Async call is back. We know if user is logged-in or not.
         if( result != null ) {
           user = result.getUserInfo();
-          CurrentUserInfoAvailableEvent.fire( eventBus, result.getUserInfo() );
+          CurrentUserChangedEvent.fire( eventBus, result.getUserInfo() );
           scheduleFetch( refreshDelay );
         }
         else {
@@ -72,6 +75,7 @@ public class CurrentUser {
       private void failed() {
         user = null; // Nobody is logged in
         scheduleFetch( retryDelay );
+        CurrentUserChangedEvent.fire( eventBus, null );
       }
     } );
   
@@ -107,12 +111,25 @@ public class CurrentUser {
   }
 
   /**
-   * Check if a user is logged in.
+   * Check if a user is logged in. Will return false if the user is unconfirmed,
+   * see {@link #isConfirmed()}.
    * 
    * @return <code>true</code> if a user is logged in. <code>false</code> otherwise. 
    */
   public boolean isLoggedIn() {
     return user != null;
+  }
+
+  /**
+   * The user is unconfirmed when the application starts, before the first asynchronous
+   * call to the server has returned. As soon as this call as returned, we know if the
+   * user is logged in or not and this method will return <code>true</code>. At that
+   * point, call {@link #isLoggedIn()}.
+   * 
+   * @return <code>true</code> if the user is confirmed. <code>false</code> otherwise. 
+   */
+  public boolean isConfirmed() {
+    return confirmed ;
   }
   
   
