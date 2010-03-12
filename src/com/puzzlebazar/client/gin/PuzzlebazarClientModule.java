@@ -1,12 +1,12 @@
 package com.puzzlebazar.client.gin;
 
-import com.philbeaudoin.gwt.presenter.client.DefaultEventBus;
-import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.gin.AbstractPresenterModule;
-import com.philbeaudoin.gwt.presenter.client.proxy.ParameterTokenFormatter;
-import com.philbeaudoin.gwt.presenter.client.proxy.PlaceManager;
-import com.philbeaudoin.gwt.presenter.client.proxy.ProxyBase;
-import com.philbeaudoin.gwt.presenter.client.proxy.TokenFormatter;
+import com.philbeaudoin.platform.mvp.client.DefaultEventBus;
+import com.philbeaudoin.platform.mvp.client.EventBus;
+import com.philbeaudoin.platform.mvp.client.gin.AbstractPresenterModule;
+import com.philbeaudoin.platform.mvp.client.proxy.ParameterTokenFormatter;
+import com.philbeaudoin.platform.mvp.client.proxy.PlaceManager;
+import com.philbeaudoin.platform.mvp.client.proxy.ProxyBase;
+import com.philbeaudoin.platform.mvp.client.proxy.TokenFormatter;
 
 import com.puzzlebazar.client.CurrentUser;
 import com.puzzlebazar.client.PuzzlebazarPlaceManager;

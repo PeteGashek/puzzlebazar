@@ -1,6 +1,6 @@
 package com.puzzlebazar.shared.action;
 
-import com.philbeaudoin.gwt.dispatch.shared.Result;
+import com.philbeaudoin.platform.dispatch.shared.Result;
 
 public class NoResult implements Result {
 

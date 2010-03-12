@@ -1,6 +1,6 @@
 package com.puzzlebazar.client.core.proxy;
 
-import com.philbeaudoin.gwt.presenter.client.proxy.PlaceImpl;
+import com.philbeaudoin.platform.mvp.client.proxy.PlaceImpl;
 
 import com.puzzlebazar.client.CurrentUser;
 

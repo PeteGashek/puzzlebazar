@@ -4,8 +4,8 @@ import com.google.gwt.inject.client.AsyncProvider;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Provider;
-import com.philbeaudoin.gwt.presenter.client.proxy.Callback;
-import com.philbeaudoin.gwt.presenter.client.proxy.CallbackProvider;
+import com.philbeaudoin.platform.mvp.client.proxy.Callback;
+import com.philbeaudoin.platform.mvp.client.proxy.CallbackProvider;
 import com.puzzlebazar.client.resources.Translations;
 
 /**

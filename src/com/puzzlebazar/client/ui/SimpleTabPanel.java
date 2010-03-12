@@ -7,7 +7,7 @@ import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
-import com.philbeaudoin.gwt.presenter.client.Tab;
+import com.philbeaudoin.platform.mvp.client.Tab;
 
 /**
  * A widget that can show multiple tabs with rounded corners, each with its own content.
