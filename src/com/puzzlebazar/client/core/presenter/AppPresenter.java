@@ -7,19 +7,15 @@ import com.philbeaudoin.gwt.presenter.client.View;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.PresenterWidget;
-import com.philbeaudoin.gwt.presenter.client.ViewInterface;
 import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
-import com.philbeaudoin.gwt.presenter.client.proxy.ProxyInterface;
 
 public class AppPresenter extends PresenterImpl<AppPresenter.MyView, AppPresenter.MyProxy> {
 
-  @ViewInterface
   public interface MyView extends View {
     void setTopBar( Widget topBar );
     void setMainContent( Widget mainContent );
   }
   
-  @ProxyInterface
   public interface MyProxy extends Proxy<AppPresenter> {}  
 
   private final TopBarPresenter topBarPresenter;

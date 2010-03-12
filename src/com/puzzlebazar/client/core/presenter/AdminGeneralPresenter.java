@@ -2,11 +2,9 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
 import com.philbeaudoin.gwt.presenter.client.View;
-import com.philbeaudoin.gwt.presenter.client.ViewInterface;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.proxy.Place;
-import com.philbeaudoin.gwt.presenter.client.proxy.ProxyInterface;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxy;
 import com.puzzlebazar.client.core.proxy.AdminTabProxy;
@@ -19,10 +17,8 @@ import com.puzzlebazar.client.core.proxy.AdminTabProxy;
 public class AdminGeneralPresenter 
 extends PresenterImpl<AdminGeneralPresenter.MyView, AdminGeneralPresenter.MyProxy> {
 
-  @ViewInterface
   public interface MyView extends View { }
 
-  @ProxyInterface
   public interface MyProxy extends TabContentProxy<AdminGeneralPresenter>, Place {}
 
   @Inject

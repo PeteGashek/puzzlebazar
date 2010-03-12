@@ -8,10 +8,8 @@ import com.google.inject.Inject;
 import com.philbeaudoin.gwt.presenter.client.View;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.ViewInterface;
 import com.philbeaudoin.gwt.presenter.client.proxy.Place;
 import com.philbeaudoin.gwt.presenter.client.proxy.PlaceManager;
-import com.philbeaudoin.gwt.presenter.client.proxy.ProxyInterface;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxy;
 import com.puzzlebazar.client.CurrentUser;
@@ -29,7 +27,6 @@ public class UserSettingsGeneralPresenter
 extends PresenterImpl<UserSettingsGeneralPresenter.MyView, UserSettingsGeneralPresenter.MyProxy>
 implements ChangeHandler {
 
-  @ViewInterface
   public interface MyView extends View {
     HasText getEmail();
     HasText getNickname();
@@ -39,7 +36,6 @@ implements ChangeHandler {
     HasClickHandlers getCancel();
   }
 
-  @ProxyInterface
   public interface MyProxy extends TabContentProxy<UserSettingsGeneralPresenter>, Place {}
 
   private final PlaceManager placeManager;

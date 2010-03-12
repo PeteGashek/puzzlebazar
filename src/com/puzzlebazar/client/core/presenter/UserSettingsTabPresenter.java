@@ -7,8 +7,6 @@ import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.RequestTabsHandler;
 import com.philbeaudoin.gwt.presenter.client.TabPanel;
 import com.philbeaudoin.gwt.presenter.client.TabContainerPresenterImpl;
-import com.philbeaudoin.gwt.presenter.client.ViewInterface;
-import com.philbeaudoin.gwt.presenter.client.proxy.ProxyInterface;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.philbeaudoin.gwt.presenter.client.proxy.TabContainerProxy;
 import com.puzzlebazar.client.core.proxy.SplitMainProxy;
@@ -24,10 +22,8 @@ public class UserSettingsTabPresenter extends TabContainerPresenterImpl<UserSett
 
   public static Type<RequestTabsHandler> TYPE_RequestTabs = new Type<RequestTabsHandler>();
   
-  @ViewInterface
   public interface MyView extends TabPanel, View {}
 
-  @ProxyInterface
   public interface MyProxy extends TabContainerProxy<UserSettingsTabPresenter> {}
   
   @Inject

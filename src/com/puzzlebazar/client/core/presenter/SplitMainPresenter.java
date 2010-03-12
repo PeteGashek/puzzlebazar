@@ -6,22 +6,18 @@ import com.philbeaudoin.gwt.presenter.client.View;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
 import com.philbeaudoin.gwt.presenter.client.PresenterWidget;
-import com.philbeaudoin.gwt.presenter.client.ViewInterface;
 import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
-import com.philbeaudoin.gwt.presenter.client.proxy.ProxyInterface;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.puzzlebazar.client.core.proxy.AppProxy;
 
 
 public class SplitMainPresenter extends PresenterImpl<SplitMainPresenter.MyView, SplitMainPresenter.MyProxy> {
   
-  @ViewInterface
   public interface MyView extends View {
     void setSideBarContent( Widget sideBarContent );
     void setCenterContent( Widget centerContent );
   }
 
-  @ProxyInterface
   public interface MyProxy extends Proxy<SplitMainPresenter> {}
 
   private final LinkColumnPresenter linkColumnPresenter;
