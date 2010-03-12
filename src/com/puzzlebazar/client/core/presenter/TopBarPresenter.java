@@ -10,9 +10,7 @@ import com.philbeaudoin.gwt.dispatch.client.DispatchAsync;
 import com.philbeaudoin.gwt.presenter.client.View;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.ViewInterface;
 import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
-import com.philbeaudoin.gwt.presenter.client.proxy.ProxyInterface;
 import com.puzzlebazar.client.CurrentUser;
 import com.puzzlebazar.shared.action.DoLogin;
 import com.puzzlebazar.shared.action.DoLogout;
@@ -22,7 +20,6 @@ import com.puzzlebazar.shared.model.User;
 public class TopBarPresenter extends PresenterImpl<TopBarPresenter.MyView,TopBarPresenter.MyProxy> 
 implements CurrentUserChangedHandler {
 
-  @ViewInterface
   public interface MyView extends View {
     public void setLoggedIn( String username, boolean isAdministrator );
     public void setLoggedOut();
@@ -30,7 +27,6 @@ implements CurrentUserChangedHandler {
     public HasClickHandlers getSignOut();
   }
 
-  @ProxyInterface
   public interface MyProxy extends Proxy<TopBarPresenter> {}
 
   private final DispatchAsync dispatcher;

@@ -6,12 +6,10 @@ import com.google.inject.Inject;
 import com.philbeaudoin.gwt.presenter.client.View;
 import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
 import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.ViewInterface;
 import com.philbeaudoin.gwt.presenter.client.proxy.Callback;
 import com.philbeaudoin.gwt.presenter.client.proxy.CallbackProvider;
 import com.philbeaudoin.gwt.presenter.client.proxy.Place;
 import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
-import com.philbeaudoin.gwt.presenter.client.proxy.ProxyInterface;
 import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
 import com.puzzlebazar.client.CodeSplitProvider;
 import com.puzzlebazar.client.core.proxy.SplitMainProxy;
@@ -25,13 +23,11 @@ import com.puzzlebazar.client.resources.Translations;
 public class MainPagePresenter extends 
 PresenterImpl<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
 
-  @ViewInterface
   public interface MyView extends View {
     public void addNewsWidget( Widget widget );
     public void clearNewsWidgets();
   }
 
-  @ProxyInterface
   public interface MyProxy extends Proxy<MainPagePresenter>, Place {}
 
   private final CallbackProvider<NewsItemPresenter> newsItemFactory;
