@@ -4,7 +4,7 @@ package com.puzzlebazar.client.ui;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Widget;
-import com.philbeaudoin.gwt.presenter.client.Tab;
+import com.philbeaudoin.platform.mvp.client.Tab;
 
 /**
  * A widget that can show multiple tabs with rounded corners, each with its own content.

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.HasText;
-import com.philbeaudoin.gwt.presenter.client.HandlerContainerImpl;
+import com.philbeaudoin.platform.mvp.client.HandlerContainerImpl;
 
 /**
  * <b>Important:</b> This class participates in dependency injection.

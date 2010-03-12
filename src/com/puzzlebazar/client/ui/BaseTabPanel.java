@@ -10,8 +10,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.philbeaudoin.gwt.presenter.client.Tab;
-import com.philbeaudoin.gwt.presenter.client.TabPanel;
+import com.philbeaudoin.platform.mvp.client.Tab;
+import com.philbeaudoin.platform.mvp.client.TabPanel;
 
 public abstract class BaseTabPanel extends Composite implements TabPanel {
 

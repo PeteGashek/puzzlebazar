@@ -1,7 +1,7 @@
 package com.puzzlebazar.client.util;
 
 import com.google.gwt.user.client.ui.HasText;
-import com.philbeaudoin.gwt.presenter.client.HandlerContainer;
+import com.philbeaudoin.platform.mvp.client.HandlerContainer;
 
 /**
  * Classes of this type contains a collection of {@link ChangeMonitorUnit}

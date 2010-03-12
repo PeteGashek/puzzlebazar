@@ -8,7 +8,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
-import com.philbeaudoin.gwt.dispatch.server.guice.GuiceStandardDispatchServlet;
+import com.philbeaudoin.platform.dispatch.server.guice.GuiceStandardDispatchServlet;
 
 public class DispatchServletModule extends ServletModule {
 

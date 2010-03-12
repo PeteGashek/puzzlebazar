@@ -5,10 +5,10 @@ package com.puzzlebazar.client.core.proxy;
 
 import com.google.gwt.inject.client.AsyncProvider;
 import com.google.inject.Inject;
-import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.proxy.PlaceManager;
-import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxyImpl;
-import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxyPlace;
+import com.philbeaudoin.platform.mvp.client.EventBus;
+import com.philbeaudoin.platform.mvp.client.proxy.PlaceManager;
+import com.philbeaudoin.platform.mvp.client.proxy.TabContentProxyImpl;
+import com.philbeaudoin.platform.mvp.client.proxy.TabContentProxyPlace;
 import com.puzzlebazar.client.CodeSplitProvider;
 import com.puzzlebazar.client.CurrentUser;
 import com.puzzlebazar.client.NameTokens;

@@ -1,10 +1,10 @@
 package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
-import com.philbeaudoin.gwt.presenter.client.View;
-import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
-import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.proxy.Proxy;
+import com.philbeaudoin.platform.mvp.client.View;
+import com.philbeaudoin.platform.mvp.client.PresenterImpl;
+import com.philbeaudoin.platform.mvp.client.EventBus;
+import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
 
 public class LinkColumnPresenter extends PresenterImpl<LinkColumnPresenter.MyView, LinkColumnPresenter.MyProxy> {
 

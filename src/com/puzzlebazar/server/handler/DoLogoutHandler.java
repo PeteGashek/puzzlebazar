@@ -4,9 +4,9 @@ package com.puzzlebazar.server.handler;
 import com.google.appengine.api.users.UserService;
 import com.google.inject.Inject;
 
-import com.philbeaudoin.gwt.dispatch.server.ActionHandler;
-import com.philbeaudoin.gwt.dispatch.server.ExecutionContext;
-import com.philbeaudoin.gwt.dispatch.shared.ActionException;
+import com.philbeaudoin.platform.dispatch.server.ActionHandler;
+import com.philbeaudoin.platform.dispatch.server.ExecutionContext;
+import com.philbeaudoin.platform.dispatch.shared.ActionException;
 import com.puzzlebazar.shared.action.DoLogout;
 import com.puzzlebazar.shared.action.StringResult;
 

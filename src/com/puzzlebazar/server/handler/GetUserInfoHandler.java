@@ -8,11 +8,11 @@ import javax.jdo.PersistenceManagerFactory;
 
 import com.google.appengine.api.users.UserService;
 import com.google.inject.Inject;
-import com.philbeaudoin.gwt.dispatch.server.ActionHandler;
-import com.philbeaudoin.gwt.dispatch.server.ExecutionContext;
-import com.philbeaudoin.gwt.dispatch.server.Util;
-import com.philbeaudoin.gwt.dispatch.shared.ActionException;
-import com.philbeaudoin.gwt.dispatch.shared.ServiceException;
+import com.philbeaudoin.platform.dispatch.server.ActionHandler;
+import com.philbeaudoin.platform.dispatch.server.ExecutionContext;
+import com.philbeaudoin.platform.dispatch.server.Util;
+import com.philbeaudoin.platform.dispatch.shared.ActionException;
+import com.philbeaudoin.platform.dispatch.shared.ServiceException;
 
 import com.puzzlebazar.shared.action.GetUserInfo;
 import com.puzzlebazar.shared.action.GetUserInfoResult;

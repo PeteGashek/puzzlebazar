@@ -1,6 +1,6 @@
 package com.puzzlebazar.shared.action;
 
-import com.philbeaudoin.gwt.dispatch.shared.Action;
+import com.philbeaudoin.platform.dispatch.shared.Action;
 
 public class DoLogout implements Action< StringResult > {
 

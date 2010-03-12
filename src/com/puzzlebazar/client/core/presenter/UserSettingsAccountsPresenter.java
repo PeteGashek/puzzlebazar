@@ -1,12 +1,12 @@
 package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
-import com.philbeaudoin.gwt.presenter.client.View;
-import com.philbeaudoin.gwt.presenter.client.PresenterImpl;
-import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.proxy.Place;
-import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
-import com.philbeaudoin.gwt.presenter.client.proxy.TabContentProxy;
+import com.philbeaudoin.platform.mvp.client.View;
+import com.philbeaudoin.platform.mvp.client.PresenterImpl;
+import com.philbeaudoin.platform.mvp.client.EventBus;
+import com.philbeaudoin.platform.mvp.client.proxy.Place;
+import com.philbeaudoin.platform.mvp.client.proxy.SetContentEvent;
+import com.philbeaudoin.platform.mvp.client.proxy.TabContentProxy;
 import com.puzzlebazar.client.core.proxy.UserSettingsTabProxy;
 
 /**

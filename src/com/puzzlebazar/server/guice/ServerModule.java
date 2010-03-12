@@ -1,6 +1,6 @@
 package com.puzzlebazar.server.guice;
 
-import com.philbeaudoin.gwt.dispatch.server.guice.ActionHandlerModule;
+import com.philbeaudoin.platform.dispatch.server.guice.ActionHandlerModule;
 
 import com.puzzlebazar.server.handler.DoLoginHandler;
 import com.puzzlebazar.server.handler.DoLogoutHandler;

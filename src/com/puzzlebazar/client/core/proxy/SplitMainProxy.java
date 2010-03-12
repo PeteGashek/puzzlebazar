@@ -6,11 +6,11 @@ package com.puzzlebazar.client.core.proxy;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.proxy.DirectProvider;
-import com.philbeaudoin.gwt.presenter.client.proxy.ProxyImpl;
-import com.philbeaudoin.gwt.presenter.client.proxy.SetContentEvent;
-import com.philbeaudoin.gwt.presenter.client.proxy.SetContentHandler;
+import com.philbeaudoin.platform.mvp.client.EventBus;
+import com.philbeaudoin.platform.mvp.client.proxy.DirectProvider;
+import com.philbeaudoin.platform.mvp.client.proxy.ProxyImpl;
+import com.philbeaudoin.platform.mvp.client.proxy.SetContentEvent;
+import com.philbeaudoin.platform.mvp.client.proxy.SetContentHandler;
 import com.puzzlebazar.client.core.presenter.SplitMainPresenter;
 
 public class SplitMainProxy extends ProxyImpl<SplitMainPresenter>  implements SplitMainPresenter.MyProxy {

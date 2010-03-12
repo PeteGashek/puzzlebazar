@@ -1,7 +1,7 @@
 package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.event.shared.GwtEvent;
-import com.philbeaudoin.gwt.presenter.client.EventBus;
+import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.puzzlebazar.shared.model.User;
 
 /**

@@ -4,12 +4,12 @@ import com.google.gwt.inject.client.AsyncProvider;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.inject.Inject;
-import com.philbeaudoin.gwt.presenter.client.EventBus;
-import com.philbeaudoin.gwt.presenter.client.proxy.Callback;
-import com.philbeaudoin.gwt.presenter.client.proxy.CallbackProvider;
-import com.philbeaudoin.gwt.presenter.client.proxy.PlaceManagerImpl;
-import com.philbeaudoin.gwt.presenter.client.proxy.ProxyBase;
-import com.philbeaudoin.gwt.presenter.client.proxy.TokenFormatter;
+import com.philbeaudoin.platform.mvp.client.EventBus;
+import com.philbeaudoin.platform.mvp.client.proxy.Callback;
+import com.philbeaudoin.platform.mvp.client.proxy.CallbackProvider;
+import com.philbeaudoin.platform.mvp.client.proxy.PlaceManagerImpl;
+import com.philbeaudoin.platform.mvp.client.proxy.ProxyBase;
+import com.philbeaudoin.platform.mvp.client.proxy.TokenFormatter;
 import com.puzzlebazar.client.gin.DefaultPlace;
 import com.puzzlebazar.client.resources.Translations;
 
