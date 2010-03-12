@@ -1,5 +1,6 @@
 package com.puzzlebazar.server.guice;
 
+
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManagerFactory;
 
@@ -12,8 +13,24 @@ import com.philbeaudoin.platform.dispatch.server.guice.GuiceStandardDispatchServ
 
 public class DispatchServletModule extends ServletModule {
 
+  // TODO philippe.beaudoin@gmail.com
+  // Uncomment when http://code.google.com/p/puzzlebazar/issues/detail?id=27 is unblocked.
+  //  private static final Map<String, String> crawlFilterParams;
+  //  static {
+  //    Map<String, String> aMap = new HashMap<String, String>();
+  //    aMap.put("defaultURI_0", "/puzzlebazar.html");
+  //    aMap.put("redirectURI_0", "/PuzzlebazarHidden.html");
+  //    aMap.put("defaultURI_1", "/puzzlebazardebug.html");
+  //    aMap.put("redirectURI_1", "/PuzzlebazarDebugHidden.html");
+  //    crawlFilterParams = Collections.unmodifiableMap(aMap);
+  //  }    
+
   @Override
   public void configureServlets() {
+
+    // TODO philippe.beaudoin@gmail.com
+    // Uncomment when http://code.google.com/p/puzzlebazar/issues/detail?id=27 is unblocked.
+    //    filter("/*").through(CrawlFilter.class, crawlFilterParams);
     serve("/puzzlebazar/dispatch").with(GuiceStandardDispatchServlet.class);
   }
 
@@ -26,5 +43,5 @@ public class DispatchServletModule extends ServletModule {
   PersistenceManagerFactory getPersistenceManagerFactory() {
     return JDOHelper.getPersistenceManagerFactory("transactions-optional");
   }
-  
+
 }
