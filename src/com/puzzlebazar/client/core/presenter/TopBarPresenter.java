@@ -99,7 +99,7 @@ implements CurrentUserChangedHandler {
       public void onSuccess(StringResult result) {
         Window.Location.assign( result.getString() );
       }
-    } );
+    } ); 
   }
 
   public void doSignOut() {
@@ -116,7 +116,7 @@ implements CurrentUserChangedHandler {
       public void onSuccess(StringResult result) {
         Window.Location.assign( result.getString() );
       }
-    } );
+    } ); 
   }
 
   

@@ -11,23 +11,23 @@ package com.puzzlebazar.client;
 public class NameTokens {
 
   public static String getAdminGeneral() {
-    return "admin";
+    return "!admin";
   }
 
   public static String getAdminUsers() {
-    return "admin-users";
+    return "!admin-users";
   }
 
   public static String getUserSettingsGeneral() {
-    return "settings";
+    return "!settings";
   }
 
   public static String getUserSettingsAccounts() {
-    return "settings-accounts";
+    return "!settings-accounts";
   }
   
   public static String getMainPage() {
-    return "main";
+    return "!main";
   }
   
 }
