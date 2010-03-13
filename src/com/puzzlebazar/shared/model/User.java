@@ -2,6 +2,8 @@ package com.puzzlebazar.shared.model;
 
 import java.io.Serializable;
 
+import javax.jdo.annotations.Extension;
+import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -34,6 +36,10 @@ public class User implements Serializable {
 
 
   @PrimaryKey
+  @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+  @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
+  private String key;
+
   @Persistent
   private String email;
   @Persistent
@@ -43,12 +49,24 @@ public class User implements Serializable {
   private boolean administrator = false;
   private boolean authenticated = false;
 
-  public User() {
-    email = "";
+  @SuppressWarnings("unused")
+  private User() {
+    // For serialization only
+  }
+  
+  public User(String email) {
+    this.email = email;
     realName = "";
     nickname = "";
   }
 
+  /**
+   * @return This object's key, encoded as a string.
+   */
+  public String getKey() {
+    return key;
+  }
+  
   /**
    * @return The email address of this user 
    */
@@ -75,13 +93,6 @@ public class User implements Serializable {
    */
   public boolean isAdministrator() {
     return administrator;
-  }
-
-  /**
-   * @param email The email address to set for this user
-   */
-  public void setEmail(String email) {
-    this.email = email;
   }
 
   /**

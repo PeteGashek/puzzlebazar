@@ -2,9 +2,10 @@ package com.puzzlebazar.server.handler;
 
 import java.util.logging.Logger;
 
-import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
+import javax.jdo.Query;
+import javax.jdo.Transaction;
 
 import com.google.appengine.api.users.UserService;
 import com.google.inject.Inject;
@@ -23,7 +24,7 @@ public class GetUserInfoHandler implements ActionHandler<GetUserInfo, GetUserInf
   private final UserService userService;
   private final PersistenceManagerFactory persistenceManagerFactory;
   private final Logger log;
-  
+
   @Inject
   public GetUserInfoHandler(
       final UserService userService,
@@ -46,26 +47,37 @@ public class GetUserInfoHandler implements ActionHandler<GetUserInfo, GetUserInf
       if( appengineUser == null ) 
         return null;
 
-      User userInfo = new User();
+      User user = null;
       PersistenceManager persistenceManager = persistenceManagerFactory.getPersistenceManager();
-      try {
-        try {
-          userInfo = persistenceManager.getObjectById(User.class, appengineUser.getEmail());
-        } catch( JDOObjectNotFoundException exception ) {
+      Transaction transaction = persistenceManager.currentTransaction();
+      try {        
+        final Query query = persistenceManager.newQuery( User.class );  
+        query.setUnique( true );
+        query.setFilter( "email==\"" + appengineUser.getEmail() + "\"" );
+
+        transaction.begin();        
+        user = (User)query.execute();
+        if( user == null ) {
           // User is authenticated via Google User Service, but it is not in the database yet,
           // copy known information.
-          userInfo.setEmail( appengineUser.getEmail() );
-          userInfo.setNickname( appengineUser.getNickname() );
-          persistenceManager.makePersistent( userInfo );
-        } 
+          
+          user = new User( appengineUser.getEmail() );
+          user.setNickname( appengineUser.getNickname() );
+          persistenceManager.makePersistent( user );
+        }
+        transaction.commit();        
       }
       finally {
-        userInfo.setAuthenticated( true );
-        userInfo.setAdministrator( userService.isUserAdmin() );
+        if( transaction.isActive() )
+          transaction.rollback();
+        
+        assert user != null : "Unexpected null user. Datastore error?";
+        user.setAuthenticated( true );
+        user.setAdministrator( userService.isUserAdmin() );
         persistenceManager.close();
       }
-      
-      return new GetUserInfoResult(userInfo);
+
+      return new GetUserInfoResult(user);
     }
     catch (Exception cause) {
       Util.logException( log, this, cause );
