@@ -46,6 +46,14 @@ public class Session implements Serializable {
   public String getCurrentUserKey() {
     return currentUserKey;
   }
+
+  /**
+   * Logout the user from the current session. This is done by setting the
+   * {@code currentUserKey} to {@code null}.
+   */
+  public void logoutUser() {
+    currentUserKey = null;
+  }
   
 
 

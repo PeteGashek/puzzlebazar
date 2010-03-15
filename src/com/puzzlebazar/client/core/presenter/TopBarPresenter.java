@@ -12,9 +12,8 @@ import com.philbeaudoin.platform.mvp.client.PresenterImpl;
 import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
 import com.puzzlebazar.client.CurrentUser;
-import com.puzzlebazar.shared.action.DoLogin;
-import com.puzzlebazar.shared.action.DoLogout;
-import com.puzzlebazar.shared.action.StringResult;
+import com.puzzlebazar.shared.action.Logout;
+import com.puzzlebazar.shared.action.NoResult;
 import com.puzzlebazar.shared.model.User;
 
 public class TopBarPresenter extends PresenterImpl<TopBarPresenter.MyView,TopBarPresenter.MyProxy> 
@@ -57,7 +56,8 @@ implements CurrentUserChangedHandler {
     registerHandler( getView().getSignIn().addClickHandler( new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
-        doSignIn();
+        // TODO Temporary hack
+        Window.Location.assign("http://127.0.0.1:8888/user/home/");
       }
     } ) );
 
@@ -85,27 +85,9 @@ implements CurrentUserChangedHandler {
     checkUserStatus();
   }
 
-  public void doSignIn() {
-    String url = Window.Location.getHref();
-
-    dispatcher.execute( new DoLogin(url), new AsyncCallback<StringResult>() {
-
-      @Override
-      public void onFailure(Throwable caught) {
-        Window.alert("Server connection error.");
-      }
-
-      @Override
-      public void onSuccess(StringResult result) {
-        Window.Location.assign( result.getString() );
-      }
-    } ); 
-  }
-
   public void doSignOut() {
-    String url = Window.Location.getHref();
-
-    dispatcher.execute( new DoLogout(url), new AsyncCallback<StringResult>() {
+    getView().setLoggedOut();
+    dispatcher.execute( new Logout(), new AsyncCallback<NoResult>() {
 
       @Override
       public void onFailure(Throwable caught) {
@@ -113,8 +95,8 @@ implements CurrentUserChangedHandler {
       }
 
       @Override
-      public void onSuccess(StringResult result) {
-        Window.Location.assign( result.getString() );
+      public void onSuccess(NoResult noResult) {
+        
       }
     } ); 
   }
