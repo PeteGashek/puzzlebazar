@@ -72,16 +72,21 @@ public class CurrentUserManager {
     PersistenceManager persistenceManager = persistenceManagerFactory.getPersistenceManager();
     try {
       Session session = persistenceManager.getObjectById( Session.class, key );
-      user = persistenceManager.getObjectById( User.class, session.getCurrentUserKey() );      
+      String userKey = session.getCurrentUserKey();
+      if( userKey != null )
+        user = persistenceManager.getObjectById( User.class, userKey );      
     }
     catch( JDOObjectNotFoundException exception ) {
-      // Store a special user with a null password in the cache so that we save
-      // trips to the datastore on future requests.
-      cache.get().put( key, new User(null) );
       user = null;
     }
     finally {
       persistenceManager.close();
+    }
+
+    if( user == null ) {
+      // Store a special user with a null password in the cache so that we save
+      // trips to the datastore on future requests.
+      cache.get().put( key, new User(null) );      
     }
     
     return user;
@@ -143,6 +148,29 @@ public class CurrentUserManager {
       persistenceManager.close();
     }
     
+  }
+
+  /**
+   * Logout the currently logged-in user.
+   */
+  public void logout() {
+    String key = USER_TOKEN + session.get().getId();
+    
+    // Store a special user with a null password in the cache so that we save
+    // trips to the datastore on future requests.
+    cache.get().put( key, new User(null) );
+
+    // Remove the user from the session
+    PersistenceManager persistenceManager = persistenceManagerFactory.getPersistenceManager();
+    try {
+      Session session = persistenceManager.getObjectById( Session.class, key );
+      session.logoutUser();
+    }
+    catch( JDOObjectNotFoundException exception ) {
+    }
+    finally {
+      persistenceManager.close();
+    }
   }      
     
 }
