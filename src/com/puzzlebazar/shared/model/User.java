@@ -46,8 +46,11 @@ public class User implements Serializable {
   private String realName;
   @Persistent
   private String nickname;
+  @Persistent
+  private String locale; // null means default locale
   private boolean administrator = false;
   private boolean authenticated = false;
+
 
   @SuppressWarnings("unused")
   private User() {
@@ -58,6 +61,7 @@ public class User implements Serializable {
     this.email = email;
     realName = "";
     nickname = "";
+    locale = null;
   }
 
   /**
@@ -68,45 +72,59 @@ public class User implements Serializable {
   }
   
   /**
-   * @return The email address of this user 
+   * @return The email address of this user. 
    */
   public String getEmail() {
     return email;
   }
 
   /**
-   * @return The real name of this user 
+   * @return The real name of this user. 
    */
   public String getRealName() {
     return realName;
   }
 
   /**
-   * @return The nickname of this user 
+   * @return The nickname of this user.
    */
   public String getNickname() {
     return nickname;
   }
 
   /**
-   * @return True if the user is an administrator
+   * @return The locale for this user.
+   */
+  public String getLocale() {
+    return locale;
+  }
+  
+  /**
+   * @return True if the user is an administrator.
    */
   public boolean isAdministrator() {
     return administrator;
   }
 
   /**
-   * @param realname The real name to set for this user
+   * @param realname The real name to set for this user.
    */
   public void setRealname(String realName) {
     this.realName = realName;
   }
 
   /**
-   * @param nickname The nickname to set for this user
+   * @param nickname The nickname to set for this user.
    */
   public void setNickname(String nickname) {
     this.nickname = nickname;
+  }
+  
+  /**
+   * @param locale The locale to set for this user.
+   */
+  public void setLocale(String locale) {
+    this.locale = locale;
   }
 
   /**

@@ -23,6 +23,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.puzzlebazar.server.model.Session;
 import com.puzzlebazar.shared.model.User;
+import com.puzzlebazar.shared.util.AvailableLocales;
 
 /**
  * This class manages the user currently logged into the session
@@ -37,6 +38,7 @@ public class CurrentUserManager {
   private static final Object ADMINISTRATOR_EMAIL = "philippe.beaudoin@gmail.com";
 
   private final Logger logger;
+  private final AvailableLocales availableLocales;
   private final PersistenceManagerFactory persistenceManagerFactory;
   private final Provider<Cache> cache;
   private final Provider<HttpSession> session;
@@ -46,12 +48,14 @@ public class CurrentUserManager {
   @Inject
   public CurrentUserManager(
       final Logger logger,
+      final AvailableLocales availableLocales,      
       final PersistenceManagerFactory persistenceManagerFactory,
       final Provider<Cache> cache,
       final Provider<HttpSession> session,
       final Provider<HttpServletRequest> request,
       final Provider<HttpServletResponse> response ) {
     this.logger = logger;
+    this.availableLocales = availableLocales;
     this.persistenceManagerFactory = persistenceManagerFactory;
     this.cache = cache;
     this.session = session;
@@ -113,6 +117,7 @@ public class CurrentUserManager {
 
     Map<String,String> axSchema = AxSchemaExtension.get(openIdUser);
     String email = axSchema.get("email");
+    String language = axSchema.get("language");
     if( email == null ) {
       logger.warning( "Setting a user with a null email. Call logout instead?" );
       return;
@@ -135,10 +140,11 @@ public class CurrentUserManager {
         // copy known information.
         
         user = new User( email );
-        // TODO Set other fields in the user base on what we can get from the OpenId Provider
+        user.setLocale( availableLocales.getBestLocale(language).getLocale() );
         persistenceManager.makePersistent( user );
       }
-
+      transaction.commit();
+      transaction.begin();        
       // Attaches the user to the session in the datastore and in the cache
       String key = USER_TOKEN + session.get().getId();
       cache.get().put( key, user );

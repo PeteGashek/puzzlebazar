@@ -163,7 +163,6 @@ public class OpenIdServlet extends HttpServlet
     RelyingParty.getInstance()
     .addListener(new AxSchemaExtension()
     .addExchange("email")
-    .addExchange("country")
     .addExchange("language")
     )
     .addListener(new RelyingParty.Listener()

@@ -57,7 +57,7 @@
 		<div class='{style.lineSkip}' />
 
 		<g:Label addStyleNames='{style.col1} {style.nudge}'>
-			<ui:msg description='Email field inside a user form.'>
+			<ui:msg description='Nickname field inside a user form.'>
 				Nickname:</ui:msg>
 		</g:Label>
 		<div class='{style.col2}'>
@@ -75,6 +75,13 @@
 		</div>
 		<g:Label ui:field='realNameError' addStyleNames='{style.col3} {style.nudge} {resources.style.errorText}' />
 		<div class='{style.lineSkip}' />
+
+    <g:Label addStyleNames='{style.col1} {style.nudge}'>
+      <ui:msg description='Language field inside a user form.'>
+        Language:</ui:msg>
+    </g:Label>
+    <g:ListBox ui:field='language' addStyleNames='{style.col2}' />
+    <div class='{style.lineSkip}' />
 
 		<g:Button ui:field='applyButton'>
 			<ui:msg description='Button to apply modifications in a form'>

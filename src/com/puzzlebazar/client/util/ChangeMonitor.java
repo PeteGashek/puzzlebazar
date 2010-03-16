@@ -1,6 +1,5 @@
 package com.puzzlebazar.client.util;
 
-import com.google.gwt.user.client.ui.HasText;
 import com.philbeaudoin.platform.mvp.client.HandlerContainer;
 
 /**
@@ -12,30 +11,30 @@ import com.philbeaudoin.platform.mvp.client.HandlerContainer;
  * 
  * @author Philippe Beaudoin
  */
-public interface ChangeMonitor extends ChangeHandler, HandlerContainer {
+public interface ChangeMonitor extends MonitorHandler, HandlerContainer {
 
   /**
    * Indicates a handler that will be called whenever a
    * change is detected.
    * 
-   * @param handler The {@link ChangeHandler} to call.
+   * @param handler The {@link MonitorHandler} to call.
    */
-  void setHandler(ChangeHandler handler);
+  void setHandler(MonitorHandler handler);
 
   /**
    * Starts monitoring changes on a new widget. This object will be
    * monitored until {@link #unbind()} is called.
    * 
-   * @param widget The object to monitor. Should implement both
-   *               {@link HasValueChangeHandlers<String>} otherwise
-   *               change will not be monitored (silently).
+   * @param widget The object to monitor. The object will be tested
+   *               for a number of supported types and the change 
+   *               monitor will adapt to the type. 
    */
-  public abstract void monitorWidget(HasText widget);
+  public abstract void monitorWidget(Object widget);
 
   /**
-   * Revert all the changes so that objects go back to their original
-   * values. Does not notify the associated {@link ChangeHandler}.
+   * Resets all the original values to match the values currently contained
+   * in the widget. Does not notify the associated {@link MonitorHandler}.
    */
-  void revert();
+  void reset();
 
 }
