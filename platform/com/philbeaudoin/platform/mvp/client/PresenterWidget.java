@@ -23,6 +23,15 @@ public interface PresenterWidget {
   public abstract View getView();
 
   /**
+   * Verifies if the presenter is currently visible on the screen. A
+   * presenter should be visible if it successfully revealed itself
+   * and was not hidden later.
+   * 
+   * @return {@code true} if the presenter is visible, {@code false} otherwise.
+   */
+  public boolean isVisible();
+  
+  /**
    * <b>Important:</b> Make sure you call your superclass {@link #onReveal()}.
    * <p />
    * This method will be called whenever the presenter is revealed. Override

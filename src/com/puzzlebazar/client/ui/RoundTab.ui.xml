@@ -2,27 +2,6 @@
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 
 	<ui:style src='../resources/defines.css' type='com.puzzlebazar.client.ui.BaseTab.Style'>
-		.round1,.round2,.round4 {
-			font-size: 0px;
-			height: 1px;
-			margin: 0px;
-			padding: 0px;
-		}
-		
-		.round1 {
-			border-left: 1px solid white;
-			border-right: 1px solid white;
-		}
-		
-		.round2 {
-			border-left: 2px solid white;
-			border-right: 2px solid white;
-		}
-		
-		.round4 {
-			border-left: 4px solid white;
-			border-right: 4px solid white;
-		}
 		
 		.tab {
 			float: left;
@@ -50,11 +29,13 @@
 		}
 	</ui:style>
 
+  <ui:with field='resources' type='com.puzzlebazar.client.resources.Resources' />
+
 
 	<g:HTMLPanel addStyleNames="{style.tab} {style.inactive}">
-		<div class="{style.round4}" />
-		<div class="{style.round2}" />
-		<div class="{style.round1}" />
+		<div class="{resources.style.round4}" />
+		<div class="{resources.style.round2}" />
+		<div class="{resources.style.round1}" />
 		<div class="{style.tab_inner}">
 			<g:Hyperlink ui:field="hyperlink" />
 		</div>

@@ -37,7 +37,7 @@ extends PresenterWidgetImpl<V> implements Presenter {
     setContentInParent();
     getProxy().onPresenterRevealed( this );
   }
-
+  
   /**
    * Called whenever the presenter needs to set its content in 
    * a parent. Should usually fire a {@link SetContentEvent}.

@@ -10,12 +10,15 @@ import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
 import com.philbeaudoin.platform.mvp.client.proxy.SetContentEvent;
 import com.puzzlebazar.client.core.proxy.AppProxy;
 
+public class SplitMainPresenter 
+extends PresenterImpl<SplitMainPresenter.MyView, SplitMainPresenter.MyProxy>
+implements DisplayShortMessageHandler {
 
-public class SplitMainPresenter extends PresenterImpl<SplitMainPresenter.MyView, SplitMainPresenter.MyProxy> {
-  
   public interface MyView extends View {
-    void setSideBarContent( Widget sideBarContent );
-    void setCenterContent( Widget centerContent );
+    public void showMessage( String message, boolean dismissable );
+    public void clearMessage();
+    public void setSideBarContent( Widget sideBarContent );
+    public void setCenterContent( Widget centerContent );
   }
 
   public interface MyProxy extends Proxy<SplitMainPresenter> {}
@@ -39,11 +42,12 @@ public class SplitMainPresenter extends PresenterImpl<SplitMainPresenter.MyView,
   protected void setContentInParent() {
     SetContentEvent.fire(eventBus, AppProxy.TYPE_SetMainContent, this);
   }
-  
+
   @Override
   protected void onBind() {
     super.onBind();
     setSideBarContent( linkColumnPresenter );
+    registerHandler( eventBus.addHandler( DisplayShortMessageEvent.getType(), this ) );
   }
 
   @Override
@@ -61,7 +65,7 @@ public class SplitMainPresenter extends PresenterImpl<SplitMainPresenter.MyView,
       getView().setSideBarContent( content.getWidget() );
     }
   }
-  
+
   public void setCenterContent(PresenterWidget content) {
     if( centerContent  != content ) {
       hideCenterContent();
@@ -79,5 +83,18 @@ public class SplitMainPresenter extends PresenterImpl<SplitMainPresenter.MyView,
   private void hideCenterContent() {
     if( centerContent != null )
       centerContent.onHide();
+  }
+
+  @Override
+  public void onDisplayShortMessage(DisplayShortMessageEvent event) {
+    if( !isVisible() || event.isAlreadyDisplayed() )
+      return;
+    String message = event.getMessage();    
+    if( message == null )
+      view.clearMessage();
+    else    
+      // TODO Take duration into account
+      view.showMessage( event.getMessage(), event.isDismissable() );
+    event.setAlreadyDisplayed();
   }
 }

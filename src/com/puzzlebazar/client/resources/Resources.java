@@ -19,6 +19,9 @@ public interface Resources extends ClientBundle {
     String username();
     String formMargin();
     String errorText();
+    String round1();
+    String round2();
+    String round4();
   }  
 
   public interface Defines extends CssResource {

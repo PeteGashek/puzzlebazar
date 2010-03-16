@@ -48,6 +48,8 @@ import com.puzzlebazar.client.core.view.UserSettingsGeneralView;
 import com.puzzlebazar.client.core.view.UserSettingsTabView;
 import com.puzzlebazar.client.resources.Resources;
 import com.puzzlebazar.client.resources.Translations;
+import com.puzzlebazar.client.ui.ShortMessageBox;
+import com.puzzlebazar.client.ui.SimpleTabPanel;
 import com.puzzlebazar.client.util.ChangeMonitor;
 import com.puzzlebazar.client.util.DefaultChangeMonitor;
 
@@ -58,6 +60,9 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
   @Override
   protected void configure() {  
 
+    // NOTE: Commented lines are unused classes. They are commented out to make sure
+    //       the GWT compiler does not include them.
+    
     // Singletons
     bind(Resources.class).in(Singleton.class);
     bind(Translations.class).in(Singleton.class);
@@ -68,6 +73,11 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
 
     // Non-singletons
     bind(ChangeMonitor.class).to(DefaultChangeMonitor.class);
+    
+    // Static injection (use only for widgets, which can't participate in dependancy injection because of UIBinder)
+//    requestStaticInjection(RoundTab.class);
+    requestStaticInjection(SimpleTabPanel.class);
+    requestStaticInjection(ShortMessageBox.class);
     
     // Presenter widget
     bindPresenterWidget(NewsItemPresenter.class, NewsItemPresenter.MyView.class, NewsItemView.class);

@@ -32,13 +32,13 @@ public interface Presenter extends PresenterWidget {
    * which will cause the parent to be revealed too.
    */
   public void reveal();
-
+  
   /**
    * This method is called when a {@link Presenter} should prepare itself
    * based on a {@link PlaceRequest}. The presenter should extract
    * any parameters it needs from the request. A presenter should override
    * this method if it handles custom parameters, but it should call
-   * the parent's <code>prepareFromRequest</code> method.
+   * the parent's {@code prepareFromRequest} method.
    *
    * @param request   The request.
    */
@@ -65,7 +65,7 @@ public interface Presenter extends PresenterWidget {
    * request.
    * <p/>
    * <p/>
-   * If nothing is to be done, simply return the <code>request</code>
+   * If nothing is to be done, simply return the {@code request}
    * unchanged. Otherwise, call {@link PlaceRequest#with(String, String)} to
    * add parameters. Eg:
    * <p/>
@@ -74,7 +74,7 @@ public interface Presenter extends PresenterWidget {
    * </pre>
    * <p/>
    * A presenter should override this method if it handles custom parameters, but
-   * it should call the parent's <code>prepareRequest</code> method.
+   * it should call the parent's {@code prepareRequest} method.
    * 
    * @param request   The current request.
    * @return The prepared place request.
