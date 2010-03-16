@@ -8,4 +8,5 @@ public interface Translations extends Constants {
   String tabGeneral();
   String tabUsers();
   String changeDetected();
+  String openIdPopupTitle();
 }

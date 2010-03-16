@@ -3,6 +3,7 @@ package com.puzzlebazar.client.core.presenter;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
@@ -12,6 +13,7 @@ import com.philbeaudoin.platform.mvp.client.PresenterImpl;
 import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
 import com.puzzlebazar.client.CurrentUser;
+import com.puzzlebazar.client.resources.Translations;
 import com.puzzlebazar.shared.action.Logout;
 import com.puzzlebazar.shared.action.NoResult;
 import com.puzzlebazar.shared.model.User;
@@ -22,7 +24,7 @@ implements CurrentUserChangedHandler {
   public interface MyView extends View {
     public void setLoggedIn( String username, boolean isAdministrator );
     public void setLoggedOut();
-    public HasClickHandlers getSignIn();
+    public void setSignIn( String uri, String title, Command signInCallback );
     public HasClickHandlers getSignOut();
   }
 
@@ -30,6 +32,7 @@ implements CurrentUserChangedHandler {
 
   private final DispatchAsync dispatcher;
   private final CurrentUser currentUser;
+  private final Translations translations;
 
   @Inject
   public TopBarPresenter(
@@ -37,29 +40,33 @@ implements CurrentUserChangedHandler {
       final MyView view, 
       final MyProxy proxy,
       final DispatchAsync dispatcher,
-      final CurrentUser currentUser ) {
+      final CurrentUser currentUser,
+      final Translations translations) {
     super(eventBus, view, proxy);
 
     this.dispatcher = dispatcher;
     this.currentUser = currentUser;
+    this.translations = translations;
   }
 
   @Override
   protected void setContentInParent() {}
-  
+
   @Override
   protected void onBind() {
     super.onBind();
-    
+
     checkUserStatus();
 
-    registerHandler( getView().getSignIn().addClickHandler( new ClickHandler() {
+    view.setSignIn( 
+        "/openid/login?popup=true&provider=google", 
+        translations.openIdPopupTitle(),
+        new Command() {
       @Override
-      public void onClick(ClickEvent event) {
-        // TODO Temporary hack
-        Window.Location.assign("http://127.0.0.1:8888/user/home/");
+      public void execute() {
+        currentUser.fetchUser();        
       }
-    } ) );
+    } );
 
     registerHandler( getView().getSignOut().addClickHandler( new ClickHandler() {
       @Override
@@ -96,11 +103,11 @@ implements CurrentUserChangedHandler {
 
       @Override
       public void onSuccess(NoResult noResult) {
-        
+
       }
     } ); 
   }
 
-  
-  
+
+
 }
