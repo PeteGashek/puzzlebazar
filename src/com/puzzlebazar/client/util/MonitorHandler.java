@@ -2,7 +2,7 @@ package com.puzzlebazar.client.util;
 
 /**
  * The interface of an object that can react to changes
- * dected within another object, or a collection of other
+ * detected within another object, or a collection of other
  * objects.
  * 
  * @see ChangeMonitorUnit
@@ -10,7 +10,7 @@ package com.puzzlebazar.client.util;
  * 
  * @author Philippe Beaudoin
  */
-public interface ChangeHandler {
+public interface MonitorHandler {
   
   /**
    * Called whenever the associated object has changed.

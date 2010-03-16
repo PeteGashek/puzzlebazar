@@ -3,7 +3,6 @@ package com.puzzlebazar.client.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HasText;
 import com.philbeaudoin.platform.mvp.client.HandlerContainerImpl;
 
 /**
@@ -20,7 +19,7 @@ implements ChangeMonitor {
   /**
    * This class is used on monitored object.
    */
-  private class MonitoredObjectHandler implements ChangeHandler {
+  private class MonitoredObjectHandler implements MonitorHandler {
     @Override
     public void changeDetected() {
       newChange();
@@ -35,7 +34,7 @@ implements ChangeMonitor {
   private final List<ChangeMonitorUnit> changeMonitors = new ArrayList<ChangeMonitorUnit>();
   private final MonitoredObjectHandler subHandler = new MonitoredObjectHandler();
   private boolean changed = false;
-  private ChangeHandler handler = null;
+  private MonitorHandler handler = null;
   
   /**
    * Creates a new {@link ChangeMonitor} object.
@@ -55,12 +54,12 @@ implements ChangeMonitor {
   }    
 
   @Override
-  public void setHandler( ChangeHandler handler ) {
+  public void setHandler( MonitorHandler handler ) {
     this.handler = handler;
   }
   
   @Override
-  public void monitorWidget( HasText widget ) {
+  public void monitorWidget( Object widget ) {
     assert isBound() : "Change monitor must be bound before widgets can be monitored.";
     changeMonitors.add( new ChangeMonitorUnit(widget, subHandler) );
   }
@@ -99,9 +98,9 @@ implements ChangeMonitor {
   }
 
   @Override
-  public void revert() {
+  public void reset() {
     for( ChangeMonitorUnit changeMonitor : changeMonitors  ) {
-      changeMonitor.revert();
+      changeMonitor.reset();
     }
     changed = false;
   }

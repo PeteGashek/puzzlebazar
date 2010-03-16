@@ -7,6 +7,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -35,6 +36,9 @@ public class UserSettingsGeneralView implements UserSettingsGeneralPresenter.MyV
   Label realNameError;
 
   @UiField
+  ListBox language;
+
+  @UiField
   Button applyButton;
 
   @UiField
@@ -42,7 +46,7 @@ public class UserSettingsGeneralView implements UserSettingsGeneralPresenter.MyV
   
   @Inject
   public UserSettingsGeneralView() {
-    widget = binder.createAndBindUi(this);
+    widget = binder.createAndBindUi(this);    
   }
   
   @Override 
@@ -50,6 +54,11 @@ public class UserSettingsGeneralView implements UserSettingsGeneralPresenter.MyV
     return widget;
   }
 
+  @Override 
+  public void addLanguage( String languageName ) {
+    this.language.addItem( languageName );
+  }
+  
   @Override
   public HasText getEmail() {
     return email;
@@ -66,6 +75,11 @@ public class UserSettingsGeneralView implements UserSettingsGeneralPresenter.MyV
   }
 
   @Override
+  public ListBox getLanguage() {
+    return language;
+  }
+  
+  @Override
   public void setApplyEnabled(boolean enabled) {
     applyButton.setEnabled(enabled);
   }
@@ -79,5 +93,6 @@ public class UserSettingsGeneralView implements UserSettingsGeneralPresenter.MyV
   public HasClickHandlers getCancel() {
     return cancelButton;
   }
+
 
 }

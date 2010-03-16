@@ -1,6 +1,9 @@
 package com.puzzlebazar.client.util;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.HasAllKeyHandlers;
+import com.google.gwt.event.dom.client.HasChangeHandlers;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
@@ -9,10 +12,11 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.TextBox;
 
 /**
- * A class that monitor changes to a specific object that implements
- * both {@link HasValueChangeHandlers<String>} and {@link HasText}.
+ * A class that monitor changes to a specific object.
  * This object does not participate in dependancy injection, but you
  * should call {@link #release()} whenever you're done using it.
  * This class is usually best used through {@link ChangeMonitorImpl}.
@@ -20,23 +24,23 @@ import com.google.gwt.user.client.ui.HasText;
  * @author Philippe Beaudoin
  */
 public class ChangeMonitorUnit 
-implements ValueChangeHandler<String>, KeyDownHandler {
+implements ValueChangeHandler<Object>, KeyDownHandler, ChangeHandler {
   
   private class MyTimer extends Timer {
 
-    private String previousText = null;
+    private Object previousValue = null;
     
     public void start() {
-      previousText = null;
+      previousValue = null;
       this.schedule(50);
     }
     
     @Override
     public void run() {
-      final String text = widget.getText();
-      if( previousText == null || !previousText.equals(text) ) {
-        previousText = text;
-        checkChanges(text);
+      final Object value = getWidgetValue();
+      if( previousValue == null || !previousValue.equals(value) ) {
+        previousValue = value;
+        checkChanges(value);
         this.schedule(1500);
       }
       else {
@@ -46,33 +50,35 @@ implements ValueChangeHandler<String>, KeyDownHandler {
     }      
   }
   
-  private final HasText widget;
-  private final ChangeHandler handler;
+  private final Object widget;
+  private final MonitorHandler handler;
   private final MyTimer timer = new MyTimer();
   private HandlerRegistration handlerRegistration;
-  private String  originalValue;
+  private Object originalValue;
   private boolean changed = false;
   
   /**
    * Creates an object to monitor change within an object.
    * 
-   * @param widget The object to monitor. Should implement both
-   *               {@link HasValueChangeHandlers<String>} otherwise
-   *               change will not be monitored (silently).
-   * @param handler The {@link ChangeHandler} to notify when change are detected or reverted.
+   * @param widget The object to monitor. The object will be tested
+   *               for a number of supported types and the change 
+   *               monitor will adapt to the type. 
+   * @param handler The {@link MonitorHandler} to notify when change are detected or reverted.
    */
   @SuppressWarnings("unchecked")
   public ChangeMonitorUnit( 
-      final HasText widget,
-      final ChangeHandler handler ) {
+      final Object widget,
+      final MonitorHandler handler ) {
     this.widget = widget;
     this.handler = handler;
-    revert();
+    reset();
     
-    if ( widget instanceof HasAllKeyHandlers )
+    if ( widget instanceof TextBox )
       handlerRegistration = ((HasAllKeyHandlers)widget).addKeyDownHandler( this );
     else if ( widget instanceof HasValueChangeHandlers<?> )
-      handlerRegistration = ((HasValueChangeHandlers<String>)widget).addValueChangeHandler( this );    
+      handlerRegistration = ((HasValueChangeHandlers<Object>)widget).addValueChangeHandler( this );    
+    else if ( widget instanceof HasChangeHandlers )
+      handlerRegistration = ((HasChangeHandlers)widget).addChangeHandler( this );
     else
       handlerRegistration = null;
   }
@@ -96,22 +102,43 @@ implements ValueChangeHandler<String>, KeyDownHandler {
   }
   
   /**
-   * Revert to the original value that was contained in the widget.
-   * Does not notify the handler. 
+   * Reset the original value the one currently contained in the widget.
    */
-  public void revert() {
-    originalValue = widget.getText();
+  public void reset() {
+    originalValue = getWidgetValue();
     changed = false;
   }
 
+
   @Override
-  public void onValueChange(ValueChangeEvent<String> event) {
+  public void onValueChange(ValueChangeEvent<Object> event) {
     checkChanges( event.getValue() );
   }
 
   @Override
+  public void onChange(ChangeEvent event) {
+    checkChanges( getWidgetValue() );
+  }
+  
+  @Override
   public void onKeyDown(KeyDownEvent event) {
     scheduleCheckChanges();
+  }
+
+  /**
+   * Gets the value currently contained in the widget. The method used
+   * depends on the widget type.
+   * 
+   * @return The value contained in the widget
+   */
+  private Object getWidgetValue() {
+    if( widget instanceof HasText )
+      return ((HasText)widget).getText();
+    if( widget instanceof ListBox )
+      return ((ListBox)widget).getSelectedIndex();
+    assert false : "Unsupported widget class: " + widget.getClass();
+    
+    return null;
   }
   
   /**
@@ -126,7 +153,7 @@ implements ValueChangeHandler<String>, KeyDownHandler {
     timer.start();
   }
 
-  private void checkChanges(String value) {
+  private void checkChanges(Object value) {
     boolean newChanged = !value.equals( originalValue );
     if( changed == newChanged )
       return;
@@ -136,6 +163,7 @@ implements ValueChangeHandler<String>, KeyDownHandler {
     else
       handler.changeReverted();
   }
+
 
   
 }
