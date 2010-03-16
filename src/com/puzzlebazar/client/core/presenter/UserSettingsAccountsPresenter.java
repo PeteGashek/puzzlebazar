@@ -36,4 +36,15 @@ public class UserSettingsAccountsPresenter extends PresenterImpl<UserSettingsAcc
     SetContentEvent.fire(eventBus, UserSettingsTabProxy.TYPE_SetTabContent, this);
   }
   
+  @Override
+  public void onReveal() {
+    super.onReveal();
+    DisplayShortMessageEvent.fire(eventBus, "Welcome to your connected accounts page!" );
+  }
+
+  @Override
+  public void onHide() {
+    super.onReveal();
+    DisplayShortMessageEvent.fire(eventBus, null );
+  }
 }

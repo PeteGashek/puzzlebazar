@@ -13,39 +13,39 @@ import com.puzzlebazar.shared.model.User;
  */
 public class CurrentUserChangedEvent extends GwtEvent<CurrentUserChangedHandler> {
 
-    private static final Type<CurrentUserChangedHandler> TYPE = new Type<CurrentUserChangedHandler>();
+  private static final Type<CurrentUserChangedHandler> TYPE = new Type<CurrentUserChangedHandler>();
 
-    public static Type<CurrentUserChangedHandler> getType() {
-        return TYPE;
-    }
+  public static Type<CurrentUserChangedHandler> getType() {
+    return TYPE;
+  }
 
-    public static void fire( EventBus eventBus, User userInfo ) {
-        eventBus.fireEvent( new CurrentUserChangedEvent( userInfo ) );
-    }
+  public static void fire( EventBus eventBus, User userInfo ) {
+    eventBus.fireEvent( new CurrentUserChangedEvent( userInfo ) );
+  }
 
-    private final User currentUser;
+  private final User currentUser;
 
-    public CurrentUserChangedEvent( User currentUser ) {
-        this.currentUser = currentUser;
-    }
+  public CurrentUserChangedEvent( User currentUser ) {
+    this.currentUser = currentUser;
+  }
 
-    /**
-     * Access the current user attached to this event.
-     * 
-     * @return The {@link User} object of the current user, 
-     *         or <code>null</code> if user is not logged in.
-     */
-    public User getCurrentUser() {
-        return currentUser;
-    }
+  /**
+   * Access the current user attached to this event.
+   * 
+   * @return The {@link User} object of the current user, 
+   *         or <code>null</code> if user is not logged in.
+   */
+  public User getCurrentUser() {
+    return currentUser;
+  }
 
-    @Override
-    protected void dispatch( CurrentUserChangedHandler handler ) {
-        handler.onCurrentUserChanged( this );
-    }
+  @Override
+  protected void dispatch( CurrentUserChangedHandler handler ) {
+    handler.onCurrentUserChanged( this );
+  }
 
-    @Override
-    public Type<CurrentUserChangedHandler> getAssociatedType() {
-        return getType();
-    }
+  @Override
+  public Type<CurrentUserChangedHandler> getAssociatedType() {
+    return getType();
+  }
 }

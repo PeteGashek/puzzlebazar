@@ -10,16 +10,16 @@ import com.philbeaudoin.platform.mvp.client.Tab;
 public abstract class BaseTab extends Composite implements Tab {
 
   protected interface Style extends CssResource {
-      String active();
-      String inactive();
-    }
+    String active();
+    String inactive();
+  }
 
   @UiField
   Style style;
-  
+
   @UiField
   Hyperlink hyperlink;
-  
+
   private final float priority;
 
   public BaseTab( float priority ) {

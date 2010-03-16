@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.puzzlebazar.client.core.presenter.SplitMainPresenter;
 import com.puzzlebazar.client.resources.Resources;
+import com.puzzlebazar.client.ui.ShortMessageBox;
 
 public class SplitMainView implements SplitMainPresenter.MyView {
 
@@ -22,13 +23,17 @@ public class SplitMainView implements SplitMainPresenter.MyView {
   @UiField 
   FlowPanel centerContentContainer;
 
+  @UiField 
+  ShortMessageBox shortMessageBox;
+  
   @UiField(provided = true)
-  final Resources resources;
+  final Resources resources;  
   
   @Inject
   public SplitMainView( Resources resources ) {
     this.resources = resources;
-    widget = binder.createAndBindUi(this);    
+    widget = binder.createAndBindUi(this);
+    shortMessageBox.setVisible( false );
   }
   
   @Override 
@@ -48,5 +53,16 @@ public class SplitMainView implements SplitMainPresenter.MyView {
     centerContentContainer.add( centerContent );
   }
 
+  @Override
+  public void showMessage(String message, boolean dismissable) {
+    // TODO Take dismissable into account
+    shortMessageBox.setText( message );
+    shortMessageBox.setVisible( true );
+  }
 
+
+  @Override
+  public void clearMessage() {
+    shortMessageBox.setVisible( false );
+  }
 }

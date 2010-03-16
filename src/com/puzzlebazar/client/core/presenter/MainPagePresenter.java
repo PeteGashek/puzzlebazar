@@ -20,8 +20,8 @@ import com.puzzlebazar.client.resources.Translations;
  * 
  * @author Philippe Beaudoin
  */
-public class MainPagePresenter extends 
-PresenterImpl<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
+public class MainPagePresenter 
+extends PresenterImpl<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
 
   public interface MyView extends View {
     public void addNewsWidget( Widget widget );
@@ -67,6 +67,7 @@ PresenterImpl<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
         }
       } );
     }
-  }  
+  }
+
 
 }

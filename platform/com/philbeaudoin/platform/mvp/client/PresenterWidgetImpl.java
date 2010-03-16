@@ -10,6 +10,8 @@ public class PresenterWidgetImpl<V extends View>
    */
   protected final EventBus eventBus;
   
+  protected boolean visible = false;
+  
   /**
    * The view for the presenter.
    */
@@ -30,10 +32,20 @@ public class PresenterWidgetImpl<V extends View>
   }
 
   @Override
-  public void onReveal() {} 
+  public final boolean isVisible() {
+    return visible;
+  }
+  
+  
+  @Override
+  public void onReveal() {
+    visible = true;
+  } 
 
   @Override
-  public void onHide() {}
+  public void onHide() {
+    visible = false;    
+  }
 
   @Override
   public Widget getWidget() {

@@ -12,7 +12,6 @@ public class Puzzlebazar implements EntryPoint {
   public void onModuleLoad() {
 
     injector.getResources().style().ensureInjected();
-
     injector.getPlaceManager().revealCurrentPlace();
 
   }

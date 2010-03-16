@@ -23,39 +23,60 @@
 			float: left;
 		}
 		
+    .searchArea {
+    	margin-left: leftColWidth;
+    }
+    
 		.searchBox {
 			width: 260px;
-			margin: 27px 0 0;
+			margin: 21px 0 0;
 			float: left;
 		}
 		
 		.searchButton {
 			height: 24px;
-			margin: 27px 5px 0;
-			float: left;
+			margin: 21px 5px 0 5px;
+		}
+		
+		.exampleText {
+			font-size: x-small;
+			font-style: italic; 
+			color: graytext;
 		}
 		
 		.sideBarContainer {
 			width: leftColWidth;
-			float: left;			
+			float: left;
 		}
 		
 		.centerContentContainer {
 			margin-left: leftColWidth;
 		}
+		
+		.messageBox {
+			margin-bottom: 2px;
+		}
 	</ui:style>
 
 	<g:HTMLPanel addStyleNames="{style.mainContainer}">
 
-		<g:HTMLPanel>
-			<m:ImageHyperlink resource='{resources.logo}'
-				addStyleNames="{style.logo}" targetHistoryToken='{nameTokens.getMainPage}' />
-			<g:TextBox addStyleNames="{style.searchBox}" />
-			<g:Button addStyleNames="{style.searchButton}">
-				<ui:msg description='Search button on main page'>Search</ui:msg>
-			</g:Button>
+		<div>
+      <m:ImageHyperlink resource='{resources.logo}'
+        addStyleNames="{style.logo}" targetHistoryToken='{nameTokens.getMainPage}' />
+      <div class="{style.searchArea}">
+				<g:TextBox addStyleNames="{style.searchBox}" />
+				<g:Button addStyleNames="{style.searchButton}">
+					<ui:msg description='Search button on main page'>Search</ui:msg>
+				</g:Button>
+      </div>
+      <div class="{style.searchArea}">
+        <div class="{style.exampleText}">
+        <ui:msg description='Example search terms under the search bar.'>i.e. unsolved heyawake, new hard puzzles</ui:msg>
+        </div>
+        <m:ShortMessageBox ui:field="shortMessageBox" addStyleNames="{style.messageBox}" />
+      </div>
 			<div style="clear: both;" />
-		</g:HTMLPanel>
+		</div>
 
 		<g:FlowPanel ui:field='sideBarContainer' addStyleNames="{style.sideBarContainer}" />
 
