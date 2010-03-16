@@ -1,5 +1,6 @@
 package com.puzzlebazar.server.currentuser;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -8,11 +9,14 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.jsr107cache.Cache;
 
 import com.dyuproject.openid.OpenIdUser;
+import com.dyuproject.openid.RelyingParty;
 import com.dyuproject.openid.ext.AxSchemaExtension;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -36,18 +40,23 @@ public class CurrentUserManager {
   private final PersistenceManagerFactory persistenceManagerFactory;
   private final Provider<Cache> cache;
   private final Provider<HttpSession> session;
+  private final Provider<HttpServletRequest> request;
+  private final Provider<HttpServletResponse> response;
   
   @Inject
   public CurrentUserManager(
       final Logger logger,
       final PersistenceManagerFactory persistenceManagerFactory,
       final Provider<Cache> cache,
-      final Provider<HttpSession> session) {
-
+      final Provider<HttpSession> session,
+      final Provider<HttpServletRequest> request,
+      final Provider<HttpServletResponse> response ) {
     this.logger = logger;
     this.persistenceManagerFactory = persistenceManagerFactory;
     this.cache = cache;
     this.session = session;
+    this.request = request;
+    this.response = response;
   }
   
   /**
@@ -154,6 +163,12 @@ public class CurrentUserManager {
    * Logout the currently logged-in user.
    */
   public void logout() {
+    try {
+      RelyingParty.getInstance().invalidate(request.get(), response.get());
+    } catch (IOException exception) {
+      logger.warning( "RelyingParty logout failed" + exception.getMessage() );
+    }
+    
     String key = USER_TOKEN + session.get().getId();
     
     // Store a special user with a null password in the cache so that we save

@@ -2,9 +2,6 @@ package com.puzzlebazar.server.guice;
 
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManagerFactory;
 
@@ -35,14 +32,6 @@ public class DispatchServletModule extends ServletModule {
   //    crawlFilterParams = Collections.unmodifiableMap(aMap);
   //  }    
 
-
-  private static final Map<String, String> openIdFilterParams;
-  static {
-    Map<String, String> aMap = new HashMap<String, String>();
-    aMap.put("forwardUri", "/WEB-INF/views/jsp/login.jsp");
-    openIdFilterParams = Collections.unmodifiableMap(aMap);
-  }
-
   // Singletons
   private PersistenceManagerFactory persistenceManagerFactory;
   private Cache cache;
@@ -65,9 +54,8 @@ public class DispatchServletModule extends ServletModule {
     //    filter("/*").through(CrawlFilter.class, crawlFilterParams);
     bind(OpenIdServletFilter.class).in(Singleton.class);
 
-    filter("/user/*").through(OpenIdServletFilter.class, openIdFilterParams);
     serve("/puzzlebazar/dispatch").with(GuiceStandardDispatchServlet.class);
-    serve("/user/home/").with(OpenIdServlet.class);
+    serve("/openid/login").with(OpenIdServlet.class);
   }
 
   @Provides

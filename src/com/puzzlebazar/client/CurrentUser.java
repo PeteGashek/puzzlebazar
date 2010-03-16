@@ -6,8 +6,8 @@ import com.google.inject.Inject;
 import com.philbeaudoin.platform.dispatch.client.DispatchAsync;
 import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.puzzlebazar.client.core.presenter.CurrentUserChangedEvent;
-import com.puzzlebazar.shared.action.GetUserInfo;
-import com.puzzlebazar.shared.action.GetUserInfoResult;
+import com.puzzlebazar.shared.action.GetUser;
+import com.puzzlebazar.shared.action.GetUserResult;
 import com.puzzlebazar.shared.model.User;
 
 /**
@@ -22,9 +22,11 @@ public class CurrentUser {
   private final DispatchAsync dispatcher;
   private final int refreshDelay;
   private final int retryDelay;
-
+  private final Timer fetchUserTimer;
+  
   private User user = null;
   private boolean confirmed = false;
+  
   
   /**
    * Creates
@@ -42,16 +44,23 @@ public class CurrentUser {
     // TODO These should be injected when GIN supports toInstance injection
     this.refreshDelay = 5000;
     this.retryDelay = 10000;
-    fetchUserInfo();
+    this.fetchUserTimer = new Timer() {
+      @Override
+      public void run() {
+        fetchUser();
+      }      
+    };
+    
+    fetchUser();    
   }
   
   /**
    * Fetches the user information from the server. Fires a
    * {@link CurrentUserChangedEvent} when successful.
    */
-  private void fetchUserInfo() {
-  
-    dispatcher.execute( new GetUserInfo(), new AsyncCallback<GetUserInfoResult>() {
+  public void fetchUser() {
+    fetchUserTimer.cancel();  
+    dispatcher.execute( new GetUser(), new AsyncCallback<GetUserResult>() {
       
       @Override
       public void onFailure(Throwable caught) {
@@ -60,12 +69,12 @@ public class CurrentUser {
       }
 
       @Override
-      public void onSuccess(GetUserInfoResult result) {
+      public void onSuccess(GetUserResult result) {
         confirmed = true; // Async call is back. We know if user is logged-in or not.
         if( result != null ) {
-          user = result.getUserInfo();
-          CurrentUserChangedEvent.fire( eventBus, result.getUserInfo() );
-          scheduleFetch( refreshDelay );
+          user = result.getUser();
+          CurrentUserChangedEvent.fire( eventBus, result.getUser() );
+          scheduleFetchUser( refreshDelay );
         }
         else {
           failed();
@@ -74,7 +83,7 @@ public class CurrentUser {
 
       private void failed() {
         user = null; // Nobody is logged in
-        scheduleFetch( retryDelay );
+        scheduleFetchUser( retryDelay );
         CurrentUserChangedEvent.fire( eventBus, null );
       }
     } );
@@ -82,18 +91,13 @@ public class CurrentUser {
   }
   
   /**
-   * Calls {@link fetchUserInfo} after a given amount of time.
+   * Calls {@link fetchUser} after a given amount of time.
    * 
    * @param retryDelay The time to wait until doing the call (in milliseconds).
    */
-  private void scheduleFetch(int delay) {
-    Timer timer = new Timer() {
-      @Override
-      public void run() {
-        fetchUserInfo();
-      }      
-    };
-    timer.schedule( delay );
+  private void scheduleFetchUser(int delay) {
+    fetchUserTimer.cancel();
+    fetchUserTimer.schedule( delay );
   }
 
   public User getUser() {
