@@ -10,7 +10,7 @@ import com.philbeaudoin.platform.mvp.client.proxy.Callback;
 import com.philbeaudoin.platform.mvp.client.proxy.CallbackProvider;
 import com.philbeaudoin.platform.mvp.client.proxy.Place;
 import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
-import com.philbeaudoin.platform.mvp.client.proxy.SetContentEvent;
+import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
 import com.puzzlebazar.client.CodeSplitProvider;
 import com.puzzlebazar.client.core.proxy.SplitMainProxy;
 
@@ -43,8 +43,8 @@ extends PresenterImpl<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
   }
 
   @Override
-  protected void setContentInParent() {
-    SetContentEvent.fire(eventBus, SplitMainProxy.TYPE_SetCenterContent, this);
+  protected void revealInParent() {
+    RevealContentEvent.fire(eventBus, SplitMainProxy.TYPE_RevealCenterContent, this);
   }
 
   // TODO Temporary
@@ -52,6 +52,7 @@ extends PresenterImpl<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
 
   @Override
   public void onReveal() {
+    super.onReveal();
     // TODO This is a temporary demonstration showing how to use PresenterWidget
     //      it will add news items every time the main page is reloaded
 

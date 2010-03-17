@@ -7,7 +7,7 @@ import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.RequestTabsHandler;
 import com.philbeaudoin.platform.mvp.client.TabPanel;
 import com.philbeaudoin.platform.mvp.client.TabContainerPresenterImpl;
-import com.philbeaudoin.platform.mvp.client.proxy.SetContentEvent;
+import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.platform.mvp.client.proxy.TabContainerProxy;
 import com.puzzlebazar.client.core.proxy.SplitMainProxy;
 
@@ -34,8 +34,8 @@ public class AdminTabPresenter extends TabContainerPresenterImpl<AdminTabPresent
   }  
 
   @Override
-  protected void setContentInParent() {
-    SetContentEvent.fire(eventBus, SplitMainProxy.TYPE_SetCenterContent, this);
+  protected void revealInParent() {
+    RevealContentEvent.fire(eventBus, SplitMainProxy.TYPE_RevealCenterContent, this);
   }
 
 }

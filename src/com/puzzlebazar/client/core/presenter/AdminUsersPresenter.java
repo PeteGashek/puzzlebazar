@@ -5,7 +5,7 @@ import com.philbeaudoin.platform.mvp.client.View;
 import com.philbeaudoin.platform.mvp.client.PresenterImpl;
 import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.proxy.Place;
-import com.philbeaudoin.platform.mvp.client.proxy.SetContentEvent;
+import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.platform.mvp.client.proxy.TabContentProxy;
 import com.puzzlebazar.client.core.proxy.AdminTabProxy;
 
@@ -29,7 +29,7 @@ extends PresenterImpl<AdminUsersPresenter.MyView, AdminUsersPresenter.MyProxy> {
   }
 
   @Override
-  protected void setContentInParent() {
-    SetContentEvent.fire(eventBus, AdminTabProxy.TYPE_SetTabContent, this);
+  protected void revealInParent() {
+    RevealContentEvent.fire(eventBus, AdminTabProxy.TYPE_RevealTabContent, this);
   }
 }

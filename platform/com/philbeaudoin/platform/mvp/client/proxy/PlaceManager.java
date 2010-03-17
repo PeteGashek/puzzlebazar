@@ -76,5 +76,12 @@ public interface PlaceManager {
    * Navigate back to last visited history token.
    */
   public void navigateBack();
+
+  /**
+   * This method is called when the application launches.
+   * It should initializes any default presenters (i.e. top menu bar, etc.)
+   * and then it should call {@link #revealCurrentPlace()}.
+   */
+  public void initialize();
   
 }

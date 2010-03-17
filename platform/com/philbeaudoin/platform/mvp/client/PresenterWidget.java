@@ -1,7 +1,9 @@
 package com.philbeaudoin.platform.mvp.client;
 
 import com.google.gwt.user.client.ui.Widget;
-import com.philbeaudoin.platform.mvp.client.proxy.ProxyPlace;
+import com.philbeaudoin.platform.mvp.client.proxy.PlaceManager;
+import com.philbeaudoin.platform.mvp.client.proxy.ProxyBase;
+import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
 
 /**
  * A presenter that does not have to be a singleton. Single page
@@ -20,7 +22,37 @@ public interface PresenterWidget {
    *
    * @return The view.
    */
-  public abstract View getView();
+  public View getView();
+
+  /**
+   * <b>Important:</b> If you want to reveal a presenter, from within
+   * your application, you should call {@link ProxyBase#reveal()}
+   * instead. This way you can make sure you don't inadvertently reveal a 
+   * non-leaf Presenter. Also, you will benefit from the change confirmation
+   * mechanism. (See {@link PlaceManager#setOnLeaveConfirmation(String)}).
+   * <p />
+   * Requests the presenter to reveal itself on screen. Nothing
+   * happens if the presenter is currently visible (see {@link #isVisible()}).
+   * If this class inherits from {@link PresenterImpl},
+   * upon being revealed it will ask to be inserted within 
+   * its parent presenter by firing a {@link RevealContentEvent}.
+   * This will cause the parent to be revealed too.
+   */
+  public void reveal();
+
+  /**
+   * <b>Important:</b> You should call this method on a child presenter
+   * whenever it is being removed from the DOM. This typically happens
+   * when its being replaced with a different presenter. 
+   * <p />
+   * Notifies the presenter that its being hidden itself. Nothing
+   * happens if the presenter is currently not visible (see {@link #isVisible()}).
+   * If this class inherits from {@link PresenterImpl},
+   * upon being revealed it will ask to be inserted within 
+   * its parent presenter by firing a {@link RevealContentEvent}.
+   * This will cause the parent to be revealed too.
+   */
+  public void notifyHide();
 
   /**
    * Verifies if the presenter is currently visible on the screen. A
@@ -30,38 +62,12 @@ public interface PresenterWidget {
    * @return {@code true} if the presenter is visible, {@code false} otherwise.
    */
   public boolean isVisible();
-  
-  /**
-   * <b>Important:</b> Make sure you call your superclass {@link #onReveal()}.
-   * <p />
-   * This method will be called whenever the presenter is revealed. Override
-   * it to perform any action (such as refreshing content) that needs
-   * to be done when the presenter is revealed.
-   * <p />
-   * This should never be called directly. Call 
-   * {@link ProxyPlace#reveal()} instead.
-   */
-  public abstract void onReveal();
-
-  /**
-   * <b>Important:</b> Make sure you call your superclass {@link #onHide()}.
-   * <p />
-   * You should call this method on your child presenters:
-   * <ul>
-   * <li>Right before you remove it from the DOM; and</li>
-   * <li>Whenever you receive a call to {@link #onHide()}.</li>
-   * </ul>
-   * Override this method to perform any clean-up operation. For example,
-   * objects created directly or indirectly during the call to
-   * {@link #onReveal()} should be disposed of in this methods.
-   */
-  public abstract void onHide();
 
   /**
    * Makes it possible to access the {@link Widget} object associated with that presenter.
    * 
    * @return The Widget associated with that presenter.
    */
-  public abstract Widget getWidget();
+  public Widget getWidget();
 
 }

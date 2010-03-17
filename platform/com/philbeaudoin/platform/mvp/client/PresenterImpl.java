@@ -2,7 +2,7 @@ package com.philbeaudoin.platform.mvp.client;
 
 import com.philbeaudoin.platform.mvp.client.proxy.PlaceRequest;
 import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
-import com.philbeaudoin.platform.mvp.client.proxy.SetContentEvent;
+import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
 
 public abstract class PresenterImpl<V extends View, Proxy_ extends Proxy<?>> 
 extends PresenterWidgetImpl<V> implements Presenter {
@@ -32,20 +32,25 @@ extends PresenterWidgetImpl<V> implements Presenter {
   }
 
   @Override
-  public final void reveal() {
-    onReveal();
-    setContentInParent();
+  protected void onReveal() {
+    super.onReveal();
+    revealInParent();
     getProxy().onPresenterRevealed( this );
   }
   
   /**
    * Called whenever the presenter needs to set its content in 
-   * a parent. Should usually fire a {@link SetContentEvent}.
+   * a parent. Should usually fire a {@link RevealContentEvent}.
    */
-  protected abstract void setContentInParent();
+  protected abstract void revealInParent();
 
-  @Override
-  public final void notifyChange() {
+  /**
+   * Notify others that this presenter has been changed. This is especially
+   * useful for stateful presenters that store parameters within the
+   * history token. Calling this will make sure the history token is
+   * updated with the right parameters.
+   */
+  protected final void notifyChange() {
     getProxy().onPresenterChanged( this );
   }
   
@@ -59,5 +64,6 @@ extends PresenterWidgetImpl<V> implements Presenter {
     // By default, no parameter to add to request
     return request;
   }
+
   
 }

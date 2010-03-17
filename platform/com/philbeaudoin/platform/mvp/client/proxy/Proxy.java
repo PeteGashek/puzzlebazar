@@ -7,7 +7,7 @@ import com.philbeaudoin.platform.mvp.client.Presenter;
  * The interface for light-weight singleton classes 
  * that listens for events before the full {@link Presenter} 
  * is instantiated. This include, among others, the presenter's 
- * specific {@link SetContentEvent} that needs the presenter to 
+ * specific {@link RevealContentEvent} that needs the presenter to 
  * reveal itself.
  * <p />
  * The relationship between a presenter and its proxy is two-way.

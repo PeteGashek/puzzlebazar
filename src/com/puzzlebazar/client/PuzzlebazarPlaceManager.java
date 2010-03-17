@@ -10,6 +10,8 @@ import com.philbeaudoin.platform.mvp.client.proxy.CallbackProvider;
 import com.philbeaudoin.platform.mvp.client.proxy.PlaceManagerImpl;
 import com.philbeaudoin.platform.mvp.client.proxy.ProxyBase;
 import com.philbeaudoin.platform.mvp.client.proxy.TokenFormatter;
+import com.puzzlebazar.client.core.presenter.LinkColumnPresenter;
+import com.puzzlebazar.client.core.presenter.TopBarPresenter;
 import com.puzzlebazar.client.gin.DefaultPlace;
 
 
@@ -19,6 +21,8 @@ import com.puzzlebazar.client.gin.DefaultPlace;
 public class PuzzlebazarPlaceManager extends PlaceManagerImpl {
 
   private final CallbackProvider<ProxyBase> defaultProxy;
+  private final CodeSplitProvider<TopBarPresenter> topBarPresenter;
+  private final CodeSplitProvider<LinkColumnPresenter> linkColumnPresenter;
   private final CurrentUser currentUser;
   private final Timer retryTimer;
   private final int retryDelay;
@@ -30,10 +34,14 @@ public class PuzzlebazarPlaceManager extends PlaceManagerImpl {
       final EventBus eventBus, 
       final TokenFormatter tokenFormatter,
       @DefaultPlace final AsyncProvider<ProxyBase> defaultProxy,
+      final AsyncProvider<TopBarPresenter> topBarPresenter,
+      final AsyncProvider<LinkColumnPresenter> linkColumnPresenter,
       final CurrentUser currentUser ) {
     super(eventBus, tokenFormatter);
 
     this.defaultProxy = new CodeSplitProvider<ProxyBase>(defaultProxy);
+    this.topBarPresenter = new CodeSplitProvider<TopBarPresenter>(topBarPresenter);
+    this.linkColumnPresenter = new CodeSplitProvider<LinkColumnPresenter>(linkColumnPresenter);
     this.currentUser = currentUser;
     // TODO These should be injected when GIN supports toInstance injection
     this.retryDelay = 500;    
@@ -46,6 +54,23 @@ public class PuzzlebazarPlaceManager extends PlaceManagerImpl {
       }    
     };
 
+  }
+
+  @Override
+  public void initialize() {
+    topBarPresenter.get( new Callback<TopBarPresenter>(){
+      @Override
+      public void execute(TopBarPresenter presenter) {
+        presenter.reveal();
+      }
+    } );
+    linkColumnPresenter.get( new Callback<LinkColumnPresenter>(){
+      @Override
+      public void execute(LinkColumnPresenter presenter) {
+        presenter.reveal();
+      }
+    } );
+    revealCurrentPlace();
   }
 
   @Override
