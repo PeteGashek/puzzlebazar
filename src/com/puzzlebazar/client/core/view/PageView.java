@@ -6,11 +6,16 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.puzzlebazar.client.core.presenter.AppPresenter;
+import com.puzzlebazar.client.core.presenter.PagePresenter;
 
-public class AppView implements AppPresenter.MyView {
+/**
+ * The {@link com.philbeaudoin.platform.mvp.client.View} for {@link PagePresenter}.
+ * 
+ * @author Philippe Beaudoin
+ */
+public class PageView implements PagePresenter.MyView {
 
-  interface Binder extends UiBinder<Widget, AppView> { }
+  interface Binder extends UiBinder<Widget, PageView> { }
   protected static final Binder binder = GWT.create(Binder.class);
 
   private final Widget widget;
@@ -22,7 +27,7 @@ public class AppView implements AppPresenter.MyView {
   FlowPanel mainContentContainer;
   
   @Inject
-  public AppView() {
+  public PageView() {
     widget = binder.createAndBindUi(this);
   }
   

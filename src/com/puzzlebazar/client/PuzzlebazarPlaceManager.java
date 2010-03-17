@@ -4,14 +4,13 @@ import com.google.gwt.inject.client.AsyncProvider;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.proxy.Callback;
-import com.philbeaudoin.platform.mvp.client.proxy.CallbackProvider;
 import com.philbeaudoin.platform.mvp.client.proxy.PlaceManagerImpl;
 import com.philbeaudoin.platform.mvp.client.proxy.ProxyBase;
 import com.philbeaudoin.platform.mvp.client.proxy.TokenFormatter;
 import com.puzzlebazar.client.core.presenter.LinkColumnPresenter;
-import com.puzzlebazar.client.core.presenter.TopBarPresenter;
 import com.puzzlebazar.client.gin.DefaultPlace;
 
 
@@ -20,8 +19,7 @@ import com.puzzlebazar.client.gin.DefaultPlace;
  */
 public class PuzzlebazarPlaceManager extends PlaceManagerImpl {
 
-  private final CallbackProvider<ProxyBase> defaultProxy;
-  private final CodeSplitProvider<TopBarPresenter> topBarPresenter;
+  private final Provider<ProxyBase> defaultProxy;
   private final CodeSplitProvider<LinkColumnPresenter> linkColumnPresenter;
   private final CurrentUser currentUser;
   private final Timer retryTimer;
@@ -33,14 +31,12 @@ public class PuzzlebazarPlaceManager extends PlaceManagerImpl {
   public PuzzlebazarPlaceManager(
       final EventBus eventBus, 
       final TokenFormatter tokenFormatter,
-      @DefaultPlace final AsyncProvider<ProxyBase> defaultProxy,
-      final AsyncProvider<TopBarPresenter> topBarPresenter,
+      @DefaultPlace final Provider<ProxyBase> defaultProxy,
       final AsyncProvider<LinkColumnPresenter> linkColumnPresenter,
       final CurrentUser currentUser ) {
     super(eventBus, tokenFormatter);
 
-    this.defaultProxy = new CodeSplitProvider<ProxyBase>(defaultProxy);
-    this.topBarPresenter = new CodeSplitProvider<TopBarPresenter>(topBarPresenter);
+    this.defaultProxy = defaultProxy;
     this.linkColumnPresenter = new CodeSplitProvider<LinkColumnPresenter>(linkColumnPresenter);
     this.currentUser = currentUser;
     // TODO These should be injected when GIN supports toInstance injection
@@ -57,30 +53,14 @@ public class PuzzlebazarPlaceManager extends PlaceManagerImpl {
   }
 
   @Override
-  public void initialize() {
-    topBarPresenter.get( new Callback<TopBarPresenter>(){
-      @Override
-      public void execute(TopBarPresenter presenter) {
-        presenter.reveal();
-      }
-    } );
+  public void revealDefaultPlace() {
     linkColumnPresenter.get( new Callback<LinkColumnPresenter>(){
       @Override
       public void execute(LinkColumnPresenter presenter) {
         presenter.reveal();
       }
     } );
-    revealCurrentPlace();
-  }
-
-  @Override
-  public void revealDefaultPlace() {
-    defaultProxy.get( new Callback<ProxyBase>(){
-      @Override
-      public void execute(ProxyBase proxy) {
-        proxy.reveal();
-      }
-    } );
+    defaultProxy.get().reveal();
   }
 
   /**

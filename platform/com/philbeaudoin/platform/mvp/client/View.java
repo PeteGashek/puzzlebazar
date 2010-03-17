@@ -1,6 +1,3 @@
-/**
- *
- */
 package com.philbeaudoin.platform.mvp.client;
 
 import com.google.gwt.user.client.ui.Widget;

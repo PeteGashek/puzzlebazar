@@ -4,9 +4,9 @@ import com.google.gwt.event.shared.EventHandler;
 import com.philbeaudoin.platform.mvp.client.Presenter;
 
 /**
- * This handler for {@link RevealContentHandler}. It should be implemented by any
- * {@link Proxy} class of a {@link Presenter} that accepts child presenters. Upon 
- * handling this event, the proxy should <b>first</b> set the content appropriately 
+ * This is the base handler class for {@link RevealContentEvent}. It should be used by any
+ * {@link Proxy} class of a {@link Presenter} that accepts child presenters. When 
+ * this handler is triggered, the proxy should <b>first</b> set the content appropriately 
  * in the presenter, and then reveal the presenter.
  * 
  * @author Philippe Beaudoin
@@ -37,8 +37,9 @@ public abstract class RevealContentHandler<P extends Presenter> implements Event
    * parent presenter's slot. Upon handling this event, the proxy should <b>first</b> set the content appropriately 
    * in the presenter, and then reveal the presenter.
    * 
-   * @param setContentEvent The event containing the presenter that wants to bet set as content.
+   * @param presenter The {@link Presenter} associated with the {@link Proxy} handling this event. (<b>Not</b> the presenter to reveal!}
+   * @param revealContentEvent The event containing the presenter that wants to bet set as content.
    */
-  public abstract void onRevealContent(P presenter, RevealContentEvent setContentEvent);
+  public abstract void onRevealContent(P presenter, RevealContentEvent revealContentEvent);
 
 }
