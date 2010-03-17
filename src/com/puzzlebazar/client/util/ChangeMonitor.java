@@ -33,7 +33,7 @@ public interface ChangeMonitor extends MonitorHandler, HandlerContainer {
 
   /**
    * Resets all the original values to match the values currently contained
-   * in the widget. Does not notify the associated {@link MonitorHandler}.
+   * in the widget. Will notify the associated {@link MonitorHandler}.
    */
   void reset();
 

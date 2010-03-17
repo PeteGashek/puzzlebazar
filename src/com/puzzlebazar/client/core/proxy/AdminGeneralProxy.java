@@ -37,7 +37,7 @@ implements AdminGeneralPresenter.MyProxy {
         final Translations translations) {
       super(
           eventBus, 
-          new CodeSplitProvider<AdminGeneralPresenter>(presenter, translations),
+          new CodeSplitProvider<AdminGeneralPresenter>(presenter),
           AdminTabPresenter.TYPE_RequestTabs,
           0, // Priority
           translations.tabGeneral(),

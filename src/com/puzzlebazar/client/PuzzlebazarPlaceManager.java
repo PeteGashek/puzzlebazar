@@ -11,7 +11,6 @@ import com.philbeaudoin.platform.mvp.client.proxy.PlaceManagerImpl;
 import com.philbeaudoin.platform.mvp.client.proxy.ProxyBase;
 import com.philbeaudoin.platform.mvp.client.proxy.TokenFormatter;
 import com.puzzlebazar.client.gin.DefaultPlace;
-import com.puzzlebazar.client.resources.Translations;
 
 
 /**
@@ -31,11 +30,10 @@ public class PuzzlebazarPlaceManager extends PlaceManagerImpl {
       final EventBus eventBus, 
       final TokenFormatter tokenFormatter,
       @DefaultPlace final AsyncProvider<ProxyBase> defaultProxy,
-      final CurrentUser currentUser,
-      final Translations translations ) {
+      final CurrentUser currentUser ) {
     super(eventBus, tokenFormatter);
 
-    this.defaultProxy = new CodeSplitProvider<ProxyBase>(defaultProxy, translations);
+    this.defaultProxy = new CodeSplitProvider<ProxyBase>(defaultProxy);
     this.currentUser = currentUser;
     // TODO These should be injected when GIN supports toInstance injection
     this.retryDelay = 500;    

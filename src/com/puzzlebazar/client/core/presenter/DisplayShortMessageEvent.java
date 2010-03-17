@@ -35,6 +35,7 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
   /**
    * Fires a new event to display short messages.
    * 
+   * @param eventBus The {@link EventBus}.
    * @param message The message to display. Pass {@code null} to clear displayed messages.
    * @param dismissable {@code true} if the message should be dismissable 
    *                    by the user (i.e. a "close" button should be available.)
@@ -54,12 +55,35 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
    * dismissable, it has a level of {@code LEVEL_MESSAGE} and a normal
    * duration.
    * 
+   * @param eventBus The {@link EventBus}.
    * @param message The message to display.
    */
-  public static void fire( EventBus eventBus, String message ) {
+  public static void fireMessage( EventBus eventBus, String message ) {
     fire( eventBus, message, true, LEVEL_MESSAGE, DURATION_NORMAL );
   }
 
+  /**
+   * Fires a new event to clear all displayed short messages.
+   * 
+   * @param eventBus The {@link EventBus}.
+   * @param message The message to display.
+   */
+  public static void fireClearMessage( EventBus eventBus ) {
+    fire( eventBus, null, false, LEVEL_MESSAGE, DURATION_PERMANENT );
+  }
+  
+  /**
+   * Fires a new event to display short error. The message will be
+   * dismissable, it has a level of {@code LEVEL_ERROR} and a permanent
+   * duration.
+   * 
+   * @param eventBus The {@link EventBus}.
+   * @param message The message to display.
+   */
+  public static void fireError( EventBus eventBus, String message ) {
+    fire( eventBus, message, true, LEVEL_ERROR, DURATION_PERMANENT );
+  }
+  
   private final String message;
   private final boolean dismissable;
   private final int level;
@@ -157,4 +181,5 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
   public Type<DisplayShortMessageHandler> getAssociatedType() {
     return getType();
   }
+
 }

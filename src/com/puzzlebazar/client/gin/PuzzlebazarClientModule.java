@@ -8,6 +8,7 @@ import com.philbeaudoin.platform.mvp.client.proxy.PlaceManager;
 import com.philbeaudoin.platform.mvp.client.proxy.ProxyBase;
 import com.philbeaudoin.platform.mvp.client.proxy.TokenFormatter;
 
+import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.CurrentUser;
 import com.puzzlebazar.client.PuzzlebazarPlaceManager;
 import com.puzzlebazar.client.core.presenter.AdminGeneralPresenter;
@@ -74,10 +75,14 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     // Non-singletons
     bind(ChangeMonitor.class).to(DefaultChangeMonitor.class);
     
-    // Static injection (use only for widgets, which can't participate in dependancy injection because of UIBinder)
+    // Static injection for classes that don't participate in dependency injection.
+    // Right now this includes:
+    //  - Widget classes instantiated in UIBinder.
+    //  - Classes often instantiated as anonymous classes.    
 //    requestStaticInjection(RoundTab.class);
     requestStaticInjection(SimpleTabPanel.class);
     requestStaticInjection(ShortMessageBox.class);
+    requestStaticInjection(ActionCallback.class);
     
     // Presenter widget
     bindPresenterWidget(NewsItemPresenter.class, NewsItemPresenter.MyView.class, NewsItemView.class);

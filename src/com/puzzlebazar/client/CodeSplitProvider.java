@@ -2,10 +2,8 @@ package com.puzzlebazar.client;
 
 import com.google.gwt.inject.client.AsyncProvider;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.philbeaudoin.platform.mvp.client.proxy.Callback;
 import com.philbeaudoin.platform.mvp.client.proxy.CallbackProvider;
-import com.puzzlebazar.client.resources.Translations;
 
 
 /**
@@ -21,8 +19,6 @@ import com.puzzlebazar.client.resources.Translations;
  */
 public class CodeSplitProvider<T> implements CallbackProvider<T> {
 
-  private final Translations translations;
-
   private final AsyncProvider<T> provider;
 
   /**
@@ -31,16 +27,14 @@ public class CodeSplitProvider<T> implements CallbackProvider<T> {
    * is loaded.
    * 
    * @param provider The {@link AsyncProvider} providing the object.
-   * @param translations The {@link Translations}.
    */
-  public CodeSplitProvider( AsyncProvider<T> provider, Translations translations ) {
+  public CodeSplitProvider( AsyncProvider<T> provider ) {
     this.provider = provider;
-    this.translations = translations;
   }
 
   @Override
   public void get(final Callback<T> callback) {
-    provider.get( new AsyncCallback<T>(){
+    provider.get( new ActionCallback<T>(){
       @Override
       public void onFailure(Throwable caught) {
         Window.alert( translations.codeLoadFailure() );

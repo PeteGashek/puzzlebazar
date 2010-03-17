@@ -34,7 +34,7 @@ public class LogoutHandler implements ActionHandler<Logout, NoResult> {
   }
 
   @Override
-  public void rollback(final Logout action,
+  public void undo(final Logout action,
       final NoResult result,
       final ExecutionContext context) throws ActionException {
     // Nothing to do here

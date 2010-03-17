@@ -2,15 +2,13 @@ package com.philbeaudoin.platform.dispatch.shared;
 
 import com.philbeaudoin.platform.dispatch.server.Dispatch;
 
-import java.io.Serializable;
-
 /**
  * These are thrown by {@link Dispatch#execute(Action)} if there is a
  * problem executing a particular {@link Action}.
  * 
  * @author David Peterson
  */
-public class ActionException extends Exception implements Serializable {
+public class ActionException extends Exception {
 
   private static final long serialVersionUID = -1423773155541528952L;
 

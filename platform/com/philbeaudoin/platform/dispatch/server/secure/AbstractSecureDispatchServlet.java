@@ -16,16 +16,21 @@ public abstract class AbstractSecureDispatchServlet extends RemoteServiceServlet
 
   public Result execute( String sessionId, Action<?> action ) throws ActionException, ServiceException {
     try {
-      if ( getSessionValidator().isValid( sessionId, getThreadLocalRequest() ) ) {
+      if ( getSessionValidator().isValid( sessionId, getThreadLocalRequest() ) ) {      
         return getDispatch().execute( action );
       } else {
         throw new InvalidSessionException();
       }
+    } catch ( ActionException e ) {
+      log( "Action exception while executing " + action.getClass().getName() + ": " + e.getMessage(), e );
+      throw e;
+    } catch ( ServiceException e ) {
+      log( "Service exception while executing " + action.getClass().getName() + ": " + e.getMessage(), e );
+      throw e;
     } catch ( RuntimeException e ) {
-      log( "Exception while executing " + action.getClass().getName() + ": " + e.getMessage(), e );
-      throw new ServiceException( e.getMessage() );
-    }
-  }
+      log( "Unexpected exception while executing " + action.getClass().getName() + ": " + e.getMessage(), e );
+      throw new ServiceException( e );
+    }  }
 
   protected abstract SecureSessionValidator getSessionValidator();
 

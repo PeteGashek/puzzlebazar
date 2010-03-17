@@ -13,40 +13,40 @@ import com.philbeaudoin.platform.dispatch.shared.ServiceException;
  * @author David Peterson
  */
 public interface ExecutionContext {
-    /**
-     * Executes an action in the current context. If
-     * <code>rollbackOnException</code> is set to <code>true</code>, the
-     * action will be rolled back if the surrounding execution fails.
-     * 
-     * @param <A>
-     *            The action type.
-     * @param <R>
-     *            The result type.
-     * 
-     * @param action
-     *            The action.
-     * @param allowRollback
-     *            If <code>true</code>, any failure in the surrounding
-     *            execution will trigger a rollback of the action.
-     * @return The result.
-     * @throws ActionException
-     * @throws ServiceException 
-     */
-    <A extends Action<R>, R extends Result> R execute( A action, boolean allowRollback ) throws ActionException, ServiceException;
 
     /**
      * Executes an action in the current context. If the surrounding execution
      * fails, the action will be rolled back.
      * 
      * @param <A>
-     *            The action type.
+     *            The {@link Action} type.
      * @param <R>
-     *            The result type.
+     *            The {@link Result} type.
      * @param action
-     *            The action.
-     * @return The result.
+     *            The {@link Action}.
+     * @return The {@link Result}.
      * @throws ActionException
+     *             if the action execution failed.
      * @throws ServiceException 
+     *             if the execution failed due to a service error.
      */
     <A extends Action<R>, R extends Result> R execute( A action ) throws ActionException, ServiceException;
+
+    /**
+     * Undoes an action in the current context. If the surrounding execution
+     * fails, the action will be rolled back.
+     * 
+     * @param <A>
+     *            The {@link Action} type.
+     * @param <R>
+     *            The {@link Result} type.
+     * @param action
+     *            The {@link Action}.
+     * @return The {@link Result}.
+     * @throws ActionException
+     *             if the action execution failed.
+     * @throws ServiceException 
+     *             if the execution failed due to a service error.
+     */
+    <A extends Action<R>, R extends Result> void undo(A action, R result) throws ActionException, ServiceException;
 }

@@ -24,6 +24,7 @@ public class StandardDispatchAsync extends AbstractDispatchAsync {
         super( exceptionHandler );
     }
 
+    @Override
     public <A extends Action<R>, R extends Result> void execute( final A action, final AsyncCallback<R> callback ) {
         realService.execute( action, new AsyncCallback<Result>() {
             public void onFailure( Throwable caught ) {

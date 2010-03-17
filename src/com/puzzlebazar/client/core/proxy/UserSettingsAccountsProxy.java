@@ -37,7 +37,7 @@ implements UserSettingsAccountsPresenter.MyProxy {
         final Translations translations) {
       super(
           eventBus, 
-          new CodeSplitProvider<UserSettingsAccountsPresenter>(presenter, translations),
+          new CodeSplitProvider<UserSettingsAccountsPresenter>(presenter),
           UserSettingsTabPresenter.TYPE_RequestTabs,
           1, // Priority
           translations.tabAccounts(),

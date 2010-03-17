@@ -6,7 +6,7 @@ import com.google.inject.Inject;
 import com.philbeaudoin.platform.dispatch.client.DispatchAsync;
 import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.puzzlebazar.client.core.presenter.CurrentUserChangedEvent;
-import com.puzzlebazar.shared.action.GetUser;
+import com.puzzlebazar.shared.action.GetCurrentUser;
 import com.puzzlebazar.shared.action.GetUserResult;
 import com.puzzlebazar.shared.model.User;
 
@@ -36,9 +36,8 @@ public class CurrentUser {
    */
   @Inject
   public CurrentUser( 
-      EventBus eventBus,
-      DispatchAsync dispatcher
-  ) {
+      final EventBus eventBus,
+      final DispatchAsync dispatcher ) {
     this.eventBus = eventBus;
     this.dispatcher = dispatcher;
     // TODO These should be injected when GIN supports toInstance injection
@@ -60,7 +59,7 @@ public class CurrentUser {
    */
   public void fetchUser() {
     fetchUserTimer.cancel();  
-    dispatcher.execute( new GetUser(), new AsyncCallback<GetUserResult>() {
+    dispatcher.execute( new GetCurrentUser(), new AsyncCallback<GetUserResult>() {
       
       @Override
       public void onFailure(Throwable caught) {

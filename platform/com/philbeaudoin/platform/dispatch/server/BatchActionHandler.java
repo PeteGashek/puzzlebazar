@@ -45,7 +45,7 @@ public class BatchActionHandler extends AbstractActionHandler<BatchAction, Batch
         return new BatchResult( results );
     }
 
-    public void rollback( BatchAction action, BatchResult result, ExecutionContext context )
+    public void undo( BatchAction action, BatchResult result, ExecutionContext context )
             throws ActionException {
         // No action necessary - the sub actions should automatically rollback
     }

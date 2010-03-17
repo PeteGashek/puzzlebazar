@@ -38,7 +38,7 @@ implements UserSettingsGeneralPresenter.MyProxy {
         final Translations translations) {
       super(
           eventBus, 
-          new CodeSplitProvider<UserSettingsGeneralPresenter>(presenter, translations),
+          new CodeSplitProvider<UserSettingsGeneralPresenter>(presenter),
           UserSettingsTabPresenter.TYPE_RequestTabs,
           0, // Priority
           translations.tabGeneral(),
