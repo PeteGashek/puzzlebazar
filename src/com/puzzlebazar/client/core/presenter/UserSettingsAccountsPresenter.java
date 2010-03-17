@@ -44,7 +44,7 @@ public class UserSettingsAccountsPresenter extends PresenterImpl<UserSettingsAcc
 
   @Override
   public void onHide() {
-    super.onReveal();
+    super.onHide();
     DisplayShortMessageEvent.fireClearMessage(eventBus);
   }
 }
