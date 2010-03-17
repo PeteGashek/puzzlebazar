@@ -15,7 +15,6 @@ import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
 import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.CurrentUser;
 import com.puzzlebazar.client.core.proxy.AppProxy;
-import com.puzzlebazar.client.resources.Translations;
 import com.puzzlebazar.shared.action.Logout;
 import com.puzzlebazar.shared.action.NoResult;
 import com.puzzlebazar.shared.model.User;
@@ -26,7 +25,7 @@ implements CurrentUserChangedHandler {
   public interface MyView extends View {
     public void setLoggedIn( String username, boolean isAdministrator );
     public void setLoggedOut();
-    public void setSignIn( String uri, String title, Command signInCallback );
+    public void setPostSignInCallback( Command postSignInCallback );
     public HasClickHandlers getSignOut();
   }
 
@@ -35,7 +34,6 @@ implements CurrentUserChangedHandler {
   private final PlaceManager placeManager;
   private final DispatchAsync dispatcher;
   private final CurrentUser currentUser;
-  private final Translations translations;
 
   @Inject
   public TopBarPresenter(
@@ -44,14 +42,12 @@ implements CurrentUserChangedHandler {
       final MyView view, 
       final MyProxy proxy,
       final DispatchAsync dispatcher,
-      final CurrentUser currentUser,
-      final Translations translations) {
+      final CurrentUser currentUser) {
     super(eventBus, view, proxy);
 
     this.placeManager = placeManager;
     this.dispatcher = dispatcher;
     this.currentUser = currentUser;
-    this.translations = translations;
   }
 
   @Override
@@ -70,21 +66,19 @@ implements CurrentUserChangedHandler {
       }
     } ) );
 
+    getView().setPostSignInCallback(  new Command() {
+      @Override
+      public void execute() {
+        currentUser.fetchUser();
+      }
+    } );
+    
     registerHandler( eventBus.addHandler( CurrentUserChangedEvent.getType(), this ) );
   }
 
   @Override
   public void onReveal() {
     super.onReveal();
-    view.setSignIn( 
-        "/openid/login?popup=true&provider=google", 
-        translations.openIdPopupTitle(),
-        new Command() {
-      @Override
-      public void execute() {
-        currentUser.fetchUser();        
-      }
-    } );
     checkUserStatus();
   }
     
@@ -102,16 +96,14 @@ implements CurrentUserChangedHandler {
     checkUserStatus();
   }
 
-  public void doSignOut() {
+  private void doSignOut() {
     getView().setLoggedOut();
     placeManager.revealDefaultPlace();
     dispatcher.execute( new Logout(), new ActionCallback<NoResult>() {
       @Override
-      public void onSuccess(NoResult noResult) {
-      }
+      public void onSuccess(NoResult noResult) {}
     } ); 
   }
-
 
 
 }

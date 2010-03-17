@@ -1,6 +1,7 @@
 package com.puzzlebazar.client.core.view;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -47,13 +48,14 @@ public class TopBarView implements TopBarPresenter.MyView {
 
   private boolean loggedIn = false;
   private boolean isAdministrator = false;
-  private Command signInCallback = null;
+  private Command postSignInCallback = null;
 
   @Inject
   public TopBarView( Resources resources ) {
     this.resources = resources;
     widget = binder.createAndBindUi(this);
-
+    signIn.getElement().setPropertyJSO( "onclick", getSignInFunction( "/openid/login?popup=true&provider=google" )  );
+    registerPostSignInCallback();
   }
 
   @Override 
@@ -87,39 +89,48 @@ public class TopBarView implements TopBarPresenter.MyView {
   }
 
   @Override
-  public void setSignIn( String uri, String title, Command signInCallback ) {
+  public void setPostSignInCallback( Command postSignInCallback ) {
     // We directly override onClick, otherwise popup blockers will not allow the window to be created.
-    this.signInCallback = signInCallback;
-    signIn.getElement().setAttribute( "onClick", getWindowOpenJS( uri, title ) );
-    registerSignInCallback();
-  }
-
-  /**
-   * This method registers a top-level callback method inside the HTML page. This
-   * method is used to notify the page of a successful login.
-   * It's used in the webpage {@code ClosePopup.html}.
-   */
-  private native void registerSignInCallback() /*-{
-      var self = this;
-      $wnd.signInCallback = function() { self.@com.puzzlebazar.client.core.view.TopBarView::signInSuccessfull()() };
-  }-*/;
-
-  @SuppressWarnings("unused")
-  private void signInSuccessfull() {
-    if( signInCallback != null )
-      this.signInCallback.execute();
+    this.postSignInCallback = postSignInCallback;
   }
   
   @Override
   public HasClickHandlers getSignOut() {
     return signOut;
   }
+  
+  /**
+   * This method returns a javascript function that should be called when
+   * the signIn button is clicked. This is used instead of standard GWT
+   * event handlers because otherwise the 'window.open()' call is
+   * intercepted by popup blockers.
+   * 
+   * @param uri The URI where to direct the newly opened window.
+   */
+  private native JavaScriptObject getSignInFunction( String uri ) /*-{
+    return function() { 
+      var w = $wnd.open( uri, '', 'width=450,height=500,location=1,status=1,resizable=yes' );
+      var width = @com.google.gwt.user.client.Window::getClientWidth()();
+      var height = @com.google.gwt.user.client.Window::getClientHeight()();
+      w.moveTo( (width-450)/2, (height-500)/2 );      
+    };
+  }-*/;
 
-  private static String getWindowOpenJS( String uri, String title) {
-    return 
-    "window.alert('yaha!');" +
-    "var w = window.open( '"+uri+"', '"+title+"', 'width=450,height=500,location=1,status=1,resizable=yes' );" +
-    "w.moveTo( (window.innerWidth-450)/2, (window.innerHeight-500)/2 );";
+  /**
+   * This method registers a top-level callback method inside the HTML page. This
+   * method is used to notify the page of a successful login.
+   * It's used in the webpage {@code ClosePopup.html}.
+   */
+  private native void registerPostSignInCallback() /*-{
+      var self = this;
+      $wnd.signInCallback = function() { self.@com.puzzlebazar.client.core.view.TopBarView::signInSuccessfull()() };
+  }-*/;
+
+
+  @SuppressWarnings("unused")
+  private void signInSuccessfull() {
+    if( postSignInCallback != null )
+      this.postSignInCallback.execute();
   }
 
 }
