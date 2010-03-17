@@ -64,6 +64,34 @@ public class User implements Serializable {
     locale = null;
   }
 
+  public User(User user) {
+    key = user.key;
+    email = user.email;
+    realName = user.realName;
+    nickname = user.nickname;
+    locale = user.locale;
+  }
+
+  /**
+   * Check if the passed user is compatible with this one. If so,
+   * copies all the passed user's fields into this one. If not,
+   * throws a {@link InvalidEditException}.
+   * 
+   * @param user The {@link User} to copy into this one.
+   * @throws InvalidEditException Thrown whenever the passed user's key or email is not the same as this user.
+   */
+  public void editFrom(User user) throws InvalidEditException {
+    if( !key.equals(user.key) ||
+        !email.equals(user.email) ) 
+      throw new InvalidEditException();
+    
+    this.key = user.key;
+    this.email = user.email;
+    this.realName = user.realName;
+    this.nickname = user.nickname;
+    this.locale = user.locale;
+  }
+  
   /**
    * @return This object's key, encoded as a string.
    */
@@ -93,7 +121,7 @@ public class User implements Serializable {
   }
 
   /**
-   * @return The locale for this user.
+   * @return The locale for this user. An IEFT language tag.
    */
   public String getLocale() {
     return locale;
@@ -121,7 +149,7 @@ public class User implements Serializable {
   }
   
   /**
-   * @param locale The locale to set for this user.
+   * @param locale The locale to set for this user. An IEFT language tag. 
    */
   public void setLocale(String locale) {
     this.locale = locale;

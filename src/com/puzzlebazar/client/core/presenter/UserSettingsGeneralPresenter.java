@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.inject.Inject;
+import com.philbeaudoin.platform.dispatch.client.DispatchAsync;
 import com.philbeaudoin.platform.mvp.client.View;
 import com.philbeaudoin.platform.mvp.client.PresenterImpl;
 import com.philbeaudoin.platform.mvp.client.EventBus;
@@ -13,10 +14,14 @@ import com.philbeaudoin.platform.mvp.client.proxy.Place;
 import com.philbeaudoin.platform.mvp.client.proxy.PlaceManager;
 import com.philbeaudoin.platform.mvp.client.proxy.SetContentEvent;
 import com.philbeaudoin.platform.mvp.client.proxy.TabContentProxy;
+import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.CurrentUser;
 import com.puzzlebazar.client.core.proxy.UserSettingsTabProxy;
+import com.puzzlebazar.client.resources.Translations;
 import com.puzzlebazar.client.util.MonitorHandler;
 import com.puzzlebazar.client.util.ChangeMonitor;
+import com.puzzlebazar.shared.action.EditUser;
+import com.puzzlebazar.shared.action.NoResult;
 import com.puzzlebazar.shared.model.User;
 import com.puzzlebazar.shared.util.AvailableLocales;
 
@@ -42,25 +47,31 @@ implements MonitorHandler  {
 
   public interface MyProxy extends TabContentProxy<UserSettingsGeneralPresenter>, Place {}
 
+  private final DispatchAsync dispatcher;
   private final PlaceManager placeManager;
   private final AvailableLocales availableLocales;
   private final CurrentUser currentUser;
   private final ChangeMonitor changeMonitor;
+  private final Translations translations;
 
   @Inject
   public UserSettingsGeneralPresenter(
       final EventBus eventBus,
+      final DispatchAsync dispatcher,
       final PlaceManager placeManager,
       final MyView view, 
       final MyProxy proxy,
       final AvailableLocales availableLocales,
       final CurrentUser currentUser,
-      final ChangeMonitor changeMonitor ) {
+      final ChangeMonitor changeMonitor,
+      final Translations translations ) {
     super(eventBus, view, proxy );
+    this.dispatcher = dispatcher;
     this.placeManager = placeManager;
     this.availableLocales = availableLocales;
     this.currentUser = currentUser;
     this.changeMonitor = changeMonitor;
+    this.translations = translations;
     changeMonitor.setHandler( this );
   }
 
@@ -127,12 +138,23 @@ implements MonitorHandler  {
   }
   
   private void apply() {
-    // TODO Commit changes
-    placeManager.navigateBack();
+    int localeIndex = view.getLanguage().getSelectedIndex();
+    User user = currentUser.getUser();
+    user.setNickname( view.getNickname().getText() );
+    user.setRealname( view.getRealName().getText() );
+    user.setLocale( availableLocales.getLocale(localeIndex).getLocale() );
+    dispatcher.execute( new EditUser(user), new ActionCallback<NoResult>(translations.operationFailedRetry()){
+      @Override
+      public void onSuccess(NoResult result) {
+        DisplayShortMessageEvent.fireClearMessage(eventBus);
+        changeMonitor.reset();
+        currentUser.fetchUser();
+      }
+    }  );
   }
 
   private void cancel() {
-    placeManager.setOnLeaveConfirmation(null);
+    changeMonitor.reset();
     placeManager.navigateBack();
   }
 

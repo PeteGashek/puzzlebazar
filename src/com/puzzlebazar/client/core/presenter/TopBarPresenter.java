@@ -4,14 +4,14 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.philbeaudoin.platform.dispatch.client.DispatchAsync;
 import com.philbeaudoin.platform.mvp.client.View;
 import com.philbeaudoin.platform.mvp.client.PresenterImpl;
 import com.philbeaudoin.platform.mvp.client.EventBus;
+import com.philbeaudoin.platform.mvp.client.proxy.PlaceManager;
 import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
+import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.CurrentUser;
 import com.puzzlebazar.client.resources.Translations;
 import com.puzzlebazar.shared.action.Logout;
@@ -30,6 +30,7 @@ implements CurrentUserChangedHandler {
 
   public interface MyProxy extends Proxy<TopBarPresenter> {}
 
+  private final PlaceManager placeManager;
   private final DispatchAsync dispatcher;
   private final CurrentUser currentUser;
   private final Translations translations;
@@ -37,6 +38,7 @@ implements CurrentUserChangedHandler {
   @Inject
   public TopBarPresenter(
       final EventBus eventBus, 
+      final PlaceManager placeManager,
       final MyView view, 
       final MyProxy proxy,
       final DispatchAsync dispatcher,
@@ -44,6 +46,7 @@ implements CurrentUserChangedHandler {
       final Translations translations) {
     super(eventBus, view, proxy);
 
+    this.placeManager = placeManager;
     this.dispatcher = dispatcher;
     this.currentUser = currentUser;
     this.translations = translations;
@@ -94,16 +97,10 @@ implements CurrentUserChangedHandler {
 
   public void doSignOut() {
     getView().setLoggedOut();
-    dispatcher.execute( new Logout(), new AsyncCallback<NoResult>() {
-
-      @Override
-      public void onFailure(Throwable caught) {
-        Window.alert("Server connection error.");
-      }
-
+    placeManager.revealDefaultPlace();
+    dispatcher.execute( new Logout(), new ActionCallback<NoResult>() {
       @Override
       public void onSuccess(NoResult noResult) {
-
       }
     } ); 
   }

@@ -9,4 +9,6 @@ public interface Translations extends Constants {
   String tabUsers();
   String changeDetected();
   String openIdPopupTitle();
+  String actionCallbackFailed();
+  String operationFailedRetry();
 }

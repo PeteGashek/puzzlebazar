@@ -39,12 +39,12 @@ public class UserSettingsAccountsPresenter extends PresenterImpl<UserSettingsAcc
   @Override
   public void onReveal() {
     super.onReveal();
-    DisplayShortMessageEvent.fire(eventBus, "Welcome to your connected accounts page!" );
+    DisplayShortMessageEvent.fireMessage(eventBus, "Welcome to your connected accounts page!" );
   }
 
   @Override
   public void onHide() {
     super.onReveal();
-    DisplayShortMessageEvent.fire(eventBus, null );
+    DisplayShortMessageEvent.fireClearMessage(eventBus);
   }
 }

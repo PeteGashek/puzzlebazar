@@ -13,7 +13,6 @@ import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
 import com.philbeaudoin.platform.mvp.client.proxy.SetContentEvent;
 import com.puzzlebazar.client.CodeSplitProvider;
 import com.puzzlebazar.client.core.proxy.SplitMainProxy;
-import com.puzzlebazar.client.resources.Translations;
 
 /**
  * This is the presenter of the main application page.
@@ -37,11 +36,10 @@ extends PresenterImpl<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
       final EventBus eventBus, 
       final MyView view,  
       final MyProxy proxy,
-      final Translations translations,
       final AsyncProvider<NewsItemPresenter> newsItemFactory ) {
     super( eventBus, view, proxy );
 
-    this.newsItemFactory = new CodeSplitProvider<NewsItemPresenter>(newsItemFactory, translations);
+    this.newsItemFactory = new CodeSplitProvider<NewsItemPresenter>(newsItemFactory);
   }
 
   @Override

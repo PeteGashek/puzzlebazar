@@ -103,6 +103,7 @@ implements ChangeMonitor {
       changeMonitor.reset();
     }
     changed = false;
+    changeReverted();      
   }
 
 }

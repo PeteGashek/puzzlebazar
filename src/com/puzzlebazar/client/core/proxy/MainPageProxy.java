@@ -13,7 +13,6 @@ import com.philbeaudoin.platform.mvp.client.proxy.PlaceManager;
 import com.puzzlebazar.client.CodeSplitProvider;
 import com.puzzlebazar.client.NameTokens;
 import com.puzzlebazar.client.core.presenter.MainPagePresenter;
-import com.puzzlebazar.client.resources.Translations;
 
 public class MainPageProxy 
 extends ProxyPlace<MainPagePresenter> 
@@ -22,11 +21,10 @@ implements MainPagePresenter.MyProxy {
   public static class WrappedProxy extends ProxyImpl<MainPagePresenter> {
     @Inject
     public WrappedProxy(EventBus eventBus,
-        final AsyncProvider<MainPagePresenter> presenter,
-        final Translations translations) {
+        final AsyncProvider<MainPagePresenter> presenter) {
       super(
         eventBus,
-        new CodeSplitProvider<MainPagePresenter>(presenter, translations));
+        new CodeSplitProvider<MainPagePresenter>(presenter));
     }
   }
 

@@ -19,8 +19,14 @@ public abstract class AbstractStandardDispatchServlet extends RemoteServiceServl
   public Result execute( Action<?> action ) throws ActionException, ServiceException {
     try {
       return getDispatch().execute( action );
+    } catch ( ActionException e ) {
+      log( "Action exception while executing " + action.getClass().getName() + ": " + e.getMessage(), e );
+      throw e;
+    } catch ( ServiceException e ) {
+      log( "Service exception while executing " + action.getClass().getName() + ": " + e.getMessage(), e );
+      throw e;
     } catch ( RuntimeException e ) {
-      log( "Exception while executing " + action.getClass().getName() + ": " + e.getMessage(), e );
+      log( "Unexpected exception while executing " + action.getClass().getName() + ": " + e.getMessage(), e );
       throw new ServiceException( e );
     }
   }

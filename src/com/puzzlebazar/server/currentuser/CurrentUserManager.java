@@ -33,7 +33,8 @@ import com.puzzlebazar.shared.util.AvailableLocales;
 @Singleton
 public class CurrentUserManager {
 
-  private static final String USER_TOKEN = "USER-";
+  public static final String SESSION_TOKEN = "SESSION-";
+  public static final String USER_TOKEN = "USER-";
 
   private static final Object ADMINISTRATOR_EMAIL = "philippe.beaudoin@gmail.com";
 
@@ -44,11 +45,11 @@ public class CurrentUserManager {
   private final Provider<HttpSession> session;
   private final Provider<HttpServletRequest> request;
   private final Provider<HttpServletResponse> response;
-  
+
   @Inject
   public CurrentUserManager(
       final Logger logger,
-      final AvailableLocales availableLocales,      
+      final AvailableLocales availableLocales,
       final PersistenceManagerFactory persistenceManagerFactory,
       final Provider<Cache> cache,
       final Provider<HttpSession> session,
@@ -62,7 +63,7 @@ public class CurrentUserManager {
     this.request = request;
     this.response = response;
   }
-  
+
   /**
    * Access the user currently logged into this session, or {@code null} if 
    * not logged in.
@@ -70,21 +71,25 @@ public class CurrentUserManager {
    * @return The {@link User} currently logged-in, or {@code null} if no user is logged in.
    */
   public User get() {
-    String key = USER_TOKEN + session.get().getId();
-    
-    User user = (User)cache.get().get( key );
-    if( user != null ) {
-      // Special case: A null email means the user is known not to be logged-in
+    String sessionKey = SESSION_TOKEN + session.get().getId();
+
+    Session session = (Session)cache.get().get( sessionKey );
+    User user = null;
+    if( session != null ) {
+      // Special case: A null user key means the user is known not to be logged-in
       //               this saves a trip to the datastore.
-      if( user.getEmail() == null )
+      String userKey = session.getCurrentUserKey();
+      if( userKey == null )
         return null;
-      
-      return user;
+      user = (User)cache.get().get( USER_TOKEN + userKey );
+
+      if( user != null )
+        return user;
     }
-    
+
     PersistenceManager persistenceManager = persistenceManagerFactory.getPersistenceManager();
     try {
-      Session session = persistenceManager.getObjectById( Session.class, key );
+      session = persistenceManager.getObjectById( Session.class, sessionKey );
       String userKey = session.getCurrentUserKey();
       if( userKey != null )
         user = persistenceManager.getObjectById( User.class, userKey );      
@@ -96,16 +101,13 @@ public class CurrentUserManager {
       persistenceManager.close();
     }
 
-    if( user == null ) {
-      // Store a special user with a null password in the cache so that we save
-      // trips to the datastore on future requests.
-      cache.get().put( key, new User(null) );      
-    }
-    
-    return user;
-    
-  }
+    if( user == null )
+      markInvalidUser( sessionKey );
 
+
+    return user;
+  }
+  
   /**
    * Sets the user currently logged into the session. This should
    * be called by the OpenId servlet when the OpenId provider 
@@ -122,7 +124,7 @@ public class CurrentUserManager {
       logger.warning( "Setting a user with a null email. Call logout instead?" );
       return;
     }
-    
+
     User user = null;
     PersistenceManager persistenceManager = persistenceManagerFactory.getPersistenceManager();
     Transaction transaction = persistenceManager.currentTransaction();
@@ -138,7 +140,7 @@ public class CurrentUserManager {
       if( user == null ) {
         // User is authenticated via an OpenId provider, but it is not in the datastore yet,
         // copy known information.
-        
+
         user = new User( email );
         user.setLocale( availableLocales.getBestLocale(language).getLocale() );
         persistenceManager.makePersistent( user );
@@ -146,23 +148,25 @@ public class CurrentUserManager {
       transaction.commit();
       transaction.begin();        
       // Attaches the user to the session in the datastore and in the cache
-      String key = USER_TOKEN + session.get().getId();
-      cache.get().put( key, user );
-      Session sessionUser = new Session( key, user.getKey() ); 
-      persistenceManager.makePersistent( sessionUser );     
-      
+      String key = SESSION_TOKEN + session.get().getId();
+      String userKey = user.getKey();
+      Session session = new Session( key, userKey ); 
+      cache.get().put( key, session );
+      cache.get().put( USER_TOKEN + userKey, user );
+      persistenceManager.makePersistent( session );     
+
       transaction.commit();        
     }
     finally {
       if( transaction.isActive() )
         transaction.rollback();
-      
+
       assert user != null : "Unexpected null user. Datastore error?";
       user.setAuthenticated( true );
       user.setAdministrator( ADMINISTRATOR_EMAIL.equals(email) );
       persistenceManager.close();
     }
-    
+
   }
 
   /**
@@ -174,17 +178,17 @@ public class CurrentUserManager {
     } catch (IOException exception) {
       logger.warning( "RelyingParty logout failed" + exception.getMessage() );
     }
-    
-    String key = USER_TOKEN + session.get().getId();
+
+    String sessionKey = SESSION_TOKEN + session.get().getId();
     
     // Store a special user with a null password in the cache so that we save
     // trips to the datastore on future requests.
-    cache.get().put( key, new User(null) );
+    markInvalidUser( sessionKey );
 
     // Remove the user from the session
     PersistenceManager persistenceManager = persistenceManagerFactory.getPersistenceManager();
     try {
-      Session session = persistenceManager.getObjectById( Session.class, key );
+      Session session = persistenceManager.getObjectById( Session.class, sessionKey );
       session.logoutUser();
     }
     catch( JDOObjectNotFoundException exception ) {
@@ -193,5 +197,15 @@ public class CurrentUserManager {
       persistenceManager.close();
     }
   }      
-    
+
+  /**
+   * Store a special user with a null password in the cache so that we save
+   * trips to the datastore on future requests.
+   * 
+   * @param sessionKey The session key
+   */
+  private void markInvalidUser(String sessionKey) {
+    cache.get().put( sessionKey, new Session(sessionKey, null) );      
+  }
+
 }

@@ -1,6 +1,6 @@
 package com.philbeaudoin.platform.dispatch.shared;
 
-public class UnsupportedActionException extends ActionException {
+public class UnsupportedActionException extends ServiceException {
 
   private static final long serialVersionUID = -3362561625013898012L;
 
