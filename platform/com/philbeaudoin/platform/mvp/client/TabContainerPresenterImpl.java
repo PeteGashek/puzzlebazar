@@ -9,7 +9,7 @@ extends PresenterImpl<V, Proxy_> implements TabContainerPresenter  {
 
   private final Type<RequestTabsHandler> requestTabsEventType;
 
-  private PresenterWidget tabContent = null;
+  private Presenter tabContent = null;
 
   public TabContainerPresenterImpl(
       final EventBus eventBus, 
@@ -19,13 +19,21 @@ extends PresenterImpl<V, Proxy_> implements TabContainerPresenter  {
     super(eventBus, view, proxy);
     this.requestTabsEventType = requestTabsEventType;
   }
-
-  @Override 
-  public void onHide() {
-    super.onHide();
-    hideTabContent();
+  
+  @Override
+  protected void revealChildren() {
+    super.revealChildren();
+    if( tabContent != null )
+      tabContent.reveal();    
   }
 
+  @Override
+  protected void notifyHideChildren() {
+    super.notifyHideChildren();
+    if( tabContent != null )
+      tabContent.notifyHide();
+  }
+  
   @Override
   public Tab addTab( final TabContentProxy<?> tabProxy ) {
     return getView().addTab( tabProxy.getText(), tabProxy.getHistoryToken(), tabProxy.getPriority() );
@@ -34,7 +42,8 @@ extends PresenterImpl<V, Proxy_> implements TabContainerPresenter  {
   @Override
   public void setTabContent(Presenter content) {
     if( tabContent != content ) {
-      hideTabContent();
+      if( tabContent != null )
+        tabContent.notifyHide();    
       tabContent = content;
       getView().setTabContent( content.getWidget() );
       if( content.getProxy() instanceof TabContentProxy<?> ) {
@@ -57,16 +66,8 @@ extends PresenterImpl<V, Proxy_> implements TabContainerPresenter  {
   protected void onUnbind() {  
     super.onUnbind();
 
-    // The tabs are added indirectly in onBind(), so we clear them now.
+    // The tabs are added indirectly in onBind() via the RequestTabsEvent, so we clear them now.
     getView().removeTabs();
   }
 
-
-  /**
-   * Let child presenter know that it's about to be hidden.
-   */
-  private void hideTabContent() {
-    if( tabContent != null )
-      tabContent.onHide();    
-  }
 }

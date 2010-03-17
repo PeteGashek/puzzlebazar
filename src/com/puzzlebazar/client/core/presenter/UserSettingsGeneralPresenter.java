@@ -12,7 +12,7 @@ import com.philbeaudoin.platform.mvp.client.PresenterImpl;
 import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.proxy.Place;
 import com.philbeaudoin.platform.mvp.client.proxy.PlaceManager;
-import com.philbeaudoin.platform.mvp.client.proxy.SetContentEvent;
+import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.platform.mvp.client.proxy.TabContentProxy;
 import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.CurrentUser;
@@ -123,8 +123,8 @@ implements MonitorHandler  {
   }
 
   @Override
-  protected void setContentInParent() {
-    SetContentEvent.fire(eventBus, UserSettingsTabProxy.TYPE_SetTabContent, this);
+  protected void revealInParent() {
+    RevealContentEvent.fire(eventBus, UserSettingsTabProxy.TYPE_RevealTabContent, this);
   }
 
   @Override

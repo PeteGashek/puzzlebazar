@@ -9,14 +9,14 @@ import com.google.inject.Provider;
 import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.proxy.DirectProvider;
 import com.philbeaudoin.platform.mvp.client.proxy.ProxyImpl;
-import com.philbeaudoin.platform.mvp.client.proxy.SetContentEvent;
-import com.philbeaudoin.platform.mvp.client.proxy.SetContentHandler;
+import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
+import com.philbeaudoin.platform.mvp.client.proxy.RevealContentHandler;
 import com.puzzlebazar.client.core.presenter.SplitMainPresenter;
 
 public class SplitMainProxy extends ProxyImpl<SplitMainPresenter>  implements SplitMainPresenter.MyProxy {
 
-  public static final Type<SetContentHandler<?>> TYPE_SetSideBarContent = new Type<SetContentHandler<?>>();
-  public static final Type<SetContentHandler<?>> TYPE_SetCenterContent = new Type<SetContentHandler<?>>();
+  public static final Type<RevealContentHandler<?>> TYPE_RevealSideBarContent = new Type<RevealContentHandler<?>>();
+  public static final Type<RevealContentHandler<?>> TYPE_RevealCenterContent = new Type<RevealContentHandler<?>>();
 
   @Inject
   public SplitMainProxy(EventBus eventBus, Provider<SplitMainPresenter> presenter ) {
@@ -26,23 +26,25 @@ public class SplitMainProxy extends ProxyImpl<SplitMainPresenter>  implements Sp
   @Override
   protected void onBind() {
     super.onBind();
-    
-    registerHandler( eventBus.addHandler( TYPE_SetSideBarContent, 
-        new SetContentHandler<SplitMainPresenter>(this){
+
+    registerHandler( eventBus.addHandler( TYPE_RevealSideBarContent, 
+        new RevealContentHandler<SplitMainPresenter>(this){
       @Override
-      public void onSetContent(SplitMainPresenter presenter,
-          SetContentEvent setContentEvent) {
-        presenter.setSideBarContent( setContentEvent.getContent() );
+      public void onRevealContent(
+          final SplitMainPresenter presenter,
+          final RevealContentEvent revealContentEvent) {
+        presenter.setSideBarContent( revealContentEvent.getContent() );
         presenter.reveal();
       }
     } ) );
 
-    registerHandler( eventBus.addHandler( TYPE_SetCenterContent, 
-        new SetContentHandler<SplitMainPresenter>(this){
+    registerHandler( eventBus.addHandler( TYPE_RevealCenterContent, 
+        new RevealContentHandler<SplitMainPresenter>(this){
       @Override
-      public void onSetContent(SplitMainPresenter presenter,
-          SetContentEvent setContentEvent) {
-        presenter.setCenterContent( setContentEvent.getContent() );
+      public void onRevealContent(
+          final SplitMainPresenter presenter,
+          final RevealContentEvent revealContentEvent) {
+        presenter.setCenterContent( revealContentEvent.getContent() );
         presenter.reveal();
       }
     } ) );

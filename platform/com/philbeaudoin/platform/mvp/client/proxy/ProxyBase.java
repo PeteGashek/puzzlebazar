@@ -26,7 +26,7 @@ public interface ProxyBase {
   /**
    * Requests the presenter to reveal itself on screen.
    * Upon being revealed presenters will ask to be inserted within 
-   * their parent presenters by firing a {@link SetContentEvent}
+   * their parent presenters by firing a {@link RevealContentEvent}
    * which will cause the parent to be revealed too.
    * <p />
    * This call will fail for any non-leaf proxy. Usually only

@@ -38,9 +38,9 @@ public class AppView implements AppPresenter.MyView {
   }
 
   @Override
-  public void setTopBar(Widget topBar) {
+  public void setTopBarContent(Widget topBarContent) {
     topBarContainer.clear();
-    topBarContainer.add( topBar );
+    topBarContainer.add( topBarContent );
   }
 
 

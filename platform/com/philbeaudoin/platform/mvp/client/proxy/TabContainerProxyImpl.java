@@ -7,37 +7,37 @@ import com.philbeaudoin.platform.mvp.client.TabContainerPresenter;
 
 
 public class TabContainerProxyImpl<P extends TabContainerPresenter> extends
-    ProxyImpl<P> implements TabContainerProxy<P> {
+ProxyImpl<P> implements TabContainerProxy<P> {
 
   /**
    * The {@link Type} of the event used by {@link Presenter} classes that want
-   * to be set within this container.
+   * to be revealed within this container.
    */
-  private final Type<SetContentHandler<?>> setTabContentEventType;
-  
+  private final Type<RevealContentHandler<?>> revealTabContentEventType;
+
   /**
    * Creates a proxy class for a presenter that can contain tabs.
    * 
    * @param eventBus The event bus.
    * @param presenter A provider for the {@link Presenter} of which this class is a proxy. 
-   * @param setTabContentEventType The {@link Type} of the event used by 
-   *        {@link Presenter} classes that want to be set within this container.
+   * @param revealTabContentEventType The {@link Type} of the event used by 
+   *        {@link Presenter} classes that want to be revealed within this container.
    */
   public TabContainerProxyImpl(final EventBus eventBus, 
       final CallbackProvider<P> presenter,
-      final Type<SetContentHandler<?>> setTabContentEventType ) {
+      final Type<RevealContentHandler<?>> revealTabContentEventType ) {
     super(eventBus, presenter);
-    this.setTabContentEventType = setTabContentEventType;
+    this.revealTabContentEventType = revealTabContentEventType;
   }
 
   @Override
   protected void onBind() {
     super.onBind();
-    registerHandler( eventBus.addHandler( setTabContentEventType, new SetContentHandler<P>(this){
+    registerHandler( eventBus.addHandler( revealTabContentEventType, new RevealContentHandler<P>(this){
       @Override
-      public void onSetContent(final P presenter, final SetContentEvent setContentEvent) {
-            presenter.setTabContent( setContentEvent.getContent() );
-            presenter.reveal();
+      public void onRevealContent(final P presenter, final RevealContentEvent revealContentEvent) {
+        presenter.setTabContent( revealContentEvent.getContent() );
+        presenter.reveal();
       }
     } ) );
   }

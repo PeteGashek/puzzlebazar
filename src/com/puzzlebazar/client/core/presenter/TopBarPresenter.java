@@ -11,8 +11,10 @@ import com.philbeaudoin.platform.mvp.client.PresenterImpl;
 import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.proxy.PlaceManager;
 import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
+import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
 import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.CurrentUser;
+import com.puzzlebazar.client.core.proxy.AppProxy;
 import com.puzzlebazar.client.resources.Translations;
 import com.puzzlebazar.shared.action.Logout;
 import com.puzzlebazar.shared.action.NoResult;
@@ -53,23 +55,13 @@ implements CurrentUserChangedHandler {
   }
 
   @Override
-  protected void setContentInParent() {}
+  protected void revealInParent() {
+    RevealContentEvent.fire(eventBus, AppProxy.TYPE_RevealTopBarContent, this);        
+  }
 
   @Override
   protected void onBind() {
     super.onBind();
-
-    checkUserStatus();
-
-    view.setSignIn( 
-        "/openid/login?popup=true&provider=google", 
-        translations.openIdPopupTitle(),
-        new Command() {
-      @Override
-      public void execute() {
-        currentUser.fetchUser();        
-      }
-    } );
 
     registerHandler( getView().getSignOut().addClickHandler( new ClickHandler() {
       @Override
@@ -81,6 +73,21 @@ implements CurrentUserChangedHandler {
     registerHandler( eventBus.addHandler( CurrentUserChangedEvent.getType(), this ) );
   }
 
+  @Override
+  public void onReveal() {
+    super.onReveal();
+    view.setSignIn( 
+        "/openid/login?popup=true&provider=google", 
+        translations.openIdPopupTitle(),
+        new Command() {
+      @Override
+      public void execute() {
+        currentUser.fetchUser();        
+      }
+    } );
+    checkUserStatus();
+  }
+    
   private void checkUserStatus() {
     if( currentUser.isLoggedIn() ) {
       User user = currentUser.getUser();

@@ -2,12 +2,12 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.philbeaudoin.platform.mvp.client.Presenter;
 import com.philbeaudoin.platform.mvp.client.View;
 import com.philbeaudoin.platform.mvp.client.PresenterImpl;
 import com.philbeaudoin.platform.mvp.client.EventBus;
-import com.philbeaudoin.platform.mvp.client.PresenterWidget;
 import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
-import com.philbeaudoin.platform.mvp.client.proxy.SetContentEvent;
+import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
 import com.puzzlebazar.client.core.proxy.AppProxy;
 
 public class SplitMainPresenter 
@@ -23,67 +23,63 @@ implements DisplayShortMessageHandler {
 
   public interface MyProxy extends Proxy<SplitMainPresenter> {}
 
-  private final LinkColumnPresenter linkColumnPresenter;
-  private PresenterWidget sideBarContent = null;
-  private PresenterWidget centerContent = null;
+  private Presenter sideBarContent = null;
+  private Presenter centerContent = null;
 
   @Inject
   public SplitMainPresenter(
       final EventBus eventBus, 
       final MyView view, 
-      final MyProxy proxy,
-      final LinkColumnPresenter  linkColumnPresenter ) {
+      final MyProxy proxy ) {
     super(eventBus, view, proxy);
-
-    this.linkColumnPresenter = linkColumnPresenter;
   }  
 
   @Override
-  protected void setContentInParent() {
-    SetContentEvent.fire(eventBus, AppProxy.TYPE_SetMainContent, this);
+  protected void revealInParent() {
+    RevealContentEvent.fire(eventBus, AppProxy.TYPE_RevealMainContent, this);
   }
 
   @Override
   protected void onBind() {
     super.onBind();
-    setSideBarContent( linkColumnPresenter );
     registerHandler( eventBus.addHandler( DisplayShortMessageEvent.getType(), this ) );
   }
 
   @Override
-  public void onHide() {
-    super.onHide();
-    hideSideBarContent();    
-    hideCenterContent();    
+  protected void revealChildren() {
+    super.revealChildren();
+    if( sideBarContent != null )
+      sideBarContent.reveal();
+    if( centerContent != null )
+      centerContent.reveal();
   }
-
-
-  public void setSideBarContent(PresenterWidget content) {
+  
+  @Override
+  protected void notifyHideChildren() {
+    super.notifyHideChildren();
+    if( sideBarContent != null )
+      sideBarContent.notifyHide();
+    if( centerContent != null )
+      centerContent.notifyHide();
+  }  
+  
+  public void setSideBarContent(Presenter content) {
     if( sideBarContent != content ) {
-      hideSideBarContent();
+      if( sideBarContent != null )
+        sideBarContent.notifyHide();
       sideBarContent = content;
       getView().setSideBarContent( content.getWidget() );
     }
   }
 
-  public void setCenterContent(PresenterWidget content) {
+  public void setCenterContent(Presenter content) {
     if( centerContent  != content ) {
-      hideCenterContent();
+      if( centerContent != null )
+        centerContent.notifyHide();
       centerContent = content;
       getView().setCenterContent( content.getWidget() );
     }
   } 
-
-  private void hideSideBarContent() {
-    if( sideBarContent != null )
-      sideBarContent.onHide();
-  }  
-
-
-  private void hideCenterContent() {
-    if( centerContent != null )
-      centerContent.onHide();
-  }
 
   @Override
   public void onDisplayShortMessage(DisplayShortMessageEvent event) {

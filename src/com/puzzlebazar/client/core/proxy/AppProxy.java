@@ -9,30 +9,43 @@ import com.google.inject.Provider;
 import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.proxy.DirectProvider;
 import com.philbeaudoin.platform.mvp.client.proxy.ProxyImpl;
-import com.philbeaudoin.platform.mvp.client.proxy.SetContentEvent;
-import com.philbeaudoin.platform.mvp.client.proxy.SetContentHandler;
+import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
+import com.philbeaudoin.platform.mvp.client.proxy.RevealContentHandler;
 import com.puzzlebazar.client.core.presenter.AppPresenter;
 
 public class AppProxy extends ProxyImpl<AppPresenter> implements AppPresenter.MyProxy {
 
-  public static final Type<SetContentHandler<?>> TYPE_SetMainContent = new Type<SetContentHandler<?>>();
+  public static final Type<RevealContentHandler<?>> TYPE_RevealTopBarContent = new Type<RevealContentHandler<?>>();
+  public static final Type<RevealContentHandler<?>> TYPE_RevealMainContent = new Type<RevealContentHandler<?>>();
 
   @Inject
   public AppProxy(EventBus eventBus, Provider<AppPresenter> presenter ) {
     super(eventBus, new DirectProvider<AppPresenter>(presenter) );
   }
-  
+
   @Override
   protected void onBind() {
     super.onBind();
-    registerHandler( eventBus.addHandler( TYPE_SetMainContent, new SetContentHandler<AppPresenter>(this){
+
+    registerHandler( eventBus.addHandler( TYPE_RevealTopBarContent, new RevealContentHandler<AppPresenter>(this){
       @Override
-      public void onSetContent(
+      public void onRevealContent(
           AppPresenter presenter,
-          SetContentEvent setContentEvent) {
-            presenter.setMainContent( setContentEvent.getContent() );
-            presenter.reveal();
+          RevealContentEvent revealContentEvent) {
+        presenter.setTopBarContent( revealContentEvent.getContent() );
+        presenter.reveal();
       }
     } ) );
+
+    registerHandler( eventBus.addHandler( TYPE_RevealMainContent, new RevealContentHandler<AppPresenter>(this){
+      @Override
+      public void onRevealContent(
+          AppPresenter presenter,
+          RevealContentEvent revealContentEvent) {
+        presenter.setMainContent( revealContentEvent.getContent() );
+        presenter.reveal();
+      }
+    } ) );
+
   }
 }

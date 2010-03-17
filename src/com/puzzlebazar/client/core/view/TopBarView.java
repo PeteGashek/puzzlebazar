@@ -117,6 +117,7 @@ public class TopBarView implements TopBarPresenter.MyView {
 
   private static String getWindowOpenJS( String uri, String title) {
     return 
+    "window.alert('yaha!');" +
     "var w = window.open( '"+uri+"', '"+title+"', 'width=450,height=500,location=1,status=1,resizable=yes' );" +
     "w.moveTo( (window.innerWidth-450)/2, (window.innerHeight-500)/2 );";
   }
