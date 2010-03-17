@@ -23,7 +23,8 @@ ProxyImpl<P> implements TabContainerProxy<P> {
    * @param revealTabContentEventType The {@link Type} of the event used by 
    *        {@link Presenter} classes that want to be revealed within this container.
    */
-  public TabContainerProxyImpl(final EventBus eventBus, 
+  public TabContainerProxyImpl(
+      final EventBus eventBus, 
       final CallbackProvider<P> presenter,
       final Type<RevealContentHandler<?>> revealTabContentEventType ) {
     super(eventBus, presenter);

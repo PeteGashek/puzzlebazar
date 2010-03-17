@@ -38,7 +38,7 @@ public abstract class PresenterWidgetImpl<V extends View>
   }
   
   @Override
-  public void reveal() {
+  public final void reveal() {
     if( visible )
       return;
     visible = true;

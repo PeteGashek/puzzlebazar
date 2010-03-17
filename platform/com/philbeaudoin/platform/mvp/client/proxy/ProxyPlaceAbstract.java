@@ -43,10 +43,10 @@ implements Proxy<P>, Place {
     this.proxy = proxy;
     this.place = place;
   }
-  
+
   ///////////////////////
   // Inherited from Proxy
-  
+
   @Override
   protected void onBind() {
     super.onBind();
@@ -80,12 +80,12 @@ implements Proxy<P>, Place {
   public void getAbstractPresenter(Callback<Presenter> callback) {
     proxy.getAbstractPresenter(callback);
   }
-  
+
   @Override
   public void getPresenter(Callback<P> callback) {
     proxy.getPresenter(callback);
   }
-  
+
   @Override
   public void onPresenterChanged( Presenter presenter ) {
     proxy.onPresenterChanged( presenter );
@@ -98,10 +98,10 @@ implements Proxy<P>, Place {
     placeManager.onPlaceRevealed( presenter.prepareRequest( new PlaceRequest(getNameToken())) );  
   }
 
-  
+
   ///////////////////////
   // Inherited from Place
-  
+
   @Override
   public final boolean equals( Object o ) {
     return place.equals(o);
@@ -126,15 +126,15 @@ implements Proxy<P>, Place {
   public boolean matchesRequest(PlaceRequest request) {
     return place.matchesRequest(request);
   }
-  
+
   @Override
   public boolean canReveal() {
     return place.canReveal();
   }
-  
+
   ///////////////////////
   // Private methods
-  
+
   /**
    * Prepares the presenter with the information contained in the current 
    * request, then reveals it. Will refuse to reveal the display and do 
@@ -151,10 +151,15 @@ implements Proxy<P>, Place {
       @Override public void execute(P presenter) {
         if( request != null )
           presenter.prepareFromRequest( request );
-        presenter.reveal();
+        if( presenter.isVisible() )
+          // The presenter is already visible, nothing to do there; 
+          // the PlaceManager should still be notified, however.
+          onPresenterRevealed(presenter);
+        else
+          presenter.reveal();
       }
     } );
-    
+
   }
 
 }

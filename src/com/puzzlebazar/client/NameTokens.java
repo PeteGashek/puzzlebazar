@@ -29,5 +29,10 @@ public class NameTokens {
   public static String getMainPage() {
     return "!main";
   }
+
+  public static String getPuzzlePage() {
+    // TODO Temp, just for testing. This shouldn't be a place.
+    return "!puzzle";
+  }
   
 }

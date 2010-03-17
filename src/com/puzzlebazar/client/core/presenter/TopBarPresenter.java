@@ -6,20 +6,17 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.Command;
 import com.google.inject.Inject;
 import com.philbeaudoin.platform.dispatch.client.DispatchAsync;
+import com.philbeaudoin.platform.mvp.client.PresenterWidgetImpl;
 import com.philbeaudoin.platform.mvp.client.View;
-import com.philbeaudoin.platform.mvp.client.PresenterImpl;
 import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.proxy.PlaceManager;
-import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
-import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
 import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.CurrentUser;
-import com.puzzlebazar.client.core.proxy.AppProxy;
 import com.puzzlebazar.shared.action.Logout;
 import com.puzzlebazar.shared.action.NoResult;
 import com.puzzlebazar.shared.model.User;
 
-public class TopBarPresenter extends PresenterImpl<TopBarPresenter.MyView,TopBarPresenter.MyProxy> 
+public class TopBarPresenter extends PresenterWidgetImpl<TopBarPresenter.MyView> 
 implements CurrentUserChangedHandler {
 
   public interface MyView extends View {
@@ -29,8 +26,6 @@ implements CurrentUserChangedHandler {
     public HasClickHandlers getSignOut();
   }
 
-  public interface MyProxy extends Proxy<TopBarPresenter> {}
-
   private final PlaceManager placeManager;
   private final DispatchAsync dispatcher;
   private final CurrentUser currentUser;
@@ -39,20 +34,14 @@ implements CurrentUserChangedHandler {
   public TopBarPresenter(
       final EventBus eventBus, 
       final PlaceManager placeManager,
-      final MyView view, 
-      final MyProxy proxy,
+      final MyView view,
       final DispatchAsync dispatcher,
       final CurrentUser currentUser) {
-    super(eventBus, view, proxy);
+    super(eventBus, view);
 
     this.placeManager = placeManager;
     this.dispatcher = dispatcher;
     this.currentUser = currentUser;
-  }
-
-  @Override
-  protected void revealInParent() {
-    RevealContentEvent.fire(eventBus, AppProxy.TYPE_RevealTopBarContent, this);        
   }
 
   @Override

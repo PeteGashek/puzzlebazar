@@ -1,6 +1,5 @@
 package com.puzzlebazar.client.core.presenter;
 
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.philbeaudoin.platform.mvp.client.Presenter;
@@ -8,37 +7,53 @@ import com.philbeaudoin.platform.mvp.client.View;
 import com.philbeaudoin.platform.mvp.client.PresenterImpl;
 import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
+import com.philbeaudoin.platform.mvp.client.proxy.RevealRootContentEvent;
 
-public class AppPresenter extends PresenterImpl<AppPresenter.MyView, AppPresenter.MyProxy> {
+/**
+ * The top-level presenter that contains typical pages of the application.
+ * An exception are puzzles, that are displayed in their own top-level presenter.
+ * 
+ * @author Philippe Beaudoin
+ */
+public class PagePresenter extends PresenterImpl<PagePresenter.MyView, PagePresenter.MyProxy> {
 
   public interface MyView extends View {
     void setTopBarContent( Widget topBarContent );
     void setMainContent( Widget mainContent );
   }
   
-  public interface MyProxy extends Proxy<AppPresenter> {}  
+  public interface MyProxy extends Proxy<PagePresenter> {}  
 
-  private Presenter topBarContent = null;
+  private final TopBarPresenter topBarPresenter;
+  
   private Presenter mainContent = null;
   
   @Inject
-  public AppPresenter(
+  public PagePresenter(
       final EventBus eventBus, 
       final MyView view, 
-      final MyProxy proxy ) {
+      final MyProxy proxy,
+      final TopBarPresenter topBarPresenter ) {
     super(eventBus, view, proxy);
+
+    this.topBarPresenter = topBarPresenter;
   }  
 
   @Override
   protected void revealInParent() {
-    RootPanel.get().add(getWidget());    
+    RevealRootContentEvent.fire( eventBus, this );
+  }
+
+  @Override
+  protected void onReveal() {
+    super.onReveal();
+    getView().setTopBarContent( topBarPresenter.getWidget() );
   }
   
   @Override
   protected void revealChildren() {
     super.revealChildren();
-    if( topBarContent != null )
-      topBarContent.reveal();
+    topBarPresenter.reveal();
     if( mainContent != null )
       mainContent.reveal();
   }
@@ -46,20 +61,10 @@ public class AppPresenter extends PresenterImpl<AppPresenter.MyView, AppPresente
   @Override
   protected void notifyHideChildren() {
     super.notifyHideChildren();
-    if( topBarContent != null )
-      topBarContent.notifyHide();
+    topBarPresenter.notifyHide();    
     if( mainContent != null )
       mainContent.notifyHide();
   }  
-    
-  public void setTopBarContent(Presenter content) {
-    if( topBarContent != content ) {
-      if( topBarContent != null )
-        topBarContent.notifyHide();
-      topBarContent = content;
-      getView().setTopBarContent( content.getWidget() );
-    }
-  }
   
   public void setMainContent(Presenter content) {
     if( mainContent != content ) {
