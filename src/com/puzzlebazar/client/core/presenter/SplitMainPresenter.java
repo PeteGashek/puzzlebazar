@@ -48,7 +48,8 @@ implements DisplayShortMessageHandler {
   @Override
   protected void onReveal() {
     super.onReveal();
-    RevealDefaultLinkColumnEvent.fire(eventBus);
+    if( sideBarContent==null )
+      RevealDefaultLinkColumnEvent.fire(eventBus);
   }
   
   @Override
