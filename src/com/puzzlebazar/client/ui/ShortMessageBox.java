@@ -5,6 +5,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -23,15 +24,19 @@ public class ShortMessageBox extends Composite implements HasText {
 
   @Inject 
   static Resources resources;
+
+  @UiField
+  HTMLPanel messageBox;
   
   @UiField
   Label message;
-  
+
   public ShortMessageBox() {
     super();
     initWidget( binder.createAndBindUi( this ) );
+    clearText();
   }
-  
+
   @UiFactory
   public static Resources getResources() {
     return resources;
@@ -44,6 +49,16 @@ public class ShortMessageBox extends Composite implements HasText {
 
   @Override
   public void setText(String text) {
-    message.setText( text );
+    if( text == null || text.length() == 0 )
+      clearText();
+    else {
+      message.setText( text );
+      messageBox.setVisible(true);
+    }
   }
+
+  public void clearText() {
+    message.setText("");
+    messageBox.setVisible(false);
   }
+}

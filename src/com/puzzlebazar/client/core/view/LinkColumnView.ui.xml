@@ -1,8 +1,11 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 
+  <ui:with field='nameTokens' type='com.puzzlebazar.client.NameTokens' />
+
 	<g:FlowPanel>
 	   <g:Label>Link Column Placeholder</g:Label>
+	   <g:Hyperlink targetHistoryToken='{nameTokens.getPuzzlePage}'>Puzzles (temp!)</g:Hyperlink>
 	</g:FlowPanel>
 
 </ui:UiBinder>
