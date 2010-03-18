@@ -52,11 +52,7 @@
 		.centerContentContainer {
 			margin-left: leftColWidth;
 		}
-		
-		.messageBox {
-			margin-bottom: 2px;
-		}
-	</ui:style>
+			</ui:style>
 
 	<g:HTMLPanel addStyleNames="{style.mainContainer}">
 
@@ -73,7 +69,7 @@
         <div class="{style.exampleText}">
         <ui:msg description='Example search terms under the search bar.'>i.e. unsolved heyawake, new hard puzzles</ui:msg>
         </div>
-        <m:ShortMessageBox ui:field="shortMessageBox" addStyleNames="{style.messageBox}" />
+        <m:ShortMessageBox ui:field="shortMessageBox" />
       </div>
 			<div style="clear: both;" />
 		</div>

@@ -5,7 +5,9 @@
 		.container {
 			float: right;
       left: -50%;
-			position: relative;			
+			position: relative;
+			height: 22px;
+			margin-bottom: 2px;
 		}
 		
 		.box {
@@ -23,7 +25,7 @@
 	<ui:with field='resources' type='com.puzzlebazar.client.resources.Resources' />
 
 	<g:HTMLPanel addStyleNames="{style.container}">
-		<g:HTMLPanel addStyleNames="{style.box}">
+		<g:HTMLPanel addStyleNames="{style.box}" ui:field="messageBox" >
 			<div class="{resources.style.round2}" />
 			<div class="{resources.style.round1}" />
 			<g:Label addStyleNames="{style.inner}" ui:field="message" />

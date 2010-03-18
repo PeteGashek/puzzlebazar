@@ -33,7 +33,6 @@ public class SplitMainView implements SplitMainPresenter.MyView {
   public SplitMainView( Resources resources ) {
     this.resources = resources;
     widget = binder.createAndBindUi(this);
-    shortMessageBox.setVisible( false );
   }
   
   @Override 
@@ -57,12 +56,11 @@ public class SplitMainView implements SplitMainPresenter.MyView {
   public void showMessage(String message, boolean dismissable) {
     // TODO Take dismissable into account
     shortMessageBox.setText( message );
-    shortMessageBox.setVisible( true );
   }
 
 
   @Override
   public void clearMessage() {
-    shortMessageBox.setVisible( false );
+    shortMessageBox.clearText();
   }
 }
