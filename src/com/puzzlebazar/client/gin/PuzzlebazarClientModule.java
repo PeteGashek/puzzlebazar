@@ -54,6 +54,7 @@ import com.puzzlebazar.client.resources.Resources;
 import com.puzzlebazar.client.resources.Translations;
 import com.puzzlebazar.client.ui.ShortMessageBox;
 import com.puzzlebazar.client.ui.SimpleTabPanel;
+import com.puzzlebazar.client.ui.SquareGridLayoutPanel;
 import com.puzzlebazar.client.util.ChangeMonitor;
 import com.puzzlebazar.client.util.DefaultChangeMonitor;
 
@@ -87,6 +88,9 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     requestStaticInjection(SimpleTabPanel.class);
     requestStaticInjection(ShortMessageBox.class);
     requestStaticInjection(ActionCallback.class);
+    
+    // Widgets
+    bind( SquareGridLayoutPanel.class );
     
     // Presenter widget
     bindPresenterWidget(NewsItemPresenter.class, NewsItemPresenter.MyView.class, NewsItemView.class);

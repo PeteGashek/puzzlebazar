@@ -22,6 +22,14 @@ public interface Resources extends ClientBundle {
     String round1();
     String round2();
     String round4();
+    String gray();
+    String black();
+    String yellow();
+    String transparent();
+    String vertex();
+    String edge();
+    String cell();
+    String selectedCell();
   }  
 
   public interface Defines extends CssResource {

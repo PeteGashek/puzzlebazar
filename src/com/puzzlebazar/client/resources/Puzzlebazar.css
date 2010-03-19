@@ -42,3 +42,47 @@ a,a:visited,a:hover {
 	border-left: 4px solid white;
 	border-right: 4px solid white;
 }
+
+.black {
+	background-color: black;
+}
+
+.gray {
+	background-color: gray;
+}
+
+.yellow {
+	background-color: yellow;
+}
+
+@if user.agent ie6 {
+	.transparent {
+		filter: literal("alpha(opacity=50)");
+	}
+}
+@elif user.agent ie8 {
+	.transparent {
+		-ms-filter: "alpha(opacity=50)";
+	}
+}
+@else {
+	.transparent {
+		opacity: 0.5;
+	}
+}
+
+.vertex {
+	z-index: 4;
+}
+
+.edge {
+	z-index: 3;
+}
+
+.cell {
+	z-index: 2;
+}
+
+.selectedCell {
+	z-index: 5;
+}
