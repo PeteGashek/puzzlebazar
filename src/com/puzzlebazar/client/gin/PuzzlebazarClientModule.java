@@ -5,12 +5,14 @@ import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.gin.AbstractPresenterModule;
 import com.philbeaudoin.platform.mvp.client.proxy.ParameterTokenFormatter;
 import com.philbeaudoin.platform.mvp.client.proxy.PlaceManager;
-import com.philbeaudoin.platform.mvp.client.proxy.ProxyBase;
+import com.philbeaudoin.platform.mvp.client.proxy.ProxyFailureHandler;
+import com.philbeaudoin.platform.mvp.client.proxy.ProxyRaw;
 import com.philbeaudoin.platform.mvp.client.proxy.TokenFormatter;
 import com.philbeaudoin.platform.mvp.client.proxy.RootProxy;
 
 import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.CurrentUser;
+import com.puzzlebazar.client.FailureHandlerAlert;
 import com.puzzlebazar.client.PuzzlebazarPlaceManager;
 import com.puzzlebazar.client.core.presenter.AdminGeneralPresenter;
 import com.puzzlebazar.client.core.presenter.AdminTabPresenter;
@@ -29,7 +31,6 @@ import com.puzzlebazar.client.core.presenter.UserSettingsTabPresenter;
 import com.puzzlebazar.client.core.proxy.AdminGeneralProxy;
 import com.puzzlebazar.client.core.proxy.AdminTabProxy;
 import com.puzzlebazar.client.core.proxy.AdminUsersProxy;
-import com.puzzlebazar.client.core.proxy.PageProxy;
 import com.puzzlebazar.client.core.proxy.LinkColumnProxy;
 import com.puzzlebazar.client.core.proxy.MainPageProxy;
 import com.puzzlebazar.client.core.proxy.PuzzleProxy;
@@ -76,7 +77,8 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     bind(TokenFormatter.class).to(ParameterTokenFormatter.class).in(Singleton.class);
     bind(CurrentUser.class).asEagerSingleton();
     bind(RootProxy.class).asEagerSingleton();
-
+    bind(ProxyFailureHandler.class).to(FailureHandlerAlert.class).in(Singleton.class);
+    
     // Non-singletons
     bind(ChangeMonitor.class).to(DefaultChangeMonitor.class);
     
@@ -100,8 +102,8 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     bind(TabbedPresenterBundle.class).in(Singleton.class);
 
     // Presenters
-    bind(ProxyBase.class).annotatedWith(DefaultPlace.class).to(MainPageProxy.class);
-    bindPresenter(PagePresenter.class,PagePresenter.MyView.class, PageView.class, PagePresenter.MyProxy.class, PageProxy.class);
+    bind(ProxyRaw.class).annotatedWith(DefaultPlace.class).to(MainPageProxy.class);
+//    bindPresenter(PagePresenter.class,PagePresenter.MyView.class, PageView.class, PagePresenter.MyProxy.class, PageProxy.class);
     bindPresenter(SplitMainPresenter.class, SplitMainPresenter.MyView.class, SplitMainView.class, SplitMainPresenter.MyProxy.class, SplitMainProxy.class );
     bindPresenter(LinkColumnPresenter.class, LinkColumnPresenter.MyView.class, LinkColumnView.class, LinkColumnPresenter.MyProxy.class, LinkColumnProxy.class );
     bindPresenter(UserSettingsTabPresenter.class, UserSettingsTabPresenter.MyView.class, UserSettingsTabView.class, UserSettingsTabPresenter.MyProxy.class, UserSettingsTabProxy.class );
@@ -112,6 +114,11 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     bindPresenter(AdminUsersPresenter.class, AdminUsersPresenter.MyView.class, AdminUsersView.class, AdminUsersPresenter.MyProxy.class, AdminUsersProxy.class);
     bindPresenter(MainPagePresenter.class, MainPagePresenter.MyView.class, MainPageView.class, MainPagePresenter.MyProxy.class, MainPageProxy.class);
     bindPresenter(PuzzlePresenter.class, PuzzlePresenter.MyView.class, PuzzleView.class, PuzzlePresenter.MyProxy.class, PuzzleProxy.class);
+
+    bind( PagePresenter.class ).in( Singleton.class );
+    bind( PageView.class ).in( Singleton.class );
+    bind( PagePresenter.MyProxy.class ).in( Singleton.class );
+    bind( PagePresenter.MyView.class ).to( PageView.class );
     
   }
 }

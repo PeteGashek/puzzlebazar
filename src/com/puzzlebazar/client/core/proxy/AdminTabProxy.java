@@ -6,10 +6,9 @@ package com.puzzlebazar.client.core.proxy;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.inject.client.AsyncProvider;
 import com.google.inject.Inject;
-import com.philbeaudoin.platform.mvp.client.EventBus;
+import com.philbeaudoin.platform.mvp.client.CodeSplitBundleProvider;
 import com.philbeaudoin.platform.mvp.client.proxy.TabContainerProxyImpl;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentHandler;
-import com.puzzlebazar.client.ProviderBundle;
 import com.puzzlebazar.client.core.presenter.AdminTabPresenter;
 import com.puzzlebazar.client.core.presenter.TabbedPresenterBundle;
 import com.puzzlebazar.client.resources.Translations;
@@ -20,16 +19,13 @@ public class AdminTabProxy extends TabContainerProxyImpl<AdminTabPresenter> impl
 
   @Inject
   public AdminTabProxy(
-      final EventBus eventBus, 
       final AsyncProvider<TabbedPresenterBundle> presenterBundle,
       final Translations translations) {
-    super(eventBus,  
-        new ProviderBundle.CodeSplit<AdminTabPresenter,TabbedPresenterBundle>(
+    this.presenter = 
+        new CodeSplitBundleProvider<AdminTabPresenter,TabbedPresenterBundle>(
             presenterBundle,
-            TabbedPresenterBundle.ID_AdminPresenter,
-            translations), 
-            TYPE_RevealTabContent);
+            TabbedPresenterBundle.ID_AdminPresenter);
+    this.revealTabContentEventType = TYPE_RevealTabContent;
   }
-
 
 }

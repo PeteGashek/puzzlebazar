@@ -1,35 +1,43 @@
 package com.philbeaudoin.platform.mvp.client.proxy;
 
-import com.google.inject.Provider;
-import com.philbeaudoin.platform.mvp.client.EventBus;
-import com.philbeaudoin.platform.mvp.client.HandlerContainerImpl;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.inject.Inject;
+import com.philbeaudoin.platform.mvp.client.IndirectProvider;
 import com.philbeaudoin.platform.mvp.client.Presenter;
 
-public class ProxyImpl<P extends Presenter> extends HandlerContainerImpl 
+public class ProxyImpl<P extends Presenter> 
 implements Proxy<P> {
 
-  protected final EventBus eventBus;
-  protected final CallbackProvider<P> presenter;
+  protected ProxyFailureHandler failureHandler;
+  protected IndirectProvider<P> presenter;
 
   /**
    * Creates a Proxy class for a specific presenter.
-   * 
-   * @param eventBus The {@link EventBus}.
-   * @param presenter A {@link Provider} for the {@link Presenter} of which this class is a proxy. 
    */
-  public ProxyImpl( final EventBus eventBus, final CallbackProvider<P> presenter ) {
-    this.eventBus = eventBus;
-    this.presenter = presenter;
-  }
+  public ProxyImpl() {}
 
+  /**
+   * Injects the various resources and performs other bindings. 
+   * <p />
+   * Never call directly, it should only be called by GIN.
+   * Method injection is used instead of constructor injection, because the 
+   * latter doesn't work well with GWT generators.
+   * 
+   * @param failureHandler The {@link ProxyFailureHandler}.
+   */
+  @Inject
+  protected void bind( ProxyFailureHandler failureHandler ) {
+    this.failureHandler = failureHandler;    
+  }
+  
   @SuppressWarnings("unchecked")
   @Override
-  public void getAbstractPresenter(Callback<Presenter> callback) {
-    presenter.get((Callback<P>) callback);
+  public void getRawPresenter(AsyncCallback<Presenter> callback) {
+    presenter.get((AsyncCallback<P>) callback);
   }
   
   @Override
-  public void getPresenter( Callback<P> callback ) {
+  public void getPresenter( AsyncCallback<P> callback ) {
     presenter.get(callback);
   }
 

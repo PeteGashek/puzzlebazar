@@ -31,4 +31,7 @@
 	<source path='client' />
 	<source path='shared' />
 
+	<define-configuration-property name="mvp.entryPoint" is-multi-valued="false" />
+    <set-configuration-property name="mvp.entryPoint" value="com.puzzlebazar.client.Puzzlebazar" />
+
 </module>

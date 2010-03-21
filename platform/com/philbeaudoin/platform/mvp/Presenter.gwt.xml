@@ -3,6 +3,10 @@
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
 
+  <generate-with class="com.philbeaudoin.platform.mvp.rebind.ProxyGenerator">
+    <when-type-assignable class="com.philbeaudoin.platform.mvp.client.proxy.ProxyInt" />
+  </generate-with>
+  
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
   <source path='shared'/>

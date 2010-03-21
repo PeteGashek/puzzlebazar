@@ -1,0 +1,185 @@
+package com.philbeaudoin.platform.mvp.rebind;
+
+import java.io.PrintWriter;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.ext.BadPropertyValueException;
+import com.google.gwt.core.ext.Generator;
+import com.google.gwt.core.ext.GeneratorContext;
+import com.google.gwt.core.ext.TreeLogger;
+import com.google.gwt.core.ext.UnableToCompleteException;
+import com.google.gwt.core.ext.typeinfo.JClassType;
+import com.google.gwt.core.ext.typeinfo.JField;
+import com.google.gwt.core.ext.typeinfo.JMethod;
+import com.google.gwt.core.ext.typeinfo.JPackage;
+import com.google.gwt.inject.client.AsyncProvider;
+import com.google.gwt.inject.client.Ginjector;
+import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
+import com.google.gwt.user.rebind.SourceWriter;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.philbeaudoin.platform.mvp.client.CodeSplitProvider;
+import com.philbeaudoin.platform.mvp.client.EventBus;
+import com.philbeaudoin.platform.mvp.client.Presenter;
+import com.philbeaudoin.platform.mvp.client.StandardProvider;
+import com.philbeaudoin.platform.mvp.client.proxy.ProxyFailureHandler;
+import com.philbeaudoin.platform.mvp.client.proxy.ProxyImpl;
+import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
+import com.philbeaudoin.platform.mvp.client.proxy.RevealContentHandler;
+
+public class ProxyGenerator extends Generator {
+
+  private static final String basePresenterClassName = Presenter.class.getCanonicalName();
+  private static final String ginjectorClassName = Ginjector.class.getCanonicalName();
+
+  @Override
+  public String generate(TreeLogger logger, GeneratorContext ctx, String requestedClass)
+  throws UnableToCompleteException {
+
+    JClassType proxyInterface = ctx.getTypeOracle().findType(requestedClass);
+    String entryPointClassName = null;
+    try {
+      entryPointClassName = ctx.getPropertyOracle().getConfigurationProperty("mvp.entryPoint").getValues().get(0);
+    } catch (BadPropertyValueException e) {
+      logger.log(TreeLogger.ERROR, "The required configuration property 'mvp.entryPoint' was not found.", e);
+      throw new UnableToCompleteException();
+    }
+    JClassType entryPointClass = ctx.getTypeOracle().findType(entryPointClassName);
+    JClassType ginjectorClass = ctx.getTypeOracle().findType(ginjectorClassName);
+    String customGingectorClassName = null;
+    String ginjectorInstanceName = null;
+    for( JField field : entryPointClass.getFields() ) {
+      JClassType fieldType = field.getType().isClassOrInterface();
+      if( field.isStatic() && fieldType != null && fieldType.isAssignableTo( ginjectorClass ) ) {
+        customGingectorClassName = fieldType.getParameterizedQualifiedSourceName();
+        ginjectorInstanceName = entryPointClassName + "." + field.getName();
+        break;
+      }
+    }
+    if( customGingectorClassName == null || ginjectorInstanceName == null ) {
+      logger.log(TreeLogger.ERROR, "The entry point class '" + entryPointClassName + 
+          "' must include a static field containing the ginjector instance.", null);
+      throw new UnableToCompleteException();
+    }
+    
+    
+    if (proxyInterface == null) {
+      logger.log(TreeLogger.ERROR, "Unable to find metadata for type '"
+          + requestedClass + "'", null);
+
+      throw new UnableToCompleteException();
+    }
+
+    // Make sure this proxy lies within a presenter
+    JClassType basePresenterClass = ctx.getTypeOracle().findType( basePresenterClassName );
+    JClassType presenterClass = proxyInterface.getEnclosingType();
+    if( presenterClass == null || 
+        !presenterClass.isAssignableTo( basePresenterClass ) ) {
+      logger.log(TreeLogger.ERROR, "Proxy must be enclosed in a class derived from '"
+          + basePresenterClassName + "'", null);
+
+      throw new UnableToCompleteException();
+    }    
+    String presenterClassName = presenterClass.getName();
+
+    // This is the Injector we use for the Generator internally,
+    // it has nothing to do with user code.   
+    JPackage interfacePackage = proxyInterface.getPackage();
+    String packageName = interfacePackage == null ? "" : interfacePackage.getName();
+    String implClassName = presenterClassName + proxyInterface.getSimpleSourceName() + "Impl";
+    String generatedClassName = packageName + "." + implClassName;
+
+
+    UseCodeSplit codeSplitAnnotation = proxyInterface.getAnnotation( UseCodeSplit.class );
+    UseCodeSplitBundle codeSplitBundleAnnotation = proxyInterface.getAnnotation( UseCodeSplitBundle.class );
+
+    if( codeSplitAnnotation != null && codeSplitBundleAnnotation != null ) {
+      logger.log(TreeLogger.ERROR, "Proxy cannot have both annotations '" +
+          codeSplitAnnotation.getClass().getSimpleName() + "' and '" +
+          codeSplitBundleAnnotation.getClass().getSimpleName()  + "'", null);
+      throw new UnableToCompleteException();
+    }    
+
+    PrintWriter printWriter = ctx.tryCreate(logger, packageName, implClassName);
+    if (printWriter == null) {
+      // We've already created it, so nothing to do
+    } else {
+      ClassSourceFileComposerFactory composerFactory = new ClassSourceFileComposerFactory(
+          packageName, implClassName);      
+      composerFactory.addImplementedInterface(
+          proxyInterface.getParameterizedQualifiedSourceName());
+      composerFactory.addImport(GWT.class.getCanonicalName());
+      composerFactory.addImport(Inject.class.getCanonicalName());
+      composerFactory.addImport(Provider.class.getCanonicalName());
+      composerFactory.addImport(AsyncProvider.class.getCanonicalName());
+      composerFactory.addImport(EventBus.class.getCanonicalName());
+      composerFactory.addImport(StandardProvider.class.getCanonicalName());
+      composerFactory.addImport(CodeSplitProvider.class.getCanonicalName());
+      composerFactory.addImport(ProxyImpl.class.getCanonicalName());
+      composerFactory.addImport(ProxyFailureHandler.class.getCanonicalName());
+      composerFactory.addImport(RevealContentHandler.class.getCanonicalName());
+      composerFactory.addImport(RevealContentEvent.class.getCanonicalName());
+      composerFactory.setSuperclass(ProxyImpl.class.getCanonicalName()+"<"+presenterClassName+">" );
+      SourceWriter writer = composerFactory.createSourceWriter(ctx, printWriter);
+
+      writer.println( "public " +  implClassName + "() {");
+      writer.println();
+      writer.indent();
+      writer.println( customGingectorClassName + " injector = " + ginjectorInstanceName + ";"  );
+      writer.println( "EventBus eventBus = injector.getEventBus();"  );
+      writer.println( "ProxyFailureHandler failureHandler = injector.getProxyFailureHandler();" );
+      if( codeSplitAnnotation == null && codeSplitBundleAnnotation == null ) {
+        // StandardProvider
+        writer.println( "presenter = new StandardProvider<" + presenterClassName + ">( injector.get" +
+            presenterClassName + "() );" );
+      }
+      else if( codeSplitAnnotation != null ) {
+        // CodeSplitProvider
+        writer.println( "presenter = new CodeSplitProvider<" + presenterClassName + ">( injector.get" +
+            presenterClassName + "() );" );
+      }
+      else {
+        // CodeSplitBundleProvider        
+        String bundleClassName = codeSplitBundleAnnotation.bundleClass().getCanonicalName();
+        writer.println( "AsyncProvider<" + bundleClassName + "> presenterBundle ) {");
+        writer.outdent(); 
+        writer.println( "presenter = new CodeSplitBundleProvider<" + presenterClassName + ", " +
+            bundleClassName + ">( injector.get" + bundleClassName + "(), " + codeSplitBundleAnnotation.id() + ");" );
+      }
+      
+      for( JMethod method : presenterClass.getMethods() ) {
+        RevealEventType annotation = method.getAnnotation( RevealEventType.class );
+        if( method.getParameters().length == 1 && method.getParameters()[0].getType().isClassOrInterface().isAssignableTo(basePresenterClass) &&
+            annotation != null ) {
+          writer.println();
+          writer.println( "eventBus.addHandler( " +
+              presenterClassName + "." + annotation.value() + 
+              ", new RevealContentHandler<" + presenterClassName +  ">(failureHandler, this){" );
+          writer.indent();
+          writer.println( "@Override" );
+          writer.println( "public void onRevealContent(" );
+          writer.indent();
+          writer.indent();
+          writer.println( "final " + presenterClassName + " presenter," );
+          writer.println( "final RevealContentEvent revealContentEvent) {" );
+          writer.outdent();
+          writer.println( "presenter." + method.getName() + "( revealContentEvent.getContent() );" );
+          writer.println( "presenter.reveal();" );
+          writer.outdent();
+          writer.println( "}" );
+          writer.outdent();
+          writer.println( "} );" );
+        }
+      }
+      
+      writer.outdent();
+      writer.println( "}" );
+
+      writer.commit(logger);
+
+
+    }
+
+    return generatedClassName;    
+  }
+}

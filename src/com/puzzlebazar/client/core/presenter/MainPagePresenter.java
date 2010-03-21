@@ -1,17 +1,18 @@
 package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.inject.client.AsyncProvider;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.philbeaudoin.platform.mvp.client.CodeSplitProvider;
+import com.philbeaudoin.platform.mvp.client.IndirectProvider;
 import com.philbeaudoin.platform.mvp.client.View;
 import com.philbeaudoin.platform.mvp.client.PresenterImpl;
 import com.philbeaudoin.platform.mvp.client.EventBus;
-import com.philbeaudoin.platform.mvp.client.proxy.Callback;
-import com.philbeaudoin.platform.mvp.client.proxy.CallbackProvider;
 import com.philbeaudoin.platform.mvp.client.proxy.Place;
 import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
+import com.philbeaudoin.platform.mvp.client.proxy.ProxyFailureHandler;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
-import com.puzzlebazar.client.CodeSplitProvider;
 import com.puzzlebazar.client.core.proxy.SplitMainProxy;
 
 /**
@@ -29,16 +30,18 @@ extends PresenterImpl<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
 
   public interface MyProxy extends Proxy<MainPagePresenter>, Place {}
 
-  private final CallbackProvider<NewsItemPresenter> newsItemFactory;
+  private final ProxyFailureHandler failureHandler;
+  private final IndirectProvider<NewsItemPresenter> newsItemFactory;
 
   @Inject
   public MainPagePresenter(
+      final ProxyFailureHandler failureHandler,
       final EventBus eventBus, 
       final MyView view,  
       final MyProxy proxy,
       final AsyncProvider<NewsItemPresenter> newsItemFactory ) {
     super( eventBus, view, proxy );
-
+    this.failureHandler = failureHandler;
     this.newsItemFactory = new CodeSplitProvider<NewsItemPresenter>(newsItemFactory);
   }
 
@@ -57,9 +60,13 @@ extends PresenterImpl<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
     //      it will add news items every time the main page is reloaded
 
     for( int i=0; i<3; ++i ) {
-      newsItemFactory.get( new Callback<NewsItemPresenter>(){
+      newsItemFactory.get( new AsyncCallback<NewsItemPresenter>(){
         @Override
-        public void execute(NewsItemPresenter newsItemPresenter) {
+        public void onFailure(Throwable caught) {
+          failureHandler.onFailedGetPresenter(caught);
+        }
+        @Override
+        public void onSuccess(NewsItemPresenter newsItemPresenter) {
           newsItemPresenter.setTitle( "Title " + index );
           index++;
           view.addNewsWidget( newsItemPresenter.getWidget() );

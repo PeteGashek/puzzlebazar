@@ -6,7 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.proxy.PlaceManagerImpl;
-import com.philbeaudoin.platform.mvp.client.proxy.ProxyBase;
+import com.philbeaudoin.platform.mvp.client.proxy.ProxyRaw;
 import com.philbeaudoin.platform.mvp.client.proxy.TokenFormatter;
 import com.puzzlebazar.client.gin.DefaultPlace;
 
@@ -16,7 +16,7 @@ import com.puzzlebazar.client.gin.DefaultPlace;
  */
 public class PuzzlebazarPlaceManager extends PlaceManagerImpl {
 
-  private final Provider<ProxyBase> defaultProxy;
+  private final Provider<ProxyRaw> defaultProxy;
   private final CurrentUser currentUser;
   private final Timer retryTimer;
   private final int retryDelay;
@@ -27,7 +27,7 @@ public class PuzzlebazarPlaceManager extends PlaceManagerImpl {
   public PuzzlebazarPlaceManager(
       final EventBus eventBus, 
       final TokenFormatter tokenFormatter,
-      @DefaultPlace final Provider<ProxyBase> defaultProxy,
+      @DefaultPlace final Provider<ProxyRaw> defaultProxy,
       final CurrentUser currentUser ) {
     super(eventBus, tokenFormatter);
 
