@@ -1,6 +1,5 @@
 package com.philbeaudoin.platform.mvp.client.proxy;
 
-import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.Presenter;
 
 /**
@@ -14,13 +13,4 @@ import com.philbeaudoin.platform.mvp.client.Presenter;
  */
 public class ProxyPlace<P extends Presenter> 
 extends ProxyPlaceAbstract<P, Proxy<P>> {
-
-  public ProxyPlace(
-      final EventBus eventBus, 
-      final PlaceManager placeManager,
-      final Proxy<P> proxy, 
-      final Place place) {
-    super(eventBus, placeManager, proxy, place);
-  }
-
 }

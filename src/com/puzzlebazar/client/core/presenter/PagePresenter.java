@@ -1,13 +1,17 @@
 package com.puzzlebazar.client.core.presenter;
 
+import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.philbeaudoin.platform.mvp.client.Presenter;
 import com.philbeaudoin.platform.mvp.client.View;
 import com.philbeaudoin.platform.mvp.client.PresenterImpl;
 import com.philbeaudoin.platform.mvp.client.EventBus;
-import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
+import com.philbeaudoin.platform.mvp.client.proxy.ProxyInt;
+import com.philbeaudoin.platform.mvp.client.proxy.RevealContentHandler;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealRootContentEvent;
+import com.philbeaudoin.platform.mvp.rebind.RevealEventType;
+import com.philbeaudoin.platform.mvp.rebind.UseCodeSplit;
 
 /**
  * The top-level presenter that contains typical pages of the application.
@@ -17,16 +21,21 @@ import com.philbeaudoin.platform.mvp.client.proxy.RevealRootContentEvent;
  */
 public class PagePresenter extends PresenterImpl<PagePresenter.MyView, PagePresenter.MyProxy> {
 
+  public static final Type<RevealContentHandler<?>> TYPE_RevealMainContent = new Type<RevealContentHandler<?>>();
+
   public interface MyView extends View {
     void setTopBarContent( Widget topBarContent );
     void setMainContent( Widget mainContent );
   }
   
-  public interface MyProxy extends Proxy<PagePresenter> {}  
+  @UseCodeSplit
+  public interface MyProxy extends ProxyInt<PagePresenter> {
+  }  
 
   private final TopBarPresenter topBarPresenter;
   
   private Presenter mainContent = null;
+
   
   @Inject
   public PagePresenter(
@@ -66,6 +75,7 @@ public class PagePresenter extends PresenterImpl<PagePresenter.MyView, PagePrese
       mainContent.notifyHide();
   }  
   
+  @RevealEventType( "TYPE_RevealMainContent" )
   public void setMainContent(Presenter content) {
     if( mainContent != content ) {
       if( mainContent != null )

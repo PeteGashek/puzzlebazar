@@ -1,12 +1,14 @@
 package com.philbeaudoin.platform.mvp.client.proxy;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.inject.Inject;
 import com.philbeaudoin.platform.mvp.client.EventBus;
-import com.philbeaudoin.platform.mvp.client.HandlerContainerImpl;
 import com.philbeaudoin.platform.mvp.client.Presenter;
 
 /**
  * A useful mixing class to define a {@link Proxy} that is also
- * a {@link Place}. You can usually use the simpler form {@link ProxyPlace}.
+ * a {@link Place}. You can usually inherit from the simpler 
+ * form {@link ProxyPlace}.
  * <p />
  * @param <P> Type of the associated {@link Presenter}.
  * @param <Proxy_> Type of the associated {@link Proxy}.
@@ -14,45 +16,38 @@ import com.philbeaudoin.platform.mvp.client.Presenter;
  * @author David Peterson
  * @author Philippe Beaudoin
  */
-public class ProxyPlaceAbstract<P extends Presenter, Proxy_ extends Proxy<P>> 
-extends HandlerContainerImpl 
+public class ProxyPlaceAbstract<P extends Presenter, Proxy_ extends Proxy<P>>
 implements Proxy<P>, Place {
 
-  protected final EventBus eventBus;
-  protected final PlaceManager placeManager;
-  protected final Proxy_ proxy;
-  protected final Place place;
+  private ProxyFailureHandler failureHandler;
+  protected PlaceManager placeManager;
+  protected Proxy_ proxy;
+  protected Place place;
 
   /**
-   * Creates a {@link ProxyPlace} for a {@link Presenter} that 
-   * is attached to a {@link ProxyPlace}. That is, this presenter can
-   * be invoked by setting its a history token that matches
+   * Creates a {@link ProxyPlaceAbstract}. That is, the {@link Proxy} of a 
+   * {@link Presenter} attached to a {@link Place}. This presenter 
+   * can be invoked by setting a history token that matches
    * its name token in the URL bar.
-   * 
-   * @param eventBus The {@link EventBus}.
-   * @param placeManager The {@link PlaceManager}.
-   * @param proxy The {@link Proxy} to wrap within a {@link ProxyPlace}. 
    */
-  public ProxyPlaceAbstract( 
-      final EventBus eventBus, 
-      final PlaceManager placeManager, 
-      final Proxy_ proxy,
-      final Place place) {
-    this.eventBus = eventBus;
+  public ProxyPlaceAbstract() {}
+
+  /**
+   * Injects the various resources and performs other bindings. 
+   * <p />
+   * Never call directly, it should only be called by GIN.
+   * Method injection is used instead of constructor injection, because the 
+   * latter doesn't work well with GWT generators.
+   * 
+   * @param failureHandler The {@link ProxyFailureHandler}.
+   * @param placeManager The {@link PlaceManager}.
+   * @param eventBus The {@link EventBus}.
+   */
+  @Inject
+  protected void bind( ProxyFailureHandler failureHandler, PlaceManager placeManager, EventBus eventBus ) {
+    this.failureHandler = failureHandler;
     this.placeManager = placeManager;
-    this.proxy = proxy;
-    this.place = place;
-  }
-
-  ///////////////////////
-  // Inherited from Proxy
-
-  @Override
-  protected void onBind() {
-    super.onBind();
-    proxy.bind();
-
-    registerHandler( eventBus.addHandler( PlaceRequestEvent.getType(), new PlaceRequestHandler() {
+    eventBus.addHandler( PlaceRequestEvent.getType(), new PlaceRequestHandler() {
       public void onPlaceRequest( PlaceRequestEvent event ) {
         if( event.isHandled() )
           return;
@@ -62,27 +57,25 @@ implements Proxy<P>, Place {
           handleRequest( request );
         }
       }
-    } ) );
+    } );
   }
 
-  @Override
-  protected void onUnbind() {
-    super.onUnbind();
-    proxy.unbind();
-  }
 
+  ///////////////////////
+  // Inherited from Proxy
+  
   @Override
   public final void reveal() {
     handleRequest(null);
   }
 
   @Override
-  public void getAbstractPresenter(Callback<Presenter> callback) {
-    proxy.getAbstractPresenter(callback);
+  public void getRawPresenter(AsyncCallback<Presenter> callback) {
+    proxy.getRawPresenter(callback);
   }
 
   @Override
-  public void getPresenter(Callback<P> callback) {
+  public void getPresenter(AsyncCallback<P> callback) {
     proxy.getPresenter(callback);
   }
 
@@ -147,8 +140,14 @@ implements Proxy<P>, Place {
   private final void handleRequest( final PlaceRequest request ) {
     if( !canReveal() || !placeManager.confirmLeaveState() )
       return;
-    proxy.getPresenter( new Callback<P>() {
-      @Override public void execute(P presenter) {
+    proxy.getPresenter( new AsyncCallback<P>() {
+      @Override
+      public void onFailure(Throwable caught) {
+        failureHandler.onFailedGetPresenter(caught);
+      }
+
+      @Override
+      public void onSuccess(P presenter) {
         if( request != null )
           presenter.prepareFromRequest( request );
         if( presenter.isVisible() )

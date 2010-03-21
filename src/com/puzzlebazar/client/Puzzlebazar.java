@@ -6,13 +6,14 @@ import com.google.gwt.core.client.GWT;
 import com.puzzlebazar.client.gin.PuzzlebazarGinjector;
 
 public class Puzzlebazar implements EntryPoint {
-  private final PuzzlebazarGinjector injector = GWT.create(PuzzlebazarGinjector.class);
-
+  public static final PuzzlebazarGinjector ginjector = GWT.create(PuzzlebazarGinjector.class);
 
   public void onModuleLoad() {
 
-    injector.getResources().style().ensureInjected();
-    injector.getPlaceManager().revealCurrentPlace();
+    ginjector.getPagePresenterProxy();
+    
+    ginjector.getResources().style().ensureInjected();
+    ginjector.getPlaceManager().revealCurrentPlace();
 
   }
 

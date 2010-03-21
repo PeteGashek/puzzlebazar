@@ -8,7 +8,6 @@ import com.philbeaudoin.platform.mvp.client.PresenterImpl;
 import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
-import com.puzzlebazar.client.core.proxy.PageProxy;
 
 public class SplitMainPresenter 
 extends PresenterImpl<SplitMainPresenter.MyView, SplitMainPresenter.MyProxy>
@@ -36,7 +35,7 @@ implements DisplayShortMessageHandler {
 
   @Override
   protected void revealInParent() {
-    RevealContentEvent.fire(eventBus, PageProxy.TYPE_RevealMainContent, this);
+    RevealContentEvent.fire(eventBus, PagePresenter.TYPE_RevealMainContent, this);
   }
 
   @Override

@@ -1,6 +1,7 @@
 package com.philbeaudoin.platform.mvp.client.proxy;
 
 import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.philbeaudoin.platform.mvp.client.Presenter;
 
 /**
@@ -13,9 +14,11 @@ import com.philbeaudoin.platform.mvp.client.Presenter;
  */
 public abstract class RevealContentHandler<P extends Presenter> implements EventHandler {
 
+  private final ProxyFailureHandler failureHandler;
   private final ProxyImpl<P> proxy;
 
-  public RevealContentHandler( final ProxyImpl<P> proxy ) {
+  public RevealContentHandler( final ProxyFailureHandler failureHandler, final ProxyImpl<P> proxy ) {
+    this.failureHandler = failureHandler;
     this.proxy = proxy;
   }
 
@@ -25,8 +28,13 @@ public abstract class RevealContentHandler<P extends Presenter> implements Event
    * @param setContentEvent The event containing the presenter that wants to bet set as content.
    */
   public final void executeRevealContent(final RevealContentEvent setContentEvent) {
-    proxy.getPresenter( new Callback<P>() {
-      @Override public void execute(P presenter) {
+    proxy.getPresenter( new AsyncCallback<P>() {
+      @Override
+      public void onFailure(Throwable caught) {
+        failureHandler.onFailedGetPresenter( caught );
+      }
+      @Override
+      public void onSuccess(P presenter) {
         onRevealContent( presenter, setContentEvent );
       } 
     } );

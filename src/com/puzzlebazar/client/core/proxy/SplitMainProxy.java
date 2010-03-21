@@ -7,7 +7,8 @@ import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.philbeaudoin.platform.mvp.client.EventBus;
-import com.philbeaudoin.platform.mvp.client.proxy.DirectProvider;
+import com.philbeaudoin.platform.mvp.client.StandardProvider;
+import com.philbeaudoin.platform.mvp.client.proxy.ProxyFailureHandler;
 import com.philbeaudoin.platform.mvp.client.proxy.ProxyImpl;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentHandler;
@@ -19,16 +20,14 @@ public class SplitMainProxy extends ProxyImpl<SplitMainPresenter>  implements Sp
   public static final Type<RevealContentHandler<?>> TYPE_RevealCenterContent = new Type<RevealContentHandler<?>>();
 
   @Inject
-  public SplitMainProxy(EventBus eventBus, Provider<SplitMainPresenter> presenter ) {
-    super(eventBus, new DirectProvider<SplitMainPresenter>(presenter) );
+  public SplitMainProxy(Provider<SplitMainPresenter> presenter ) {
+    super.presenter = new StandardProvider<SplitMainPresenter>(presenter);
   }
 
-  @Override
-  protected void onBind() {
-    super.onBind();
-
-    registerHandler( eventBus.addHandler( TYPE_RevealSideBarContent, 
-        new RevealContentHandler<SplitMainPresenter>(this){
+  @Inject
+  protected void bind(ProxyFailureHandler failureHandler, EventBus eventBus) {
+    eventBus.addHandler( TYPE_RevealSideBarContent, 
+        new RevealContentHandler<SplitMainPresenter>(failureHandler, this){
       @Override
       public void onRevealContent(
           final SplitMainPresenter presenter,
@@ -36,10 +35,10 @@ public class SplitMainProxy extends ProxyImpl<SplitMainPresenter>  implements Sp
         presenter.setSideBarContent( revealContentEvent.getContent() );
         presenter.reveal();
       }
-    } ) );
+    } );
 
-    registerHandler( eventBus.addHandler( TYPE_RevealCenterContent, 
-        new RevealContentHandler<SplitMainPresenter>(this){
+    eventBus.addHandler( TYPE_RevealCenterContent, 
+        new RevealContentHandler<SplitMainPresenter>(failureHandler, this){
       @Override
       public void onRevealContent(
           final SplitMainPresenter presenter,
@@ -47,7 +46,7 @@ public class SplitMainProxy extends ProxyImpl<SplitMainPresenter>  implements Sp
         presenter.setCenterContent( revealContentEvent.getContent() );
         presenter.reveal();
       }
-    } ) );
+    } );
     
   }
 

@@ -5,12 +5,11 @@ package com.puzzlebazar.client.core.proxy;
 
 import com.google.gwt.inject.client.AsyncProvider;
 import com.google.inject.Inject;
+import com.philbeaudoin.platform.mvp.client.CodeSplitProvider;
 import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.proxy.PlaceImpl;
 import com.philbeaudoin.platform.mvp.client.proxy.ProxyImpl;
 import com.philbeaudoin.platform.mvp.client.proxy.ProxyPlace;
-import com.philbeaudoin.platform.mvp.client.proxy.PlaceManager;
-import com.puzzlebazar.client.CodeSplitProvider;
 import com.puzzlebazar.client.NameTokens;
 import com.puzzlebazar.client.core.presenter.MainPagePresenter;
 
@@ -22,22 +21,15 @@ implements MainPagePresenter.MyProxy {
     @Inject
     public WrappedProxy(EventBus eventBus,
         final AsyncProvider<MainPagePresenter> presenter) {
-      super(
-        eventBus,
-        new CodeSplitProvider<MainPagePresenter>(presenter));
+      super.presenter = new CodeSplitProvider<MainPagePresenter>(presenter);
     }
   }
 
   @Inject
   public MainPageProxy(
-      final EventBus eventBus, 
-      final PlaceManager placeManager, 
       final WrappedProxy wrappedProxy ) {
-    super(
-        eventBus, 
-        placeManager, 
-        wrappedProxy,
-        new PlaceImpl( NameTokens.getMainPage() ) );
+    super.proxy = wrappedProxy;
+    super.place = new PlaceImpl( NameTokens.getMainPage() );
   }
   
 }

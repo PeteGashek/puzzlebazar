@@ -5,12 +5,10 @@ package com.puzzlebazar.client.core.proxy;
 
 import com.google.gwt.inject.client.AsyncProvider;
 import com.google.inject.Inject;
-import com.philbeaudoin.platform.mvp.client.EventBus;
-import com.philbeaudoin.platform.mvp.client.proxy.PlaceManager;
+import com.philbeaudoin.platform.mvp.client.CodeSplitProvider;
 import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
 import com.philbeaudoin.platform.mvp.client.proxy.TabContentProxyImpl;
 import com.philbeaudoin.platform.mvp.client.proxy.TabContentProxyPlace;
-import com.puzzlebazar.client.CodeSplitProvider;
 import com.puzzlebazar.client.CurrentUser;
 import com.puzzlebazar.client.NameTokens;
 import com.puzzlebazar.client.core.presenter.AdminTabPresenter;
@@ -32,30 +30,22 @@ implements AdminUsersPresenter.MyProxy {
   public static class WrappedProxy extends TabContentProxyImpl<AdminUsersPresenter> {
     @Inject
     public WrappedProxy(
-        final EventBus eventBus,
         final AsyncProvider<AdminUsersPresenter> presenter,
         final Translations translations) {
-      super(
-          eventBus, 
-          new CodeSplitProvider<AdminUsersPresenter>(presenter),
-          AdminTabPresenter.TYPE_RequestTabs,
-          1, // Priority
-          translations.tabUsers(),
-          getNameTokenStatic() );
+      this.presenter = new CodeSplitProvider<AdminUsersPresenter>(presenter);
+      this.requestTabsEventType = AdminTabPresenter.TYPE_RequestTabs;
+      this.priority = 1;
+      this.text = translations.tabUsers();
+      this.historyToken = getNameTokenStatic();
     }
   }
   
   @Inject
   public AdminUsersProxy(
-      final EventBus eventBus, 
-      final PlaceManager placeManager,
       final WrappedProxy wrappedProxy,
       final CurrentUser currentUser) {
-    super(
-        eventBus, 
-        placeManager,
-        wrappedProxy,
-        new AdminSecurePlace(getNameTokenStatic(), currentUser));
+    this.proxy = wrappedProxy;
+    this.place = new AdminSecurePlace(getNameTokenStatic(), currentUser);    
   }
 
 }

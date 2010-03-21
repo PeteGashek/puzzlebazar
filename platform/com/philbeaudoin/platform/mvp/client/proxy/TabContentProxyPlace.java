@@ -1,6 +1,5 @@
 package com.philbeaudoin.platform.mvp.client.proxy;
 
-import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.Presenter;
 import com.philbeaudoin.platform.mvp.client.Tab;
 
@@ -14,12 +13,7 @@ public class TabContentProxyPlace<P extends Presenter>
 extends ProxyPlaceAbstract<P, TabContentProxy<P>>
 implements TabContentProxy<P> {
 
-  public TabContentProxyPlace(
-      final EventBus eventBus, 
-      final PlaceManager placeManager,
-      final TabContentProxy<P> proxy,
-      final Place place) {
-    super(eventBus, placeManager, proxy, place);
+  public TabContentProxyPlace() {
   }
   
   @Override

@@ -1,5 +1,6 @@
-package com.philbeaudoin.platform.mvp.client.proxy;
+package com.philbeaudoin.platform.mvp.client;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Provider;
 
 /**
@@ -14,12 +15,12 @@ import com.google.inject.Provider;
  * 
  * @author Philippe Beaudoin
  */
-public interface CallbackProvider<T> {
+public interface IndirectProvider<T> {
   /**
    * Asynchronously get the provided object.
    * 
    * @param callback The {@link Callback} to invoke once the object is available.
    *                 The parameter to the callback will be the provided object.
    */
-  void get(Callback<T> callback);
+  void get(AsyncCallback<T> callback);
 }

@@ -1,5 +1,6 @@
 package com.philbeaudoin.platform.mvp.client.proxy;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.philbeaudoin.platform.mvp.client.Presenter;
 
 /**
@@ -10,7 +11,7 @@ import com.philbeaudoin.platform.mvp.client.Presenter;
  * 
  * @author Philippe Beaudoin
  */
-public interface ProxyBase {
+public interface ProxyRaw {
 
   /**
    * Get the associated {@link Presenter}. The presenter can only be obtained in an asynchronous
@@ -21,7 +22,7 @@ public interface ProxyBase {
    * 
    * @param callback The callback in which the {@link Presenter} will be passed as a parameter.
    */
-  public void getAbstractPresenter( Callback<Presenter> callback );
+  public void getRawPresenter( AsyncCallback<Presenter> callback );
   
   /**
    * Requests the presenter to reveal itself on screen.

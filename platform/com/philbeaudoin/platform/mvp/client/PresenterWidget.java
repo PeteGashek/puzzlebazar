@@ -2,7 +2,7 @@ package com.philbeaudoin.platform.mvp.client;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.philbeaudoin.platform.mvp.client.proxy.PlaceManager;
-import com.philbeaudoin.platform.mvp.client.proxy.ProxyBase;
+import com.philbeaudoin.platform.mvp.client.proxy.ProxyRaw;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
 
 /**
@@ -26,7 +26,7 @@ public interface PresenterWidget {
 
   /**
    * <b>Important:</b> If you want to reveal a presenter, from within
-   * your application, you should call {@link ProxyBase#reveal()}
+   * your application, you should call {@link ProxyRaw#reveal()}
    * instead. This way you can make sure you don't inadvertently reveal a 
    * non-leaf Presenter. Also, you will benefit from the change confirmation
    * mechanism. (See {@link PlaceManager#setOnLeaveConfirmation(String)}).
