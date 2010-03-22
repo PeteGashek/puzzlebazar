@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.PresenterImpl;
 import com.philbeaudoin.platform.mvp.client.View;
+import com.philbeaudoin.platform.mvp.client.proxy.Place;
 import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealRootLayoutContentEvent;
 
@@ -19,7 +20,7 @@ public class PuzzlePresenter extends PresenterImpl<PuzzlePresenter.MyView, Puzzl
   public interface MyView extends View {
   }
   
-  public interface MyProxy extends Proxy<PuzzlePresenter> {}  
+  public interface MyProxy extends Proxy<PuzzlePresenter>, Place {}  
 
   private final TopBarPresenter topBarPresenter;
   

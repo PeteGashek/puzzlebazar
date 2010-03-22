@@ -6,8 +6,8 @@ import com.philbeaudoin.platform.mvp.client.ProviderBundle;
 
 public class TabbedPresenterBundle extends ProviderBundle {
 
-  public final static int ID_AdminPresenter = 0;
-  public final static int ID_UserSettingsPresenter = 1;
+  public final static int ID_AdminTabPresenter = 0;
+  public final static int ID_UserSettingsTabPresenter = 1;
   public final static int BUNDLE_SIZE = 2;
   
   @Inject
@@ -15,7 +15,7 @@ public class TabbedPresenterBundle extends ProviderBundle {
       final Provider<AdminTabPresenter> adminPresenter,
       final Provider<UserSettingsTabPresenter> userSettingsPresenter) {
     super( BUNDLE_SIZE );
-    providers[ID_AdminPresenter] = adminPresenter;
-    providers[ID_UserSettingsPresenter] = userSettingsPresenter;
+    providers[ID_AdminTabPresenter] = adminPresenter;
+    providers[ID_UserSettingsTabPresenter] = userSettingsPresenter;
   }  
 }

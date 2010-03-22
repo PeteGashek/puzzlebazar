@@ -11,12 +11,15 @@ import com.google.gwt.core.ext.UnableToCompleteException;
 import com.google.gwt.core.ext.typeinfo.JClassType;
 import com.google.gwt.core.ext.typeinfo.JField;
 import com.google.gwt.core.ext.typeinfo.JPackage;
+import com.google.gwt.core.ext.typeinfo.JParameterizedType;
+import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.inject.client.AsyncProvider;
 import com.google.gwt.inject.client.Ginjector;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.philbeaudoin.platform.mvp.client.CodeSplitBundleProvider;
 import com.philbeaudoin.platform.mvp.client.CodeSplitProvider;
 import com.philbeaudoin.platform.mvp.client.DelayedBind;
 import com.philbeaudoin.platform.mvp.client.DelayedBindRegistry;
@@ -32,7 +35,9 @@ public class ProxyGenerator extends Generator {
 
   private static final String basePresenterClassName = Presenter.class.getCanonicalName();
   private static final String ginjectorClassName = Ginjector.class.getCanonicalName();
-
+  private static final String typeClassName = Type.class.getCanonicalName();
+  private static final String revealContentHandlerClassName = RevealContentHandler.class.getCanonicalName();
+  
   @Override
   public String generate(TreeLogger logger, GeneratorContext ctx, String requestedClass)
   throws UnableToCompleteException {
@@ -45,6 +50,10 @@ public class ProxyGenerator extends Generator {
 
       throw new UnableToCompleteException();
     }
+    
+    // If it's not an interface it's a custom user-made proxy class. Don't use generator.
+    if( proxyInterface.isInterface() == null )
+      return null;
     
     String customGingectorClassName = null;
     try {
@@ -98,6 +107,9 @@ public class ProxyGenerator extends Generator {
       ClassSourceFileComposerFactory composerFactory = new ClassSourceFileComposerFactory(
           packageName, implClassName);
       
+      JClassType typeClass = ctx.getTypeOracle().findType( typeClassName );
+      JClassType revealContentHandlerClass = ctx.getTypeOracle().findType( revealContentHandlerClassName );
+      
       // TODO cleanup imports
       composerFactory.addImport(GWT.class.getCanonicalName());  // Obsolete?
       composerFactory.addImport(Inject.class.getCanonicalName());  // Obsolete?
@@ -106,6 +118,7 @@ public class ProxyGenerator extends Generator {
       composerFactory.addImport(EventBus.class.getCanonicalName());
       composerFactory.addImport(StandardProvider.class.getCanonicalName());
       composerFactory.addImport(CodeSplitProvider.class.getCanonicalName());
+      composerFactory.addImport(CodeSplitBundleProvider.class.getCanonicalName());
       composerFactory.addImport(ProxyFailureHandler.class.getCanonicalName());
       composerFactory.addImport(ProxyImpl.class.getCanonicalName());
       composerFactory.addImport(RevealContentHandler.class.getCanonicalName());
@@ -151,19 +164,25 @@ public class ProxyGenerator extends Generator {
       else {
         // CodeSplitBundleProvider        
         String bundleClassName = codeSplitBundleAnnotation.bundleClass().getCanonicalName();
-        writer.println( "AsyncProvider<" + bundleClassName + "> presenterBundle ) {");
-        writer.outdent(); 
+        String bundleClassSimpleName = codeSplitBundleAnnotation.bundleClass().getSimpleName();
         writer.println( "presenter = new CodeSplitBundleProvider<" + presenterClassName + ", " +
-            bundleClassName + ">( injector.get" + bundleClassName + "(), " + codeSplitBundleAnnotation.id() + ");" );
+            bundleClassName + ">( injector.get" + bundleClassSimpleName + "(), " + codeSplitBundleAnnotation.id() + ");" );
       }
       writer.println( "revealContentHandler = new RevealContentHandler<" + presenterClassName + ">( failureHandler, this );" );      
       for( JField field : presenterClass.getFields() ) {
         ContentSlot annotation = field.getAnnotation( ContentSlot.class );
-        if( field.isStatic() && // TODO field.getType().isGenericType()... &&
-            annotation != null ) {          
-          writer.println( "eventBus.addHandler( " +
-              presenterClassName + "." + field.getName() + 
-              ", revealContentHandler );" );
+        JParameterizedType parameterizedType = field.getType().isParameterized();
+        if( annotation != null ) {
+          if( !field.isStatic() || 
+              parameterizedType == null || 
+              !parameterizedType.isAssignableTo( typeClass ) ||
+              !parameterizedType.getTypeArgs()[0].isAssignableTo(revealContentHandlerClass) )
+            logger.log(TreeLogger.WARN, "Found the annotation @" + ContentSlot.class.getSimpleName() + " on the invalid field '"+presenterClassName+"."+field.getName()+
+                "'. Field must be static and its type must be Type<RevealContentHandler<?>>. Skipping this field.", null);      
+          else
+            writer.println( "eventBus.addHandler( " +
+                presenterClassName + "." + field.getName() + 
+                ", revealContentHandler );" );
         }
       }
       

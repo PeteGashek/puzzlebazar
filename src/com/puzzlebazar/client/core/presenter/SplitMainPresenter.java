@@ -8,12 +8,17 @@ import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentHandler;
+import com.philbeaudoin.platform.mvp.rebind.ContentSlot;
+import com.philbeaudoin.platform.mvp.rebind.UseCodeSplit;
 
 public class SplitMainPresenter 
 extends PresenterImpl<SplitMainPresenter.MyView, SplitMainPresenter.MyProxy>
 implements DisplayShortMessageHandler {
 
+  @ContentSlot
   public static final Type<RevealContentHandler<?>> TYPE_RevealSideBarContent = new Type<RevealContentHandler<?>>();
+  
+  @ContentSlot
   public static final Type<RevealContentHandler<?>> TYPE_RevealCenterContent = new Type<RevealContentHandler<?>>();
   
   public interface MyView extends View {
@@ -22,6 +27,7 @@ implements DisplayShortMessageHandler {
     public boolean hasSideBarContent();
   }
 
+  @UseCodeSplit
   public interface MyProxy extends Proxy<SplitMainPresenter> {}
 
   @Inject
