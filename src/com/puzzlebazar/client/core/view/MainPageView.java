@@ -6,9 +6,10 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.philbeaudoin.platform.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.MainPagePresenter;
 
-public class MainPageView implements MainPagePresenter.MyView {
+public class MainPageView extends ViewImpl implements MainPagePresenter.MyView {
 
   interface Binder extends UiBinder<Widget, MainPageView> { }
   protected static final Binder binder = GWT.create(Binder.class);
@@ -29,13 +30,19 @@ public class MainPageView implements MainPagePresenter.MyView {
   }
   
   @Override
-  public void addNewsWidget(Widget widget) {
-    newsPanel.add( widget );
+  public void addContent(Object slot, Widget content) {
+    if( slot == MainPagePresenter.TYPE_RevealNewsContent )
+      newsPanel.add( content );
+    else
+      super.addContent(slot, content);
   }
 
   @Override
-  public void clearNewsWidgets() {
-    newsPanel.clear();
+  public void clearContent(Object slot) {
+    if( slot == MainPagePresenter.TYPE_RevealNewsContent )
+      newsPanel.clear();
+    else
+      super.clearContent(slot);
   }
 
 }

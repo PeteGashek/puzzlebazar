@@ -7,7 +7,6 @@ import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.proxy.Place;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.platform.mvp.client.proxy.TabContentProxy;
-import com.puzzlebazar.client.core.proxy.AdminTabProxy;
 
 /**
  * This is the presenter of the general tab in the administration page.
@@ -30,6 +29,6 @@ extends PresenterImpl<AdminUsersPresenter.MyView, AdminUsersPresenter.MyProxy> {
 
   @Override
   protected void revealInParent() {
-    RevealContentEvent.fire(eventBus, AdminTabProxy.TYPE_RevealTabContent, this);
+    RevealContentEvent.fire(eventBus, AdminTabPresenter.TYPE_RevealTabContent, this);
   }
 }

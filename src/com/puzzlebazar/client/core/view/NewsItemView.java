@@ -6,9 +6,10 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.philbeaudoin.platform.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.NewsItemPresenter;
 
-public class NewsItemView implements NewsItemPresenter.MyView {
+public class NewsItemView extends ViewImpl implements NewsItemPresenter.MyView {
 
   interface Binder extends UiBinder<Widget, NewsItemView> { }
   protected static final Binder binder = GWT.create(Binder.class);  

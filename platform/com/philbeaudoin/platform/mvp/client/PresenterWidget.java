@@ -25,6 +25,9 @@ public interface PresenterWidget {
   public View getView();
 
   /**
+   * TODO this is no longer the right way to reveal a presenter. Update the
+   * documentation. This should probably be called notifyReveal().
+   * <p />
    * <b>Important:</b> If you want to reveal a presenter, from within
    * your application, you should call {@link ProxyRaw#reveal()}
    * instead. This way you can make sure you don't inadvertently reveal a 
@@ -64,10 +67,38 @@ public interface PresenterWidget {
   public boolean isVisible();
 
   /**
+   * This method sets some content in a specific slot of the {@link Presenter}.
+   * 
+   * @param slot An opaque object identifying
+   *             which slot this content is being set into. The attached view should know
+   *             what to do with this slot.
+   * @param content The content, a {@link PresenterWidget}. Passing {@code null} will clear the slot.
+   */
+  void setContent(Object slot, PresenterWidget content);
+
+  /**
+   * This method adds some content in a specific slot of the {@link Presenter}.
+   * 
+   * @param slot An opaque object identifying
+   *             which slot this content is being added into. The attached view should know
+   *             what to do with this slot.
+   * @param content The content, a {@link PresenterWidget}. Passing {@code null} will not do anything.
+   */
+  void addContent(Object slot, PresenterWidget content);
+
+  /**
+   * This method clears the content in a specific slot.
+   * 
+   * @param slot An opaque object of type identifying
+   *             which slot to clear. The attached view should know
+   *             what to do with this slot.
+   */
+  void clearContent(Object slot);
+
+  /**
    * Makes it possible to access the {@link Widget} object associated with that presenter.
    * 
    * @return The Widget associated with that presenter.
    */
   public Widget getWidget();
-
 }

@@ -4,9 +4,10 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.philbeaudoin.platform.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.LinkColumnPresenter;
 
-public class LinkColumnView implements LinkColumnPresenter.MyView {
+public class LinkColumnView extends ViewImpl implements LinkColumnPresenter.MyView {
 
   interface Binder extends UiBinder<Widget, LinkColumnView> { }
   protected static final Binder binder = GWT.create(Binder.class);

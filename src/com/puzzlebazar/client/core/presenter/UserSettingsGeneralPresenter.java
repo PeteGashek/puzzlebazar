@@ -16,7 +16,6 @@ import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.platform.mvp.client.proxy.TabContentProxy;
 import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.CurrentUser;
-import com.puzzlebazar.client.core.proxy.UserSettingsTabProxy;
 import com.puzzlebazar.client.resources.Translations;
 import com.puzzlebazar.client.util.MonitorHandler;
 import com.puzzlebazar.client.util.ChangeMonitor;
@@ -124,7 +123,7 @@ implements MonitorHandler  {
 
   @Override
   protected void revealInParent() {
-    RevealContentEvent.fire(eventBus, UserSettingsTabProxy.TYPE_RevealTabContent, this);
+    RevealContentEvent.fire(eventBus, UserSettingsTabPresenter.TYPE_RevealTabContent, this);
   }
 
   @Override

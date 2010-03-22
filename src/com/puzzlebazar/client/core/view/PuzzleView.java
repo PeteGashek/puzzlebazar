@@ -8,6 +8,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.philbeaudoin.platform.mvp.client.ViewImpl;
+import com.puzzlebazar.client.core.presenter.PagePresenter;
 import com.puzzlebazar.client.core.presenter.PuzzlePresenter;
 import com.puzzlebazar.client.resources.Resources;
 import com.puzzlebazar.client.ui.SquareGridLayoutPanel;
@@ -18,7 +20,7 @@ import com.puzzlebazar.client.util.Vec2i;
  * 
  * @author Philippe Beaudoin
  */
-public class PuzzleView implements PuzzlePresenter.MyView {
+public class PuzzleView extends ViewImpl implements PuzzlePresenter.MyView {
 
   interface Binder extends UiBinder<DockLayoutPanel, PuzzleView> { }
   protected static final Binder binder = GWT.create(Binder.class);
@@ -30,7 +32,6 @@ public class PuzzleView implements PuzzlePresenter.MyView {
 
   @UiField 
   LayoutPanel centerContainer;
-
   
   @Inject
   public PuzzleView(SquareGridLayoutPanel puzzleContainer, Resources resources) {
@@ -57,7 +58,14 @@ public class PuzzleView implements PuzzlePresenter.MyView {
   }
 
   @Override
-  public void setTopBarContent(Widget topBarContent) {
+  public void setContent(Object slot, Widget content) {
+    if( slot == PuzzlePresenter.TYPE_RevealTopBarContent ) 
+      setTopBarContent( content );
+    else
+      super.setContent(slot, content);
+  }
+    
+  private void setTopBarContent(Widget topBarContent) {
     topBarContainer.clear();
     topBarContainer.add( topBarContent );
   }

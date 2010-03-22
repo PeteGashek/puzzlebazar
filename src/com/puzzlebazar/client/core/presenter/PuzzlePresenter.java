@@ -1,6 +1,5 @@
 package com.puzzlebazar.client.core.presenter;
 
-import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.PresenterImpl;
@@ -15,8 +14,9 @@ import com.philbeaudoin.platform.mvp.client.proxy.RevealRootLayoutContentEvent;
  */
 public class PuzzlePresenter extends PresenterImpl<PuzzlePresenter.MyView, PuzzlePresenter.MyProxy> {
 
+  public static final Object TYPE_RevealTopBarContent = new Object();
+
   public interface MyView extends View {
-    void setTopBarContent( Widget topBarContent );
   }
   
   public interface MyProxy extends Proxy<PuzzlePresenter> {}  
@@ -42,20 +42,7 @@ public class PuzzlePresenter extends PresenterImpl<PuzzlePresenter.MyView, Puzzl
   @Override
   protected void onReveal() {
     super.onReveal();
-    getView().setTopBarContent( topBarPresenter.getWidget() );
+    setContent( TYPE_RevealTopBarContent, topBarPresenter );
   }
-  
-  @Override
-  protected void revealChildren() {
-    super.revealChildren();
-    topBarPresenter.reveal();
-  }
-  
-  @Override
-  protected void notifyHideChildren() {
-    super.notifyHideChildren();
-    topBarPresenter.notifyHide();  
-  }  
-  
 
 }

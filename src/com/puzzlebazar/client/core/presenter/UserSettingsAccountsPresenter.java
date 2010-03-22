@@ -7,7 +7,6 @@ import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.proxy.Place;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.platform.mvp.client.proxy.TabContentProxy;
-import com.puzzlebazar.client.core.proxy.UserSettingsTabProxy;
 
 /**
  * This is the presenter of the accounts tab in the user settings page.
@@ -33,7 +32,7 @@ public class UserSettingsAccountsPresenter extends PresenterImpl<UserSettingsAcc
 
   @Override
   protected void revealInParent() {
-    RevealContentEvent.fire(eventBus, UserSettingsTabProxy.TYPE_RevealTabContent, this);
+    RevealContentEvent.fire(eventBus, UserSettingsTabPresenter.TYPE_RevealTabContent, this);
   }
   
   @Override

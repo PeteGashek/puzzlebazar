@@ -30,7 +30,7 @@ public class RevealContentEvent extends GwtEvent<RevealContentHandler<?>> {
   
   @Override
   protected void dispatch(RevealContentHandler<?> handler) {
-    handler.executeRevealContent( this );
+    handler.onRevealContent( this );
   }
 
   @Override
