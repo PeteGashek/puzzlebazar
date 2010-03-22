@@ -117,7 +117,7 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
 
     bind( PagePresenter.class ).in( Singleton.class );
     bind( PageView.class ).in( Singleton.class );
-    bind( PagePresenter.MyProxy.class ).in( Singleton.class );
+    bind( PagePresenter.MyProxy.class ).asEagerSingleton();
     bind( PagePresenter.MyView.class ).to( PageView.class );
     
   }

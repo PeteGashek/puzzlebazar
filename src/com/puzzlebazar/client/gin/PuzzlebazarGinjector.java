@@ -23,6 +23,5 @@ public interface PuzzlebazarGinjector extends Ginjector {
   DispatchAsync getDispatcher();
   ProxyFailureHandler getProxyFailureHandler();
   
-  PagePresenter.MyProxy getPagePresenterProxy();
   AsyncProvider<PagePresenter> getPagePresenter();
 }

@@ -18,6 +18,8 @@ import com.google.gwt.user.rebind.SourceWriter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.philbeaudoin.platform.mvp.client.CodeSplitProvider;
+import com.philbeaudoin.platform.mvp.client.DelayedBind;
+import com.philbeaudoin.platform.mvp.client.DelayedBindRegistry;
 import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.Presenter;
 import com.philbeaudoin.platform.mvp.client.StandardProvider;
@@ -36,36 +38,26 @@ public class ProxyGenerator extends Generator {
   throws UnableToCompleteException {
 
     JClassType proxyInterface = ctx.getTypeOracle().findType(requestedClass);
-    String entryPointClassName = null;
-    try {
-      entryPointClassName = ctx.getPropertyOracle().getConfigurationProperty("mvp.entryPoint").getValues().get(0);
-    } catch (BadPropertyValueException e) {
-      logger.log(TreeLogger.ERROR, "The required configuration property 'mvp.entryPoint' was not found.", e);
-      throw new UnableToCompleteException();
-    }
-    JClassType entryPointClass = ctx.getTypeOracle().findType(entryPointClassName);
-    JClassType ginjectorClass = ctx.getTypeOracle().findType(ginjectorClassName);
-    String customGingectorClassName = null;
-    String ginjectorInstanceName = null;
-    for( JField field : entryPointClass.getFields() ) {
-      JClassType fieldType = field.getType().isClassOrInterface();
-      if( field.isStatic() && fieldType != null && fieldType.isAssignableTo( ginjectorClass ) ) {
-        customGingectorClassName = fieldType.getParameterizedQualifiedSourceName();
-        ginjectorInstanceName = entryPointClassName + "." + field.getName();
-        break;
-      }
-    }
-    if( customGingectorClassName == null || ginjectorInstanceName == null ) {
-      logger.log(TreeLogger.ERROR, "The entry point class '" + entryPointClassName + 
-          "' must include a static field containing the ginjector instance.", null);
-      throw new UnableToCompleteException();
-    }
-    
     
     if (proxyInterface == null) {
       logger.log(TreeLogger.ERROR, "Unable to find metadata for type '"
           + requestedClass + "'", null);
 
+      throw new UnableToCompleteException();
+    }
+    
+    String customGingectorClassName = null;
+    try {
+      customGingectorClassName = ctx.getPropertyOracle().getConfigurationProperty("gin.ginjector").getValues().get(0);
+    } catch (BadPropertyValueException e) {
+      logger.log(TreeLogger.ERROR, "The required configuration property 'gin.ginjector' was not found.", e);
+      throw new UnableToCompleteException();
+    }
+    JClassType ginjectorClass = ctx.getTypeOracle().findType(ginjectorClassName);
+    JClassType customGinjectorClass = ctx.getTypeOracle().findType(customGingectorClassName);
+    if( customGinjectorClass == null || !customGinjectorClass.isAssignableTo(ginjectorClass) ) {
+      logger.log(TreeLogger.ERROR, "The configuration property 'gin.ginjector' is '"+customGingectorClassName+"' " +
+      		" which doesn't identify a type inheriting from 'Ginjector'.", null);      
       throw new UnableToCompleteException();
     }
 
@@ -117,21 +109,33 @@ public class ProxyGenerator extends Generator {
       composerFactory.addImport(ProxyFailureHandler.class.getCanonicalName());
       composerFactory.addImport(ProxyImpl.class.getCanonicalName());
       composerFactory.addImport(RevealContentHandler.class.getCanonicalName());
+      composerFactory.addImport(DelayedBind.class.getCanonicalName());
+      composerFactory.addImport(DelayedBindRegistry.class.getCanonicalName());
+      composerFactory.addImport(Ginjector.class.getCanonicalName());
       composerFactory.addImport(RevealContentEvent.class.getCanonicalName());  // Obsolete?
       
       // Sets interfaces an superclass
       composerFactory.addImplementedInterface(
           proxyInterface.getParameterizedQualifiedSourceName());
+      composerFactory.addImplementedInterface(
+          DelayedBind.class.getCanonicalName());
       composerFactory.setSuperclass(ProxyImpl.class.getCanonicalName()+"<"+presenterClassName+">" );
 
       SourceWriter writer = composerFactory.createSourceWriter(ctx, printWriter);
 
+      writer.println();
       writer.println( "private RevealContentHandler<"+presenterClassName+"> revealContentHandler = null;");
       writer.println();
       writer.println( "public " +  implClassName + "() {");
-      writer.println();
       writer.indent();
-      writer.println( customGingectorClassName + " injector = " + ginjectorInstanceName + ";"  );
+      writer.println( "DelayedBindRegistry.register(this);" );
+      writer.outdent();
+      writer.println( "}" );
+      writer.println();
+      writer.println( "@Override");
+      writer.println( "public void delayedBind( Ginjector ginjector ) {");
+      writer.indent();
+      writer.println( customGingectorClassName + " injector = (" + customGingectorClassName + ")ginjector;"  );
       writer.println( "EventBus eventBus = injector.getEventBus();"  );
       writer.println( "ProxyFailureHandler failureHandler = injector.getProxyFailureHandler();" );
       if( codeSplitAnnotation == null && codeSplitBundleAnnotation == null ) {
