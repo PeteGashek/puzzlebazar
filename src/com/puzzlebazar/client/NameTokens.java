@@ -10,6 +10,7 @@ package com.puzzlebazar.client;
  */
 public class NameTokens {
 
+
   public static String getAdminGeneral() {
     return "!admin";
   }
@@ -26,13 +27,15 @@ public class NameTokens {
     return "!settings-accounts";
   }
   
+  public static final String mainPage = "!main";
   public static String getMainPage() {
-    return "!main";
+    return mainPage;
   }
 
+  public static final String puzzlePage = "!puzzle";
   public static String getPuzzlePage() {
     // TODO Temp, just for testing. This shouldn't be a place.
-    return "!puzzle";
+    return puzzlePage;
   }
   
 }

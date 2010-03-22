@@ -12,7 +12,9 @@ import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.proxy.PlaceManager;
 import com.philbeaudoin.platform.mvp.client.proxy.ProxyFailureHandler;
 
+import com.puzzlebazar.client.core.presenter.MainPagePresenter;
 import com.puzzlebazar.client.core.presenter.PagePresenter;
+import com.puzzlebazar.client.core.presenter.PuzzlePresenter;
 import com.puzzlebazar.client.core.presenter.SplitMainPresenter;
 import com.puzzlebazar.client.core.presenter.TabbedPresenterBundle;
 import com.puzzlebazar.client.resources.Resources;
@@ -29,4 +31,6 @@ public interface PuzzlebazarGinjector extends Ginjector {
   Provider<PagePresenter> getPagePresenter();
   AsyncProvider<SplitMainPresenter> getSplitMainPresenter();
   AsyncProvider<TabbedPresenterBundle> getTabbedPresenterBundle();
+  Provider<MainPagePresenter> getMainPagePresenter();
+  AsyncProvider<PuzzlePresenter> getPuzzlePresenter();
 }

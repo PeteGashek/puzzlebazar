@@ -31,8 +31,6 @@ import com.puzzlebazar.client.core.presenter.UserSettingsTabPresenter;
 import com.puzzlebazar.client.core.proxy.AdminGeneralProxy;
 import com.puzzlebazar.client.core.proxy.AdminUsersProxy;
 import com.puzzlebazar.client.core.proxy.LinkColumnProxy;
-import com.puzzlebazar.client.core.proxy.MainPageProxy;
-import com.puzzlebazar.client.core.proxy.PuzzleProxy;
 import com.puzzlebazar.client.core.proxy.UserSettingsAccountsProxy;
 import com.puzzlebazar.client.core.proxy.UserSettingsGeneralProxy;
 import com.puzzlebazar.client.core.view.AdminGeneralView;
@@ -99,7 +97,7 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     bind(TabbedPresenterBundle.class).in(Singleton.class);
 
     // Presenters
-    bind(ProxyRaw.class).annotatedWith(DefaultPlace.class).to(MainPageProxy.class);
+    bind(ProxyRaw.class).annotatedWith(DefaultPlace.class).to(MainPagePresenter.MyProxy.class);
     bindPresenter(PagePresenter.class,PagePresenter.MyView.class, PageView.class, PagePresenter.MyProxy.class);
     bindPresenter(SplitMainPresenter.class, SplitMainPresenter.MyView.class, SplitMainView.class, SplitMainPresenter.MyProxy.class );
     bindPresenter(LinkColumnPresenter.class, LinkColumnPresenter.MyView.class, LinkColumnView.class, LinkColumnPresenter.MyProxy.class, LinkColumnProxy.class );
@@ -109,8 +107,8 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     bindPresenter(AdminTabPresenter.class, AdminTabPresenter.MyView.class, AdminTabView.class, AdminTabPresenter.MyProxy.class );
     bindPresenter(AdminGeneralPresenter.class, AdminGeneralPresenter.MyView.class, AdminGeneralView.class, AdminGeneralPresenter.MyProxy.class, AdminGeneralProxy.class);
     bindPresenter(AdminUsersPresenter.class, AdminUsersPresenter.MyView.class, AdminUsersView.class, AdminUsersPresenter.MyProxy.class, AdminUsersProxy.class);
-    bindPresenter(MainPagePresenter.class, MainPagePresenter.MyView.class, MainPageView.class, MainPagePresenter.MyProxy.class, MainPageProxy.class);
-    bindPresenter(PuzzlePresenter.class, PuzzlePresenter.MyView.class, PuzzleView.class, PuzzlePresenter.MyProxy.class, PuzzleProxy.class);
+    bindPresenter(MainPagePresenter.class, MainPagePresenter.MyView.class, MainPageView.class, MainPagePresenter.MyProxy.class);
+    bindPresenter(PuzzlePresenter.class, PuzzlePresenter.MyView.class, PuzzleView.class, PuzzlePresenter.MyProxy.class);
 
     
   }
