@@ -31,7 +31,7 @@
 	<source path='client' />
 	<source path='shared' />
 
-	<define-configuration-property name="mvp.entryPoint" is-multi-valued="false" />
-    <set-configuration-property name="mvp.entryPoint" value="com.puzzlebazar.client.Puzzlebazar" />
+	<define-configuration-property name="gin.ginjector" is-multi-valued="false" />
+    <set-configuration-property name="gin.ginjector" value="com.puzzlebazar.client.gin.PuzzlebazarGinjector" />
 
 </module>
