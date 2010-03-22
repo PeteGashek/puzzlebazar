@@ -10,8 +10,10 @@ import com.google.gwt.core.ext.TreeLogger;
 import com.google.gwt.core.ext.UnableToCompleteException;
 import com.google.gwt.core.ext.typeinfo.JClassType;
 import com.google.gwt.core.ext.typeinfo.JField;
+import com.google.gwt.core.ext.typeinfo.JMethod;
 import com.google.gwt.core.ext.typeinfo.JPackage;
 import com.google.gwt.core.ext.typeinfo.JParameterizedType;
+import com.google.gwt.core.ext.typeinfo.TypeOracle;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.inject.client.AsyncProvider;
 import com.google.gwt.inject.client.Ginjector;
@@ -34,44 +36,60 @@ import com.philbeaudoin.platform.mvp.client.proxy.RevealContentHandler;
 public class ProxyGenerator extends Generator {
 
   private static final String basePresenterClassName = Presenter.class.getCanonicalName();
-  private static final String ginjectorClassName = Ginjector.class.getCanonicalName();
+  private static final String baseGinjectorClassName = Ginjector.class.getCanonicalName();
   private static final String typeClassName = Type.class.getCanonicalName();
   private static final String revealContentHandlerClassName = RevealContentHandler.class.getCanonicalName();
-  
+  private static final String providerClassName = Provider.class.getCanonicalName();
+  private static final String asyncProviderClassName = AsyncProvider.class.getCanonicalName();
+
   @Override
   public String generate(TreeLogger logger, GeneratorContext ctx, String requestedClass)
   throws UnableToCompleteException {
 
-    JClassType proxyInterface = ctx.getTypeOracle().findType(requestedClass);
-    
+    TypeOracle oracle = ctx.getTypeOracle();
+    JClassType proxyInterface = oracle.findType(requestedClass);
+
     if (proxyInterface == null) {
       logger.log(TreeLogger.ERROR, "Unable to find metadata for type '"
           + requestedClass + "'", null);
 
       throw new UnableToCompleteException();
     }
-    
+
     // If it's not an interface it's a custom user-made proxy class. Don't use generator.
     if( proxyInterface.isInterface() == null )
       return null;
-    
-    String customGingectorClassName = null;
+
+    ProxyStandard proxyStandardAnnotation = proxyInterface.getAnnotation( ProxyStandard.class );
+    ProxyCodeSplit proxyCodeSplitAnnotation = proxyInterface.getAnnotation( ProxyCodeSplit.class );
+    ProxyCodeSplitBundle proxyCodeSplitBundleAnnotation = proxyInterface.getAnnotation( ProxyCodeSplitBundle.class );
+
+    int nbNonNullTags = 0;
+    if( proxyStandardAnnotation != null ) nbNonNullTags++;
+    if( proxyCodeSplitAnnotation != null ) nbNonNullTags++;
+    if( proxyCodeSplitBundleAnnotation != null ) nbNonNullTags++;
+
+    // If there is no proxy tag, don't use generator.
+    if( nbNonNullTags == 0 )
+      return null;
+
+    String gingectorClassName = null;
     try {
-      customGingectorClassName = ctx.getPropertyOracle().getConfigurationProperty("gin.ginjector").getValues().get(0);
+      gingectorClassName = ctx.getPropertyOracle().getConfigurationProperty("gin.ginjector").getValues().get(0);
     } catch (BadPropertyValueException e) {
       logger.log(TreeLogger.ERROR, "The required configuration property 'gin.ginjector' was not found.", e);
       throw new UnableToCompleteException();
     }
-    JClassType ginjectorClass = ctx.getTypeOracle().findType(ginjectorClassName);
-    JClassType customGinjectorClass = ctx.getTypeOracle().findType(customGingectorClassName);
-    if( customGinjectorClass == null || !customGinjectorClass.isAssignableTo(ginjectorClass) ) {
-      logger.log(TreeLogger.ERROR, "The configuration property 'gin.ginjector' is '"+customGingectorClassName+"' " +
-      		" which doesn't identify a type inheriting from 'Ginjector'.", null);      
+    JClassType baseGinjectorClass = oracle.findType(baseGinjectorClassName);
+    JClassType ginjectorClass = oracle.findType(gingectorClassName);
+    if( ginjectorClass == null || !ginjectorClass.isAssignableTo(baseGinjectorClass) ) {
+      logger.log(TreeLogger.ERROR, "The configuration property 'gin.ginjector' is '"+gingectorClassName+"' " +
+          " which doesn't identify a type inheriting from 'Ginjector'.", null);      
       throw new UnableToCompleteException();
     }
 
     // Make sure this proxy lies within a presenter
-    JClassType basePresenterClass = ctx.getTypeOracle().findType( basePresenterClassName );
+    JClassType basePresenterClass = oracle.findType( basePresenterClassName );
     JClassType presenterClass = proxyInterface.getEnclosingType();
     if( presenterClass == null || 
         !presenterClass.isAssignableTo( basePresenterClass ) ) {
@@ -82,23 +100,16 @@ public class ProxyGenerator extends Generator {
     }    
     String presenterClassName = presenterClass.getName();
 
-    // This is the Injector we use for the Generator internally,
-    // it has nothing to do with user code.   
+    // Watch out for more than one proxy tag
+    if( nbNonNullTags > 1 ) {
+      logger.log(TreeLogger.ERROR, "Proxy for '" + presenterClassName + "' has more than one @Proxy annotation.", null);
+      throw new UnableToCompleteException();
+    }    
+
     JPackage interfacePackage = proxyInterface.getPackage();
     String packageName = interfacePackage == null ? "" : interfacePackage.getName();
     String implClassName = presenterClassName + proxyInterface.getSimpleSourceName() + "Impl";
     String generatedClassName = packageName + "." + implClassName;
-
-
-    UseCodeSplit codeSplitAnnotation = proxyInterface.getAnnotation( UseCodeSplit.class );
-    UseCodeSplitBundle codeSplitBundleAnnotation = proxyInterface.getAnnotation( UseCodeSplitBundle.class );
-
-    if( codeSplitAnnotation != null && codeSplitBundleAnnotation != null ) {
-      logger.log(TreeLogger.ERROR, "Proxy cannot have both annotations '" +
-          codeSplitAnnotation.getClass().getSimpleName() + "' and '" +
-          codeSplitBundleAnnotation.getClass().getSimpleName()  + "'", null);
-      throw new UnableToCompleteException();
-    }    
 
     PrintWriter printWriter = ctx.tryCreate(logger, packageName, implClassName);
     if (printWriter == null) {
@@ -106,9 +117,11 @@ public class ProxyGenerator extends Generator {
     } else {
       ClassSourceFileComposerFactory composerFactory = new ClassSourceFileComposerFactory(
           packageName, implClassName);
-      
-      JClassType typeClass = ctx.getTypeOracle().findType( typeClassName );
-      JClassType revealContentHandlerClass = ctx.getTypeOracle().findType( revealContentHandlerClassName );
+
+      JClassType typeClass = oracle.findType( typeClassName );
+      JClassType revealContentHandlerClass = oracle.findType( revealContentHandlerClassName );
+      JClassType providerClass = oracle.findType( providerClassName );
+      JClassType asyncProviderClass = oracle.findType( asyncProviderClassName );
       
       // TODO cleanup imports
       composerFactory.addImport(GWT.class.getCanonicalName());  // Obsolete?
@@ -126,7 +139,7 @@ public class ProxyGenerator extends Generator {
       composerFactory.addImport(DelayedBindRegistry.class.getCanonicalName());
       composerFactory.addImport(Ginjector.class.getCanonicalName());
       composerFactory.addImport(RevealContentEvent.class.getCanonicalName());  // Obsolete?
-      
+
       // Sets interfaces an superclass
       composerFactory.addImplementedInterface(
           proxyInterface.getParameterizedQualifiedSourceName());
@@ -148,26 +161,97 @@ public class ProxyGenerator extends Generator {
       writer.println( "@Override");
       writer.println( "public void delayedBind( Ginjector ginjector ) {");
       writer.indent();
-      writer.println( customGingectorClassName + " injector = (" + customGingectorClassName + ")ginjector;"  );
+      writer.println( gingectorClassName + " injector = (" + gingectorClassName + ")ginjector;"  );
       writer.println( "EventBus eventBus = injector.getEventBus();"  );
       writer.println( "ProxyFailureHandler failureHandler = injector.getProxyFailureHandler();" );
-      if( codeSplitAnnotation == null && codeSplitBundleAnnotation == null ) {
+      
+      if( proxyCodeSplitAnnotation == null && proxyCodeSplitBundleAnnotation == null ) {
         // StandardProvider
-        writer.println( "presenter = new StandardProvider<" + presenterClassName + ">( injector.get" +
-            presenterClassName + "() );" );
+        
+        // Find the appropriate get method in the Ginjector
+        String methodName = null;
+        for( JMethod method : ginjectorClass.getMethods() ) {
+          JParameterizedType returnType = method.getReturnType().isParameterized();
+          if( method.getParameters().length == 0 &&
+              returnType != null && 
+              returnType.isAssignableTo( providerClass ) &&
+              returnType.getTypeArgs()[0].isAssignableTo(presenterClass) ) {
+            methodName = method.getName();
+            break;
+          }
+        }
+        if( methodName == null ) {
+          logger.log(TreeLogger.ERROR, "The Ginjector '"+ gingectorClassName + 
+              "' does not have a get() method returning 'Provider<"+presenterClassName+
+              ">'. This is required when using @" + ProxyStandard.class.getSimpleName() + ".", null);      
+          throw new UnableToCompleteException();
+        }
+        
+        writer.println( "presenter = new StandardProvider<" + presenterClassName + ">( injector." +
+            methodName + "() );" );
       }
-      else if( codeSplitAnnotation != null ) {
-        // CodeSplitProvider
-        writer.println( "presenter = new CodeSplitProvider<" + presenterClassName + ">( injector.get" +
-            presenterClassName + "() );" );
+      else if( proxyCodeSplitAnnotation != null ) {
+        // CodeSplitProvider        
+        
+        // Find the appropriate get method in the Ginjector
+        String methodName = null;
+        for( JMethod method : ginjectorClass.getMethods() ) {
+          JParameterizedType returnType = method.getReturnType().isParameterized();
+          if( method.getParameters().length == 0 &&
+              returnType != null && 
+              returnType.isAssignableTo( asyncProviderClass ) &&
+              returnType.getTypeArgs()[0].isAssignableTo(presenterClass) ) {
+            methodName = method.getName();
+            break;
+          }
+        }
+        if( methodName == null ) {
+          logger.log(TreeLogger.ERROR, "The Ginjector '"+ gingectorClassName + 
+              "' does not have a get() method returning 'AsyncProvider<"+presenterClassName+
+              ">'. This is required when using @" + ProxyCodeSplit.class.getSimpleName() + ".", null);      
+          throw new UnableToCompleteException();
+        }
+        
+        writer.println( "presenter = new CodeSplitProvider<" + presenterClassName + ">( injector." +
+            methodName + "() );" );
       }
       else {
-        // CodeSplitBundleProvider        
-        String bundleClassName = codeSplitBundleAnnotation.bundleClass().getCanonicalName();
-        String bundleClassSimpleName = codeSplitBundleAnnotation.bundleClass().getSimpleName();
+        // CodeSplitBundleProvider
+
+        String bundleClassName = proxyCodeSplitBundleAnnotation.bundleClass().getCanonicalName();
+        JClassType bundleClass = oracle.findType(bundleClassName);
+
+        if( bundleClass == null ) {
+          logger.log(TreeLogger.ERROR, "Cannot find the bundle class '" + bundleClassName + 
+              ", used with @" + ProxyCodeSplitBundle.class.getSimpleName() +
+              " on presenter '", null);      
+          throw new UnableToCompleteException();
+        }
+        
+        // Find the appropriate get method in the Ginjector
+        String methodName = null;
+        for( JMethod method : ginjectorClass.getMethods() ) {
+          JParameterizedType returnType = method.getReturnType().isParameterized();
+          if( method.getParameters().length == 0 &&
+              returnType != null && 
+              returnType.isAssignableTo( asyncProviderClass ) &&
+              returnType.getTypeArgs()[0].isAssignableTo(bundleClass) ) {
+            methodName = method.getName();
+            break;
+          }
+        }
+        if( methodName == null ) {
+          logger.log(TreeLogger.ERROR, "The Ginjector '"+ gingectorClassName + 
+              "' does not have a get() method returning 'AsyncProvider<"+bundleClassName+
+              ">'. This is required when using @" + ProxyCodeSplitBundle.class.getSimpleName() + 
+              " on presenter '" + presenterClassName + "'.", null);      
+          throw new UnableToCompleteException();
+        }
+        
         writer.println( "presenter = new CodeSplitBundleProvider<" + presenterClassName + ", " +
-            bundleClassName + ">( injector.get" + bundleClassSimpleName + "(), " + codeSplitBundleAnnotation.id() + ");" );
+            bundleClassName + ">( injector." + methodName + "(), " + proxyCodeSplitBundleAnnotation.id() + ");" );
       }
+      
       writer.println( "revealContentHandler = new RevealContentHandler<" + presenterClassName + ">( failureHandler, this );" );      
       for( JField field : presenterClass.getFields() ) {
         ContentSlot annotation = field.getAnnotation( ContentSlot.class );
@@ -182,10 +266,10 @@ public class ProxyGenerator extends Generator {
           else
             writer.println( "eventBus.addHandler( " +
                 presenterClassName + "." + field.getName() + 
-                ", revealContentHandler );" );
+            ", revealContentHandler );" );
         }
       }
-      
+
       writer.outdent();
       writer.println( "}" );
 

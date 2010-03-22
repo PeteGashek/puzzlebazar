@@ -9,7 +9,7 @@ import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentHandler;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealRootContentEvent;
 import com.philbeaudoin.platform.mvp.rebind.ContentSlot;
-import com.philbeaudoin.platform.mvp.rebind.UseCodeSplit;
+import com.philbeaudoin.platform.mvp.rebind.ProxyStandard;
 
 /**
  * The top-level presenter that contains typical pages of the application.
@@ -27,7 +27,7 @@ public class PagePresenter extends PresenterImpl<PagePresenter.MyView, PagePrese
   public interface MyView extends View {
   }
   
-  @UseCodeSplit
+  @ProxyStandard
   public interface MyProxy extends Proxy<PagePresenter> {
   }  
 

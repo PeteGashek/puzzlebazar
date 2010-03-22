@@ -6,7 +6,7 @@ import java.lang.annotation.Target;
 import com.philbeaudoin.platform.mvp.client.ProviderBundle;
 
 @Target(ElementType.TYPE)
-public @interface UseCodeSplitBundle {
+public @interface ProxyCodeSplitBundle {
   Class<? extends ProviderBundle> bundleClass();
   int id();
 }
