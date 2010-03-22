@@ -7,7 +7,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.philbeaudoin.platform.mvp.client.Tab;
 import com.philbeaudoin.platform.mvp.client.ViewImpl;
-import com.puzzlebazar.client.core.presenter.AdminTabPresenter;
 import com.puzzlebazar.client.core.presenter.UserSettingsTabPresenter;
 import com.puzzlebazar.client.ui.SimpleTabPanel;
 

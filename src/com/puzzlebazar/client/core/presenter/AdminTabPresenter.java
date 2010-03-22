@@ -10,6 +10,8 @@ import com.philbeaudoin.platform.mvp.client.TabContainerPresenterImpl;
 import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentHandler;
+import com.philbeaudoin.platform.mvp.rebind.ContentSlot;
+import com.philbeaudoin.platform.mvp.rebind.UseCodeSplitBundle;
 
 
 /**
@@ -19,11 +21,16 @@ import com.philbeaudoin.platform.mvp.client.proxy.RevealContentHandler;
  */
 public class AdminTabPresenter extends TabContainerPresenterImpl<AdminTabPresenter.MyView,AdminTabPresenter.MyProxy> {
 
+  @ContentSlot
   public static final Type<RevealContentHandler<?>> TYPE_RevealTabContent = new Type<RevealContentHandler<?>>();
+
   public static final Type<RequestTabsHandler> TYPE_RequestTabs = new Type<RequestTabsHandler>();
   
   public interface MyView extends TabPanel, View {}
 
+  @UseCodeSplitBundle(
+      bundleClass = TabbedPresenterBundle.class, 
+      id = TabbedPresenterBundle.ID_AdminTabPresenter )
   public interface MyProxy extends Proxy<AdminTabPresenter> {}
   
   @Inject

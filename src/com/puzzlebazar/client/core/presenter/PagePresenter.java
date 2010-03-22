@@ -5,7 +5,7 @@ import com.google.inject.Inject;
 import com.philbeaudoin.platform.mvp.client.View;
 import com.philbeaudoin.platform.mvp.client.PresenterImpl;
 import com.philbeaudoin.platform.mvp.client.EventBus;
-import com.philbeaudoin.platform.mvp.client.proxy.ProxyInt;
+import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentHandler;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealRootContentEvent;
 import com.philbeaudoin.platform.mvp.rebind.ContentSlot;
@@ -28,7 +28,7 @@ public class PagePresenter extends PresenterImpl<PagePresenter.MyView, PagePrese
   }
   
   @UseCodeSplit
-  public interface MyProxy extends ProxyInt<PagePresenter> {
+  public interface MyProxy extends Proxy<PagePresenter> {
   }  
 
   private final TopBarPresenter topBarPresenter;
