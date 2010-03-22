@@ -1,8 +1,7 @@
-package com.puzzlebazar.client.core.proxy;
+package com.puzzlebazar.client;
 
 import com.philbeaudoin.platform.mvp.client.proxy.PlaceImpl;
 
-import com.puzzlebazar.client.CurrentUser;
 
 /**
  * A secured {@link Place} that can only be accessed by the administrator.

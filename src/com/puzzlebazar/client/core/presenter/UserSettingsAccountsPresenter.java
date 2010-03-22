@@ -7,6 +7,11 @@ import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.proxy.Place;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.platform.mvp.client.proxy.TabContentProxy;
+import com.philbeaudoin.platform.mvp.rebind.NameToken;
+import com.philbeaudoin.platform.mvp.rebind.PlaceInstance;
+import com.philbeaudoin.platform.mvp.rebind.ProxyCodeSplit;
+import com.philbeaudoin.platform.mvp.rebind.TabInfo;
+import com.puzzlebazar.client.NameTokens;
 
 /**
  * This is the presenter of the accounts tab in the user settings page.
@@ -17,6 +22,13 @@ public class UserSettingsAccountsPresenter extends PresenterImpl<UserSettingsAcc
 
   public interface MyView extends View { }
 
+  @ProxyCodeSplit
+  @NameToken( NameTokens.userSettingsAccounts )
+  @PlaceInstance( "new com.puzzlebazar.client.LoggedInSecurePlace(nameToken, ginjector.getCurrentUser())" )
+  @TabInfo(
+      container = UserSettingsTabPresenter.class, 
+      priority = 1,
+      getLabel="ginjector.getTranslations().tabAccounts()")
   public interface MyProxy extends TabContentProxy<UserSettingsAccountsPresenter>, Place {}
 
   @Inject

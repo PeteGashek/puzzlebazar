@@ -14,8 +14,13 @@ import com.philbeaudoin.platform.mvp.client.proxy.Place;
 import com.philbeaudoin.platform.mvp.client.proxy.PlaceManager;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.platform.mvp.client.proxy.TabContentProxy;
+import com.philbeaudoin.platform.mvp.rebind.NameToken;
+import com.philbeaudoin.platform.mvp.rebind.PlaceInstance;
+import com.philbeaudoin.platform.mvp.rebind.ProxyCodeSplit;
+import com.philbeaudoin.platform.mvp.rebind.TabInfo;
 import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.CurrentUser;
+import com.puzzlebazar.client.NameTokens;
 import com.puzzlebazar.client.resources.Translations;
 import com.puzzlebazar.client.util.MonitorHandler;
 import com.puzzlebazar.client.util.ChangeMonitor;
@@ -44,6 +49,13 @@ implements MonitorHandler  {
     void addLanguage(String languageName);
   }
 
+  @ProxyCodeSplit
+  @NameToken( NameTokens.userSettingsGeneral )
+  @PlaceInstance( "new com.puzzlebazar.client.LoggedInSecurePlace(nameToken, ginjector.getCurrentUser())" )
+  @TabInfo(
+      container = UserSettingsTabPresenter.class, 
+      priority = 0, 
+      getLabel="ginjector.getTranslations().tabGeneral()" )
   public interface MyProxy extends TabContentProxy<UserSettingsGeneralPresenter>, Place {}
 
   private final DispatchAsync dispatcher;

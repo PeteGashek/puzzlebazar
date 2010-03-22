@@ -12,6 +12,7 @@ import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentHandler;
 import com.philbeaudoin.platform.mvp.rebind.ContentSlot;
 import com.philbeaudoin.platform.mvp.rebind.ProxyCodeSplitBundle;
+import com.philbeaudoin.platform.mvp.rebind.RequestTabs;
 
 
 /**
@@ -24,6 +25,7 @@ public class AdminTabPresenter extends TabContainerPresenterImpl<AdminTabPresent
   @ContentSlot
   public static final Type<RevealContentHandler<?>> TYPE_RevealTabContent = new Type<RevealContentHandler<?>>();
 
+  @RequestTabs
   public static final Type<RequestTabsHandler> TYPE_RequestTabs = new Type<RequestTabsHandler>();
   
   public interface MyView extends TabPanel, View {}
