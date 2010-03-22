@@ -3,6 +3,7 @@ package com.puzzlebazar.client.gin;
 import com.google.gwt.inject.client.AsyncProvider;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
+import com.google.inject.Provider;
 
 import com.philbeaudoin.platform.dispatch.client.DispatchAsync;
 import com.philbeaudoin.platform.dispatch.client.gin.StandardDispatchModule;
@@ -25,7 +26,7 @@ public interface PuzzlebazarGinjector extends Ginjector {
   DispatchAsync getDispatcher();
   ProxyFailureHandler getProxyFailureHandler();
   
-  AsyncProvider<PagePresenter> getPagePresenter();
+  Provider<PagePresenter> getPagePresenter();
   AsyncProvider<SplitMainPresenter> getSplitMainPresenter();
   AsyncProvider<TabbedPresenterBundle> getTabbedPresenterBundle();
 }
