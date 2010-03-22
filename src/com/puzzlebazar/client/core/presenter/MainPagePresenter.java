@@ -12,6 +12,9 @@ import com.philbeaudoin.platform.mvp.client.proxy.Place;
 import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
 import com.philbeaudoin.platform.mvp.client.proxy.ProxyFailureHandler;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
+import com.philbeaudoin.platform.mvp.rebind.NameToken;
+import com.philbeaudoin.platform.mvp.rebind.ProxyStandard;
+import com.puzzlebazar.client.NameTokens;
 
 /**
  * This is the presenter of the main application page.
@@ -23,9 +26,10 @@ extends PresenterImpl<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
 
   public static final Object TYPE_RevealNewsContent = new Object();
 
-  public interface MyView extends View {
-  }
+  public interface MyView extends View {}
 
+  @ProxyStandard
+  @NameToken( NameTokens.mainPage )
   public interface MyProxy extends Proxy<MainPagePresenter>, Place {}
 
   private final ProxyFailureHandler failureHandler;

@@ -7,6 +7,9 @@ import com.philbeaudoin.platform.mvp.client.View;
 import com.philbeaudoin.platform.mvp.client.proxy.Place;
 import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealRootLayoutContentEvent;
+import com.philbeaudoin.platform.mvp.rebind.NameToken;
+import com.philbeaudoin.platform.mvp.rebind.ProxyCodeSplit;
+import com.puzzlebazar.client.NameTokens;
 
 /**
  * The top-level presenter that contains puzzles pages.
@@ -20,6 +23,8 @@ public class PuzzlePresenter extends PresenterImpl<PuzzlePresenter.MyView, Puzzl
   public interface MyView extends View {
   }
   
+  @ProxyCodeSplit
+  @NameToken( NameTokens.puzzlePage )
   public interface MyProxy extends Proxy<PuzzlePresenter>, Place {}  
 
   private final TopBarPresenter topBarPresenter;
