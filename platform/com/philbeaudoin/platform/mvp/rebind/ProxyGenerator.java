@@ -27,6 +27,7 @@ import com.philbeaudoin.platform.mvp.client.DelayedBind;
 import com.philbeaudoin.platform.mvp.client.DelayedBindRegistry;
 import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.Presenter;
+import com.philbeaudoin.platform.mvp.client.RequestTabsHandler;
 import com.philbeaudoin.platform.mvp.client.StandardProvider;
 import com.philbeaudoin.platform.mvp.client.proxy.Place;
 import com.philbeaudoin.platform.mvp.client.proxy.PlaceImpl;
@@ -35,6 +36,9 @@ import com.philbeaudoin.platform.mvp.client.proxy.ProxyImpl;
 import com.philbeaudoin.platform.mvp.client.proxy.ProxyPlace;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentHandler;
+import com.philbeaudoin.platform.mvp.client.proxy.TabContentProxy;
+import com.philbeaudoin.platform.mvp.client.proxy.TabContentProxyImpl;
+import com.philbeaudoin.platform.mvp.client.proxy.TabContentProxyPlace;
 
 public class ProxyGenerator extends Generator {
 
@@ -46,16 +50,22 @@ public class ProxyGenerator extends Generator {
   private JClassType typeClass = null;
   private static final String revealContentHandlerClassName = RevealContentHandler.class.getCanonicalName();
   private JClassType revealContentHandlerClass = null;
+  private static final String requestTabsHandlerClassName = RequestTabsHandler.class.getCanonicalName();
+  private JClassType requestTabsHandlerClass = null;  
   private static final String providerClassName = Provider.class.getCanonicalName();
   private JClassType providerClass = null;
   private static final String asyncProviderClassName = AsyncProvider.class.getCanonicalName();
   private JClassType asyncProviderClass = null;
   private static final String basePlaceClassName = Place.class.getCanonicalName();
   private JClassType basePlaceClass = null;
+  private static final String tabContentProxyClassName = TabContentProxy.class.getCanonicalName();
+  private JClassType tabContentProxyClass = null;
   private static final String placeImplClassName = PlaceImpl.class.getCanonicalName();
   private static final String delayedBindClassName = DelayedBind.class.getCanonicalName();
   private static final String proxyImplClassName = ProxyImpl.class.getCanonicalName();
   private static final String proxyPlaceClassName = ProxyPlace.class.getCanonicalName();
+  private static final String tabContentProxyImplClassName = TabContentProxyImpl.class.getCanonicalName();
+  private static final String tabContentProxyPlaceClassName = TabContentProxyPlace.class.getCanonicalName();
 
   @Override
   public String generate(TreeLogger logger, GeneratorContext ctx, String requestedClass)
@@ -149,16 +159,55 @@ public class ProxyGenerator extends Generator {
     if( proxyInterface.isAssignableTo( basePlaceClass ) ) {
       NameToken nameTokenAnnotation = proxyInterface.getAnnotation( NameToken.class );
       if( nameTokenAnnotation == null ) {
-        logger.log(TreeLogger.ERROR, "The proxy for '" + presenterClassName + "' is a Place, but does not define @' +" +
+        logger.log(TreeLogger.ERROR, "The proxy for '" + presenterClassName + "' is a Place, but is not annotated with @' +" +
             NameToken.class.getSimpleName() + ".", null);      
         throw new UnableToCompleteException();
       }
       nameToken = nameTokenAnnotation.value();
-      NewPlaceCode newPlaceCodeAnnotation =  proxyInterface.getAnnotation( NewPlaceCode.class );
+      PlaceInstance newPlaceCodeAnnotation =  proxyInterface.getAnnotation( PlaceInstance.class );
       if( newPlaceCodeAnnotation != null )
         newPlaceCode = newPlaceCodeAnnotation.value();
     }
 
+
+    // Check if this proxy is also a TabContentProxy.
+    JClassType tabContainerClass = null;
+    String tabContainerClassName = null;
+    int tabPriority = 0;
+    String tabLabel = null;
+    String tabGetLabel = null;
+    if( proxyInterface.isAssignableTo( tabContentProxyClass ) ) {
+      TabInfo tabInfoAnnotation = proxyInterface.getAnnotation( TabInfo.class );
+      if( tabInfoAnnotation == null ) {
+        logger.log(TreeLogger.ERROR, "The proxy for '" + presenterClassName + "' is a TabContentProxy, but is not annotated with @' +" +
+            TabInfo.class.getSimpleName() + ".", null);
+        throw new UnableToCompleteException();
+      }
+      tabContainerClass = oracle.findType( tabInfoAnnotation.container().getCanonicalName() );
+      if( tabContainerClass == null ) {
+        logger.log(TreeLogger.ERROR, "The container '" + tabInfoAnnotation.container().getCanonicalName() + 
+            "' in the proxy annotation for '" + presenterClassName + "' was not found.", null);
+        throw new UnableToCompleteException();
+      }
+      tabContainerClassName = tabContainerClass.getName();
+      tabPriority = tabInfoAnnotation.priority();
+      if( tabInfoAnnotation.label().length() > 0 )
+        tabLabel = tabInfoAnnotation.label();
+      if( tabInfoAnnotation.getLabel().length() > 0 )
+        tabGetLabel = tabInfoAnnotation.getLabel();
+      if( tabLabel == null && tabGetLabel == null ) {
+        logger.log(TreeLogger.ERROR, "The @' +" +
+            TabInfo.class.getSimpleName() + " annotation of the proxy for '" + presenterClassName + 
+            "' must define either 'label' or 'getLabel'.", null);
+        throw new UnableToCompleteException();
+      }
+      if( tabLabel != null && tabGetLabel != null ) {
+        logger.log(TreeLogger.WARN, "The @' +" +
+            TabInfo.class.getSimpleName() + " annotation of the proxy for '" + presenterClassName + 
+            "' defines both 'label' and 'getLabel'. Ignoring 'getLabel'.", null);
+        tabGetLabel = null;
+      }
+    }
 
     // Start composing the class
     ClassSourceFileComposerFactory composerFactory = new ClassSourceFileComposerFactory(
@@ -188,17 +237,31 @@ public class ProxyGenerator extends Generator {
     composerFactory.addImplementedInterface(
         proxyInterface.getParameterizedQualifiedSourceName());
     composerFactory.addImplementedInterface(delayedBindClassName);
-    if( nameToken == null )
-      composerFactory.setSuperclass(proxyImplClassName+"<"+presenterClassName+">" );
-    else
-      composerFactory.setSuperclass(proxyPlaceClassName+"<"+presenterClassName+">" );      
+    if( nameToken == null ) {
+      // Not a place
+      if( tabContainerClass == null )
+        // Standard proxy (not a Place, not a TabContentProxy)
+        composerFactory.setSuperclass(proxyImplClassName+"<"+presenterClassName+">" );
+      else
+        // TabContentProxy (not a Place, but a TabContentProxy)
+        composerFactory.setSuperclass(tabContentProxyImplClassName+"<"+presenterClassName+">" );
+    }
+    else {
+      // A place
+      if( tabContainerClass == null )
+        // Place (but not a TabContentProxy)
+        composerFactory.setSuperclass(proxyPlaceClassName+"<"+presenterClassName+">" );
+      else
+        // Place and TabContentProxy
+        composerFactory.setSuperclass(tabContentProxyPlaceClassName+"<"+presenterClassName+">" );
+    }
 
     // Get a source writer
     SourceWriter writer = composerFactory.createSourceWriter(ctx, printWriter);
 
     if( nameToken == null ) {
       // Standard proxy (not a Place)      
-      
+
       // Private fields
       writer.println();
       writer.println( "private RevealContentHandler<"+presenterClassName+"> revealContentHandler = null;");
@@ -209,7 +272,10 @@ public class ProxyGenerator extends Generator {
       // BEGIN Enclosed proxy class
       writer.println();
       writer.println( "public static class WrappedProxy" );
-      writer.println( "extends " +proxyImplClassName+"<"+presenterClassName+"> {" );
+      if( tabContainerClass == null )
+        writer.println( "extends " +proxyImplClassName+"<"+presenterClassName+"> {" );
+      else
+        writer.println( "extends " +tabContentProxyImplClassName+"<"+presenterClassName+"> {" );
       writer.indent();
 
       // Enclosed proxy construcotr
@@ -220,8 +286,43 @@ public class ProxyGenerator extends Generator {
       writer.println();
       writer.println( "private void delayedBind( " + ginjectorClassName + " ginjector ) {");
       writer.indent();
-      // Call parent's bind method.
+      // Call ProxyImpl bind method.
       writer.println( "bind( ginjector.getProxyFailureHandler() );" );
+      if( tabContainerClass != null ) {
+        boolean foundRequestTabsEventType = false;
+        for( JField field : tabContainerClass.getFields() ) {
+          RequestTabs annotation = field.getAnnotation( RequestTabs.class );
+          JParameterizedType parameterizedType = field.getType().isParameterized();
+          if( annotation != null ) {
+            if( !field.isStatic() || 
+                parameterizedType == null || 
+                !parameterizedType.isAssignableTo( typeClass ) ||
+                !parameterizedType.getTypeArgs()[0].isAssignableTo(requestTabsHandlerClass) ) {
+              logger.log(TreeLogger.ERROR, "Found the annotation @" + RequestTabs.class.getSimpleName() + 
+                  " on the invalid field '"+tabContainerClassName+"."+field.getName()+
+                  "'. Field must be static and its type must be Type<RequestTabsHandler<?>>.", null);
+              throw new UnableToCompleteException();
+            }
+            foundRequestTabsEventType = true;
+            writer.println( "requestTabsEventType = " + tabContainerClassName + "." + field.getName() + ";" );
+            break;
+          }
+        }
+        if( !foundRequestTabsEventType ) {
+          logger.log(TreeLogger.ERROR, "Did not find any field annotated with @" + RequestTabs.class.getSimpleName() + 
+              " on the container '"+tabContainerClassName+"' while building proxy for presenter '"+
+              presenterClassName + "'.", null);
+          throw new UnableToCompleteException();
+        }
+        writer.println( "priority = " + tabPriority + ";" );
+        if(  tabLabel != null )
+          writer.println( "label = \"" + tabLabel + "\";" );
+        else
+          writer.println( "label = " + tabGetLabel + ";" );
+        writer.println( "historyToken = \"" + nameToken + "\";" );
+        // Call TabContentProxyImpl bind method.
+        writer.println( "bind( ginjector.getEventBus() );" );
+      }
       writePresenterProvider(logger, ctx, writer, proxyCodeSplitAnnotation, 
           proxyCodeSplitBundleAnnotation, ginjectorClass, ginjectorClassName, 
           presenterClass, presenterClassName);
@@ -251,8 +352,12 @@ public class ProxyGenerator extends Generator {
       // Standard proxy (not a Place)      
 
       writeGinjector(writer, ginjectorClassName);
-      // Call parent's bind method.
+      // Call ProxyImpl bind method.
       writer.println( "bind( ginjector.getProxyFailureHandler() );" );
+      if( tabContainerClass != null ) {
+        // TODO
+        assert false : "Automatic proxys for non-place TabContentProxy not yet supported!";
+      }
       writer.println( "EventBus eventBus = ginjector.getEventBus();"  );
       writePresenterProvider(logger, ctx, writer, proxyCodeSplitAnnotation, 
           proxyCodeSplitBundleAnnotation, ginjectorClass, ginjectorClassName, 
@@ -282,9 +387,9 @@ public class ProxyGenerator extends Generator {
     }
     else {
       // Place proxy
-      
+
       writeGinjector(writer, ginjectorClassName);
-      // Call parent's bind method.
+      // Call ProxyPlaceAbstract bind method.
       writer.println( "bind(  ginjector.getProxyFailureHandler(), " );
       writer.println( "    ginjector.getPlaceManager()," );
       writer.println( "    ginjector.getEventBus() );" );
@@ -433,9 +538,11 @@ public class ProxyGenerator extends Generator {
     baseGinjectorClass = oracle.findType( baseGinjectorClassName );
     typeClass = oracle.findType( typeClassName );
     revealContentHandlerClass = oracle.findType( revealContentHandlerClassName );
+    requestTabsHandlerClass = oracle.findType( requestTabsHandlerClassName );
     providerClass = oracle.findType( providerClassName );
     asyncProviderClass = oracle.findType( asyncProviderClassName );
     basePlaceClass = oracle.findType( basePlaceClassName );
+    tabContentProxyClass = oracle.findType( tabContentProxyClassName );
   }
 
 }

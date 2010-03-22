@@ -19,6 +19,6 @@ import com.google.gwt.inject.client.Ginjector;
  * @author Philippe Beaudoin
  */
 @Target(ElementType.TYPE)
-public @interface NewPlaceCode {
+public @interface PlaceInstance {
   String value();
 }

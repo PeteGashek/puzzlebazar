@@ -14,7 +14,7 @@ extends ProxyImpl<P> implements TabContentProxy<P> {
 
   protected Type<RequestTabsHandler> requestTabsEventType;
   protected float priority;
-  protected String text;
+  protected String label;
   protected String historyToken;
 
   private Tab tab = null;
@@ -48,8 +48,8 @@ extends ProxyImpl<P> implements TabContentProxy<P> {
   }
 
   @Override
-  public String getText() {
-    return text;
+  public String getLabel() {
+    return label;
   }
 
   @Override

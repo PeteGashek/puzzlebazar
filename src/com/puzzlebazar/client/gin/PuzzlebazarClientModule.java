@@ -28,11 +28,7 @@ import com.puzzlebazar.client.core.presenter.TopBarPresenter;
 import com.puzzlebazar.client.core.presenter.UserSettingsAccountsPresenter;
 import com.puzzlebazar.client.core.presenter.UserSettingsGeneralPresenter;
 import com.puzzlebazar.client.core.presenter.UserSettingsTabPresenter;
-import com.puzzlebazar.client.core.proxy.AdminGeneralProxy;
-import com.puzzlebazar.client.core.proxy.AdminUsersProxy;
 import com.puzzlebazar.client.core.proxy.LinkColumnProxy;
-import com.puzzlebazar.client.core.proxy.UserSettingsAccountsProxy;
-import com.puzzlebazar.client.core.proxy.UserSettingsGeneralProxy;
 import com.puzzlebazar.client.core.view.AdminGeneralView;
 import com.puzzlebazar.client.core.view.AdminUsersView;
 import com.puzzlebazar.client.core.view.AdminTabView;
@@ -102,11 +98,11 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     bindPresenter(SplitMainPresenter.class, SplitMainPresenter.MyView.class, SplitMainView.class, SplitMainPresenter.MyProxy.class );
     bindPresenter(LinkColumnPresenter.class, LinkColumnPresenter.MyView.class, LinkColumnView.class, LinkColumnPresenter.MyProxy.class, LinkColumnProxy.class );
     bindPresenter(UserSettingsTabPresenter.class, UserSettingsTabPresenter.MyView.class, UserSettingsTabView.class, UserSettingsTabPresenter.MyProxy.class );
-    bindPresenter(UserSettingsGeneralPresenter.class, UserSettingsGeneralPresenter.MyView.class, UserSettingsGeneralView.class, UserSettingsGeneralPresenter.MyProxy.class, UserSettingsGeneralProxy.class);
-    bindPresenter(UserSettingsAccountsPresenter.class, UserSettingsAccountsPresenter.MyView.class, UserSettingsAccountsView.class, UserSettingsAccountsPresenter.MyProxy.class, UserSettingsAccountsProxy.class);
+    bindPresenter(UserSettingsGeneralPresenter.class, UserSettingsGeneralPresenter.MyView.class, UserSettingsGeneralView.class, UserSettingsGeneralPresenter.MyProxy.class);
+    bindPresenter(UserSettingsAccountsPresenter.class, UserSettingsAccountsPresenter.MyView.class, UserSettingsAccountsView.class, UserSettingsAccountsPresenter.MyProxy.class);
     bindPresenter(AdminTabPresenter.class, AdminTabPresenter.MyView.class, AdminTabView.class, AdminTabPresenter.MyProxy.class );
-    bindPresenter(AdminGeneralPresenter.class, AdminGeneralPresenter.MyView.class, AdminGeneralView.class, AdminGeneralPresenter.MyProxy.class, AdminGeneralProxy.class);
-    bindPresenter(AdminUsersPresenter.class, AdminUsersPresenter.MyView.class, AdminUsersView.class, AdminUsersPresenter.MyProxy.class, AdminUsersProxy.class);
+    bindPresenter(AdminGeneralPresenter.class, AdminGeneralPresenter.MyView.class, AdminGeneralView.class, AdminGeneralPresenter.MyProxy.class);
+    bindPresenter(AdminUsersPresenter.class, AdminUsersPresenter.MyView.class, AdminUsersView.class, AdminUsersPresenter.MyProxy.class);
     bindPresenter(MainPagePresenter.class, MainPagePresenter.MyView.class, MainPageView.class, MainPagePresenter.MyProxy.class);
     bindPresenter(PuzzlePresenter.class, PuzzlePresenter.MyView.class, PuzzleView.class, PuzzlePresenter.MyProxy.class);
 

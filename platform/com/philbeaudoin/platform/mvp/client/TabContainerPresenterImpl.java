@@ -40,7 +40,7 @@ extends PresenterImpl<V, Proxy_> implements TabContainerPresenter  {
   
   @Override
   public Tab addTab( final TabContentProxy<?> tabProxy ) {
-    return getView().addTab( tabProxy.getText(), tabProxy.getHistoryToken(), tabProxy.getPriority() );
+    return getView().addTab( tabProxy.getLabel(), tabProxy.getHistoryToken(), tabProxy.getPriority() );
   }
 
   @Override

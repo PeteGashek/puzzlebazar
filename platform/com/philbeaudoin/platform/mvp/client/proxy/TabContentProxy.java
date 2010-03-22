@@ -13,11 +13,11 @@ public interface TabContentProxy<P extends Presenter> extends Proxy<P> {
   public Tab getTab();
 
   /**
-   * Retrieves the text to show on that tab.
+   * Retrieves the text label to show on that tab.
    * 
-   * @return The text.
+   * @return The text label.
    */
-  public String getText();
+  public String getLabel();
 
   
   /**

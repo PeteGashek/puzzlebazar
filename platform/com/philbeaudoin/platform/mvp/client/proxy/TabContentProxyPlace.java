@@ -27,8 +27,8 @@ implements TabContentProxy<P> {
   }
 
   @Override
-  public String getText() {
-    return proxy.getText();
+  public String getLabel() {
+    return proxy.getLabel();
   }
 
   @Override
