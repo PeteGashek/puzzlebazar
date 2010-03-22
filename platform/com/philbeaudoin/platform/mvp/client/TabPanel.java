@@ -1,7 +1,5 @@
 package com.philbeaudoin.platform.mvp.client;
 
-import com.google.gwt.user.client.ui.Widget;
-
 public interface TabPanel {
 
   /**
@@ -34,13 +32,5 @@ public interface TabPanel {
    * @param tab The tab to activate
    */
   public void setActiveTab( Tab tab );
-
-
-  /**
-   * Changes the currently displayed content
-   * 
-   * @param widget The content to display
-   */
-  public void setTabContent( Widget widget );
   
 }

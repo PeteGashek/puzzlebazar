@@ -3,19 +3,20 @@
  */
 package com.puzzlebazar.client.core.proxy;
 
-import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.inject.client.AsyncProvider;
 import com.google.inject.Inject;
 import com.philbeaudoin.platform.mvp.client.CodeSplitBundleProvider;
-import com.philbeaudoin.platform.mvp.client.proxy.TabContainerProxyImpl;
+import com.philbeaudoin.platform.mvp.client.EventBus;
+import com.philbeaudoin.platform.mvp.client.proxy.ProxyFailureHandler;
+import com.philbeaudoin.platform.mvp.client.proxy.ProxyImpl;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentHandler;
 import com.puzzlebazar.client.core.presenter.AdminTabPresenter;
 import com.puzzlebazar.client.core.presenter.TabbedPresenterBundle;
 import com.puzzlebazar.client.resources.Translations;
 
-public class AdminTabProxy extends TabContainerProxyImpl<AdminTabPresenter> implements AdminTabPresenter.MyProxy {
+public class AdminTabProxy extends ProxyImpl<AdminTabPresenter> implements AdminTabPresenter.MyProxy {
 
-  public static final Type<RevealContentHandler<?>> TYPE_RevealTabContent = new Type<RevealContentHandler<?>>();
+  private RevealContentHandler<AdminTabPresenter> revealContentHandler = null;
 
   @Inject
   public AdminTabProxy(
@@ -25,7 +26,13 @@ public class AdminTabProxy extends TabContainerProxyImpl<AdminTabPresenter> impl
         new CodeSplitBundleProvider<AdminTabPresenter,TabbedPresenterBundle>(
             presenterBundle,
             TabbedPresenterBundle.ID_AdminPresenter);
-    this.revealTabContentEventType = TYPE_RevealTabContent;
   }
 
+  @Inject
+  protected void bind(ProxyFailureHandler failureHandler, EventBus eventBus) {
+    revealContentHandler  = new RevealContentHandler<AdminTabPresenter>( failureHandler, this );    
+    eventBus.addHandler( AdminTabPresenter.TYPE_RevealTabContent, revealContentHandler );
+  }
+
+  
 }

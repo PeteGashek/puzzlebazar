@@ -72,10 +72,14 @@ public abstract class BaseTabPanel extends Composite implements TabPanel {
     currentActiveTab = tab;
   }
 
-  @Override
-  public void setTabContent(Widget tabContent) {
+  /**
+   * Sets the content displayed in the main panel.
+   * 
+   * @param panelContent The {@link Widget} to set in the main panel.
+   */
+  public void setPanelContent(Widget panelContent) {
     tabContentContainer.clear();
-    tabContentContainer.add( tabContent );
+    tabContentContainer.add( panelContent );
   }
 
   /**

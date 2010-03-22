@@ -1,37 +1,41 @@
 package com.philbeaudoin.platform.mvp.client;
 
 import com.google.gwt.event.shared.GwtEvent.Type;
+import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
 import com.philbeaudoin.platform.mvp.client.proxy.TabContentProxy;
-import com.philbeaudoin.platform.mvp.client.proxy.TabContainerProxy;
 
-public abstract class TabContainerPresenterImpl<V extends View & TabPanel, Proxy_ extends TabContainerProxy<?>> 
+/**
+ * A presenter that can display many tabs and the content of one of these tabs.
+ *
+ * @param <V> The specific type of the {@link View}. Must implement {@link TabPanel}.
+ * @param <Proxy_> The specific type of the proxy, must be a {@link TabContainerProxy}. 
+ * 
+ * @author Philippe Beaudoin
+ */
+public abstract class TabContainerPresenterImpl<V extends View & TabPanel, Proxy_ extends Proxy<?>> 
 extends PresenterImpl<V, Proxy_> implements TabContainerPresenter  {
 
+  private final Object tabContentSlot;
   private final Type<RequestTabsHandler> requestTabsEventType;
 
-  private Presenter tabContent = null;
-
+  /**
+   * Create a presenter that can display many tabs and the content of one of these tabs.
+   * 
+   * @param eventBus The {@link EventBus}.
+   * @param view The {@link View}.
+   * @param proxy The proxy, a {@link TabContainerProxy}.
+   * @param tabContentSlot An opaque object identifying the slot in which the main content should be displayed.
+   * @param requestTabsEventType The {@link Type} of the object to fire to identify all the displayed tabs.
+   */
   public TabContainerPresenterImpl(
       final EventBus eventBus, 
       final V view, 
       final Proxy_ proxy, 
+      final Object tabContentSlot,
       final Type<RequestTabsHandler> requestTabsEventType ) {
     super(eventBus, view, proxy);
+    this.tabContentSlot = tabContentSlot;
     this.requestTabsEventType = requestTabsEventType;
-  }
-  
-  @Override
-  protected void revealChildren() {
-    super.revealChildren();
-    if( tabContent != null )
-      tabContent.reveal();    
-  }
-
-  @Override
-  protected void notifyHideChildren() {
-    super.notifyHideChildren();
-    if( tabContent != null )
-      tabContent.notifyHide();
   }
   
   @Override
@@ -40,16 +44,11 @@ extends PresenterImpl<V, Proxy_> implements TabContainerPresenter  {
   }
 
   @Override
-  public void setTabContent(Presenter content) {
-    if( tabContent != content ) {
-      if( tabContent != null )
-        tabContent.notifyHide();    
-      tabContent = content;
-      getView().setTabContent( content.getWidget() );
-      if( content.getProxy() instanceof TabContentProxy<?> ) {
-        Tab tab = ((TabContentProxy<?>)content.getProxy()).getTab();
-        getView().setActiveTab( tab );
-      }
+  public void setContent( Object slot, PresenterWidget content ) {
+    super.setContent(slot, content);
+    if( slot == tabContentSlot ) {
+      Tab tab = ((TabContentProxy<?>)((Presenter)content).getProxy()).getTab();
+      getView().setActiveTab( tab );
     }
   }
 

@@ -10,7 +10,6 @@ import com.google.gwt.core.ext.TreeLogger;
 import com.google.gwt.core.ext.UnableToCompleteException;
 import com.google.gwt.core.ext.typeinfo.JClassType;
 import com.google.gwt.core.ext.typeinfo.JField;
-import com.google.gwt.core.ext.typeinfo.JMethod;
 import com.google.gwt.core.ext.typeinfo.JPackage;
 import com.google.gwt.inject.client.AsyncProvider;
 import com.google.gwt.inject.client.Ginjector;
@@ -105,23 +104,30 @@ public class ProxyGenerator extends Generator {
       // We've already created it, so nothing to do
     } else {
       ClassSourceFileComposerFactory composerFactory = new ClassSourceFileComposerFactory(
-          packageName, implClassName);      
-      composerFactory.addImplementedInterface(
-          proxyInterface.getParameterizedQualifiedSourceName());
-      composerFactory.addImport(GWT.class.getCanonicalName());
-      composerFactory.addImport(Inject.class.getCanonicalName());
+          packageName, implClassName);
+      
+      // TODO cleanup imports
+      composerFactory.addImport(GWT.class.getCanonicalName());  // Obsolete?
+      composerFactory.addImport(Inject.class.getCanonicalName());  // Obsolete?
       composerFactory.addImport(Provider.class.getCanonicalName());
       composerFactory.addImport(AsyncProvider.class.getCanonicalName());
       composerFactory.addImport(EventBus.class.getCanonicalName());
       composerFactory.addImport(StandardProvider.class.getCanonicalName());
       composerFactory.addImport(CodeSplitProvider.class.getCanonicalName());
-      composerFactory.addImport(ProxyImpl.class.getCanonicalName());
       composerFactory.addImport(ProxyFailureHandler.class.getCanonicalName());
+      composerFactory.addImport(ProxyImpl.class.getCanonicalName());
       composerFactory.addImport(RevealContentHandler.class.getCanonicalName());
-      composerFactory.addImport(RevealContentEvent.class.getCanonicalName());
+      composerFactory.addImport(RevealContentEvent.class.getCanonicalName());  // Obsolete?
+      
+      // Sets interfaces an superclass
+      composerFactory.addImplementedInterface(
+          proxyInterface.getParameterizedQualifiedSourceName());
       composerFactory.setSuperclass(ProxyImpl.class.getCanonicalName()+"<"+presenterClassName+">" );
+
       SourceWriter writer = composerFactory.createSourceWriter(ctx, printWriter);
 
+      writer.println( "private RevealContentHandler<"+presenterClassName+"> revealContentHandler = null;");
+      writer.println();
       writer.println( "public " +  implClassName + "() {");
       writer.println();
       writer.indent();
@@ -146,29 +152,14 @@ public class ProxyGenerator extends Generator {
         writer.println( "presenter = new CodeSplitBundleProvider<" + presenterClassName + ", " +
             bundleClassName + ">( injector.get" + bundleClassName + "(), " + codeSplitBundleAnnotation.id() + ");" );
       }
-      
-      for( JMethod method : presenterClass.getMethods() ) {
-        RevealEventType annotation = method.getAnnotation( RevealEventType.class );
-        if( method.getParameters().length == 1 && method.getParameters()[0].getType().isClassOrInterface().isAssignableTo(basePresenterClass) &&
-            annotation != null ) {
-          writer.println();
+      writer.println( "revealContentHandler = new RevealContentHandler<" + presenterClassName + ">( failureHandler, this );" );      
+      for( JField field : presenterClass.getFields() ) {
+        ContentSlot annotation = field.getAnnotation( ContentSlot.class );
+        if( field.isStatic() && // TODO field.getType().isGenericType()... &&
+            annotation != null ) {          
           writer.println( "eventBus.addHandler( " +
-              presenterClassName + "." + annotation.value() + 
-              ", new RevealContentHandler<" + presenterClassName +  ">(failureHandler, this){" );
-          writer.indent();
-          writer.println( "@Override" );
-          writer.println( "public void onRevealContent(" );
-          writer.indent();
-          writer.indent();
-          writer.println( "final " + presenterClassName + " presenter," );
-          writer.println( "final RevealContentEvent revealContentEvent) {" );
-          writer.outdent();
-          writer.println( "presenter." + method.getName() + "( revealContentEvent.getContent() );" );
-          writer.println( "presenter.reveal();" );
-          writer.outdent();
-          writer.println( "}" );
-          writer.outdent();
-          writer.println( "} );" );
+              presenterClassName + "." + field.getName() + 
+              ", revealContentHandler );" );
         }
       }
       

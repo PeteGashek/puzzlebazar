@@ -1,16 +1,14 @@
 package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.event.shared.GwtEvent.Type;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.philbeaudoin.platform.mvp.client.Presenter;
 import com.philbeaudoin.platform.mvp.client.View;
 import com.philbeaudoin.platform.mvp.client.PresenterImpl;
 import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.proxy.ProxyInt;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentHandler;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealRootContentEvent;
-import com.philbeaudoin.platform.mvp.rebind.RevealEventType;
+import com.philbeaudoin.platform.mvp.rebind.ContentSlot;
 import com.philbeaudoin.platform.mvp.rebind.UseCodeSplit;
 
 /**
@@ -21,11 +19,12 @@ import com.philbeaudoin.platform.mvp.rebind.UseCodeSplit;
  */
 public class PagePresenter extends PresenterImpl<PagePresenter.MyView, PagePresenter.MyProxy> {
 
-  public static final Type<RevealContentHandler<?>> TYPE_RevealMainContent = new Type<RevealContentHandler<?>>();
+  @ContentSlot
+  public static final Type<RevealContentHandler<?>> TYPE_RevealMainContent = new Type<RevealContentHandler<?>>();  
 
+  public static final Object TYPE_RevealTopBarContent = new Object();
+    
   public interface MyView extends View {
-    void setTopBarContent( Widget topBarContent );
-    void setMainContent( Widget mainContent );
   }
   
   @UseCodeSplit
@@ -33,9 +32,6 @@ public class PagePresenter extends PresenterImpl<PagePresenter.MyView, PagePrese
   }  
 
   private final TopBarPresenter topBarPresenter;
-  
-  private Presenter mainContent = null;
-
   
   @Inject
   public PagePresenter(
@@ -56,33 +52,7 @@ public class PagePresenter extends PresenterImpl<PagePresenter.MyView, PagePrese
   @Override
   protected void onReveal() {
     super.onReveal();
-    getView().setTopBarContent( topBarPresenter.getWidget() );
-  }
-  
-  @Override
-  protected void revealChildren() {
-    super.revealChildren();
-    topBarPresenter.reveal();
-    if( mainContent != null )
-      mainContent.reveal();
-  }
-  
-  @Override
-  protected void notifyHideChildren() {
-    super.notifyHideChildren();
-    topBarPresenter.notifyHide();    
-    if( mainContent != null )
-      mainContent.notifyHide();
-  }  
-  
-  @RevealEventType( "TYPE_RevealMainContent" )
-  public void setMainContent(Presenter content) {
-    if( mainContent != content ) {
-      if( mainContent != null )
-        mainContent.notifyHide();
-      mainContent = content;
-      getView().setMainContent( content.getWidget() );
-    }
+    setContent( TYPE_RevealTopBarContent, topBarPresenter );
   }
 
 }

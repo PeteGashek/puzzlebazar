@@ -6,10 +6,12 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.philbeaudoin.platform.mvp.client.Tab;
+import com.philbeaudoin.platform.mvp.client.ViewImpl;
+import com.puzzlebazar.client.core.presenter.AdminTabPresenter;
 import com.puzzlebazar.client.core.presenter.UserSettingsTabPresenter;
 import com.puzzlebazar.client.ui.SimpleTabPanel;
 
-public class UserSettingsTabView implements UserSettingsTabPresenter.MyView {
+public class UserSettingsTabView extends ViewImpl implements UserSettingsTabPresenter.MyView {
 
   interface Binder extends UiBinder<Widget, UserSettingsTabView> { }
   protected static final Binder binder = GWT.create(Binder.class);
@@ -50,8 +52,11 @@ public class UserSettingsTabView implements UserSettingsTabPresenter.MyView {
   }
 
   @Override
-  public void setTabContent(Widget widget) {
-    tabPanel.setTabContent(widget);
+  public void setContent(Object slot, Widget content) {
+    if( slot == UserSettingsTabPresenter.TYPE_RevealTabContent )
+      tabPanel.setPanelContent(content);
+    else
+      super.setContent(slot, content);
   }
 
 

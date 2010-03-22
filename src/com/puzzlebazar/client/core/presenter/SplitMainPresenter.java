@@ -1,29 +1,28 @@
 package com.puzzlebazar.client.core.presenter;
 
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
-import com.philbeaudoin.platform.mvp.client.Presenter;
 import com.philbeaudoin.platform.mvp.client.View;
 import com.philbeaudoin.platform.mvp.client.PresenterImpl;
 import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
+import com.philbeaudoin.platform.mvp.client.proxy.RevealContentHandler;
 
 public class SplitMainPresenter 
 extends PresenterImpl<SplitMainPresenter.MyView, SplitMainPresenter.MyProxy>
 implements DisplayShortMessageHandler {
 
+  public static final Type<RevealContentHandler<?>> TYPE_RevealSideBarContent = new Type<RevealContentHandler<?>>();
+  public static final Type<RevealContentHandler<?>> TYPE_RevealCenterContent = new Type<RevealContentHandler<?>>();
+  
   public interface MyView extends View {
     public void showMessage( String message, boolean dismissable );
     public void clearMessage();
-    public void setSideBarContent( Widget sideBarContent );
-    public void setCenterContent( Widget centerContent );
+    public boolean hasSideBarContent();
   }
 
   public interface MyProxy extends Proxy<SplitMainPresenter> {}
-
-  private Presenter sideBarContent = null;
-  private Presenter centerContent = null;
 
   @Inject
   public SplitMainPresenter(
@@ -47,45 +46,9 @@ implements DisplayShortMessageHandler {
   @Override
   protected void onReveal() {
     super.onReveal();
-    if( sideBarContent==null )
+    if( !getView().hasSideBarContent() )
       RevealDefaultLinkColumnEvent.fire(eventBus);
   }
-  
-  @Override
-  protected void revealChildren() {
-    super.revealChildren();
-    if( sideBarContent != null )
-      sideBarContent.reveal();
-    if( centerContent != null )
-      centerContent.reveal();
-  }
-  
-  @Override
-  protected void notifyHideChildren() {
-    super.notifyHideChildren();
-    if( sideBarContent != null )
-      sideBarContent.notifyHide();
-    if( centerContent != null )
-      centerContent.notifyHide();
-  }  
-  
-  public void setSideBarContent(Presenter content) {
-    if( sideBarContent != content ) {
-      if( sideBarContent != null )
-        sideBarContent.notifyHide();
-      sideBarContent = content;
-      getView().setSideBarContent( content.getWidget() );
-    }
-  }
-
-  public void setCenterContent(Presenter content) {
-    if( centerContent  != content ) {
-      if( centerContent != null )
-        centerContent.notifyHide();
-      centerContent = content;
-      getView().setCenterContent( content.getWidget() );
-    }
-  } 
 
   @Override
   public void onDisplayShortMessage(DisplayShortMessageEvent event) {

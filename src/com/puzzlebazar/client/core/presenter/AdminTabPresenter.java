@@ -7,9 +7,9 @@ import com.philbeaudoin.platform.mvp.client.EventBus;
 import com.philbeaudoin.platform.mvp.client.RequestTabsHandler;
 import com.philbeaudoin.platform.mvp.client.TabPanel;
 import com.philbeaudoin.platform.mvp.client.TabContainerPresenterImpl;
+import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
-import com.philbeaudoin.platform.mvp.client.proxy.TabContainerProxy;
-import com.puzzlebazar.client.core.proxy.SplitMainProxy;
+import com.philbeaudoin.platform.mvp.client.proxy.RevealContentHandler;
 
 
 /**
@@ -19,23 +19,24 @@ import com.puzzlebazar.client.core.proxy.SplitMainProxy;
  */
 public class AdminTabPresenter extends TabContainerPresenterImpl<AdminTabPresenter.MyView,AdminTabPresenter.MyProxy> {
 
-  public static Type<RequestTabsHandler> TYPE_RequestTabs = new Type<RequestTabsHandler>();
+  public static final Type<RevealContentHandler<?>> TYPE_RevealTabContent = new Type<RevealContentHandler<?>>();
+  public static final Type<RequestTabsHandler> TYPE_RequestTabs = new Type<RequestTabsHandler>();
   
   public interface MyView extends TabPanel, View {}
 
-  public interface MyProxy extends TabContainerProxy<AdminTabPresenter> {}
+  public interface MyProxy extends Proxy<AdminTabPresenter> {}
   
   @Inject
   public AdminTabPresenter(
       final EventBus eventBus, 
       final MyView view, 
       final MyProxy proxy ) {
-    super(eventBus, view, proxy, TYPE_RequestTabs );   
+    super(eventBus, view, proxy, TYPE_RevealTabContent, TYPE_RequestTabs );   
   }  
 
   @Override
   protected void revealInParent() {
-    RevealContentEvent.fire(eventBus, SplitMainProxy.TYPE_RevealCenterContent, this);
+    RevealContentEvent.fire(eventBus, SplitMainPresenter.TYPE_RevealCenterContent, this);
   }
 
 }

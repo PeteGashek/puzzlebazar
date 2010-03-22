@@ -2,7 +2,6 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.inject.client.AsyncProvider;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.philbeaudoin.platform.mvp.client.CodeSplitProvider;
 import com.philbeaudoin.platform.mvp.client.IndirectProvider;
@@ -13,7 +12,6 @@ import com.philbeaudoin.platform.mvp.client.proxy.Place;
 import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
 import com.philbeaudoin.platform.mvp.client.proxy.ProxyFailureHandler;
 import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
-import com.puzzlebazar.client.core.proxy.SplitMainProxy;
 
 /**
  * This is the presenter of the main application page.
@@ -23,9 +21,9 @@ import com.puzzlebazar.client.core.proxy.SplitMainProxy;
 public class MainPagePresenter 
 extends PresenterImpl<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
 
+  public static final Object TYPE_RevealNewsContent = new Object();
+
   public interface MyView extends View {
-    public void addNewsWidget( Widget widget );
-    public void clearNewsWidgets();
   }
 
   public interface MyProxy extends Proxy<MainPagePresenter>, Place {}
@@ -47,7 +45,7 @@ extends PresenterImpl<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
 
   @Override
   protected void revealInParent() {
-    RevealContentEvent.fire(eventBus, SplitMainProxy.TYPE_RevealCenterContent, this);
+    RevealContentEvent.fire(eventBus, SplitMainPresenter.TYPE_RevealCenterContent, this);
   }
 
   // TODO Temporary
@@ -69,7 +67,7 @@ extends PresenterImpl<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
         public void onSuccess(NewsItemPresenter newsItemPresenter) {
           newsItemPresenter.setTitle( "Title " + index );
           index++;
-          view.addNewsWidget( newsItemPresenter.getWidget() );
+          addContent( TYPE_RevealNewsContent, newsItemPresenter );
         }
       } );
     }

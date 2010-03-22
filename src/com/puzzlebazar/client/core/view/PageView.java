@@ -6,6 +6,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.philbeaudoin.platform.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.PagePresenter;
 
 /**
@@ -13,7 +14,7 @@ import com.puzzlebazar.client.core.presenter.PagePresenter;
  * 
  * @author Philippe Beaudoin
  */
-public class PageView implements PagePresenter.MyView {
+public class PageView extends ViewImpl implements PagePresenter.MyView {
 
   interface Binder extends UiBinder<Widget, PageView> { }
   protected static final Binder binder = GWT.create(Binder.class);
@@ -37,13 +38,21 @@ public class PageView implements PagePresenter.MyView {
   }
 
   @Override
-  public void setMainContent(Widget mainContent) {
+  public void setContent(Object slot, Widget content) {
+    if( slot == PagePresenter.TYPE_RevealMainContent ) 
+      setMainContent( content );
+    else if( slot == PagePresenter.TYPE_RevealTopBarContent ) 
+      setTopBarContent( content );
+    else
+      super.setContent(slot, content);
+  }
+    
+  private void setMainContent(Widget mainContent) {
     mainContentContainer.clear();
     mainContentContainer.add( mainContent );
   }
 
-  @Override
-  public void setTopBarContent(Widget topBarContent) {
+  private void setTopBarContent(Widget topBarContent) {
     topBarContainer.clear();
     topBarContainer.add( topBarContent );
   }
