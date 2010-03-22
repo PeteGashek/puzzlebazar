@@ -339,17 +339,17 @@ public class SquareGridLayoutPanel extends AspectRatioLayoutPanel {
   private void createCellPanels() {
     squareGridContainer.clear();
     cells = new CellLayoutPanel[width+1][height+1];
-    float percentWidth = 1.0f/(float)width * 100;
-    float percentHeight = 1.0f/(float)height * 100;
     for( int y=0; y <= height; ++y ) {
-      float percentY = y/(float)height * 100;
+      double percentY = y/(float)height * 100;
+      double percentNextYBottom = 100.0 - (y+1)/(double)height * 100;
       for( int x=0; x <= width; ++x ) {
-        float percentX = x/(float)width * 100;
+        double percentX = x/(float)width * 100;
+        double percentNextXRight = 100.0 - (x+1)/(double)width * 100;
         CellLayoutPanel cell = GWT.create( CellLayoutPanel.class );
         cells[x][y] = cell;        
         squareGridContainer.add( cell );       
-        squareGridContainer.setWidgetLeftWidth(cell, percentX, Unit.PCT, percentWidth, Unit.PCT);
-        squareGridContainer.setWidgetTopHeight(cell, percentY, Unit.PCT, percentHeight, Unit.PCT);
+        squareGridContainer.setWidgetLeftRight(cell, percentX, Unit.PCT, percentNextXRight, Unit.PCT);
+        squareGridContainer.setWidgetTopBottom(cell, percentY, Unit.PCT, percentNextYBottom, Unit.PCT);
       }    
     }
   }
