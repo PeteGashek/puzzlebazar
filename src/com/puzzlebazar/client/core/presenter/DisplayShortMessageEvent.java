@@ -1,7 +1,7 @@
 package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.event.shared.GwtEvent;
-import com.philbeaudoin.platform.mvp.client.EventBus;
+import com.philbeaudoin.gwtp.mvp.client.EventBus;
 
 /**
  * This event is sent to the {@link EventBus} whenever the system

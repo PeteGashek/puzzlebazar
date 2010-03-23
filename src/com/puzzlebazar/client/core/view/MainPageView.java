@@ -6,7 +6,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.philbeaudoin.platform.mvp.client.ViewImpl;
+import com.philbeaudoin.gwtp.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.MainPagePresenter;
 
 public class MainPageView extends ViewImpl implements MainPagePresenter.MyView {

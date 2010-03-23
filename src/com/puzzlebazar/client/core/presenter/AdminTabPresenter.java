@@ -2,17 +2,17 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
-import com.philbeaudoin.platform.mvp.client.View;
-import com.philbeaudoin.platform.mvp.client.EventBus;
-import com.philbeaudoin.platform.mvp.client.RequestTabsHandler;
-import com.philbeaudoin.platform.mvp.client.TabPanel;
-import com.philbeaudoin.platform.mvp.client.TabContainerPresenterImpl;
-import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
-import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
-import com.philbeaudoin.platform.mvp.client.proxy.RevealContentHandler;
-import com.philbeaudoin.platform.mvp.rebind.ContentSlot;
-import com.philbeaudoin.platform.mvp.rebind.ProxyCodeSplitBundle;
-import com.philbeaudoin.platform.mvp.rebind.RequestTabs;
+import com.philbeaudoin.gwtp.mvp.client.View;
+import com.philbeaudoin.gwtp.mvp.client.EventBus;
+import com.philbeaudoin.gwtp.mvp.client.RequestTabsHandler;
+import com.philbeaudoin.gwtp.mvp.client.TabPanel;
+import com.philbeaudoin.gwtp.mvp.client.TabContainerPresenterImpl;
+import com.philbeaudoin.gwtp.mvp.client.proxy.Proxy;
+import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
+import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentHandler;
+import com.philbeaudoin.gwtp.mvp.rebind.ContentSlot;
+import com.philbeaudoin.gwtp.mvp.rebind.ProxyCodeSplitBundle;
+import com.philbeaudoin.gwtp.mvp.rebind.RequestTabs;
 
 
 /**

@@ -5,12 +5,12 @@ import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 import com.google.inject.Provider;
 
-import com.philbeaudoin.platform.dispatch.client.DispatchAsync;
-import com.philbeaudoin.platform.dispatch.client.gin.StandardDispatchModule;
+import com.philbeaudoin.gwtp.dispatch.client.DispatchAsync;
+import com.philbeaudoin.gwtp.dispatch.client.gin.StandardDispatchModule;
 
-import com.philbeaudoin.platform.mvp.client.EventBus;
-import com.philbeaudoin.platform.mvp.client.proxy.PlaceManager;
-import com.philbeaudoin.platform.mvp.client.proxy.ProxyFailureHandler;
+import com.philbeaudoin.gwtp.mvp.client.EventBus;
+import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceManager;
+import com.philbeaudoin.gwtp.mvp.client.proxy.ProxyFailureHandler;
 
 import com.puzzlebazar.client.CurrentUser;
 import com.puzzlebazar.client.core.presenter.AdminGeneralPresenter;

@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.philbeaudoin.platform.mvp.client.ViewImpl;
+import com.philbeaudoin.gwtp.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.UserSettingsGeneralPresenter;
 
 public class UserSettingsGeneralView extends ViewImpl implements UserSettingsGeneralPresenter.MyView {

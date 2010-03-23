@@ -3,17 +3,17 @@ package com.puzzlebazar.client.core.presenter;
 import com.google.gwt.inject.client.AsyncProvider;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
-import com.philbeaudoin.platform.mvp.client.CodeSplitProvider;
-import com.philbeaudoin.platform.mvp.client.IndirectProvider;
-import com.philbeaudoin.platform.mvp.client.View;
-import com.philbeaudoin.platform.mvp.client.PresenterImpl;
-import com.philbeaudoin.platform.mvp.client.EventBus;
-import com.philbeaudoin.platform.mvp.client.proxy.Place;
-import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
-import com.philbeaudoin.platform.mvp.client.proxy.ProxyFailureHandler;
-import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
-import com.philbeaudoin.platform.mvp.rebind.NameToken;
-import com.philbeaudoin.platform.mvp.rebind.ProxyStandard;
+import com.philbeaudoin.gwtp.mvp.client.CodeSplitProvider;
+import com.philbeaudoin.gwtp.mvp.client.IndirectProvider;
+import com.philbeaudoin.gwtp.mvp.client.View;
+import com.philbeaudoin.gwtp.mvp.client.PresenterImpl;
+import com.philbeaudoin.gwtp.mvp.client.EventBus;
+import com.philbeaudoin.gwtp.mvp.client.proxy.Place;
+import com.philbeaudoin.gwtp.mvp.client.proxy.Proxy;
+import com.philbeaudoin.gwtp.mvp.client.proxy.ProxyFailureHandler;
+import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
+import com.philbeaudoin.gwtp.mvp.rebind.NameToken;
+import com.philbeaudoin.gwtp.mvp.rebind.ProxyStandard;
 import com.puzzlebazar.client.NameTokens;
 
 /**

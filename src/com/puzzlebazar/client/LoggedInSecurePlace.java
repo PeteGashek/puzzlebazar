@@ -1,6 +1,6 @@
 package com.puzzlebazar.client;
 
-import com.philbeaudoin.platform.mvp.client.proxy.PlaceImpl;
+import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceImpl;
 
 /**
  * A secured {@link Place} that can only be accessed when the user

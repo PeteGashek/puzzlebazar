@@ -4,10 +4,10 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.philbeaudoin.platform.mvp.client.EventBus;
-import com.philbeaudoin.platform.mvp.client.proxy.PlaceManagerImpl;
-import com.philbeaudoin.platform.mvp.client.proxy.ProxyRaw;
-import com.philbeaudoin.platform.mvp.client.proxy.TokenFormatter;
+import com.philbeaudoin.gwtp.mvp.client.EventBus;
+import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceManagerImpl;
+import com.philbeaudoin.gwtp.mvp.client.proxy.ProxyRaw;
+import com.philbeaudoin.gwtp.mvp.client.proxy.TokenFormatter;
 import com.puzzlebazar.client.gin.DefaultPlace;
 
 

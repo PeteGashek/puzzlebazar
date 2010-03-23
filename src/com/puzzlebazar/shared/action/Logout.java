@@ -1,6 +1,6 @@
 package com.puzzlebazar.shared.action;
 
-import com.philbeaudoin.platform.dispatch.shared.Action;
+import com.philbeaudoin.gwtp.dispatch.shared.Action;
 
 public class Logout implements Action< NoResult > {
 

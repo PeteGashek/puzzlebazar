@@ -3,7 +3,7 @@ package com.puzzlebazar.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 
-import com.philbeaudoin.platform.mvp.client.DelayedBindRegistry;
+import com.philbeaudoin.gwtp.mvp.client.DelayedBindRegistry;
 import com.puzzlebazar.client.gin.PuzzlebazarGinjector;
 
 public class Puzzlebazar implements EntryPoint {

@@ -1,14 +1,14 @@
 package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
-import com.philbeaudoin.platform.mvp.client.EventBus;
-import com.philbeaudoin.platform.mvp.client.PresenterImpl;
-import com.philbeaudoin.platform.mvp.client.View;
-import com.philbeaudoin.platform.mvp.client.proxy.Place;
-import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
-import com.philbeaudoin.platform.mvp.client.proxy.RevealRootLayoutContentEvent;
-import com.philbeaudoin.platform.mvp.rebind.NameToken;
-import com.philbeaudoin.platform.mvp.rebind.ProxyCodeSplit;
+import com.philbeaudoin.gwtp.mvp.client.EventBus;
+import com.philbeaudoin.gwtp.mvp.client.PresenterImpl;
+import com.philbeaudoin.gwtp.mvp.client.View;
+import com.philbeaudoin.gwtp.mvp.client.proxy.Place;
+import com.philbeaudoin.gwtp.mvp.client.proxy.Proxy;
+import com.philbeaudoin.gwtp.mvp.client.proxy.RevealRootLayoutContentEvent;
+import com.philbeaudoin.gwtp.mvp.rebind.NameToken;
+import com.philbeaudoin.gwtp.mvp.rebind.ProxyCodeSplit;
 import com.puzzlebazar.client.NameTokens;
 
 /**

@@ -1,16 +1,16 @@
 package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
-import com.philbeaudoin.platform.mvp.client.View;
-import com.philbeaudoin.platform.mvp.client.PresenterImpl;
-import com.philbeaudoin.platform.mvp.client.EventBus;
-import com.philbeaudoin.platform.mvp.client.proxy.Place;
-import com.philbeaudoin.platform.mvp.client.proxy.RevealContentEvent;
-import com.philbeaudoin.platform.mvp.client.proxy.TabContentProxy;
-import com.philbeaudoin.platform.mvp.rebind.NameToken;
-import com.philbeaudoin.platform.mvp.rebind.PlaceInstance;
-import com.philbeaudoin.platform.mvp.rebind.ProxyCodeSplit;
-import com.philbeaudoin.platform.mvp.rebind.TabInfo;
+import com.philbeaudoin.gwtp.mvp.client.View;
+import com.philbeaudoin.gwtp.mvp.client.PresenterImpl;
+import com.philbeaudoin.gwtp.mvp.client.EventBus;
+import com.philbeaudoin.gwtp.mvp.client.proxy.Place;
+import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
+import com.philbeaudoin.gwtp.mvp.client.proxy.TabContentProxy;
+import com.philbeaudoin.gwtp.mvp.rebind.NameToken;
+import com.philbeaudoin.gwtp.mvp.rebind.PlaceInstance;
+import com.philbeaudoin.gwtp.mvp.rebind.ProxyCodeSplit;
+import com.philbeaudoin.gwtp.mvp.rebind.TabInfo;
 import com.puzzlebazar.client.NameTokens;
 
 /**

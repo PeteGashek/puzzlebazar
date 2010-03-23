@@ -9,7 +9,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.philbeaudoin.platform.mvp.client.Tab;
+import com.philbeaudoin.gwtp.mvp.client.Tab;
 import com.puzzlebazar.client.resources.Resources;
 
 /**

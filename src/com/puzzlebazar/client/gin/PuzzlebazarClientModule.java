@@ -1,14 +1,14 @@
 package com.puzzlebazar.client.gin;
 
-import com.philbeaudoin.platform.mvp.client.DefaultEventBus;
-import com.philbeaudoin.platform.mvp.client.EventBus;
-import com.philbeaudoin.platform.mvp.client.gin.AbstractPresenterModule;
-import com.philbeaudoin.platform.mvp.client.proxy.ParameterTokenFormatter;
-import com.philbeaudoin.platform.mvp.client.proxy.PlaceManager;
-import com.philbeaudoin.platform.mvp.client.proxy.ProxyFailureHandler;
-import com.philbeaudoin.platform.mvp.client.proxy.ProxyRaw;
-import com.philbeaudoin.platform.mvp.client.proxy.TokenFormatter;
-import com.philbeaudoin.platform.mvp.client.proxy.RootProxy;
+import com.philbeaudoin.gwtp.mvp.client.DefaultEventBus;
+import com.philbeaudoin.gwtp.mvp.client.EventBus;
+import com.philbeaudoin.gwtp.mvp.client.gin.AbstractPresenterModule;
+import com.philbeaudoin.gwtp.mvp.client.proxy.ParameterTokenFormatter;
+import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceManager;
+import com.philbeaudoin.gwtp.mvp.client.proxy.ProxyFailureHandler;
+import com.philbeaudoin.gwtp.mvp.client.proxy.ProxyRaw;
+import com.philbeaudoin.gwtp.mvp.client.proxy.TokenFormatter;
+import com.philbeaudoin.gwtp.mvp.client.proxy.RootProxy;
 
 import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.CurrentUser;

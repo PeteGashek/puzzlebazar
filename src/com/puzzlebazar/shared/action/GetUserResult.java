@@ -1,6 +1,6 @@
 package com.puzzlebazar.shared.action;
 
-import com.philbeaudoin.platform.dispatch.shared.Result;
+import com.philbeaudoin.gwtp.dispatch.shared.Result;
 import com.puzzlebazar.shared.model.User;
 
 public class GetUserResult implements Result {

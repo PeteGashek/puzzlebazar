@@ -1,10 +1,10 @@
 package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
-import com.philbeaudoin.platform.mvp.client.View;
-import com.philbeaudoin.platform.mvp.client.EventBus;
-import com.philbeaudoin.platform.mvp.client.PresenterWidget;
-import com.philbeaudoin.platform.mvp.client.PresenterWidgetImpl;
+import com.philbeaudoin.gwtp.mvp.client.View;
+import com.philbeaudoin.gwtp.mvp.client.EventBus;
+import com.philbeaudoin.gwtp.mvp.client.PresenterWidget;
+import com.philbeaudoin.gwtp.mvp.client.PresenterWidgetImpl;
 
 /**
  * The presenter for a single news item in the application.

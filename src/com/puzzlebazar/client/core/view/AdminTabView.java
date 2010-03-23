@@ -5,8 +5,8 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.philbeaudoin.platform.mvp.client.Tab;
-import com.philbeaudoin.platform.mvp.client.ViewImpl;
+import com.philbeaudoin.gwtp.mvp.client.Tab;
+import com.philbeaudoin.gwtp.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.AdminTabPresenter;
 import com.puzzlebazar.client.ui.SimpleTabPanel;
 
