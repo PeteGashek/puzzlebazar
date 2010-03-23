@@ -7,9 +7,10 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -46,7 +47,7 @@ public class PuzzleView extends ViewImpl implements PuzzlePresenter.MyView {
   LayoutPanel centerContainer;
 
   @UiField
-  FocusPanel uiWidget;
+  HTML uiWidget;
 
   private Widget selectionWidget = null;
 
@@ -89,9 +90,10 @@ public class PuzzleView extends ViewImpl implements PuzzlePresenter.MyView {
 
   @UiHandler("uiWidget")
   void handleMouseMove(MouseMoveEvent event) {
+    event.preventDefault(); // Prevents undesired element selection
     mouseMovedTo(event.getX(), event.getY());
   }
-
+  
   @UiHandler("uiWidget")
   void handleMouseOut(MouseOutEvent event) {
     mouseMovedTo(event.getX(), event.getY());
@@ -99,6 +101,8 @@ public class PuzzleView extends ViewImpl implements PuzzlePresenter.MyView {
 
   @UiHandler("uiWidget")
   void handleMouseDown(MouseDownEvent event) {
+    event.preventDefault(); // Prevents undesired element selection
+    DOM.setCapture( uiWidget.getElement() );
     SquareGridConverter.VertexInfo vertexInfo = squareGridConverter.pixelToVertex(event.getX(), event.getY());
     if( squareGridValidator.isValidVertex( vertexInfo.vertex ) && vertexInfo.dist.max() < 10 ) {
       puzzleContainer.createVertex( vertexInfo.vertex, 12, 
@@ -126,7 +130,12 @@ public class PuzzleView extends ViewImpl implements PuzzlePresenter.MyView {
       }
     }
   }
-
+  
+  @UiHandler("uiWidget")
+  void handleMouseUp(MouseDownEvent event) {
+    DOM.releaseCapture( uiWidget.getElement() );
+  }
+  
   /**
    * Call whenever the mouse move, wither because of a 
    * {@link MouseMoveEvent} or a {@link MouseOutEvent}.
