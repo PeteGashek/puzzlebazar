@@ -1,21 +1,22 @@
-package com.puzzlebazar.client.util;
+package com.puzzlebazar.shared.util;
+
 
 /**
  * A utility class that can check the validity of cell, vertices and
- * edge coordinates within a {@link SquareGrid}.
+ * edge coordinates within a {@link Has2DSize}.
  * 
  * @author Philippe Beaudoin
  */
 public class SquareGridValidator {
 
-  private final SquareGrid squareGrid;
+  private final Has2DSize squareGrid;
   
   /**
-   * Creates a validator attached to the specified {@link SquareGrid}.
+   * Creates a validator attached to the specified {@link Has2DSize}.
    * 
-   * @param squareGrid The {@link SquareGrid}.
+   * @param squareGrid The {@link Has2DSize}.
    */
-  public SquareGridValidator(SquareGrid squareGrid) {
+  public SquareGridValidator(Has2DSize squareGrid) {
     this.squareGrid = squareGrid;
   }
   

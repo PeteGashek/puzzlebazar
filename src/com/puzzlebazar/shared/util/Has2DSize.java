@@ -1,11 +1,11 @@
-package com.puzzlebazar.client.util;
+package com.puzzlebazar.shared.util;
 
 /**
- * The simple interface of any discrete square grid. 
+ * The simple interface of any object that has a discrete size. 
  * 
  * @author Philippe Beaudoin
  */
-public interface SquareGrid {
+public interface Has2DSize {
 
   /**
    * Access the number of cells in the horizontal direction.

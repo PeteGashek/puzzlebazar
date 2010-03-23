@@ -1,6 +1,7 @@
-package com.puzzlebazar.client.util;
+package com.puzzlebazar.shared.util;
 
 import java.io.Serializable;
+
 
 /**
  * A simple class to manipulate rectangles aligned on integer coordinates.
