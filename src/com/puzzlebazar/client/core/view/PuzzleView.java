@@ -60,8 +60,8 @@ public class PuzzleView extends ViewImpl implements PuzzlePresenter.MyView {
     squareGridConverter = new SquareGridConverter( puzzleContainer, uiWidget );
 
     // TODO temp
-    int width = 12;
-    int height = 8;
+    int width = 10;
+    int height = 10;
     int border = 10;
     centerContainer.add( puzzleContainer );
     puzzleContainer.setBorder(border);
@@ -104,7 +104,7 @@ public class PuzzleView extends ViewImpl implements PuzzlePresenter.MyView {
     event.preventDefault(); // Prevents undesired element selection
     DOM.setCapture( uiWidget.getElement() );
     SquareGridConverter.VertexInfo vertexInfo = squareGridConverter.pixelToVertex(event.getX(), event.getY());
-    if( squareGridValidator.isValidVertex( vertexInfo.vertex ) && vertexInfo.dist.max() < 10 ) {
+    if( squareGridValidator.isValidVertex( vertexInfo.vertex ) && vertexInfo.dist.max() <= 6 ) {
       puzzleContainer.createVertex( vertexInfo.vertex, 12, 
           resources.style().blue() );  
       return;
@@ -112,12 +112,12 @@ public class PuzzleView extends ViewImpl implements PuzzlePresenter.MyView {
 
     SquareGridConverter.EdgeInfo edgeInfo = squareGridConverter.pixelToEdge(event.getX(), event.getY());
     if( edgeInfo.isVertical && 
-        squareGridValidator.isValidVerticalEdge( edgeInfo.edge ) && edgeInfo.dist < 10 ) {
+        squareGridValidator.isValidVerticalEdge( edgeInfo.edge ) && edgeInfo.dist <= 4 ) {
       puzzleContainer.createVerticalEdge( edgeInfo.edge, 8, 
           resources.style().black() );  
     }
     else if( !edgeInfo.isVertical && 
-        squareGridValidator.isValidHorizontalEdge( edgeInfo.edge ) && edgeInfo.dist < 10 ) {
+        squareGridValidator.isValidHorizontalEdge( edgeInfo.edge ) && edgeInfo.dist <= 4 ) {
       puzzleContainer.createHorizontalEdge( edgeInfo.edge, 8, 
           resources.style().black() );  
 
