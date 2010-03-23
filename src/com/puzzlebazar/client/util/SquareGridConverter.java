@@ -120,21 +120,21 @@ public class SquareGridConverter {
 
     updateGridInUiWidget();
     VertexInfo result = new VertexInfo();
-    int pixelPerCellX = gridInUiWidget.w/gridPanel.getWidth();
-    int pixelPerCellY = gridInUiWidget.h/gridPanel.getHeight();
+    double pixelPerCellX = gridInUiWidget.w/(double)gridPanel.getWidth();
+    double pixelPerCellY = gridInUiWidget.h/(double)gridPanel.getHeight();
     
     // Move grid half a cell to the top-left
-    int dx = (x - gridInUiWidget.x + pixelPerCellX/2);
-    int dy = (y - gridInUiWidget.y + pixelPerCellY/2);
+    double dx = (x - gridInUiWidget.x + pixelPerCellX/2.0);
+    double dy = (y - gridInUiWidget.y + pixelPerCellY/2.0);
     if( dx<0 || dy<0 )
       return result;
     
-    result.vertex.x = dx * gridPanel.getWidth() / gridInUiWidget.w;
-    result.vertex.y = dy * gridPanel.getHeight() / gridInUiWidget.h;
+    result.vertex.x = (int)(dx * gridPanel.getWidth() / gridInUiWidget.w);
+    result.vertex.y = (int)(dy * gridPanel.getHeight() / gridInUiWidget.h);
  
     // The vertex position
-    result.dist.x = Math.abs(dx - result.vertex.x * pixelPerCellX - pixelPerCellX/2);
-    result.dist.y = Math.abs(dy - result.vertex.y * pixelPerCellY - pixelPerCellY/2);
+    result.dist.x = Math.abs((int)(dx - result.vertex.x * pixelPerCellX - pixelPerCellX/2.0));
+    result.dist.y = Math.abs((int)(dy - result.vertex.y * pixelPerCellY - pixelPerCellY/2.0));
     
     return result;
   }

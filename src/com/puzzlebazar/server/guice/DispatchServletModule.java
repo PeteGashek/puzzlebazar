@@ -54,7 +54,7 @@ public class DispatchServletModule extends ServletModule {
     //    filter("/*").through(CrawlFilter.class, crawlFilterParams);
     bind(OpenIdServletFilter.class).in(Singleton.class);
 
-    serve("/puzzlebazar/dispatch").with(GuiceStandardDispatchServlet.class);
+    serveRegex("/puzzlebazar[^/]*/dispatch").with(GuiceStandardDispatchServlet.class);
     serve("/openid/login").with(OpenIdServlet.class);
   }
 

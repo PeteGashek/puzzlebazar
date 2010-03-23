@@ -348,19 +348,20 @@ public class SquareGridLayoutPanel extends AspectRatioLayoutPanel implements Squ
    * element on the right and bottom edge of the puzzle.   
    */
   private void createCellPanels() {
+    final int precision = 1024;
     squareGridContainer.clear();
     cells = new CellLayoutPanel[width+1][height+1];
     for( int y=0; y <= height; ++y ) {
-      double percentY = y/(float)height * 100.0;
-      double percentNextYBottom = 100.0 - (y+1)/(double)height * 100.0;
+      int percentY = y*precision/height;
+      int percentNextYBottom = precision - (y+1)*precision/height;
       for( int x=0; x <= width; ++x ) {
-        double percentX = x/(float)width * 100.0;
-        double percentNextXRight = 100.0 - (x+1)/(double)width * 100.0;
+        int percentX = x*precision/width;
+        int percentNextXRight = precision - (x+1)*precision/width;
         CellLayoutPanel cell = GWT.create( CellLayoutPanel.class );
         cells[x][y] = cell;        
         squareGridContainer.add( cell );       
-        squareGridContainer.setWidgetLeftRight(cell, percentX, Unit.PCT, percentNextXRight, Unit.PCT);
-        squareGridContainer.setWidgetTopBottom(cell, percentY, Unit.PCT, percentNextYBottom, Unit.PCT);
+        squareGridContainer.setWidgetLeftRight(cell, percentX*100.0/precision, Unit.PCT, percentNextXRight*100.0/precision, Unit.PCT);
+        squareGridContainer.setWidgetTopBottom(cell, percentY*100.0/precision, Unit.PCT, percentNextYBottom*100.0/precision, Unit.PCT);
       }    
     }
   }
