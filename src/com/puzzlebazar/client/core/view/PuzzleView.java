@@ -20,8 +20,8 @@ import com.puzzlebazar.client.core.presenter.PuzzlePresenter;
 import com.puzzlebazar.client.resources.Resources;
 import com.puzzlebazar.client.ui.SquareGridLayoutPanel;
 import com.puzzlebazar.client.util.SquareGridConverter;
-import com.puzzlebazar.client.util.SquareGridValidator;
-import com.puzzlebazar.client.util.Vec2i;
+import com.puzzlebazar.shared.util.SquareGridValidator;
+import com.puzzlebazar.shared.util.Vec2i;
 
 /**
  * The {@link com.philbeaudoin.platform.mvp.client.View} for {@link PagePresenter}.

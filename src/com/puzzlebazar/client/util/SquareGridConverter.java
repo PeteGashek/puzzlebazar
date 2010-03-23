@@ -2,6 +2,8 @@ package com.puzzlebazar.client.util;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.puzzlebazar.client.ui.SquareGridLayoutPanel;
+import com.puzzlebazar.shared.util.Recti;
+import com.puzzlebazar.shared.util.Vec2i;
 
 /**
  * A utility class to convert different units (pixel coordinates,

@@ -9,9 +9,9 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.puzzlebazar.client.resources.Resources;
-import com.puzzlebazar.client.util.Recti;
-import com.puzzlebazar.client.util.SquareGrid;
-import com.puzzlebazar.client.util.Vec2i;
+import com.puzzlebazar.shared.util.Has2DSize;
+import com.puzzlebazar.shared.util.Recti;
+import com.puzzlebazar.shared.util.Vec2i;
 
 /**
  * <b>Important!</b> This layout panel must be added inside a {@link com.google.gwt.user.client.ui.LayoutPanel}.
@@ -21,7 +21,7 @@ import com.puzzlebazar.client.util.Vec2i;
  * 
  * @author Philippe Beaudoin
  */
-public class SquareGridLayoutPanel extends AspectRatioLayoutPanel implements SquareGrid {
+public class SquareGridLayoutPanel extends AspectRatioLayoutPanel implements Has2DSize {
 
   private static class CellLayoutPanel extends OverflowLayoutPanel {
 
