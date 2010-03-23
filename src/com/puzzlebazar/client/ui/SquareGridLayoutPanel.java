@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.puzzlebazar.client.resources.Resources;
 import com.puzzlebazar.client.util.Recti;
+import com.puzzlebazar.client.util.SquareGrid;
 import com.puzzlebazar.client.util.Vec2i;
 
 /**
@@ -20,7 +21,7 @@ import com.puzzlebazar.client.util.Vec2i;
  * 
  * @author Philippe Beaudoin
  */
-public class SquareGridLayoutPanel extends AspectRatioLayoutPanel {
+public class SquareGridLayoutPanel extends AspectRatioLayoutPanel implements SquareGrid {
 
   private static class CellLayoutPanel extends OverflowLayoutPanel {
 
@@ -48,7 +49,7 @@ public class SquareGridLayoutPanel extends AspectRatioLayoutPanel {
       int halfThickness = thickness/2;
       int thicknessRemainder = thickness - halfThickness;
       setWidgetLeftWidth(widget, -halfThickness, Unit.PX, thickness, Unit.PX);
-      setWidgetTopBottom(widget, -halfThickness, Unit.PX, -thicknessRemainder, Unit.PX);
+      setWidgetTopBottom(widget, -halfThickness, Unit.PX, -thicknessRemainder+1, Unit.PX);
     }
 
     /**
@@ -62,7 +63,7 @@ public class SquareGridLayoutPanel extends AspectRatioLayoutPanel {
       int halfThickness = thickness/2;
       int thicknessRemainder = thickness - halfThickness;
       setWidgetTopHeight(widget, -halfThickness, Unit.PX, thickness, Unit.PX);
-      setWidgetLeftRight(widget, -halfThickness, Unit.PX, -thicknessRemainder, Unit.PX);
+      setWidgetLeftRight(widget, -halfThickness, Unit.PX, -thicknessRemainder+1, Unit.PX);
     }
 
     /**
@@ -79,8 +80,8 @@ public class SquareGridLayoutPanel extends AspectRatioLayoutPanel {
   private final Resources resources;
 
   private int border = 0;
-  private int width = 0;
-  private int height = 0;
+  public int width = 0;
+  public int height = 0;
 
   // This container holds the square grid elements themselves, such as
   // grid cells or grid edges. 
@@ -98,7 +99,7 @@ public class SquareGridLayoutPanel extends AspectRatioLayoutPanel {
     add( squareGridContainer ); 
     setBorder( border );
   }
-
+  
   /**
    * Changes the desired border between the edges of the square grid
    * and that of its container. This border will allow the square grid
@@ -114,7 +115,7 @@ public class SquareGridLayoutPanel extends AspectRatioLayoutPanel {
     setWidgetTopBottom( squareGridContainer, border, Unit.PX, border+1, Unit.PX );
     super.setBorder( border );
   }
-
+  
   /**
    * Sets the size of the square grid. All the grid content will be lost.
    * 
@@ -128,6 +129,16 @@ public class SquareGridLayoutPanel extends AspectRatioLayoutPanel {
     createCellPanels();
   }
 
+  @Override
+  public int getWidth() {
+    return width;    
+  }
+  
+  @Override
+  public int getHeight() {
+    return height;
+  }
+  
   /**
    * Adds a the widget to draw at a specific vertex.
    * (See {@link Recti} for details on cells and vertices.) 
@@ -340,11 +351,11 @@ public class SquareGridLayoutPanel extends AspectRatioLayoutPanel {
     squareGridContainer.clear();
     cells = new CellLayoutPanel[width+1][height+1];
     for( int y=0; y <= height; ++y ) {
-      double percentY = y/(float)height * 100;
-      double percentNextYBottom = 100.0 - (y+1)/(double)height * 100;
+      double percentY = y/(float)height * 100.0;
+      double percentNextYBottom = 100.0 - (y+1)/(double)height * 100.0;
       for( int x=0; x <= width; ++x ) {
-        double percentX = x/(float)width * 100;
-        double percentNextXRight = 100.0 - (x+1)/(double)width * 100;
+        double percentX = x/(float)width * 100.0;
+        double percentNextXRight = 100.0 - (x+1)/(double)width * 100.0;
         CellLayoutPanel cell = GWT.create( CellLayoutPanel.class );
         cells[x][y] = cell;        
         squareGridContainer.add( cell );       
@@ -353,5 +364,6 @@ public class SquareGridLayoutPanel extends AspectRatioLayoutPanel {
       }    
     }
   }
+
 
 }

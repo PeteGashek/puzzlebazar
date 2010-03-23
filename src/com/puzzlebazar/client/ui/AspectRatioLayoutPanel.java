@@ -48,6 +48,15 @@ public class AspectRatioLayoutPanel extends OverflowLayoutPanel {
   }
 
   /**
+   * Access the border size, in pixels. See {@link #setBorder(int)} for details.
+   * 
+   * @return The border size, in pixels.
+   */
+  public int getBorder() {
+    return border;
+  }
+  
+  /**
    * Sets the desired aspect ration (width divided by height) for this
    * layout panel.
    * 
