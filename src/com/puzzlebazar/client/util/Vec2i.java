@@ -174,5 +174,23 @@ public class Vec2i implements Serializable {
     y = vec.y;
   }
 
+  /**
+   * Evaluates the maximum of the two coordinates.
+   * 
+   * @return The maximum of {@code x} and {@code y}.
+   */
+  public int max() {
+    return Math.max(x, y);
+  }
+
+  /**
+   * Evaluates the minimum of the two coordinates.
+   * 
+   * @return The minimum of {@code x} and {@code y}.
+   */
+  public int min() {
+    return Math.min(x, y);
+  }
+
 
 }

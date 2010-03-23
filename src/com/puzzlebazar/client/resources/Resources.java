@@ -25,6 +25,7 @@ public interface Resources extends ClientBundle {
     String gray();
     String black();
     String yellow();
+    String blue();
     String transparent();
     String vertex();
     String edge();
