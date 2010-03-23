@@ -3,7 +3,7 @@ package com.puzzlebazar.client.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.philbeaudoin.platform.mvp.client.HandlerContainerImpl;
+import com.philbeaudoin.gwtp.mvp.client.HandlerContainerImpl;
 
 /**
  * <b>Important:</b> This class participates in dependency injection.

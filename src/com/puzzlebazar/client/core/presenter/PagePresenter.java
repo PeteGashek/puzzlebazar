@@ -2,14 +2,14 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
-import com.philbeaudoin.platform.mvp.client.View;
-import com.philbeaudoin.platform.mvp.client.PresenterImpl;
-import com.philbeaudoin.platform.mvp.client.EventBus;
-import com.philbeaudoin.platform.mvp.client.proxy.Proxy;
-import com.philbeaudoin.platform.mvp.client.proxy.RevealContentHandler;
-import com.philbeaudoin.platform.mvp.client.proxy.RevealRootContentEvent;
-import com.philbeaudoin.platform.mvp.rebind.ContentSlot;
-import com.philbeaudoin.platform.mvp.rebind.ProxyStandard;
+import com.philbeaudoin.gwtp.mvp.client.View;
+import com.philbeaudoin.gwtp.mvp.client.PresenterImpl;
+import com.philbeaudoin.gwtp.mvp.client.EventBus;
+import com.philbeaudoin.gwtp.mvp.client.proxy.Proxy;
+import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentHandler;
+import com.philbeaudoin.gwtp.mvp.client.proxy.RevealRootContentEvent;
+import com.philbeaudoin.gwtp.mvp.rebind.ContentSlot;
+import com.philbeaudoin.gwtp.mvp.rebind.ProxyStandard;
 
 /**
  * The top-level presenter that contains typical pages of the application.

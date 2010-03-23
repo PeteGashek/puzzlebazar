@@ -2,7 +2,7 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.philbeaudoin.platform.mvp.client.ProviderBundle;
+import com.philbeaudoin.gwtp.mvp.client.ProviderBundle;
 
 public class TabbedPresenterBundle extends ProviderBundle {
 

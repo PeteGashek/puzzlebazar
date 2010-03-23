@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.InlineHyperlink;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.philbeaudoin.platform.mvp.client.ViewImpl;
+import com.philbeaudoin.gwtp.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.TopBarPresenter;
 import com.puzzlebazar.client.resources.Resources;
 import com.puzzlebazar.client.ui.TokenSeparatedList;

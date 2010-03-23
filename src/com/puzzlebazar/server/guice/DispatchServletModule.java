@@ -14,7 +14,7 @@ import com.dyuproject.openid.OpenIdServletFilter;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
-import com.philbeaudoin.platform.dispatch.server.guice.GuiceStandardDispatchServlet;
+import com.philbeaudoin.gwtp.dispatch.server.guice.GuiceStandardDispatchServlet;
 import com.puzzlebazar.server.currentuser.OpenIdServlet;
 
 

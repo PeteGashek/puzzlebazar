@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.philbeaudoin.platform.mvp.client.ViewImpl;
+import com.philbeaudoin.gwtp.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.PagePresenter;
 import com.puzzlebazar.client.core.presenter.PuzzlePresenter;
 import com.puzzlebazar.client.resources.Resources;
@@ -24,7 +24,7 @@ import com.puzzlebazar.shared.util.SquareGridValidator;
 import com.puzzlebazar.shared.util.Vec2i;
 
 /**
- * The {@link com.philbeaudoin.platform.mvp.client.View} for {@link PagePresenter}.
+ * The {@link com.philbeaudoin.gwtp.mvp.client.View} for {@link PagePresenter}.
  * 
  * @author Philippe Beaudoin
  */
