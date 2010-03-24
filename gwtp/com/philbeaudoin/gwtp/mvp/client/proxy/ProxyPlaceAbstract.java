@@ -19,7 +19,7 @@ import com.philbeaudoin.gwtp.mvp.client.Presenter;
 public class ProxyPlaceAbstract<P extends Presenter, Proxy_ extends Proxy<P>>
 implements Proxy<P>, Place {
 
-  private ProxyFailureHandler failureHandler;
+  protected ProxyFailureHandler failureHandler;
   protected PlaceManager placeManager;
   protected Proxy_ proxy;
   protected Place place;
