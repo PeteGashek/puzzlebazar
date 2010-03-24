@@ -358,34 +358,9 @@ public class ProxyGenerator extends Generator {
         // TODO
         assert false : "Automatic proxys for non-place TabContentProxy not yet supported!";
       }
-      writer.println( "EventBus eventBus = ginjector.getEventBus();"  );
-      writePresenterProvider(logger, ctx, writer, proxyCodeSplitAnnotation, 
-          proxyCodeSplitBundleAnnotation, ginjectorClass, ginjectorClassName, 
-          presenterClass, presenterClassName);
-
-      // Create RevealContentHandler
-      writer.println();
-      writer.println( "revealContentHandler = new RevealContentHandler<" + presenterClassName + ">( failureHandler, this );" );      
-
-      // Register all RevealContentHandler for the @ContentSlot defined in the presenter
-      writer.println();    
-      for( JField field : presenterClass.getFields() ) {
-        ContentSlot annotation = field.getAnnotation( ContentSlot.class );
-        JParameterizedType parameterizedType = field.getType().isParameterized();
-        if( annotation != null ) {
-          if( !field.isStatic() || 
-              parameterizedType == null || 
-              !parameterizedType.isAssignableTo( typeClass ) ||
-              !parameterizedType.getTypeArgs()[0].isAssignableTo(revealContentHandlerClass) )
-            logger.log(TreeLogger.WARN, "Found the annotation @" + ContentSlot.class.getSimpleName() + " on the invalid field '"+presenterClassName+"."+field.getName()+
-                "'. Field must be static and its type must be Type<RevealContentHandler<?>>. Skipping this field.", null);      
-          else
-            writer.println( "eventBus.addHandler( " + presenterClassName + "." + field.getName() + 
-            ", revealContentHandler );" );
-        }
-      }
     }
     else {
+
       // Place proxy
 
       writeGinjector(writer, ginjectorClassName);
@@ -403,6 +378,41 @@ public class ProxyGenerator extends Generator {
         writer.println( "place = " + newPlaceCode + ";" );
     }
 
+    // Register all RevealContentHandler for the @ContentSlot defined in the presenter
+    writer.println();
+    boolean noContentSlotFound = true;
+    for( JField field : presenterClass.getFields() ) {
+      ContentSlot annotation = field.getAnnotation( ContentSlot.class );
+      JParameterizedType parameterizedType = field.getType().isParameterized();
+      if( annotation != null ) {
+        if( !field.isStatic() || 
+            parameterizedType == null || 
+            !parameterizedType.isAssignableTo( typeClass ) ||
+            !parameterizedType.getTypeArgs()[0].isAssignableTo(revealContentHandlerClass) )
+          logger.log(TreeLogger.WARN, "Found the annotation @" + ContentSlot.class.getSimpleName() + " on the invalid field '"+presenterClassName+"."+field.getName()+
+              "'. Field must be static and its type must be Type<RevealContentHandler<?>>. Skipping this field.", null);      
+        else {
+          if( noContentSlotFound ) {
+            // First content slot, fill in the required information.
+            
+            noContentSlotFound = false;            
+            writer.println( "EventBus eventBus = ginjector.getEventBus();"  );
+            writePresenterProvider(logger, ctx, writer, proxyCodeSplitAnnotation, 
+                proxyCodeSplitBundleAnnotation, ginjectorClass, ginjectorClassName, 
+                presenterClass, presenterClassName);
+
+            // Create RevealContentHandler
+            writer.println();
+            writer.println( "revealContentHandler = new RevealContentHandler<" + presenterClassName + ">( failureHandler, this );" );                  
+          }
+          
+          writer.println( "eventBus.addHandler( " + presenterClassName + "." + field.getName() + 
+          ", revealContentHandler );" );
+        }
+      }
+    }    
+    
+    
     // END Bind method
     writer.outdent();
     writer.println( "}" );
