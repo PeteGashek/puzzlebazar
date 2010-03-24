@@ -1,12 +1,15 @@
 package com.puzzlebazar.client.core.presenter;
 
+import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
 import com.philbeaudoin.gwtp.mvp.client.View;
 import com.philbeaudoin.gwtp.mvp.client.PresenterImpl;
 import com.philbeaudoin.gwtp.mvp.client.EventBus;
 import com.philbeaudoin.gwtp.mvp.client.proxy.Place;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
+import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentHandler;
 import com.philbeaudoin.gwtp.mvp.client.proxy.TabContentProxy;
+import com.philbeaudoin.gwtp.mvp.rebind.ContentSlot;
 import com.philbeaudoin.gwtp.mvp.rebind.NameToken;
 import com.philbeaudoin.gwtp.mvp.rebind.PlaceInstance;
 import com.philbeaudoin.gwtp.mvp.rebind.ProxyCodeSplit;
@@ -20,6 +23,10 @@ import com.puzzlebazar.client.NameTokens;
  */
 public class AdminGeneralPresenter 
 extends PresenterImpl<AdminGeneralPresenter.MyView, AdminGeneralPresenter.MyProxy> {
+
+  // TODO Remove, only for testing purposes right now.
+  @ContentSlot
+  public static final Type<RevealContentHandler<?>> TYPE_DummySetContent = new Type<RevealContentHandler<?>>();
 
   public interface MyView extends View { }
 

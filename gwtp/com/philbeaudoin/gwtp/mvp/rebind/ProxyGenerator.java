@@ -259,14 +259,7 @@ public class ProxyGenerator extends Generator {
     // Get a source writer
     SourceWriter writer = composerFactory.createSourceWriter(ctx, printWriter);
 
-    if( nameToken == null ) {
-      // Standard proxy (not a Place)      
-
-      // Private fields
-      writer.println();
-      writer.println( "private RevealContentHandler<"+presenterClassName+"> revealContentHandler = null;");
-    }
-    else {
+    if( nameToken != null ) {
       // Place proxy
 
       // BEGIN Enclosed proxy class
@@ -288,6 +281,7 @@ public class ProxyGenerator extends Generator {
       writer.indent();
       // Call ProxyImpl bind method.
       writer.println( "bind( ginjector.getProxyFailureHandler() );" );
+      writer.println( "EventBus eventBus = ginjector.getEventBus();"  );
       if( tabContainerClass != null ) {
         boolean foundRequestTabsEventType = false;
         for( JField field : tabContainerClass.getFields() ) {
@@ -321,11 +315,15 @@ public class ProxyGenerator extends Generator {
           writer.println( "label = " + tabGetLabel + ";" );
         writer.println( "historyToken = \"" + nameToken + "\";" );
         // Call TabContentProxyImpl bind method.
-        writer.println( "bind( ginjector.getEventBus() );" );
+        writer.println( "bind( eventBus );" );
+
       }
       writePresenterProvider(logger, ctx, writer, proxyCodeSplitAnnotation, 
           proxyCodeSplitBundleAnnotation, ginjectorClass, ginjectorClassName, 
           presenterClass, presenterClassName);
+      writeSlotHandlers(logger, ctx, proxyCodeSplitAnnotation,
+          proxyCodeSplitBundleAnnotation, presenterClass, presenterClassName,
+          ginjectorClassName, ginjectorClass, writer);            
       writer.outdent();
       writer.println( "}" );
 
@@ -358,6 +356,15 @@ public class ProxyGenerator extends Generator {
         // TODO
         assert false : "Automatic proxys for non-place TabContentProxy not yet supported!";
       }
+      
+      writer.println( "EventBus eventBus = ginjector.getEventBus();"  );
+      writePresenterProvider(logger, ctx, writer, proxyCodeSplitAnnotation, 
+          proxyCodeSplitBundleAnnotation, ginjectorClass, ginjectorClassName, 
+          presenterClass, presenterClassName);
+
+      writeSlotHandlers(logger, ctx, proxyCodeSplitAnnotation,
+          proxyCodeSplitBundleAnnotation, presenterClass, presenterClassName,
+          ginjectorClassName, ginjectorClass, writer);        
     }
     else {
 
@@ -377,7 +384,22 @@ public class ProxyGenerator extends Generator {
       else
         writer.println( "place = " + newPlaceCode + ";" );
     }
+    
+    // END Bind method
+    writer.outdent();
+    writer.println( "}" );
 
+    writer.commit(logger);
+
+    return generatedClassName;    
+  }
+
+  private void writeSlotHandlers(TreeLogger logger, GeneratorContext ctx,
+      ProxyCodeSplit proxyCodeSplitAnnotation,
+      ProxyCodeSplitBundle proxyCodeSplitBundleAnnotation,
+      JClassType presenterClass, String presenterClassName,
+      String ginjectorClassName, JClassType ginjectorClass, SourceWriter writer)
+      throws UnableToCompleteException {
     // Register all RevealContentHandler for the @ContentSlot defined in the presenter
     writer.println();
     boolean noContentSlotFound = true;
@@ -393,33 +415,19 @@ public class ProxyGenerator extends Generator {
               "'. Field must be static and its type must be Type<RevealContentHandler<?>>. Skipping this field.", null);      
         else {
           if( noContentSlotFound ) {
-            // First content slot, fill in the required information.
-            
-            noContentSlotFound = false;            
-            writer.println( "EventBus eventBus = ginjector.getEventBus();"  );
-            writePresenterProvider(logger, ctx, writer, proxyCodeSplitAnnotation, 
-                proxyCodeSplitBundleAnnotation, ginjectorClass, ginjectorClassName, 
-                presenterClass, presenterClassName);
+            // First content slot, fill in the required information.            
+            noContentSlotFound = false;
 
             // Create RevealContentHandler
             writer.println();
-            writer.println( "revealContentHandler = new RevealContentHandler<" + presenterClassName + ">( failureHandler, this );" );                  
+            writer.println( "RevealContentHandler<"+presenterClassName+"> revealContentHandler = new RevealContentHandler<" + presenterClassName + ">( failureHandler, this );" );                  
           }
           
           writer.println( "eventBus.addHandler( " + presenterClassName + "." + field.getName() + 
           ", revealContentHandler );" );
         }
       }
-    }    
-    
-    
-    // END Bind method
-    writer.outdent();
-    writer.println( "}" );
-
-    writer.commit(logger);
-
-    return generatedClassName;    
+    }
   }
 
   /**
