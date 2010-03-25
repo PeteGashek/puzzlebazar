@@ -46,7 +46,7 @@ public class PuzzlePresenter extends PresenterImpl<PuzzlePresenter.MyView, Puzzl
   }
 
   @Override
-  protected void onReveal() {
+  public void onReveal() {
     super.onReveal();
     setContent( TYPE_RevealTopBarContent, topBarPresenter );
   }

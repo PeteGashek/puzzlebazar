@@ -50,7 +50,7 @@ implements DisplayShortMessageHandler {
   }
 
   @Override
-  protected void onReveal() {
+  public void onReveal() {
     super.onReveal();
     if( !getView().hasSideBarContent() )
       RevealDefaultLinkColumnEvent.fire(eventBus);

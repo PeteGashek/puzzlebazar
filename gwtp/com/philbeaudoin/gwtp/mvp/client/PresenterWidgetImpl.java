@@ -48,37 +48,27 @@ public abstract class PresenterWidgetImpl<V extends View>
   public final boolean isVisible() {
     return visible;
   }
-  
-  @Override
-  public final void reveal() {
-    if( visible )
-      return;
-    visible = true;
-    onReveal();
-    revealChildren();
-  } 
-
-  @Override
-  public final void notifyHide() {
-    if( !visible )
-      return;
-    visible = false;    
-    notifyHideChildren();
-    onHide();
-  }
 
   @Override
   public void setContent( Object slot, PresenterWidget content ) {
     if( content == null ) {
       // Assumes the user wants to clear the slot content.
       clearContent( slot );
+      return;
     }
     List<PresenterWidget> slotChildren = activeChildren.get( slot );
+      
     if( slotChildren != null ) {
       if( slotChildren.size() == 1 && slotChildren.get(0) == content )
+        // The slot contains the right content, nothing to do
         return;
-      for( PresenterWidget activeChild : slotChildren )
-        activeChild.notifyHide();
+   
+      if( isVisible() ) {
+        // We are visible, make sure the content that we're removing
+        // is being notified as hidden
+        for( PresenterWidget activeChild : slotChildren )
+          activeChild.onHide();
+      }
       slotChildren.clear();
       slotChildren.add( content );
     }
@@ -87,8 +77,13 @@ public abstract class PresenterWidgetImpl<V extends View>
       slotChildren.add( content );
       activeChildren.put( slot, slotChildren );
     }
+    
+    // Set the content in the view
     getView().setContent( slot, content.getWidget() );
-    content.reveal();
+    if( isVisible() )
+      // This presenter is visible, its time to call onReveal
+      // on the newly added child (and recursively on this child children)
+      content.onReveal();
   }
 
   @Override
@@ -106,16 +101,23 @@ public abstract class PresenterWidgetImpl<V extends View>
       activeChildren.put( slot, slotChildren );
     }
     getView().addContent( slot, content.getWidget() );
-    content.reveal();
+    if( isVisible() )
+      // This presenter is visible, its time to call onReveal
+      // on the newly added child (and recursively on this child children)
+      content.onReveal();
   }
 
   @Override
   public void clearContent( Object slot ) {
-    List<PresenterWidget> slotChildren = activeChildren.get( slot );
-    if( slotChildren != null ) {
-      for( PresenterWidget activeChild : slotChildren )
-        activeChild.notifyHide();
-      slotChildren.clear();
+    if( isVisible() ) {
+      // This presenter is visible, its time to call onReveal
+      // on the newly added child (and recursively on this child children)
+      List<PresenterWidget> slotChildren = activeChildren.get( slot );
+      if( slotChildren != null ) {
+        for( PresenterWidget activeChild : slotChildren )
+          activeChild.onHide();
+        slotChildren.clear();
+      }
     }
     getView().clearContent( slot );
   }
@@ -125,46 +127,22 @@ public abstract class PresenterWidgetImpl<V extends View>
     return getView().asWidget();
   }
   
-  /**
-   * <b>Important:</b> Make sure you call your superclass {@link #onReveal()}.
-   * <p />
-   * This method will be called whenever the presenter is revealed. Override
-   * it to perform any action (such as refreshing content) that needs
-   * to be done when the presenter is revealed.
-   */
-  protected void onReveal() {}
-
-  /**
-   * <b>Important:</b> Make sure you call your superclass {@link #onHide()}.
-   * <p />
-   * Override this method to perform any clean-up operations. For example,
-   * objects created directly or indirectly during the call to
-   * {@link #onReveal()} should be disposed of in this methods.
-   */
-  protected void onHide() {}
-
-
-  /**
-   * TODO This should probably be called notifyRevealChildren()
-   * 
-   * Notifies all the children that they are being revealed. This happens when
-   * this presenter goes from invisible to visible.
-   */
-  protected final void revealChildren() {
+  @Override
+  public void onReveal() {
+    assert !isVisible() : "onReveal() called on a visible presenter! Did somebody forget to call super.onReveal()?";
+    visible = true;
     for (List<PresenterWidget> slotChildren : activeChildren.values())
       for( PresenterWidget activeChild : slotChildren )
-        activeChild.reveal();    
+        activeChild.onReveal();
   }
 
-  /**
-   * Notifies all the children that they are being hidden. This happens when
-   * this presenter goes from visible to invisible.
-   */
-  protected final void notifyHideChildren() {
+  @Override
+  public void onHide() {
+    assert isVisible() : "onHide() called on a hidden presenter! Did somebody forget to call super.onHide()?";
     for (List<PresenterWidget> slotChildren : activeChildren.values())
       for( PresenterWidget activeChild : slotChildren )
-        activeChild.notifyHide();    
-  }
-  
+        activeChild.onHide();    
+    visible = false;
+  }  
 
 }
