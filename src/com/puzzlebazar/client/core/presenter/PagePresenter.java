@@ -50,7 +50,7 @@ public class PagePresenter extends PresenterImpl<PagePresenter.MyView, PagePrese
   }
 
   @Override
-  protected void onReveal() {
+  public void onReveal() {
     super.onReveal();
     setContent( TYPE_RevealTopBarContent, topBarPresenter );
   }

@@ -48,13 +48,13 @@ public class RootProxy extends HandlerContainerImpl {
       public void onRevealContent(final RevealRootContentEvent revealContentEvent) {
         if( activePresenter != null ) {
           activePresenter.getWidget().removeFromParent();
-          activePresenter.notifyHide();
+          activePresenter.onHide();
         }
         activePresenter = revealContentEvent.getContent();
         // TODO Next line is a dirty workaround for http://code.google.com/p/google-web-toolkit/issues/detail?id=4737
         RootPanel.get().clear();
         RootPanel.get().add(activePresenter.getWidget());
-        // Careful, no need to reveal activePresenter, it's already revealed.
+        activePresenter.onReveal();
       }
     } ) );    
 
@@ -63,14 +63,14 @@ public class RootProxy extends HandlerContainerImpl {
       public void onRevealContent(final RevealRootLayoutContentEvent revealContentEvent) {
         if( activePresenter != null ) {
           activePresenter.getWidget().removeFromParent();
-          activePresenter.notifyHide();
+          activePresenter.onHide();
         }
         activePresenter = revealContentEvent.getContent();
         // TODO Next 2 lines are a dirty workaround for http://code.google.com/p/google-web-toolkit/issues/detail?id=4737
         RootPanel.get().clear();
         RootPanel.get().add( RootLayoutPanel.get() );
         RootLayoutPanel.get().add(activePresenter.getWidget());
-        // Careful, no need to reveal activePresenter, it's already revealed.
+        activePresenter.onReveal();
       }
     } ) );  
     

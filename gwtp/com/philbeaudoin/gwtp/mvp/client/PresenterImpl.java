@@ -32,9 +32,20 @@ extends PresenterWidgetImpl<V> implements Presenter {
   }
   
   @Override
-  protected void onReveal() {
-    super.onReveal();
+  public void reveal() {
+    getProxy().reveal();
+  }
+  
+  @Override
+  public final void forceReveal() {
+    if( isVisible() )
+      return;
     revealInParent();
+  }
+  
+  @Override
+  public void onReveal() {
+    super.onReveal();
     getProxy().onPresenterRevealed( this );
   }
   

@@ -36,7 +36,7 @@ public class RevealContentHandler<P extends Presenter> implements EventHandler {
       @Override
       public void onSuccess(P presenter) {
         presenter.setContent( revealContentEvent.getAssociatedType(), revealContentEvent.getContent() );
-        presenter.reveal();       
+        presenter.forceReveal();       
       } 
     } );
   }

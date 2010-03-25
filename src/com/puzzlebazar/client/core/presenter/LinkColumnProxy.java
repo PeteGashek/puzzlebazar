@@ -33,7 +33,7 @@ implements LinkColumnPresenter.MyProxy, RevealDefaultLinkColumnHandler {
 
       @Override
       public void onSuccess(LinkColumnPresenter presenter) {
-        presenter.reveal();
+        presenter.forceReveal();
       }
     } );
   }

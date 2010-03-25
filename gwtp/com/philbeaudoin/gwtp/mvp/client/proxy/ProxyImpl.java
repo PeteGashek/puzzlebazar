@@ -42,7 +42,7 @@ implements Proxy<P> {
   }
 
   /**
-   * By default, proxys can't reveal their presenter. Only leaf-level
+   * By default, proxys can't reveal their presenter. Only place
    * proxies, such as {@link ProxyPlaceAbstract} can. 
    */
   @Override

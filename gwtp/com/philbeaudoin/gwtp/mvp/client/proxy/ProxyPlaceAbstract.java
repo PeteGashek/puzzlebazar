@@ -151,11 +151,12 @@ implements Proxy<P>, Place {
         if( request != null )
           presenter.prepareFromRequest( request );
         if( presenter.isVisible() )
+          // TODO not clean, this complexity shouldn't be here.
           // The presenter is already visible, nothing to do there; 
           // the PlaceManager should still be notified, however.
           onPresenterRevealed(presenter);
         else
-          presenter.reveal();
+          presenter.forceReveal();
       }
     } );
 
