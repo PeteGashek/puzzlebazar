@@ -20,6 +20,7 @@ public class ProxyPlaceAbstract<P extends Presenter, Proxy_ extends Proxy<P>>
 implements Proxy<P>, Place {
 
   protected ProxyFailureHandler failureHandler;
+  protected EventBus eventBus;
   protected PlaceManager placeManager;
   protected Proxy_ proxy;
   protected Place place;
@@ -46,6 +47,7 @@ implements Proxy<P>, Place {
   @Inject
   protected void bind( ProxyFailureHandler failureHandler, PlaceManager placeManager, EventBus eventBus ) {
     this.failureHandler = failureHandler;
+    this.eventBus = eventBus;
     this.placeManager = placeManager;
     eventBus.addHandler( PlaceRequestEvent.getType(), new PlaceRequestHandler() {
       public void onPlaceRequest( PlaceRequestEvent event ) {
@@ -141,6 +143,7 @@ implements Proxy<P>, Place {
     if( !canReveal() || !placeManager.confirmLeaveState() )
       return;
     proxy.getPresenter( new AsyncCallback<P>() {
+
       @Override
       public void onFailure(Throwable caught) {
         failureHandler.onFailedGetPresenter(caught);
@@ -150,13 +153,10 @@ implements Proxy<P>, Place {
       public void onSuccess(P presenter) {
         if( request != null )
           presenter.prepareFromRequest( request );
-        if( presenter.isVisible() )
-          // TODO not clean, this complexity shouldn't be here.
-          // The presenter is already visible, nothing to do there; 
-          // the PlaceManager should still be notified, however.
-          onPresenterRevealed(presenter);
+        if( !presenter.isVisible() )
+          presenter.forceReveal();  // This will trigger a reset in due time
         else
-          presenter.forceReveal();
+          ResetPresentersEvent.fire( eventBus ); // We have to do the reset ourselves
       }
     } );
 

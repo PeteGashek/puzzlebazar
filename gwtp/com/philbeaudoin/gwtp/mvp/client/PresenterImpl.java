@@ -44,8 +44,8 @@ extends PresenterWidgetImpl<V> implements Presenter {
   }
   
   @Override
-  public void onReveal() {
-    super.onReveal();
+  public void onReset() {
+    super.onReset();
     getProxy().onPresenterRevealed( this );
   }
   
