@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Philippe Beaudoin
  */
-public interface PresenterWidget {
+public interface PresenterWidget extends HandlerContainer {
 
   /**
    * Returns the {@link View} for the current presenter.

@@ -1,6 +1,8 @@
 package com.philbeaudoin.gwtp.mvp.client.proxy;
 
 import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.philbeaudoin.gwtp.mvp.client.Presenter;
 
@@ -34,9 +36,20 @@ public class RevealContentHandler<P extends Presenter> implements EventHandler {
         failureHandler.onFailedGetPresenter( caught );
       }
       @Override
-      public void onSuccess(P presenter) {
-        presenter.setContent( revealContentEvent.getAssociatedType(), revealContentEvent.getContent() );
-        presenter.forceReveal();       
+      public void onSuccess(final P presenter) {
+        // Deferring is needed because the event bus enques and delays handler 
+        // registration when events are currently being processed. 
+        // (see {@link com.google.gwt.event.shared.HandlerManager@addHandler()})         
+        // So if a presenter registers a handler in its onBind() method and a 
+        // child fires the event in its onReveal() method, then the event might 
+        // get lost because the handler is not officially registered yet.
+        DeferredCommand.addCommand( new Command(){
+          @Override
+          public void execute() {
+            presenter.setContent( revealContentEvent.getAssociatedType(), revealContentEvent.getContent() );
+            presenter.forceReveal();
+          }
+        } );
       } 
     } );
   }
