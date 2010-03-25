@@ -20,7 +20,7 @@ import com.philbeaudoin.gwtp.mvp.client.Presenter;
  * 
  * @author Philippe Beaudoin
  */
-public class RootProxy extends HandlerContainerImpl {
+public class RootProxy extends HandlerContainerImpl implements ResetPresentersHandler {
 
   private final EventBus eventBus;
 
@@ -73,6 +73,14 @@ public class RootProxy extends HandlerContainerImpl {
         activePresenter.onReveal();
       }
     } ) );  
-    
+
+    registerHandler( eventBus.addHandler( ResetPresentersEvent.getType(), this ) );    
+
+  }
+
+  @Override
+  public void onResetPresenters(ResetPresentersEvent resetPresentersEvent) {
+    if( activePresenter != null )
+      activePresenter.reset();    
   }
 }

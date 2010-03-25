@@ -6,9 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.philbeaudoin.gwtp.mvp.client.proxy.ResetPresentersEvent;
 
 public abstract class PresenterWidgetImpl<V extends View>
-    extends HandlerContainerImpl implements PresenterWidget {
+extends HandlerContainerImpl implements PresenterWidget {
 
   /**
    * The {@link EventBus} for the application.
@@ -24,12 +25,12 @@ public abstract class PresenterWidgetImpl<V extends View>
     new HashMap< Object, List<PresenterWidget> >();
 
   protected boolean visible = false;
-  
+
   /**
    * The view for the presenter.
    */
   protected final V view;
-  
+
 
   public PresenterWidgetImpl(
       EventBus eventBus, 
@@ -57,12 +58,12 @@ public abstract class PresenterWidgetImpl<V extends View>
       return;
     }
     List<PresenterWidget> slotChildren = activeChildren.get( slot );
-      
+
     if( slotChildren != null ) {
       if( slotChildren.size() == 1 && slotChildren.get(0) == content )
         // The slot contains the right content, nothing to do
         return;
-   
+
       if( isVisible() ) {
         // We are visible, make sure the content that we're removing
         // is being notified as hidden
@@ -77,13 +78,16 @@ public abstract class PresenterWidgetImpl<V extends View>
       slotChildren.add( content );
       activeChildren.put( slot, slotChildren );
     }
-    
+
     // Set the content in the view
     getView().setContent( slot, content.getWidget() );
-    if( isVisible() )
+    if( isVisible() ) {
       // This presenter is visible, its time to call onReveal
       // on the newly added child (and recursively on this child children)
       content.onReveal();
+      // And to reset everything
+      ResetPresentersEvent.fire( eventBus );
+    }
   }
 
   @Override
@@ -101,10 +105,13 @@ public abstract class PresenterWidgetImpl<V extends View>
       activeChildren.put( slot, slotChildren );
     }
     getView().addContent( slot, content.getWidget() );
-    if( isVisible() )
+    if( isVisible() ) {
       // This presenter is visible, its time to call onReveal
       // on the newly added child (and recursively on this child children)
       content.onReveal();
+      // And to reset everything
+      ResetPresentersEvent.fire( eventBus );
+    }
   }
 
   @Override
@@ -121,12 +128,12 @@ public abstract class PresenterWidgetImpl<V extends View>
     }
     getView().clearContent( slot );
   }
-  
+
   @Override
   public Widget getWidget() {
     return getView().asWidget();
   }
-  
+
   @Override
   public void onReveal() {
     assert !isVisible() : "onReveal() called on a visible presenter! Did somebody forget to call super.onReveal()?";
@@ -144,5 +151,16 @@ public abstract class PresenterWidgetImpl<V extends View>
         activeChild.onHide();    
     visible = false;
   }  
+
+  @Override
+  public final void reset() {
+    onReset();
+    for (List<PresenterWidget> slotChildren : activeChildren.values())
+      for( PresenterWidget activeChild : slotChildren )
+        activeChild.reset();    
+  }
+
+  @Override
+  public void onReset() {}
 
 }
