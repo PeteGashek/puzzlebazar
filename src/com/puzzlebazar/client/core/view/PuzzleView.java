@@ -21,11 +21,18 @@ import com.puzzlebazar.client.ui.CellMouseOverEvent;
 import com.puzzlebazar.client.ui.CellMouseOverHandler;
 import com.puzzlebazar.client.ui.EdgeMouseDownEvent;
 import com.puzzlebazar.client.ui.EdgeMouseDownHandler;
+import com.puzzlebazar.client.ui.EdgeMouseOutEvent;
+import com.puzzlebazar.client.ui.EdgeMouseOutHandler;
+import com.puzzlebazar.client.ui.EdgeMouseOverEvent;
+import com.puzzlebazar.client.ui.EdgeMouseOverHandler;
 import com.puzzlebazar.client.ui.SquareGridLayoutPanel;
 import com.puzzlebazar.client.ui.SquareGridManipulator;
 import com.puzzlebazar.client.ui.VertexMouseDownEvent;
 import com.puzzlebazar.client.ui.VertexMouseDownHandler;
-import com.puzzlebazar.shared.util.Vec2i;
+import com.puzzlebazar.client.ui.VertexMouseOutEvent;
+import com.puzzlebazar.client.ui.VertexMouseOutHandler;
+import com.puzzlebazar.client.ui.VertexMouseOverEvent;
+import com.puzzlebazar.client.ui.VertexMouseOverHandler;
 
 /**
  * The {@link com.philbeaudoin.gwtp.mvp.client.View} for {@link PagePresenter}.
@@ -33,7 +40,10 @@ import com.puzzlebazar.shared.util.Vec2i;
  * @author Philippe Beaudoin
  */
 public class PuzzleView extends ViewImpl implements PuzzlePresenter.MyView,
-CellMouseOverHandler, CellMouseOutHandler, CellMouseDownHandler, EdgeMouseDownHandler, VertexMouseDownHandler
+VertexMouseOverHandler, VertexMouseOutHandler, 
+EdgeMouseOverHandler, EdgeMouseOutHandler, 
+CellMouseOverHandler, CellMouseOutHandler, 
+CellMouseDownHandler, EdgeMouseDownHandler, VertexMouseDownHandler
 {
 
   interface Binder extends UiBinder<DockLayoutPanel, PuzzleView> { }
@@ -74,14 +84,18 @@ CellMouseOverHandler, CellMouseOutHandler, CellMouseDownHandler, EdgeMouseDownHa
     puzzleContainer.createInnerEdges(1, resources.style().gray());
     puzzleContainer.createOuterEdges(3, resources.style().black());    
     
+    squareGridManipulator.addVertexMouseOverHandler(this);
+    squareGridManipulator.addVertexMouseOutHandler(this);
+    squareGridManipulator.addEdgeMouseOverHandler(this);
+    squareGridManipulator.addEdgeMouseOutHandler(this);
     squareGridManipulator.addCellMouseOverHandler(this);
     squareGridManipulator.addCellMouseOutHandler(this);
     squareGridManipulator.addCellMouseDownHandler(this);
     squareGridManipulator.addEdgeMouseDownHandler(this);
     squareGridManipulator.addVertexMouseDownHandler(this);
     
-    squareGridManipulator.setVertexClickDistance( 6 );
-    squareGridManipulator.setEdgeClickDistance( 4 );
+    squareGridManipulator.setVertexDistance( 6 );
+    squareGridManipulator.setEdgeDistance( 4 );
   }
 
   @Override 
@@ -103,15 +117,38 @@ CellMouseOverHandler, CellMouseOutHandler, CellMouseDownHandler, EdgeMouseDownHa
   }
 
 
-  /**
-   * Called whenever the mouse moves out of a cell.
-   * 
-   * @param cell The coordinates of the cell being moved out of.
-   */
-  void onMouseOutCell(Vec2i cell) {
+  @Override
+  public void onVertexMouseOver(VertexMouseOverEvent event) {
     if( selectionWidget != null )
       selectionWidget.removeFromParent();
-    selectionWidget = null;
+    selectionWidget  = puzzleContainer.createVertex( event.getVertex(), 12,
+        resources.style().yellow(), resources.style().transparent() );   
+  }
+
+  @Override
+  public void onVertexMouseOut(VertexMouseOutEvent event) {
+    if( selectionWidget != null )
+      selectionWidget.removeFromParent();
+    selectionWidget = null;    
+  }
+
+  @Override
+  public void onEdgeMouseOver(EdgeMouseOverEvent event) {
+    if( selectionWidget != null )
+      selectionWidget.removeFromParent();
+    if( event.isVertical() )
+      selectionWidget = puzzleContainer.createVerticalEdge( event.getEdge(), 8, 
+          resources.style().yellow(), resources.style().transparent() );
+    else
+      selectionWidget = puzzleContainer.createHorizontalEdge( event.getEdge(), 8, 
+          resources.style().yellow(), resources.style().transparent() );
+  }
+
+  @Override
+  public void onEdgeMouseOut(EdgeMouseOutEvent event) {
+    if( selectionWidget != null )
+      selectionWidget.removeFromParent();
+    selectionWidget = null;    
   }
 
   @Override
