@@ -31,7 +31,7 @@
 		}
 	</ui:style>
 
-  <ui:with field='resources' type='com.puzzlebazar.client.resources.Resources' />
+	<ui:with field='resources' type='com.puzzlebazar.client.resources.Resources' />
 
 	<g:HTMLPanel>
 		<div class="{resources.style.round4} {style.bar}" />
@@ -41,8 +41,9 @@
 			<div class="{style.titlebar}">
 				<g:Label addStyleNames="{style.title}" ui:field="title" />
 			</div>
-			<g:HTMLPanel ui:field="tabPanel" addStyleNames="{style.bar}">
-				<div style="clear: both;" ui:field="endTabMarker" />
+			<g:HTMLPanel addStyleNames="{style.bar}">
+				<g:FlowPanel ui:field="tabPanel" />
+				<div style="clear: both;" />
 			</g:HTMLPanel>
 			<g:FlowPanel ui:field="tabContentContainer"
 				addStyleNames="{style.panel}" />

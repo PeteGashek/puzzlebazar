@@ -3,17 +3,18 @@
 
 	<ui:with field='resources' type='com.puzzlebazar.client.resources.Resources' />
 
-  <ui:style src='../resources/defines.css'>
+	<ui:style src='../resources/defines.css'>
 		.horizontalBar {
-		  width: 100%;
-		  height: 5px;
-		  background-color: darkPanelColor;
+			width: 100%;
+			height: 5px;
+			background-color: darkPanelColor;
 		}
-  </ui:style>
+	</ui:style>
 
 	<g:FlowPanel>
-		<g:HTMLPanel ui:field="tabPanel">
-			<div style="clear: both;" ui:field="endTabMarker"></div>
+		<g:HTMLPanel>
+			<g:FlowPanel ui:field="tabPanel" />
+			<div style="clear: both;"></div>
 			<div class="{style.horizontalBar}" />
 		</g:HTMLPanel>
 		<g:FlowPanel ui:field="tabContentContainer" />

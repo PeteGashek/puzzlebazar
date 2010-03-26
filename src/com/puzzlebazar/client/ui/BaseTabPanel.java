@@ -3,12 +3,9 @@ package com.puzzlebazar.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.DivElement;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.philbeaudoin.gwtp.mvp.client.Tab;
 import com.philbeaudoin.gwtp.mvp.client.TabPanel;
@@ -16,10 +13,7 @@ import com.philbeaudoin.gwtp.mvp.client.TabPanel;
 public abstract class BaseTabPanel extends Composite implements TabPanel {
 
   @UiField
-  HTMLPanel tabPanel;
-
-  @UiField
-  DivElement endTabMarker;
+  FlowPanel tabPanel;
 
   @UiField
   FlowPanel tabContentContainer;
@@ -34,18 +28,14 @@ public abstract class BaseTabPanel extends Composite implements TabPanel {
   @Override
   public Tab addTab(String text, String historyToken, float priority) {
     Tab newTab = CreateNewTab( priority );
+    int beforeIndex;
+    for( beforeIndex = 0; beforeIndex < tabList.size(); ++beforeIndex )
+      if(newTab.getPriority() < tabList.get(beforeIndex).getPriority())
+        break;
+    tabPanel.insert(newTab.asWidget(), beforeIndex);
+    tabList.add( newTab );
     newTab.setText( text );
     newTab.setTargetHistoryToken( historyToken );
-    Element addBeforeElement = null;
-    for( Tab tab : tabList )
-      if(newTab.getPriority() < tab.getPriority()) {
-        addBeforeElement = tab.asWidget().getElement();
-        break;
-      }
-    if( addBeforeElement == null )
-      addBeforeElement = endTabMarker;
-    tabPanel.getElement().insertBefore( newTab.asWidget().getElement(), addBeforeElement );
-    tabList.add( newTab );
     return newTab;
   }
 
@@ -68,7 +58,8 @@ public abstract class BaseTabPanel extends Composite implements TabPanel {
   public void setActiveTab(Tab tab) {
     if( currentActiveTab != null )
       currentActiveTab.deactivate();
-    tab.activate();
+    if( tab != null )
+      tab.activate();
     currentActiveTab = tab;
   }
 
