@@ -289,6 +289,18 @@ MouseOutHandler {
   }
 
   /**
+   * Sets the distance around a vertex where a mouse down, mouse up, mouse move, mouse over and mouse out
+   * will be reported. This defines a square of sensitivity around the vertex.
+   * 
+   * @param vertexDistance The distance, in pixels.
+   *        Passing -1 will turn off vertex mouse down, mouse up, mouse move, mouse over and mouse out events.
+   */
+  public void setVertexDistance(int vertexDistance) {
+    setVertexClickDistance(vertexDistance);
+    setVertexMoveDistance(vertexDistance);
+  }
+
+  /**
    * Sets the distance around an edge where a mouse down or mouse
    * up will be reported. This defines a region of sensitivity around the edge.
    * 
@@ -308,6 +320,18 @@ MouseOutHandler {
    */
   public void setEdgeMoveDistance(int edgeMoveDistance) {
     this.edgeMoveDistance = edgeMoveDistance;
+  }
+  
+  /**
+   * Sets the distance around an edge where a mouse down, mouse up, mouse move, mouse over and mouse out
+   * will be reported. This defines a region of sensitivity around the edge.
+   * 
+   * @param edgeDistance The distance, in pixels.
+   *        Passing -1 will turn off edge mouse down, mouse up, mouse move, mouse over and mouse out events.
+   */
+  public void setEdgeDistance(int edgeDistance) {
+    setEdgeClickDistance(edgeDistance);
+    setEdgeMoveDistance(edgeDistance);
   }
   
   /**
