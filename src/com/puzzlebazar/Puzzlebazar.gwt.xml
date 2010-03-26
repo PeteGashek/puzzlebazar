@@ -16,7 +16,7 @@
 
 	<!-- Other module inherits                                      -->
 	<inherits name='com.philbeaudoin.gwtp.dispatch.Dispatch' />
-	<inherits name='com.philbeaudoin.gwtp.mvp.Presenter' />
+	<inherits name='com.philbeaudoin.gwtp.mvp.Mvp' />
 
 	<!-- Specify the app entry point class.                         -->
 	<entry-point class='com.puzzlebazar.client.Puzzlebazar' />
