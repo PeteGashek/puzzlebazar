@@ -1,5 +1,7 @@
 package com.puzzlebazar.shared.util;
 
+import com.google.inject.Inject;
+
 
 /**
  * A utility class that can check the validity of cell, vertices and
@@ -9,17 +11,33 @@ package com.puzzlebazar.shared.util;
  */
 public class SquareGridValidator {
 
-  private final Has2DSize squareGrid;
+  private Has2DSize squareGrid = null;
   
   /**
    * Creates a validator attached to the specified {@link Has2DSize}.
-   * 
-   * @param squareGrid The {@link Has2DSize}.
    */
-  public SquareGridValidator(Has2DSize squareGrid) {
+  @Inject
+  public SquareGridValidator() {}
+
+  /**
+   * Binds the validator to a square grid.
+   * 
+   * @param squareGrid The square grid, which must implement {@link Has2DSize}.
+   */
+  public void bind(Has2DSize squareGrid) {
+    assert this.squareGrid == null : "Cannot bind SquareGridValidator twice.";
     this.squareGrid = squareGrid;
   }
-  
+
+  /**
+   * Unbins the validator.
+   */
+  public void unbind() {
+    assert this.squareGrid != null : 
+      "Class SquareGridValidator must be bound before it is unbound.";
+    this.squareGrid = null;
+  }
+
   /**
    * Checks if the passed coordinate is a valid cell coordinate.
    * (See {@link Recti} for details on cell and vertex coordinates.) 
@@ -29,6 +47,8 @@ public class SquareGridValidator {
    * @return {@code true} if the passed coordinate is a valid cell coordinate, {@code false} otherwise.
 s   */
   public boolean isValidCell( int x, int y ) {
+    assert this.squareGrid != null : 
+      "Class SquareGridValidator must be bound before it is used.";
     return 0 <= x && x < squareGrid.getWidth() &&
            0 <= y && y < squareGrid.getHeight();
   }
@@ -54,6 +74,8 @@ s   */
    * @return {@code true} if the passed coordinate is a valid vertical edge coordinate, {@code false} otherwise.
    */
   public boolean isValidVerticalEdge( int x, int y ) {
+    assert this.squareGrid != null : 
+      "Class SquareGridValidator must be bound before it is used.";
     return 0 <= x && x <= squareGrid.getWidth() &&
            0 <= y && y < squareGrid.getHeight();
   }
@@ -80,6 +102,8 @@ s   */
    * @return {@code true} if the passed coordinate is a valid horizontal edge coordinate, {@code false} otherwise.
    */
   public boolean isValidHorizontalEdge( int x, int y ) {
+    assert this.squareGrid != null : 
+      "Class SquareGridValidator must be bound before it is used.";
     return 0 <= x && x < squareGrid.getWidth() &&
            0 <= y && y <= squareGrid.getHeight();
   }
@@ -105,6 +129,8 @@ s   */
    * @return {@code true} if the passed coordinate is a valid vertex coordinate, {@code false} otherwise.
    */
   public boolean isValidVertex( int x, int y ) {
+    assert this.squareGrid != null : 
+      "Class SquareGridValidator must be bound before it is used.";
     return 0 <= x && x <= squareGrid.getWidth() &&
            0 <= y && y <= squareGrid.getHeight();
   }

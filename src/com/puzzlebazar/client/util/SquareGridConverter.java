@@ -63,8 +63,8 @@ public class SquareGridConverter {
     
   }
 
-  private final SquareGridLayoutPanel gridPanel;
-  private final Widget uiWidget;
+  private SquareGridLayoutPanel gridPanel = null;
+  private Widget uiWidget = null;
   
   /**
    * Contains the position of the square grid in
@@ -75,13 +75,33 @@ public class SquareGridConverter {
   /**
    * Creates a converter between a specific {@link SquareGridLayoutPanel}
    * and another {@link Widget} in which all the ui events will be passed.
+   */
+  public SquareGridConverter(  ) {
+  }
+  
+  /**
+   * Binds this converter to its (weak) aggregated participants.
    * 
    * @param gridPanel The {@link SquareGridLayoutPanel}.
    * @param uiWidget The {@link Widget} that will be receiving the ui events.
    */
-  public SquareGridConverter( SquareGridLayoutPanel gridPanel, Widget uiWidget ) {
+  public void bind( SquareGridLayoutPanel gridPanel, Widget uiWidget ) {
+    assert this.gridPanel == null && this.uiWidget == null : 
+      "Cannot bind SquareGridConverter twice.";
     this.gridPanel = gridPanel;
     this.uiWidget = uiWidget;
+    
+  }
+
+  /**
+   * Unbinds the converter.
+   */
+  public void unbind() {
+    assert this.gridPanel != null && this.uiWidget != null : 
+      "Class SquareGridConverter must be bound before it is unbound.";
+    
+    this.gridPanel = null;
+    this.uiWidget = null;
   }
   
   /**
@@ -185,6 +205,9 @@ public class SquareGridConverter {
    * this method when the window is resized. 
    */
   private void updateGridInUiWidget() {
+    assert this.gridPanel != null && this.uiWidget != null : 
+      "Class SquareGridConverter must be bound before it is used.";
+
     int border = gridPanel.getBorder();
     gridInUiWidget.x = gridPanel.getAbsoluteLeft()+border-uiWidget.getAbsoluteLeft();
     gridInUiWidget.y = gridPanel.getAbsoluteTop()+border-uiWidget.getAbsoluteTop();
@@ -192,4 +215,8 @@ public class SquareGridConverter {
     gridInUiWidget.h = gridPanel.getOffsetHeight()-2*border;
   }
 
+  
+  
+  
+  
 }

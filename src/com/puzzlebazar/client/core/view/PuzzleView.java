@@ -1,13 +1,8 @@
 package com.puzzlebazar.client.core.view;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -18,9 +13,18 @@ import com.philbeaudoin.gwtp.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.PagePresenter;
 import com.puzzlebazar.client.core.presenter.PuzzlePresenter;
 import com.puzzlebazar.client.resources.Resources;
+import com.puzzlebazar.client.ui.CellMouseDownEvent;
+import com.puzzlebazar.client.ui.CellMouseDownHandler;
+import com.puzzlebazar.client.ui.CellMouseOutEvent;
+import com.puzzlebazar.client.ui.CellMouseOutHandler;
+import com.puzzlebazar.client.ui.CellMouseOverEvent;
+import com.puzzlebazar.client.ui.CellMouseOverHandler;
+import com.puzzlebazar.client.ui.EdgeMouseDownEvent;
+import com.puzzlebazar.client.ui.EdgeMouseDownHandler;
 import com.puzzlebazar.client.ui.SquareGridLayoutPanel;
-import com.puzzlebazar.client.util.SquareGridConverter;
-import com.puzzlebazar.shared.util.SquareGridValidator;
+import com.puzzlebazar.client.ui.SquareGridManipulator;
+import com.puzzlebazar.client.ui.VertexMouseDownEvent;
+import com.puzzlebazar.client.ui.VertexMouseDownHandler;
 import com.puzzlebazar.shared.util.Vec2i;
 
 /**
@@ -28,7 +32,9 @@ import com.puzzlebazar.shared.util.Vec2i;
  * 
  * @author Philippe Beaudoin
  */
-public class PuzzleView extends ViewImpl implements PuzzlePresenter.MyView {
+public class PuzzleView extends ViewImpl implements PuzzlePresenter.MyView,
+CellMouseOverHandler, CellMouseOutHandler, CellMouseDownHandler, EdgeMouseDownHandler, VertexMouseDownHandler
+{
 
   interface Binder extends UiBinder<DockLayoutPanel, PuzzleView> { }
   protected static final Binder binder = GWT.create(Binder.class);
@@ -36,9 +42,6 @@ public class PuzzleView extends ViewImpl implements PuzzlePresenter.MyView {
   private final DockLayoutPanel widget;
   private final SquareGridLayoutPanel puzzleContainer;
   private final Resources resources;
-  private final SquareGridValidator squareGridValidator;
-  private final SquareGridConverter squareGridConverter;
-  private final Vec2i currentCell = new Vec2i(-1,-1);
 
   @UiField 
   FlowPanel topBarContainer;
@@ -52,12 +55,14 @@ public class PuzzleView extends ViewImpl implements PuzzlePresenter.MyView {
   private Widget selectionWidget = null;
 
   @Inject
-  public PuzzleView(SquareGridLayoutPanel puzzleContainer, Resources resources) {
+  public PuzzleView(
+      SquareGridLayoutPanel puzzleContainer, 
+      Resources resources,
+      SquareGridManipulator squareGridManipulator ) {
     widget = binder.createAndBindUi(this);
     this.puzzleContainer = puzzleContainer;
     this.resources = resources;
-    squareGridValidator = new SquareGridValidator( puzzleContainer );
-    squareGridConverter = new SquareGridConverter( puzzleContainer, uiWidget );
+    squareGridManipulator.bind( puzzleContainer, uiWidget );
 
     // TODO temp
     int width = 10;
@@ -67,7 +72,16 @@ public class PuzzleView extends ViewImpl implements PuzzlePresenter.MyView {
     puzzleContainer.setBorder(border);
     puzzleContainer.setSize(width, height);
     puzzleContainer.createInnerEdges(1, resources.style().gray());
-    puzzleContainer.createOuterEdges(3, resources.style().black());
+    puzzleContainer.createOuterEdges(3, resources.style().black());    
+    
+    squareGridManipulator.addCellMouseOverHandler(this);
+    squareGridManipulator.addCellMouseOutHandler(this);
+    squareGridManipulator.addCellMouseDownHandler(this);
+    squareGridManipulator.addEdgeMouseDownHandler(this);
+    squareGridManipulator.addVertexMouseDownHandler(this);
+    
+    squareGridManipulator.setVertexClickDistance( 6 );
+    squareGridManipulator.setEdgeClickDistance( 4 );
   }
 
   @Override 
@@ -88,77 +102,6 @@ public class PuzzleView extends ViewImpl implements PuzzlePresenter.MyView {
     topBarContainer.add( topBarContent );
   }
 
-  @UiHandler("uiWidget")
-  void handleMouseMove(MouseMoveEvent event) {
-    event.preventDefault(); // Prevents undesired element selection
-    mouseMovedTo(event.getX(), event.getY());
-  }
-  
-  @UiHandler("uiWidget")
-  void handleMouseOut(MouseOutEvent event) {
-    mouseMovedTo(event.getX(), event.getY());
-  }
-
-  @UiHandler("uiWidget")
-  void handleMouseDown(MouseDownEvent event) {
-    event.preventDefault(); // Prevents undesired element selection
-    DOM.setCapture( uiWidget.getElement() );
-    SquareGridConverter.VertexInfo vertexInfo = squareGridConverter.pixelToVertex(event.getX(), event.getY());
-    if( squareGridValidator.isValidVertex( vertexInfo.vertex ) && vertexInfo.dist.max() <= 6 ) {
-      puzzleContainer.createVertex( vertexInfo.vertex, 12, 
-          resources.style().blue() );  
-      return;
-    }
-
-    SquareGridConverter.EdgeInfo edgeInfo = squareGridConverter.pixelToEdge(event.getX(), event.getY());
-    if( edgeInfo.isVertical && 
-        squareGridValidator.isValidVerticalEdge( edgeInfo.edge ) && edgeInfo.dist <= 4 ) {
-      puzzleContainer.createVerticalEdge( edgeInfo.edge, 8, 
-          resources.style().black() );  
-    }
-    else if( !edgeInfo.isVertical && 
-        squareGridValidator.isValidHorizontalEdge( edgeInfo.edge ) && edgeInfo.dist <= 4 ) {
-      puzzleContainer.createHorizontalEdge( edgeInfo.edge, 8, 
-          resources.style().black() );  
-
-    }
-    else {
-      Vec2i cell = squareGridConverter.pixelToCell(event.getX(), event.getY());
-      if( squareGridValidator.isValidCell( cell ) ) {
-        puzzleContainer.createCell( cell, resources.style().gray() );  
-        return;
-      }
-    }
-  }
-  
-  @UiHandler("uiWidget")
-  void handleMouseUp(MouseDownEvent event) {
-    DOM.releaseCapture( uiWidget.getElement() );
-  }
-  
-  /**
-   * Call whenever the mouse move, wither because of a 
-   * {@link MouseMoveEvent} or a {@link MouseOutEvent}.
-   * 
-   * @param x The x pixel coordinate within {@link #uiWidget}.
-   * @param y The y pixel coordinate within {@link #uiWidget}.
-   */
-  private void mouseMovedTo(int x, int y) {
-
-    Vec2i cell = squareGridConverter.pixelToCell(x,y);
-    if( squareGridValidator.isValidCell(cell) ) {
-      if( !cell.equals(currentCell) ) {
-        if( squareGridValidator.isValidCell(currentCell))
-          onMouseOutCell(currentCell);
-        currentCell.copy( cell );
-        onMouseOverCell(currentCell);
-      }
-    } else {
-      if( squareGridValidator.isValidCell(currentCell) )
-        onMouseOutCell(currentCell);
-      currentCell.x = currentCell.y = -1;
-    }
-  }
 
   /**
    * Called whenever the mouse moves out of a cell.
@@ -171,20 +114,40 @@ public class PuzzleView extends ViewImpl implements PuzzlePresenter.MyView {
     selectionWidget = null;
   }
 
-  /**
-   * Called whenever the mouse moves into a cell.
-   * 
-   * @param cell The coordinates of the cell being moved into.
-   */
-  void onMouseOverCell(Vec2i cell) {
-    // TODO Temporary, to ensure onMouseOut is called correctly
-    assert selectionWidget == null : "onMouseOut not called?";
+  @Override
+  public void onCellMouseOver(CellMouseOverEvent event) {
     if( selectionWidget != null )
       selectionWidget.removeFromParent();
-    selectionWidget  = puzzleContainer.createSelectedCell( cell, 
+    selectionWidget  = puzzleContainer.createSelectedCell( event.getCell(), 
         resources.style().yellow(), resources.style().transparent() );    
   }
 
+  @Override
+  public void onCellMouseOut(CellMouseOutEvent event) {
+    if( selectionWidget != null )
+      selectionWidget.removeFromParent();
+    selectionWidget = null;    
+  }
+  
+  @Override
+  public void onCellMouseDown(CellMouseDownEvent event) {
+    puzzleContainer.createCell( event.getCell(), resources.style().gray() );  
+  }
 
+  @Override
+  public void onEdgeMouseDown(EdgeMouseDownEvent event) {
+    if( event.isVertical() )
+      puzzleContainer.createVerticalEdge( event.getEdge(), 8, 
+          resources.style().black() );
+    else
+      puzzleContainer.createHorizontalEdge( event.getEdge(), 8, 
+          resources.style().black() );
+  }
+
+  @Override
+  public void onVertexMouseDown(VertexMouseDownEvent event) {
+    puzzleContainer.createVertex( event.getVertex(), 12, 
+        resources.style().blue() );  
+  }
 
 }
