@@ -1,5 +1,6 @@
 package com.puzzlebazar.shared.puzzle.squaregrid.model;
 
+
 import com.puzzlebazar.shared.util.Has2DSize;
 import com.puzzlebazar.shared.util.InvalidCoordinateException;
 import com.puzzlebazar.shared.util.Vec2i;
@@ -36,9 +37,10 @@ public interface CellArray extends Has2DSize {
   /**
    * Access to the number of different states in this model. All the states must be
    * continuous starting from zero. State 0 is counted (hence, a model with state 0,1,2 should
-   * return 3 as the number of states)
+   * return 3 as the number of states). Return -1 for a CellArray that has an arbitrary
+   * number of states, for example, if it can contain any number.
    * 
-   * @return The number of different states in this model
+   * @return The number of different states in this model.
    */
   public int getNbCellStates();
 

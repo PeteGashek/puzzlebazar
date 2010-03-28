@@ -5,7 +5,7 @@ import com.puzzlebazar.shared.util.Vec2i;
 
 /**
  * Represents a mouse move event within an edge of a square grid.
- * See {@link SquareGridManipulator} for details.
+ * See {@link SquareGridManipulatorImpl} for details.
  */
 public class EdgeMouseMoveEvent extends EdgeEvent<EdgeMouseMoveHandler> {
 

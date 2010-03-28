@@ -47,6 +47,8 @@ import com.puzzlebazar.client.resources.Translations;
 import com.puzzlebazar.client.ui.ShortMessageBox;
 import com.puzzlebazar.client.ui.SimpleTabPanel;
 import com.puzzlebazar.client.ui.SquareGridLayoutPanel;
+import com.puzzlebazar.client.ui.SquareGridManipulatorFactory;
+import com.puzzlebazar.client.ui.SquareGridManipulatorFactoryImpl;
 import com.puzzlebazar.client.util.ChangeMonitor;
 import com.puzzlebazar.client.util.DefaultChangeMonitor;
 
@@ -69,6 +71,7 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     bind(CurrentUser.class).asEagerSingleton();
     bind(RootProxy.class).asEagerSingleton();
     bind(ProxyFailureHandler.class).to(FailureHandlerAlert.class).in(Singleton.class);
+    bind(SquareGridManipulatorFactory.class).to(SquareGridManipulatorFactoryImpl.class).in(Singleton.class);
     
     // Non-singletons
     bind(ChangeMonitor.class).to(DefaultChangeMonitor.class);

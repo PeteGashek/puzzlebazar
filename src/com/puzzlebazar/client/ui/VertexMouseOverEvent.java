@@ -5,7 +5,7 @@ import com.puzzlebazar.shared.util.Vec2i;
 
 /**
  * Represents a mouse over event within a vertex of a square grid.
- * See {@link SquareGridManipulator} for details.
+ * See {@link SquareGridManipulatorImpl} for details.
  */
 public class VertexMouseOverEvent extends VertexEvent<VertexMouseOverHandler> {
 

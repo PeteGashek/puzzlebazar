@@ -27,6 +27,7 @@ import com.puzzlebazar.client.ui.EdgeMouseOverEvent;
 import com.puzzlebazar.client.ui.EdgeMouseOverHandler;
 import com.puzzlebazar.client.ui.SquareGridLayoutPanel;
 import com.puzzlebazar.client.ui.SquareGridManipulator;
+import com.puzzlebazar.client.ui.SquareGridManipulatorFactory;
 import com.puzzlebazar.client.ui.VertexMouseDownEvent;
 import com.puzzlebazar.client.ui.VertexMouseDownHandler;
 import com.puzzlebazar.client.ui.VertexMouseOutEvent;
@@ -68,11 +69,11 @@ CellMouseDownHandler, EdgeMouseDownHandler, VertexMouseDownHandler
   public PuzzleView(
       SquareGridLayoutPanel puzzleContainer, 
       Resources resources,
-      SquareGridManipulator squareGridManipulator ) {
+      SquareGridManipulatorFactory squareGridManipulatorFactory ) {
     widget = binder.createAndBindUi(this);
     this.puzzleContainer = puzzleContainer;
     this.resources = resources;
-    squareGridManipulator.bind( puzzleContainer, uiWidget );
+    SquareGridManipulator squareGridManipulator = squareGridManipulatorFactory.create( puzzleContainer, uiWidget );
 
     // TODO temp
     int width = 10;
