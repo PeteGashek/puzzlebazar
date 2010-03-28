@@ -47,7 +47,7 @@
 		<link>
 			<name>gwtp</name>
 			<type>2</type>
-			<locationURI>gwtp</locationURI>
+			<locationURI>gwtp/src</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
