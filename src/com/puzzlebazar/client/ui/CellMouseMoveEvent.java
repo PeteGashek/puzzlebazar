@@ -5,7 +5,7 @@ import com.puzzlebazar.shared.util.Vec2i;
 
 /**
  * Represents a mouse down event within the cell of a square grid.
- * See {@link SquareGridManipulator} for details.
+ * See {@link SquareGridManipulatorImpl} for details.
  */
 public class CellMouseMoveEvent extends CellEvent<CellMouseMoveHandler> {
 

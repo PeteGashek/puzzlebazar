@@ -121,7 +121,6 @@ implements MonitorHandler  {
     view.getRealName().setText( user.getRealName() );
     view.getLanguage().setSelectedIndex( localeIndex );
     view.setApplyEnabled(false);
-    changeMonitor.bind();
     changeMonitor.monitorWidget( view.getNickname() );
     changeMonitor.monitorWidget( view.getRealName() );
     changeMonitor.monitorWidget( view.getLanguage() );
