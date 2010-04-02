@@ -66,7 +66,7 @@ implements CurrentUserChangedHandler {
   }
 
   @Override
-  public void onReveal() {
+  protected void onReveal() {
     super.onReveal();
     checkUserStatus();
   }

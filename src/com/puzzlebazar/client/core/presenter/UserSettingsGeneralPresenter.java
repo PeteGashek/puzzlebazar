@@ -14,10 +14,10 @@ import com.philbeaudoin.gwtp.mvp.client.proxy.Place;
 import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceManager;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.gwtp.mvp.client.proxy.TabContentProxy;
-import com.philbeaudoin.gwtp.mvp.rebind.NameToken;
-import com.philbeaudoin.gwtp.mvp.rebind.PlaceInstance;
-import com.philbeaudoin.gwtp.mvp.rebind.ProxyCodeSplit;
-import com.philbeaudoin.gwtp.mvp.rebind.TabInfo;
+import com.philbeaudoin.gwtp.mvp.client.annotations.NameToken;
+import com.philbeaudoin.gwtp.mvp.client.annotations.PlaceInstance;
+import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyCodeSplit;
+import com.philbeaudoin.gwtp.mvp.client.annotations.TabInfo;
 import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.CurrentUser;
 import com.puzzlebazar.client.NameTokens;
@@ -110,7 +110,7 @@ implements MonitorHandler  {
   }
 
   @Override
-  public void onReveal() {
+  protected void onReveal() {
     super.onReveal();
     User user = currentUser.getUser(); 
     int localeIndex = availableLocales.findLocaleIndex(user.getLocale());
@@ -128,7 +128,7 @@ implements MonitorHandler  {
   }
   
   @Override
-  public void onHide() {
+  protected void onHide() {
     super.onHide();
     changeMonitor.unbind();
   }

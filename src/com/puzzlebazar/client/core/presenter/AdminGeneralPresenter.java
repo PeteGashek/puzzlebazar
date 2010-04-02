@@ -9,11 +9,11 @@ import com.philbeaudoin.gwtp.mvp.client.proxy.Place;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentHandler;
 import com.philbeaudoin.gwtp.mvp.client.proxy.TabContentProxy;
-import com.philbeaudoin.gwtp.mvp.rebind.ContentSlot;
-import com.philbeaudoin.gwtp.mvp.rebind.NameToken;
-import com.philbeaudoin.gwtp.mvp.rebind.PlaceInstance;
-import com.philbeaudoin.gwtp.mvp.rebind.ProxyCodeSplit;
-import com.philbeaudoin.gwtp.mvp.rebind.TabInfo;
+import com.philbeaudoin.gwtp.mvp.client.annotations.ContentSlot;
+import com.philbeaudoin.gwtp.mvp.client.annotations.NameToken;
+import com.philbeaudoin.gwtp.mvp.client.annotations.PlaceInstance;
+import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyCodeSplit;
+import com.philbeaudoin.gwtp.mvp.client.annotations.TabInfo;
 import com.puzzlebazar.client.NameTokens;
 
 /**

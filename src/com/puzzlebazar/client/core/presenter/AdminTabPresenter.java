@@ -10,9 +10,9 @@ import com.philbeaudoin.gwtp.mvp.client.TabContainerPresenterImpl;
 import com.philbeaudoin.gwtp.mvp.client.proxy.Proxy;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentHandler;
-import com.philbeaudoin.gwtp.mvp.rebind.ContentSlot;
-import com.philbeaudoin.gwtp.mvp.rebind.ProxyCodeSplitBundle;
-import com.philbeaudoin.gwtp.mvp.rebind.RequestTabs;
+import com.philbeaudoin.gwtp.mvp.client.annotations.ContentSlot;
+import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyCodeSplitBundle;
+import com.philbeaudoin.gwtp.mvp.client.annotations.RequestTabs;
 
 
 /**

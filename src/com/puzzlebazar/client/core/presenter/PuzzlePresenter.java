@@ -7,8 +7,8 @@ import com.philbeaudoin.gwtp.mvp.client.View;
 import com.philbeaudoin.gwtp.mvp.client.proxy.Place;
 import com.philbeaudoin.gwtp.mvp.client.proxy.Proxy;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealRootLayoutContentEvent;
-import com.philbeaudoin.gwtp.mvp.rebind.NameToken;
-import com.philbeaudoin.gwtp.mvp.rebind.ProxyCodeSplit;
+import com.philbeaudoin.gwtp.mvp.client.annotations.NameToken;
+import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyCodeSplit;
 import com.puzzlebazar.client.NameTokens;
 
 /**
@@ -46,7 +46,7 @@ public class PuzzlePresenter extends PresenterImpl<PuzzlePresenter.MyView, Puzzl
   }
 
   @Override
-  public void onReveal() {
+  protected void onReveal() {
     super.onReveal();
     setContent( TYPE_RevealTopBarContent, topBarPresenter );
   }
