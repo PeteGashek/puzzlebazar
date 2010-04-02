@@ -8,8 +8,8 @@ import com.philbeaudoin.gwtp.mvp.client.EventBus;
 import com.philbeaudoin.gwtp.mvp.client.proxy.Proxy;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentHandler;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealRootContentEvent;
-import com.philbeaudoin.gwtp.mvp.rebind.ContentSlot;
-import com.philbeaudoin.gwtp.mvp.rebind.ProxyStandard;
+import com.philbeaudoin.gwtp.mvp.client.annotations.ContentSlot;
+import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyStandard;
 
 /**
  * The top-level presenter that contains typical pages of the application.
@@ -50,7 +50,7 @@ public class PagePresenter extends PresenterImpl<PagePresenter.MyView, PagePrese
   }
 
   @Override
-  public void onReveal() {
+  protected void onReveal() {
     super.onReveal();
     setContent( TYPE_RevealTopBarContent, topBarPresenter );
   }

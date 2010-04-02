@@ -12,8 +12,8 @@ import com.philbeaudoin.gwtp.mvp.client.proxy.Place;
 import com.philbeaudoin.gwtp.mvp.client.proxy.Proxy;
 import com.philbeaudoin.gwtp.mvp.client.proxy.ProxyFailureHandler;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
-import com.philbeaudoin.gwtp.mvp.rebind.NameToken;
-import com.philbeaudoin.gwtp.mvp.rebind.ProxyStandard;
+import com.philbeaudoin.gwtp.mvp.client.annotations.NameToken;
+import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyStandard;
 import com.puzzlebazar.client.NameTokens;
 
 /**
@@ -56,7 +56,7 @@ extends PresenterImpl<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
   private int index = 0;
 
   @Override
-  public void onReveal() {
+  protected void onReveal() {
     super.onReveal();
     // TODO This is a temporary demonstration showing how to use PresenterWidget
     //      it will add news items every time the main page is reloaded

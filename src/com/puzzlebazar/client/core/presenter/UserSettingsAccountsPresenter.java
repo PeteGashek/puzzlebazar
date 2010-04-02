@@ -7,10 +7,10 @@ import com.philbeaudoin.gwtp.mvp.client.EventBus;
 import com.philbeaudoin.gwtp.mvp.client.proxy.Place;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.gwtp.mvp.client.proxy.TabContentProxy;
-import com.philbeaudoin.gwtp.mvp.rebind.NameToken;
-import com.philbeaudoin.gwtp.mvp.rebind.PlaceInstance;
-import com.philbeaudoin.gwtp.mvp.rebind.ProxyCodeSplit;
-import com.philbeaudoin.gwtp.mvp.rebind.TabInfo;
+import com.philbeaudoin.gwtp.mvp.client.annotations.NameToken;
+import com.philbeaudoin.gwtp.mvp.client.annotations.PlaceInstance;
+import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyCodeSplit;
+import com.philbeaudoin.gwtp.mvp.client.annotations.TabInfo;
 import com.puzzlebazar.client.NameTokens;
 
 /**
@@ -48,13 +48,13 @@ public class UserSettingsAccountsPresenter extends PresenterImpl<UserSettingsAcc
   }
   
   @Override
-  public void onReveal() {
+  protected void onReveal() {
     super.onReveal();
     DisplayShortMessageEvent.fireMessage(eventBus, "Welcome to your connected accounts page!" );
   }
 
   @Override
-  public void onHide() {
+  protected void onHide() {
     super.onHide();
     DisplayShortMessageEvent.fireClearMessage(eventBus);
   }

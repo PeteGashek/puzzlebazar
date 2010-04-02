@@ -2,13 +2,13 @@ package com.puzzlebazar.client.gin;
 
 import com.philbeaudoin.gwtp.mvp.client.DefaultEventBus;
 import com.philbeaudoin.gwtp.mvp.client.EventBus;
+import com.philbeaudoin.gwtp.mvp.client.RootPresenter;
 import com.philbeaudoin.gwtp.mvp.client.gin.AbstractPresenterModule;
 import com.philbeaudoin.gwtp.mvp.client.proxy.ParameterTokenFormatter;
 import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceManager;
 import com.philbeaudoin.gwtp.mvp.client.proxy.ProxyFailureHandler;
 import com.philbeaudoin.gwtp.mvp.client.proxy.ProxyRaw;
 import com.philbeaudoin.gwtp.mvp.client.proxy.TokenFormatter;
-import com.philbeaudoin.gwtp.mvp.client.proxy.RootProxy;
 
 import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.CurrentUser;
@@ -69,7 +69,7 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     bind(PlaceManager.class).to(PuzzlebazarPlaceManager.class).in(Singleton.class);
     bind(TokenFormatter.class).to(ParameterTokenFormatter.class).in(Singleton.class);
     bind(CurrentUser.class).asEagerSingleton();
-    bind(RootProxy.class).asEagerSingleton();
+    bind(RootPresenter.class).asEagerSingleton();
     bind(ProxyFailureHandler.class).to(FailureHandlerAlert.class).in(Singleton.class);
     bind(SquareGridManipulatorFactory.class).to(SquareGridManipulatorFactoryImpl.class).in(Singleton.class);
     

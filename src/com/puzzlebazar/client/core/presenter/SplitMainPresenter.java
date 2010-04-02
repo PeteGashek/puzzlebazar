@@ -8,8 +8,8 @@ import com.philbeaudoin.gwtp.mvp.client.EventBus;
 import com.philbeaudoin.gwtp.mvp.client.proxy.Proxy;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentHandler;
-import com.philbeaudoin.gwtp.mvp.rebind.ContentSlot;
-import com.philbeaudoin.gwtp.mvp.rebind.ProxyCodeSplit;
+import com.philbeaudoin.gwtp.mvp.client.annotations.ContentSlot;
+import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyCodeSplit;
 
 public class SplitMainPresenter 
 extends PresenterImpl<SplitMainPresenter.MyView, SplitMainPresenter.MyProxy>
@@ -50,7 +50,7 @@ implements DisplayShortMessageHandler {
   }
 
   @Override
-  public void onReveal() {
+  protected void onReveal() {
     super.onReveal();
     if( !getView().hasSideBarContent() )
       RevealDefaultLinkColumnEvent.fire(eventBus);
