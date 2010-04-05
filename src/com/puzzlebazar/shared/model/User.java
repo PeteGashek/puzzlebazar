@@ -25,10 +25,11 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.puzzlebazar.shared.util.HasKey;
 import com.puzzlebazar.shared.util.Validation;
 
 @PersistenceCapable
-public class User implements Serializable {
+public class User implements Serializable, HasKey {
 
   /**
    * 
@@ -109,9 +110,6 @@ public class User implements Serializable {
     this.locale = user.locale;
   }
   
-  /**
-   * @return This object's key, encoded as a string.
-   */
   public String getKey() {
     return key;
   }

@@ -35,14 +35,14 @@ import com.puzzlebazar.shared.action.EditUser;
 import com.puzzlebazar.shared.action.NoResult;
 import com.puzzlebazar.shared.model.User;
 
-public class EditUserHandler implements ActionHandler<EditUser, NoResult> {
+public class EditUserActionHandler implements ActionHandler<EditUser, NoResult> {
 
   private final CurrentUserManager currentUserManager;
   private final PersistenceManagerFactory persistenceManagerFactory;
   private final Provider<Cache> cache;
 
   @Inject
-  public EditUserHandler(
+  public EditUserActionHandler(
       final CurrentUserManager currentUserManager,
       final PersistenceManagerFactory persistenceManagerFactory,
       final Provider<Cache> cache ) {

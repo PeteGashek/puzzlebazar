@@ -17,48 +17,42 @@ package com.puzzlebazar.server.handler;
  */
 
 
-
 import com.google.inject.Inject;
-
 import com.philbeaudoin.gwtp.dispatch.server.ActionHandler;
 import com.philbeaudoin.gwtp.dispatch.server.ExecutionContext;
 import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
+
 import com.puzzlebazar.server.currentuser.CurrentUserManager;
-import com.puzzlebazar.shared.action.Logout;
-import com.puzzlebazar.shared.action.NoResult;
+import com.puzzlebazar.shared.action.GetCurrentUser;
+import com.puzzlebazar.shared.action.GetUserResult;
 
+public class GetCurrentUserActionHandler implements ActionHandler<GetCurrentUser, GetUserResult> {
 
-public class LogoutHandler implements ActionHandler<Logout, NoResult> {
-  
   private final CurrentUserManager currentUserManager;
 
   @Inject
-  public LogoutHandler(
+  public GetCurrentUserActionHandler(
       final CurrentUserManager currentUserManager ) {
-    this.currentUserManager = currentUserManager;
+
+    this.currentUserManager = currentUserManager;    
   }
 
   @Override
-  public NoResult execute(final Logout action,
-      final ExecutionContext context) throws ActionException {
-    try {
-      currentUserManager.logout();
-      return null;
-    }
-    catch (Exception cause) {
-      throw new ActionException(cause);
-    }
+  public GetUserResult execute(
+      final GetCurrentUser action,
+      final ExecutionContext context ) throws ActionException {
+    return new GetUserResult( currentUserManager.get() );
   }
 
   @Override
-  public void undo(final Logout action,
-      final NoResult result,
+  public void undo(final GetCurrentUser action,
+      final GetUserResult result,
       final ExecutionContext context) throws ActionException {
     // Nothing to do here
   }
 
   @Override
-  public Class<Logout> getActionType() {
-    return Logout.class;
+  public Class<GetCurrentUser> getActionType() {
+    return GetCurrentUser.class;
   }
 }
