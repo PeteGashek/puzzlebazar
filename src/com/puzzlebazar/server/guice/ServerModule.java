@@ -19,12 +19,14 @@ package com.puzzlebazar.server.guice;
 
 import com.philbeaudoin.gwtp.dispatch.server.guice.ActionHandlerModule;
 
-import com.puzzlebazar.server.handler.EditUserHandler;
-import com.puzzlebazar.server.handler.LogoutHandler;
-import com.puzzlebazar.server.handler.GetCurrentUserHandler;
+import com.puzzlebazar.server.handler.EditUserActionHandler;
+import com.puzzlebazar.server.handler.LogoutActionHandler;
+import com.puzzlebazar.server.handler.GetCurrentUserActionHandler;
+import com.puzzlebazar.server.puzzle.squaregrid.model.ChangeCellStateActionHandler;
 import com.puzzlebazar.shared.action.EditUser;
 import com.puzzlebazar.shared.action.Logout;
 import com.puzzlebazar.shared.action.GetCurrentUser;
+import com.puzzlebazar.shared.puzzle.squaregrid.model.ChangeCellStateEvent;
 
 /**
  * Module which binds the handlers and configurations
@@ -34,8 +36,9 @@ public class ServerModule extends ActionHandlerModule {
 
   @Override
   protected void configureHandlers() {
-    bindHandler(Logout.class, LogoutHandler.class);
-    bindHandler(GetCurrentUser.class, GetCurrentUserHandler.class);
-    bindHandler(EditUser.class, EditUserHandler.class);
+    bindHandler(Logout.class, LogoutActionHandler.class);
+    bindHandler(GetCurrentUser.class, GetCurrentUserActionHandler.class);
+    bindHandler(EditUser.class, EditUserActionHandler.class);
+    bindHandler(ChangeCellStateEvent.class, ChangeCellStateActionHandler.class);
   }
 }
