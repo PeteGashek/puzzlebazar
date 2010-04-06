@@ -139,6 +139,11 @@ public class Recti implements Serializable {
       return false;
     return true;
   }
+  
+  @Override
+  public String toString() {
+    return "(("+x+", "+y+"), ("+w+", "+h+"))";
+  }
 
   /**
    * Modifies this rectangle so that it is a copy of the passed rectangle.
@@ -240,7 +245,6 @@ public class Recti implements Serializable {
    * @return {@code true} if the rectangles overlap, {@code false} otherwise.
    */
   public boolean cellsOverlap(Recti rect) {
-
 
     int left = x;
     int right = x+w-1;

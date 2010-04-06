@@ -110,6 +110,11 @@ public class Vec2i implements Serializable {
       return false;
     return true;
   }
+  
+  @Override
+  public String toString() {
+    return "("+x+", "+y+")";
+  }
 
   /**
    * Advances a 2D integer vector one step in the given direction
