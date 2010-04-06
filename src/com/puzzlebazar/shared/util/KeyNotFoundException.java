@@ -16,6 +16,16 @@ package com.puzzlebazar.shared.util;
  * limitations under the License.
  */
 
-public class InvalidCoordinateException extends Exception {
-  private static final long serialVersionUID = 96225158533676774L;
+public class KeyNotFoundException extends Exception {
+
+  private static final long serialVersionUID = 5454125887107988069L;
+
+  public KeyNotFoundException() {
+    super();
+  }
+  
+  public KeyNotFoundException( String message ) {
+    super(message);
+  }
+  
 }

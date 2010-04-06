@@ -16,57 +16,35 @@ package com.puzzlebazar.shared.puzzle.squaregrid.model;
  * limitations under the License.
  */
 
-
-
 import com.puzzlebazar.shared.util.Has2DSize;
-import com.puzzlebazar.shared.util.InvalidCoordinateException;
 import com.puzzlebazar.shared.util.Vec2i;
 
 
 /**
  * An array of states attached to cells. A state is simply an integer value.
+ *
+ * @param <S> The {@link CellState} of the states contained in the cell array.
  * 
  * @author Philippe Beaudoin
  */
-public interface CellArray extends Has2DSize {
+public interface CellArray<S extends CellState> extends Has2DSize {
   
   /**
    * Changes the state at the provided cell location.
    * Will fire a {@link SetCellStateEvent}.
    * 
    * @param cell Cell coordinate at which to set the state, a {@link Vec2i}.
-   * @param state The desired state, an integer.
-   * @throws InvalidCoordinateException If the passed coordinate is not a valid cell coordinate.
+   * @param state The desired {@link CellState}.
    */
-  public void setCellState(Vec2i loc, int state) throws InvalidCoordinateException;
-
+  public void setCellState(Vec2i loc, S state);
   
   /**
    * Access the state at the provided cell location.
    * 
    * @param loc Cell coordinate at which to access the state, a {@link Vec2i}.
-   * @return The current state at that coordinate, an integer.
-   * @throws InvalidCoordinateException If the passed coordinate is not a valid cell coordinate.
+   * @return The current {@link CellState} at that coordinate.
    */
-  public int getCellState(Vec2i loc) throws InvalidCoordinateException;
-  
-  
-  /**
-   * Access to the number of different states in this model. All the states must be
-   * continuous starting from zero. State 0 is counted (hence, a model with state 0,1,2 should
-   * return 3 as the number of states). Return -1 for a CellArray that has an arbitrary
-   * number of states, for example, if it can contain any number.
-   * 
-   * @return The number of different states in this model.
-   */
-  public int getNbCellStates();
-
-  /**
-   * Access the default state.
-   * 
-   * @return The default state, an integer.
-   */
-  public int getDefaultCellState();
+  public S getCellState(Vec2i loc);
 
   /**
    * Resets all the states in the grid to their default value.

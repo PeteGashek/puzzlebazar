@@ -16,11 +16,22 @@ package com.puzzlebazar.shared.puzzle.squaregrid.model;
  * limitations under the License.
  */
 
+/**
+ * Objects that implement that interface are able to verify whether
+ * or not a {@link CellState} verifies a desired consition.
+ * 
+ * @param <S> The type of {@link CellState} for this condition.
+ * 
+ * @author Philippe Beaudoin
+ */
+public interface CellStateCondition<S extends CellState> {
 
-import com.google.gwt.event.shared.EventHandler;
-
-public interface ChangeCellStateHandler extends EventHandler {
-
-    void onChangeCellState( ChangeCellStateEvent event );
-
+  /**
+   * Checks if the state verifies the condition.
+   * 
+   * @param state The {@link CellState} to check.
+   * @return {@code true} if the state verifies the condition, {@code false} otherwise.
+   */
+  boolean doesCellVerifyCondition( S state );
+  
 }
