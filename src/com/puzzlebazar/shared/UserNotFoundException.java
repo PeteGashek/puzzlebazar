@@ -16,7 +16,6 @@ package com.puzzlebazar.shared;
  * limitations under the License.
  */
 
-
 import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
 
 public class UserNotFoundException extends ActionException {

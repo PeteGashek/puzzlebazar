@@ -19,12 +19,16 @@ package com.puzzlebazar.server.guice;
 
 import com.philbeaudoin.gwtp.dispatch.server.guice.ActionHandlerModule;
 
+import com.puzzlebazar.server.handler.CreateNewPuzzleActionHandler;
 import com.puzzlebazar.server.handler.EditUserActionHandler;
+import com.puzzlebazar.server.handler.GetPuzzleActionHandler;
 import com.puzzlebazar.server.handler.LogoutActionHandler;
 import com.puzzlebazar.server.handler.GetCurrentUserActionHandler;
-import com.puzzlebazar.shared.action.EditUser;
-import com.puzzlebazar.shared.action.Logout;
-import com.puzzlebazar.shared.action.GetCurrentUser;
+import com.puzzlebazar.shared.action.CreateNewPuzzleAction;
+import com.puzzlebazar.shared.action.EditUserAction;
+import com.puzzlebazar.shared.action.GetPuzzleAction;
+import com.puzzlebazar.shared.action.LogoutAction;
+import com.puzzlebazar.shared.action.GetCurrentUserAction;
 
 /**
  * Module which binds the handlers and configurations
@@ -34,8 +38,10 @@ public class ServerModule extends ActionHandlerModule {
 
   @Override
   protected void configureHandlers() {
-    bindHandler(Logout.class, LogoutActionHandler.class);
-    bindHandler(GetCurrentUser.class, GetCurrentUserActionHandler.class);
-    bindHandler(EditUser.class, EditUserActionHandler.class);
+    bindHandler(LogoutAction.class, LogoutActionHandler.class);
+    bindHandler(GetCurrentUserAction.class, GetCurrentUserActionHandler.class);
+    bindHandler(EditUserAction.class, EditUserActionHandler.class);
+    bindHandler(GetPuzzleAction.class, GetPuzzleActionHandler.class);
+    bindHandler(CreateNewPuzzleAction.class, CreateNewPuzzleActionHandler.class);
   }
 }

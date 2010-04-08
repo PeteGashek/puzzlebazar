@@ -16,6 +16,7 @@ package com.puzzlebazar.shared.puzzle.heyawake.model;
  * limitations under the License.
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +27,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.philbeaudoin.gwtp.mvp.client.HandlerContainerImpl;
 import com.puzzlebazar.shared.puzzle.squaregrid.model.CellArray;
 import com.puzzlebazar.shared.util.Has2DSize;
 import com.puzzlebazar.shared.util.HasKey;
@@ -35,7 +37,10 @@ import com.puzzlebazar.shared.util.Recti;
 import com.puzzlebazar.shared.util.Vec2i;
 
 @PersistenceCapable
-public class HeyawakePuzzle implements HasKey, Has2DSize, CellArray<HeyawakeCellState> {
+public class HeyawakePuzzle extends HandlerContainerImpl
+implements HasKey, Has2DSize, CellArray<HeyawakeCellState>, Serializable {
+
+  private static final long serialVersionUID = -7747407683017419004L;
 
   private final static HeyawakeCellState defaultState = new HeyawakeCellState( HeyawakeCellState.UNKNOWN );
   
@@ -44,24 +49,30 @@ public class HeyawakePuzzle implements HasKey, Has2DSize, CellArray<HeyawakeCell
   @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
   private String key;
 
+  @Persistent
+  @Extension(vendorName="datanucleus", key="gae.pk-id", value="true")
+  private Long keyId;
+  
   @Persistent(dependent = "true")
   private HeyawakePuzzleInfo puzzleInfo;
   
   // Not using abstract Map class because of GWT serialization mechanism. 
   // See {@link http://www.gwtapps.com/doc/html/com.google.gwt.doc.DeveloperGuide.RemoteProcedureCalls.SerializableTypes.html}
   // for details.
-  @Persistent(serialized="true")
+  @Persistent(serialized="true", defaultFetchGroup = "true")
   private ArrayList<HeyawakeRoom> rooms;
   
-  @Persistent(serialized="true")
+  @Persistent(serialized="true", defaultFetchGroup = "true")
   private HeyawakeCellState[][] stateArray;
   
   @SuppressWarnings("unused")
   private HeyawakePuzzle() {
-    // For serialization only    
+    // For serialization only
+    super(false);
   }
   
   public HeyawakePuzzle( HeyawakePuzzleInfo puzzleInfo ) {
+    super(false);
     this.puzzleInfo = puzzleInfo;
     rooms = new ArrayList<HeyawakeRoom>();
     stateArray = new HeyawakeCellState[getWidth()][getHeight()];
@@ -70,6 +81,11 @@ public class HeyawakePuzzle implements HasKey, Has2DSize, CellArray<HeyawakeCell
   @Override
   public String getKey() {
     return key;
+  }
+  
+  @Override
+  public long getId() {
+    return keyId;
   }
 
   @Override

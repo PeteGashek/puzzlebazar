@@ -1,4 +1,4 @@
-package com.puzzlebazar.shared.util;
+package com.puzzlebazar.shared.action;
 
 /**
  * Copyright 2010 Philippe Beaudoin
@@ -16,22 +16,26 @@ package com.puzzlebazar.shared.util;
  * limitations under the License.
  */
 
+import com.philbeaudoin.gwtp.dispatch.shared.Result;
+import com.puzzlebazar.shared.puzzle.heyawake.model.HeyawakePuzzle;
 
-/**
- * This interface is used on objects that should be storable in
- * the datastore.
- * 
- * @author Philippe Beaudoin
- */
-public interface HasKey {
+public class GetPuzzleResult implements Result {
 
-  /**
-   * @return This object's key, encoded as a string.
-   */
-  public String getKey();
+  private static final long serialVersionUID = 5073330189290507689L;
   
-  /**
-   * @return This object's numerical id, obtained from its key.
-   */
-  public long getId();
+  // TODO This should really be a generic puzzle type
+  private HeyawakePuzzle puzzle;
+
+  @SuppressWarnings("unused")
+  private GetPuzzleResult() {
+    // For serialization only
+  }
+
+  public GetPuzzleResult(HeyawakePuzzle puzzle) {
+    this.puzzle = puzzle;
+  }
+  
+  public HeyawakePuzzle getPuzzle() {
+    return puzzle;
+  }
 }

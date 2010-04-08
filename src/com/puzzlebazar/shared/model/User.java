@@ -59,6 +59,10 @@ public class User implements Serializable, HasKey {
   private String key;
 
   @Persistent
+  @Extension(vendorName="datanucleus", key="gae.pk-id", value="true")
+  private Long keyId;
+  
+  @Persistent
   private String email;
   @Persistent
   private String realName;
@@ -110,8 +114,14 @@ public class User implements Serializable, HasKey {
     this.locale = user.locale;
   }
   
+  @Override
   public String getKey() {
     return key;
+  }
+  
+  @Override
+  public long getId() {
+    return keyId;
   }
   
   /**

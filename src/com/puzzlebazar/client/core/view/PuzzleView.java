@@ -73,12 +73,14 @@ public class PuzzleView extends ViewImpl implements PuzzlePresenter.MyView {
 
   private void setTopBarContent(Widget topBarContent) {
     topBarContainer.clear();
-    topBarContainer.add( topBarContent );
+    if( topBarContent != null )
+      topBarContainer.add( topBarContent );
   }
 
   private void setPuzzleContent(Widget puzzleContent) {
     puzzleContainer.clear();
-    puzzleContainer.add( puzzleContent );
+    if( puzzleContent != null )
+      puzzleContainer.add( puzzleContent );
   }
 
   @Override

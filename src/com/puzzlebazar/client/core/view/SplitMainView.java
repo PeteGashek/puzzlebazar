@@ -70,12 +70,14 @@ public class SplitMainView extends ViewImpl implements SplitMainPresenter.MyView
     
   private void setSideBarContent(Widget sideBarContent) {
     sideBarContainer.clear();
-    sideBarContainer.add( sideBarContent );
+    if( sideBarContent != null )
+      sideBarContainer.add( sideBarContent );
   }
 
   private void setCenterContent(Widget centerContent) {
     centerContentContainer.clear();
-    centerContentContainer.add( centerContent );
+    if( centerContent != null )
+      centerContentContainer.add( centerContent );
   }
 
   @Override

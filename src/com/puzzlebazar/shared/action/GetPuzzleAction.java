@@ -1,4 +1,4 @@
-package com.puzzlebazar.shared.util;
+package com.puzzlebazar.shared.action;
 
 /**
  * Copyright 2010 Philippe Beaudoin
@@ -16,22 +16,24 @@ package com.puzzlebazar.shared.util;
  * limitations under the License.
  */
 
+import com.philbeaudoin.gwtp.dispatch.shared.Action;
 
-/**
- * This interface is used on objects that should be storable in
- * the datastore.
- * 
- * @author Philippe Beaudoin
- */
-public interface HasKey {
+public class GetPuzzleAction implements Action< GetPuzzleResult > {
 
-  /**
-   * @return This object's key, encoded as a string.
-   */
-  public String getKey();
-  
-  /**
-   * @return This object's numerical id, obtained from its key.
-   */
-  public long getId();
+  private static final long serialVersionUID = 980090205056921146L;
+
+  private long id;
+
+  @SuppressWarnings("unused")
+  private GetPuzzleAction() {
+    // For serialization only
+  }
+
+  public GetPuzzleAction( long id ) {
+    this.id = id;
+  }
+
+  public long getId() {
+    return id;
+  }
 }

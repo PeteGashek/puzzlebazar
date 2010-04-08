@@ -18,11 +18,33 @@ package com.puzzlebazar.shared.action;
 
 
 import com.philbeaudoin.gwtp.dispatch.shared.Action;
+import com.puzzlebazar.shared.model.User;
 
-public class GetCurrentUser implements Action< GetUserResult > {
+public class EditUserAction implements Action< NoResult > {
 
-  private static final long serialVersionUID = -5400281890164958066L;
+  private static final long serialVersionUID = -1748598990259084358L;
+
+  private User user;
+  private User previousUser = null;
+
+  @SuppressWarnings("unused")
+  private EditUserAction() {
+    // For serialization only
+  }
+
+  public EditUserAction( User user ) {
+    this.user = user;
+  }
+
+  public void setPreviousUser( final User previousUser ) {
+    this.previousUser = previousUser;
+  }
   
-
+  public User getUser() {
+    return user;
+  }
   
+  public User getPreviousUser() {
+    return previousUser;
+  }
 }

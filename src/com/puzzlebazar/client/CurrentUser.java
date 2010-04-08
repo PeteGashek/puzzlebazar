@@ -23,7 +23,7 @@ import com.google.inject.Inject;
 import com.philbeaudoin.gwtp.dispatch.client.DispatchAsync;
 import com.philbeaudoin.gwtp.mvp.client.EventBus;
 import com.puzzlebazar.client.core.presenter.CurrentUserChangedEvent;
-import com.puzzlebazar.shared.action.GetCurrentUser;
+import com.puzzlebazar.shared.action.GetCurrentUserAction;
 import com.puzzlebazar.shared.action.GetUserResult;
 import com.puzzlebazar.shared.model.User;
 
@@ -76,7 +76,7 @@ public class CurrentUser {
    */
   public void fetchUser() {
     fetchUserTimer.cancel();  
-    dispatcher.execute( new GetCurrentUser(), new AsyncCallback<GetUserResult>() {
+    dispatcher.execute( new GetCurrentUserAction(), new AsyncCallback<GetUserResult>() {
       
       @Override
       public void onFailure(Throwable caught) {

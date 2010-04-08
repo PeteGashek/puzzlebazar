@@ -92,40 +92,28 @@ public class HeyawakePresenter extends PresenterWidgetImpl<HeyawakePresenter.MyV
     }
     
     @Override
-    public HeyawakePresenter create(
+    public HeyawakePresenter create(        
         Widget uiWidget,
         HeyawakePuzzle puzzle) {
-      return new HeyawakePresenter(eventBus, viewFactory.create(uiWidget, puzzle) );
+      return new HeyawakePresenter(eventBus, viewFactory.create(uiWidget, puzzle), puzzle );
     }
   }
-
-  private HeyawakePuzzle puzzle = null;
+  
+  private final HeyawakePuzzle puzzle;
   
   private HeyawakePresenter(
-      final EventBus eventBus, 
-      final MyView view) {
+      final EventBus eventBus,
+      final MyView view,
+      final HeyawakePuzzle puzzle ) {
     super(
         false,
         eventBus, 
         view);
+    this.puzzle = puzzle;
   }
   
   @Override
   protected void onBind() {
-    super.onBind();
-    
-  }
-  
-  /**
-   * Attaches a specific {@link HeyawakePuzzle} to this presenter widget. 
-   * 
-   * @param puzzle The {@link HeyawakePuzzle} to attach.
-   */
-  void attachPuzzle( HeyawakePuzzle puzzle ) {
-    if( this.puzzle == puzzle )
-      return;
-    unbind();
-    this.puzzle = puzzle;
-    bind();
+    super.onBind();    
   }
 }

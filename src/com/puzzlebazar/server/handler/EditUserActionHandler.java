@@ -16,8 +16,6 @@ package com.puzzlebazar.server.handler;
  * limitations under the License.
  */
 
-
-
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
@@ -31,11 +29,11 @@ import com.philbeaudoin.gwtp.dispatch.server.ExecutionContext;
 import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
 import com.puzzlebazar.server.currentuser.CurrentUserManager;
 import com.puzzlebazar.shared.UserNotFoundException;
-import com.puzzlebazar.shared.action.EditUser;
+import com.puzzlebazar.shared.action.EditUserAction;
 import com.puzzlebazar.shared.action.NoResult;
 import com.puzzlebazar.shared.model.User;
 
-public class EditUserActionHandler implements ActionHandler<EditUser, NoResult> {
+public class EditUserActionHandler implements ActionHandler<EditUserAction, NoResult> {
 
   private final CurrentUserManager currentUserManager;
   private final PersistenceManagerFactory persistenceManagerFactory;
@@ -53,7 +51,7 @@ public class EditUserActionHandler implements ActionHandler<EditUser, NoResult> 
 
   @Override
   public NoResult execute(
-      final EditUser action,
+      final EditUserAction action,
       final ExecutionContext context ) throws ActionException {
     // TODO Validate that the current user has the required privileges!
     User user = action.getUser();
@@ -76,7 +74,7 @@ public class EditUserActionHandler implements ActionHandler<EditUser, NoResult> 
 
   @Override
   public void undo(
-      final EditUser action,
+      final EditUserAction action,
       final NoResult result,
       final ExecutionContext context) throws ActionException {    
     // TODO Validate that the current user has the required privileges!
@@ -97,7 +95,7 @@ public class EditUserActionHandler implements ActionHandler<EditUser, NoResult> 
   }
 
   @Override
-  public Class<EditUser> getActionType() {
-    return EditUser.class;
+  public Class<EditUserAction> getActionType() {
+    return EditUserAction.class;
   }
 }

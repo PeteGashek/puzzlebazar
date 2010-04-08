@@ -48,6 +48,7 @@ public class MainPageView extends ViewImpl implements MainPagePresenter.MyView {
   
   @Override
   public void addContent(Object slot, Widget content) {
+    assert content != null : "Cannot add null content.";
     if( slot == MainPagePresenter.TYPE_RevealNewsContent )
       newsPanel.add( content );
     else
@@ -55,11 +56,13 @@ public class MainPageView extends ViewImpl implements MainPagePresenter.MyView {
   }
 
   @Override
-  public void clearContent(Object slot) {
-    if( slot == MainPagePresenter.TYPE_RevealNewsContent )
+  public void setContent(Object slot, Widget content) {
+    if( slot == MainPagePresenter.TYPE_RevealNewsContent ) {
       newsPanel.clear();
-    else
-      super.clearContent(slot);
+      if( content != null )
+        addContent( slot, content );
+    } else
+      super.setContent(slot, content);
   }
 
 }

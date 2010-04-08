@@ -17,6 +17,8 @@ package com.puzzlebazar.shared.puzzle.heyawake.model;
  */
 
 
+import java.io.Serializable;
+
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
@@ -27,15 +29,24 @@ import com.puzzlebazar.shared.util.Has2DSize;
 import com.puzzlebazar.shared.util.HasKey;
 
 @PersistenceCapable
-public class HeyawakePuzzleInfo implements HasKey, Has2DSize {
+public class HeyawakePuzzleInfo implements HasKey, Has2DSize, Serializable {
+
+  private static final long serialVersionUID = -7101218761822467018L;
 
   @PrimaryKey
   @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
   @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
   private String key;
+
+  @Persistent
+  @Extension(vendorName="datanucleus", key="gae.pk-id", value="true")
+  private Long keyId;
   
   @Persistent(mappedBy = "puzzleInfo")
   private HeyawakePuzzle puzzle;  
+
+  @Persistent
+  private String title;
 
   @Persistent
   private int width;
@@ -43,19 +54,26 @@ public class HeyawakePuzzleInfo implements HasKey, Has2DSize {
   @Persistent
   private int height;
   
-  @Override
-  public String getKey() {
-    return key;
-  }
 
   @SuppressWarnings("unused")
   private HeyawakePuzzleInfo() {
     // For serialization only    
   }
   
-  public HeyawakePuzzleInfo( int width, int height ) {
+  public HeyawakePuzzleInfo( String title, int width, int height ) {
+    this.title = title;
     this.width = width;
     this.height = height;
+  }
+
+  @Override
+  public String getKey() {
+    return key;
+  }
+  
+  @Override
+  public long getId() {
+    return keyId;
   }
   
   /**
@@ -65,6 +83,10 @@ public class HeyawakePuzzleInfo implements HasKey, Has2DSize {
    */
   public HeyawakePuzzle getPuzzle() {
     return puzzle;
+  }
+  
+  public String getTitle() {
+    return title;
   }
   
   @Override

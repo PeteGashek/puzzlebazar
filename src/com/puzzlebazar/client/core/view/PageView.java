@@ -66,12 +66,14 @@ public class PageView extends ViewImpl implements PagePresenter.MyView {
     
   private void setMainContent(Widget mainContent) {
     mainContentContainer.clear();
-    mainContentContainer.add( mainContent );
+    if( mainContent != null )
+      mainContentContainer.add( mainContent );
   }
 
   private void setTopBarContent(Widget topBarContent) {
     topBarContainer.clear();
-    topBarContainer.add( topBarContent );
+    if( topBarContent != null )
+      topBarContainer.add( topBarContent );
   }
 
 
