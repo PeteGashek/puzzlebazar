@@ -28,13 +28,35 @@ import com.google.gwt.user.client.ui.Widget;
  * {@link Widget}. The latter is used for ui interaction and must implement
  * a number of mouse handler interfaces ({@link HasMouseDownHandlers},
  * {@link HasMouseUpHandlers}, {@link HasMouseMouveHandlers},
- * {@link HasMouseOutHandlers}). In turn, this {@link SquareGridManipulatorImpl}
+ * {@link HasMouseOutHandlers}). In turn, this {@link SquareGridManipulator}
  * implements a number of square-grid-specific handlers.
  * 
  * @author Philippe Beaudoin
  */
 public interface SquareGridManipulator {
+  
+  /**
+   * The factory class to produce {@link SquareGridManipulator} objects.
+   * 
+   * @author Philippe Beaudoin
+   */
+  public interface Factory {
 
+    /**
+     * Creates a {@link SquareGridManipulator} attached to a panel 
+     * and a UI widget.
+     * 
+     * @param gridPanel The {@link SquareGridLayoutPanel} on which to add a manipulator.
+     * @param uiWidget The {@link Widget} receiving the ui input. Must implement
+     *   the following interfaces: {@link HasMouseDownHandlers},
+     *   {@link HasMouseUpHandlers}, {@link HasMouseMouveHandlers},
+     *   {@link HasMouseOutHandlers}.
+     */  
+    public SquareGridManipulator create(
+        SquareGridLayoutPanel gridPanel,
+        Widget uiWidget );
+  }
+  
   /**
    * Call this method when you're done using the manipulator, to ensure all 
    * UI handlers are unbound.

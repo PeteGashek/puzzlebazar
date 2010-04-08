@@ -16,6 +16,7 @@ package com.puzzlebazar.shared.puzzle.heyawake.model;
  * limitations under the License.
  */
 
+
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
@@ -47,6 +48,16 @@ public class HeyawakePuzzleInfo implements HasKey, Has2DSize {
     return key;
   }
 
+  @SuppressWarnings("unused")
+  private HeyawakePuzzleInfo() {
+    // For serialization only    
+  }
+  
+  public HeyawakePuzzleInfo( int width, int height ) {
+    this.width = width;
+    this.height = height;
+  }
+  
   /**
    * Access the puzzle associated with this {@link HeyawakePuzzleInfo}.
    * 
@@ -58,12 +69,12 @@ public class HeyawakePuzzleInfo implements HasKey, Has2DSize {
   
   @Override
   public int getHeight() {
-    return width;
+    return height;
   }
 
   @Override
   public int getWidth() {
-    return height;
+    return width;
   }
 
 }
