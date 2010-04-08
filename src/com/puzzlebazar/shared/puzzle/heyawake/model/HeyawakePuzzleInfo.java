@@ -25,8 +25,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.puzzlebazar.shared.model.HasKey;
 import com.puzzlebazar.shared.util.Has2DSize;
-import com.puzzlebazar.shared.util.HasKey;
 
 @PersistenceCapable
 public class HeyawakePuzzleInfo implements HasKey, Has2DSize, Serializable {
