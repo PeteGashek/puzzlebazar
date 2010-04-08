@@ -28,9 +28,9 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.philbeaudoin.gwtp.mvp.client.HandlerContainerImpl;
+import com.puzzlebazar.shared.model.HasKey;
 import com.puzzlebazar.shared.puzzle.squaregrid.model.CellArray;
 import com.puzzlebazar.shared.util.Has2DSize;
-import com.puzzlebazar.shared.util.HasKey;
 import com.puzzlebazar.shared.util.KeyNotFoundException;
 import com.puzzlebazar.shared.util.PuzzleMessage;
 import com.puzzlebazar.shared.util.Recti;

@@ -1,4 +1,4 @@
-package com.puzzlebazar.shared.util;
+package com.puzzlebazar.shared.model;
 
 /**
  * Copyright 2010 Philippe Beaudoin
@@ -16,22 +16,22 @@ package com.puzzlebazar.shared.util;
  * limitations under the License.
  */
 
+import java.io.Serializable;
+
 
 /**
- * This interface is used on objects that should be storable in
- * the datastore.
+ * A comment written by a user.
  * 
  * @author Philippe Beaudoin
  */
-public interface HasKey {
+public interface Comment extends EditableObject, Serializable, HasKey, HasPrivacySettings {
 
   /**
-   * @return This object's key, encoded as a string.
+   * Access the body this comment.
+   * 
+   * @return The comment body, a string.
    */
-  public String getKey();
+  public String getBody();  
   
-  /**
-   * @return This object's numerical id, obtained from its key.
-   */
-  public long getId();
+  
 }
