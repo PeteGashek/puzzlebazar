@@ -23,10 +23,10 @@ import com.philbeaudoin.gwtp.dispatch.server.ExecutionContext;
 import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
 
 import com.puzzlebazar.server.currentuser.CurrentUserManager;
-import com.puzzlebazar.shared.action.GetCurrentUser;
+import com.puzzlebazar.shared.action.GetCurrentUserAction;
 import com.puzzlebazar.shared.action.GetUserResult;
 
-public class GetCurrentUserActionHandler implements ActionHandler<GetCurrentUser, GetUserResult> {
+public class GetCurrentUserActionHandler implements ActionHandler<GetCurrentUserAction, GetUserResult> {
 
   private final CurrentUserManager currentUserManager;
 
@@ -39,20 +39,20 @@ public class GetCurrentUserActionHandler implements ActionHandler<GetCurrentUser
 
   @Override
   public GetUserResult execute(
-      final GetCurrentUser action,
+      final GetCurrentUserAction action,
       final ExecutionContext context ) throws ActionException {
     return new GetUserResult( currentUserManager.get() );
   }
 
   @Override
-  public void undo(final GetCurrentUser action,
+  public void undo(final GetCurrentUserAction action,
       final GetUserResult result,
       final ExecutionContext context) throws ActionException {
     // Nothing to do here
   }
 
   @Override
-  public Class<GetCurrentUser> getActionType() {
-    return GetCurrentUser.class;
+  public Class<GetCurrentUserAction> getActionType() {
+    return GetCurrentUserAction.class;
   }
 }

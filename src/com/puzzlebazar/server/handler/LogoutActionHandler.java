@@ -24,11 +24,11 @@ import com.philbeaudoin.gwtp.dispatch.server.ActionHandler;
 import com.philbeaudoin.gwtp.dispatch.server.ExecutionContext;
 import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
 import com.puzzlebazar.server.currentuser.CurrentUserManager;
-import com.puzzlebazar.shared.action.Logout;
+import com.puzzlebazar.shared.action.LogoutAction;
 import com.puzzlebazar.shared.action.NoResult;
 
 
-public class LogoutActionHandler implements ActionHandler<Logout, NoResult> {
+public class LogoutActionHandler implements ActionHandler<LogoutAction, NoResult> {
   
   private final CurrentUserManager currentUserManager;
 
@@ -39,7 +39,7 @@ public class LogoutActionHandler implements ActionHandler<Logout, NoResult> {
   }
 
   @Override
-  public NoResult execute(final Logout action,
+  public NoResult execute(final LogoutAction action,
       final ExecutionContext context) throws ActionException {
     try {
       currentUserManager.logout();
@@ -51,14 +51,14 @@ public class LogoutActionHandler implements ActionHandler<Logout, NoResult> {
   }
 
   @Override
-  public void undo(final Logout action,
+  public void undo(final LogoutAction action,
       final NoResult result,
       final ExecutionContext context) throws ActionException {
     // Nothing to do here
   }
 
   @Override
-  public Class<Logout> getActionType() {
-    return Logout.class;
+  public Class<LogoutAction> getActionType() {
+    return LogoutAction.class;
   }
 }

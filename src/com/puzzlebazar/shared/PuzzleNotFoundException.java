@@ -1,4 +1,4 @@
-package com.puzzlebazar.shared.util;
+package com.puzzlebazar.shared;
 
 /**
  * Copyright 2010 Philippe Beaudoin
@@ -16,22 +16,8 @@ package com.puzzlebazar.shared.util;
  * limitations under the License.
  */
 
+import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
 
-/**
- * This interface is used on objects that should be storable in
- * the datastore.
- * 
- * @author Philippe Beaudoin
- */
-public interface HasKey {
-
-  /**
-   * @return This object's key, encoded as a string.
-   */
-  public String getKey();
-  
-  /**
-   * @return This object's numerical id, obtained from its key.
-   */
-  public long getId();
+public class PuzzleNotFoundException extends ActionException {
+  private static final long serialVersionUID = 5133130139413309294L;
 }

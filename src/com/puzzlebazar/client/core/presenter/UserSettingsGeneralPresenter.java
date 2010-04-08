@@ -41,7 +41,7 @@ import com.puzzlebazar.client.NameTokens;
 import com.puzzlebazar.client.resources.Translations;
 import com.puzzlebazar.client.util.MonitorHandler;
 import com.puzzlebazar.client.util.ChangeMonitor;
-import com.puzzlebazar.shared.action.EditUser;
+import com.puzzlebazar.shared.action.EditUserAction;
 import com.puzzlebazar.shared.action.NoResult;
 import com.puzzlebazar.shared.model.User;
 import com.puzzlebazar.shared.util.AvailableLocales;
@@ -171,7 +171,7 @@ implements MonitorHandler  {
     user.setNickname( view.getNickname().getText() );
     user.setRealname( view.getRealName().getText() );
     user.setLocale( availableLocales.getLocale(localeIndex).getLocale() );
-    dispatcher.execute( new EditUser(user), new ActionCallback<NoResult>(translations.operationFailedRetry()){
+    dispatcher.execute( new EditUserAction(user), new ActionCallback<NoResult>(translations.operationFailedRetry()){
       @Override
       public void onSuccess(NoResult result) {
         DisplayShortMessageEvent.fireClearMessage(eventBus);

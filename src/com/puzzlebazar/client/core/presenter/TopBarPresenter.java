@@ -29,7 +29,7 @@ import com.philbeaudoin.gwtp.mvp.client.EventBus;
 import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceManager;
 import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.CurrentUser;
-import com.puzzlebazar.shared.action.Logout;
+import com.puzzlebazar.shared.action.LogoutAction;
 import com.puzzlebazar.shared.action.NoResult;
 import com.puzzlebazar.shared.model.User;
 
@@ -51,8 +51,8 @@ implements CurrentUserChangedHandler {
   public TopBarPresenter(
       final EventBus eventBus, 
       final PlaceManager placeManager,
-      final MyView view,
       final DispatchAsync dispatcher,
+      final MyView view,
       final CurrentUser currentUser) {
     super(eventBus, view);
 
@@ -105,7 +105,7 @@ implements CurrentUserChangedHandler {
   private void doSignOut() {
     getView().setLoggedOut();
     placeManager.revealDefaultPlace();
-    dispatcher.execute( new Logout(), new ActionCallback<NoResult>() {
+    dispatcher.execute( new LogoutAction(), new ActionCallback<NoResult>() {
       @Override
       public void onSuccess(NoResult noResult) {}
     } ); 

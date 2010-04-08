@@ -23,7 +23,7 @@
 
 	<g:FlowPanel>
 	   <g:Label>Link Column Placeholder</g:Label>
-	   <g:Hyperlink targetHistoryToken='{nameTokens.getPuzzlePage}'>Puzzles (temp!)</g:Hyperlink>
+	   <g:Hyperlink targetHistoryToken='{nameTokens.getPuzzlePage};action=new'>Puzzles (temp!)</g:Hyperlink>
 	</g:FlowPanel>
 
 </ui:UiBinder>
