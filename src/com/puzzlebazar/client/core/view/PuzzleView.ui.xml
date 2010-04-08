@@ -38,7 +38,7 @@
 		<g:center>
 			<g:LayoutPanel>
 				<g:layer>
-					<g:LayoutPanel ui:field='centerContainer' />
+					<g:LayoutPanel ui:field='puzzleContainer' />
 				</g:layer>
 				<g:layer>
 					<!-- This layer disables undesired mouse interaction (selection) of the puzzle -->

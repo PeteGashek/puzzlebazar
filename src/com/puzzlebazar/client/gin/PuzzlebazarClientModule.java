@@ -59,13 +59,15 @@ import com.puzzlebazar.client.core.view.TopBarView;
 import com.puzzlebazar.client.core.view.UserSettingsAccountsView;
 import com.puzzlebazar.client.core.view.UserSettingsGeneralView;
 import com.puzzlebazar.client.core.view.UserSettingsTabView;
+import com.puzzlebazar.client.puzzle.heyawake.presenter.HeyawakePresenter;
+import com.puzzlebazar.client.puzzle.heyawake.view.HeyawakeView;
 import com.puzzlebazar.client.resources.Resources;
 import com.puzzlebazar.client.resources.Translations;
 import com.puzzlebazar.client.ui.ShortMessageBox;
 import com.puzzlebazar.client.ui.SimpleTabPanel;
 import com.puzzlebazar.client.ui.SquareGridLayoutPanel;
-import com.puzzlebazar.client.ui.SquareGridManipulatorFactory;
-import com.puzzlebazar.client.ui.SquareGridManipulatorFactoryImpl;
+import com.puzzlebazar.client.ui.SquareGridManipulator;
+import com.puzzlebazar.client.ui.SquareGridManipulatorImpl;
 import com.puzzlebazar.client.util.ChangeMonitor;
 import com.puzzlebazar.client.util.DefaultChangeMonitor;
 
@@ -88,7 +90,7 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     bind(CurrentUser.class).asEagerSingleton();
     bind(RootPresenter.class).asEagerSingleton();
     bind(ProxyFailureHandler.class).to(FailureHandlerAlert.class).in(Singleton.class);
-    bind(SquareGridManipulatorFactory.class).to(SquareGridManipulatorFactoryImpl.class).in(Singleton.class);
+    bind(SquareGridManipulator.Factory.class).to(SquareGridManipulatorImpl.FactoryImpl.class).in(Singleton.class);
     
     // Non-singletons
     bind(ChangeMonitor.class).to(DefaultChangeMonitor.class);
@@ -108,6 +110,11 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     // Presenter widget
     bindPresenterWidget(NewsItemPresenter.class, NewsItemPresenter.MyView.class, NewsItemView.class);
     bindPresenterWidget(TopBarPresenter.class, TopBarPresenter.MyView.class, TopBarView.class );
+    bindPresenterWidgetFactory(
+        HeyawakePresenter.Factory.class,
+        HeyawakePresenter.FactoryImpl.class,
+        HeyawakePresenter.ViewFactory.class,
+        HeyawakeView.FactoryImpl.class);
 
     // Presenter bundles
     bind(TabbedPresenterBundle.class).in(Singleton.class);
