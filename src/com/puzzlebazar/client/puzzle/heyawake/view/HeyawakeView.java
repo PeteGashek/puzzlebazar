@@ -18,7 +18,7 @@ package com.puzzlebazar.client.puzzle.heyawake.view;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.philbeaudoin.gwtp.mvp.client.ViewImpl;
+import com.philbeaudoin.gwtp.mvp.client.HandlerContainerImpl;
 import com.puzzlebazar.client.puzzle.heyawake.presenter.HeyawakePresenter.MyView;
 import com.puzzlebazar.client.puzzle.heyawake.presenter.HeyawakePresenter.ViewFactory;
 import com.puzzlebazar.client.resources.Resources;
@@ -44,11 +44,12 @@ import com.puzzlebazar.client.ui.VertexMouseOverEvent;
 import com.puzzlebazar.client.ui.VertexMouseOverHandler;
 import com.puzzlebazar.shared.util.Has2DSize;
 
-public class HeyawakeView extends ViewImpl implements MyView,
+public class HeyawakeView extends HandlerContainerImpl implements MyView,
 VertexMouseOverHandler, VertexMouseOutHandler, 
 EdgeMouseOverHandler, EdgeMouseOutHandler, 
 CellMouseOverHandler, CellMouseOutHandler, 
-CellMouseDownHandler, EdgeMouseDownHandler, VertexMouseDownHandler {
+CellMouseDownHandler, EdgeMouseDownHandler, 
+VertexMouseDownHandler  {
 
   public static class FactoryImpl implements ViewFactory {
     private final SquareGridLayoutPanel puzzleWidget;
@@ -76,6 +77,7 @@ CellMouseDownHandler, EdgeMouseDownHandler, VertexMouseDownHandler {
 
   private final SquareGridLayoutPanel puzzleWidget;
   private final Resources resources;
+  private final SquareGridManipulator squareGridManipulator;
 
   private Widget selectionWidget = null;
   
@@ -85,10 +87,11 @@ CellMouseDownHandler, EdgeMouseDownHandler, VertexMouseDownHandler {
       SquareGridManipulator.Factory squareGridManipulatorFactory,
       Widget uiWidget,
       Has2DSize puzzleSize ) {
+    super(false); // No autobinding, the presenter will bind us.
     
     this.puzzleWidget = puzzleWidget;
     this.resources = resources;
-    SquareGridManipulator squareGridManipulator = squareGridManipulatorFactory.create( puzzleWidget, uiWidget );
+    squareGridManipulator = squareGridManipulatorFactory.create( puzzleWidget, uiWidget );
 
     int width = puzzleSize.getWidth();
     int height = puzzleSize.getHeight();
@@ -98,18 +101,31 @@ CellMouseDownHandler, EdgeMouseDownHandler, VertexMouseDownHandler {
     puzzleWidget.createInnerEdges(1, resources.style().gray());
     puzzleWidget.createOuterEdges(3, resources.style().black());    
     
-    squareGridManipulator.addVertexMouseOverHandler(this);
-    squareGridManipulator.addVertexMouseOutHandler(this);
-    squareGridManipulator.addEdgeMouseOverHandler(this);
-    squareGridManipulator.addEdgeMouseOutHandler(this);
-    squareGridManipulator.addCellMouseOverHandler(this);
-    squareGridManipulator.addCellMouseOutHandler(this);
-    squareGridManipulator.addCellMouseDownHandler(this);
-    squareGridManipulator.addEdgeMouseDownHandler(this);
-    squareGridManipulator.addVertexMouseDownHandler(this);
-    
     squareGridManipulator.setVertexDistance( 6 );
     squareGridManipulator.setEdgeDistance( 4 );
+  }
+  
+  @Override
+  public void onBind() {
+    super.onBind();
+
+    registerHandler( squareGridManipulator.addVertexMouseOverHandler(this) );
+    registerHandler( squareGridManipulator.addVertexMouseOutHandler(this) );
+    registerHandler( squareGridManipulator.addEdgeMouseOverHandler(this) );
+    registerHandler( squareGridManipulator.addEdgeMouseOutHandler(this) );
+    registerHandler( squareGridManipulator.addCellMouseOverHandler(this) );
+    registerHandler( squareGridManipulator.addCellMouseOutHandler(this) );
+    registerHandler( squareGridManipulator.addCellMouseDownHandler(this) );
+    registerHandler( squareGridManipulator.addEdgeMouseDownHandler(this) );
+    registerHandler( squareGridManipulator.addVertexMouseDownHandler(this) );
+    
+  }
+
+  public void onUnbind() {
+    super.onUnbind();
+    if( selectionWidget != null )
+      selectionWidget.removeFromParent();
+    selectionWidget = null;    
   }
   
   @Override
@@ -185,5 +201,13 @@ CellMouseDownHandler, EdgeMouseDownHandler, VertexMouseDownHandler {
   public void onVertexMouseDown(VertexMouseDownEvent event) {
     puzzleWidget.createVertex( event.getVertex(), 12, 
         resources.style().blue() );  
+  }
+
+  @Override
+  public void addContent(Object slot, Widget content) {
+  }
+
+  @Override
+  public void setContent(Object slot, Widget content) {
   }
 }
