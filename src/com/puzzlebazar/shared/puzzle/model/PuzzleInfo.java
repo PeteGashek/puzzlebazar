@@ -46,6 +46,13 @@ public interface PuzzleInfo extends Serializable, HasKey, EditableObject {
   public String getTitle();
 
   /**
+   * Access a nice human-readable string describing the puzzle type.
+   * 
+   * @return The type of the puzzle.
+   */
+  public PuzzleType getPuzzleType();
+
+  /**
    * Access a string that can give some information regarding the puzzle
    * size. For 2D puzzle this should be in the form "width x height".  
    * 
