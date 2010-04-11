@@ -22,6 +22,7 @@ import com.google.gwt.event.dom.client.HasMouseUpHandlers;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.philbeaudoin.gwtp.mvp.client.EventBus;
+import com.philbeaudoin.gwtp.mvp.client.HandlerContainer;
 import com.philbeaudoin.gwtp.mvp.client.PresenterWidgetImpl;
 import com.philbeaudoin.gwtp.mvp.client.View;
 import com.puzzlebazar.shared.puzzle.heyawake.model.HeyawakePuzzle;
@@ -56,7 +57,7 @@ public class HeyawakePresenter extends PresenterWidgetImpl<HeyawakePresenter.MyV
         Has2DSize puzzleSize );
   }
 
-  public interface MyView extends View {
+  public interface MyView extends View, HandlerContainer {
   }
   
 
@@ -114,6 +115,13 @@ public class HeyawakePresenter extends PresenterWidgetImpl<HeyawakePresenter.MyV
   
   @Override
   protected void onBind() {
-    super.onBind();    
+    super.onBind();
+    getView().bind();
+  }
+  
+  @Override
+  protected void onUnbind() {
+    super.onUnbind();
+    getView().unbind();
   }
 }
