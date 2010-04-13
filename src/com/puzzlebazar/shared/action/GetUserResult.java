@@ -29,8 +29,8 @@ public class GetUserResult implements Result {
   private GetUserResult() {
   }
 
-  public GetUserResult(final User userInfo) {
-    this.userInfo = userInfo;
+  public GetUserResult(final User user) {
+    this.userInfo = user;
   }
 
   public User getUser() {

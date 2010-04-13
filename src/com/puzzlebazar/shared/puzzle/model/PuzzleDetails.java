@@ -24,6 +24,7 @@ import com.puzzlebazar.shared.model.HasPrivacySettings;
 import com.puzzlebazar.shared.model.Tag;
 import com.puzzlebazar.shared.model.TagInstance;
 import com.puzzlebazar.shared.model.User;
+import com.puzzlebazar.shared.model.UserImpl;
 
 /**
  * Supplemental information regarding a puzzle but that does not need to
@@ -74,7 +75,7 @@ public interface PuzzleDetails extends PuzzleInfo, HasPrivacySettings {
   /**
    * Verifies if this user has the required rights to call {@link #getPuzzle}.
    * 
-   * @param user The {@link User} who wants to perform the action.
+   * @param user The {@link UserImpl} who wants to perform the action.
    * @return The {@link ActionRightsInfo}. Call {@link ActionRightsInfo#canPerformAction()} 
    *         to verifies if the user has the required rights.
    */
@@ -93,7 +94,7 @@ public interface PuzzleDetails extends PuzzleInfo, HasPrivacySettings {
   /**
    * Verifies if this user has the required rights to call {@link #setTitle}.
    * 
-   * @param user The {@link User} who wants to perform the action.
+   * @param user The {@link UserImpl} who wants to perform the action.
    * @return The {@link ActionRightsInfo}. Call {@link ActionRightsInfo#canPerformAction()} 
    *         to verifies if the user has the required rights.
    */  
@@ -111,26 +112,26 @@ public interface PuzzleDetails extends PuzzleInfo, HasPrivacySettings {
   /**
    * Verifies if this user has the required rights to call {@link #tag} and {@link #untag}.
    * 
-   * @param user The {@link User} who wants to perform the action.
+   * @param user The {@link UserImpl} who wants to perform the action.
    * @return The {@link ActionRightsInfo}. Call {@link ActionRightsInfo#canPerformAction()} 
    *         to verifies if the user has the required rights.
    */  
   public ActionRightsInfo canUserTag( User user, Tag tag );
 
   /**
-   * Adds a tag to this puzzle, by a specific {@link User}.
+   * Adds a tag to this puzzle, by a specific {@link UserImpl}.
    * Gate keeper method is {@link #canUserTag}.
    * 
-   * @param user The {@link User} who wants to tag the puzzle.
+   * @param user The {@link UserImpl} who wants to tag the puzzle.
    * @param tag The {@link Tag}.
    */
   public void tag( User user, Tag tag );
 
   /**
-   * Removes a tag from this puzzle, by a specific {@link User}.
+   * Removes a tag from this puzzle, by a specific {@link UserImpl}.
    * Gate keeper method is {@link #canUserTag}.
    * 
-   * @param user The {@link User} who wants to untag the puzzle.
+   * @param user The {@link UserImpl} who wants to untag the puzzle.
    * @param tag The {@link Tag}.
    */
   public void untag( User user, Tag tag );
@@ -138,7 +139,7 @@ public interface PuzzleDetails extends PuzzleInfo, HasPrivacySettings {
   /**
    * Verifies if this user has the required rights to call {@link #addComment}.
    * 
-   * @param user The {@link User} who wants to perform the action.
+   * @param user The {@link UserImpl} who wants to perform the action.
    * @return The {@link ActionRightsInfo}. Call {@link ActionRightsInfo#canPerformAction()} 
    *         to verifies if the user has the required rights.
    */  

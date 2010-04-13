@@ -22,6 +22,7 @@ import com.puzzlebazar.shared.model.ActionRightsInfo;
 import com.puzzlebazar.shared.model.EditableObject;
 import com.puzzlebazar.shared.model.HasKey;
 import com.puzzlebazar.shared.model.User;
+import com.puzzlebazar.shared.model.UserImpl;
 
 /**
  * Basic information that every puzzle must provide.
@@ -46,9 +47,10 @@ public interface PuzzleInfo extends Serializable, HasKey, EditableObject {
   public String getTitle();
 
   /**
-   * Access a nice human-readable string describing the puzzle type.
+   * Access the {@link PuzzleType} structure corresponding to the type
+   * of the current puzzle.
    * 
-   * @return The type of the puzzle.
+   * @return The type of the puzzle, or {@code null} if the type is unknown.
    */
   public PuzzleType getPuzzleType();
 
@@ -104,7 +106,7 @@ public interface PuzzleInfo extends Serializable, HasKey, EditableObject {
   /**
    * Verifies if this user has the required rights to call {@link #getPuzzleDetails}.
    * 
-   * @param user The {@link User} who wants to perform the action.
+   * @param user The {@link UserImpl} who wants to perform the action.
    * @return The {@link ActionRightsInfo}. Call {@link ActionRightsInfo#canPerformAction()} 
    *         to verifies if the user has the required rights.
    */

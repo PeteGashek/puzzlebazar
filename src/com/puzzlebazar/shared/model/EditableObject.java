@@ -26,9 +26,9 @@ import java.util.Date;
 public interface EditableObject {
 
   /**
-   * Access the {@link User} who authored this object.
+   * Access the {@link UserImpl} who authored this object.
    * 
-   * @return The author, a {@link User}.
+   * @return The author, a {@link UserImpl} or {@code null} if unknown.
    */
   public abstract User getAuthor();
 

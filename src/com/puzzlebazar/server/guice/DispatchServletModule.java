@@ -32,7 +32,9 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 import com.philbeaudoin.gwtp.dispatch.server.guice.GuiceStandardDispatchServlet;
-import com.puzzlebazar.server.currentuser.OpenIdServlet;
+import com.puzzlebazar.server.OpenIdServlet;
+import com.puzzlebazar.server.model.Session;
+import com.puzzlebazar.server.model.UserImplServer;
 
 
 public class DispatchServletModule extends ServletModule {
@@ -65,6 +67,11 @@ public class DispatchServletModule extends ServletModule {
     } catch (CacheException cause) {
       cause.printStackTrace();
     }
+    
+    // Model object managers
+    bind(Session.Manager.class).in(Singleton.class);
+    bind(UserImplServer.Manager.class).in(Singleton.class);
+    
 
     // TODO philippe.beaudoin@gmail.com
     // Uncomment when http://code.google.com/p/puzzlebazar/issues/detail?id=27 is unblocked.

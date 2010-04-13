@@ -20,6 +20,7 @@ package com.puzzlebazar.client.core.presenter;
 import com.google.gwt.event.shared.GwtEvent;
 import com.philbeaudoin.gwtp.mvp.client.EventBus;
 import com.puzzlebazar.shared.model.User;
+import com.puzzlebazar.shared.model.UserImpl;
 
 /**
  * This event is sent to the {@link EventBus} when the current user
@@ -49,7 +50,7 @@ public class CurrentUserChangedEvent extends GwtEvent<CurrentUserChangedHandler>
   /**
    * Access the current user attached to this event.
    * 
-   * @return The {@link User} object of the current user, 
+   * @return The {@link UserImpl} object of the current user, 
    *         or <code>null</code> if user is not logged in.
    */
   public User getCurrentUser() {

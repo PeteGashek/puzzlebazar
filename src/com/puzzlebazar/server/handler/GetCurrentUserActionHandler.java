@@ -22,26 +22,26 @@ import com.philbeaudoin.gwtp.dispatch.server.ActionHandler;
 import com.philbeaudoin.gwtp.dispatch.server.ExecutionContext;
 import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
 
-import com.puzzlebazar.server.currentuser.CurrentUserManager;
+import com.puzzlebazar.server.model.Session;
 import com.puzzlebazar.shared.action.GetCurrentUserAction;
 import com.puzzlebazar.shared.action.GetUserResult;
 
 public class GetCurrentUserActionHandler implements ActionHandler<GetCurrentUserAction, GetUserResult> {
 
-  private final CurrentUserManager currentUserManager;
+  private final Session.Manager sessionManager;
 
   @Inject
   public GetCurrentUserActionHandler(
-      final CurrentUserManager currentUserManager ) {
+      final Session.Manager sessionManager ) {
 
-    this.currentUserManager = currentUserManager;    
+    this.sessionManager = sessionManager;    
   }
 
   @Override
   public GetUserResult execute(
       final GetCurrentUserAction action,
       final ExecutionContext context ) throws ActionException {
-    return new GetUserResult( currentUserManager.get() );
+    return new GetUserResult( sessionManager.fetchUser() );
   }
 
   @Override

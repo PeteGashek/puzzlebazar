@@ -1,4 +1,4 @@
-package com.puzzlebazar.server.currentuser;
+package com.puzzlebazar.server;
 
 /**
  * Copyright 2010 Philippe Beaudoin
@@ -35,6 +35,7 @@ import com.dyuproject.openid.ext.AxSchemaExtension;
 import com.dyuproject.util.http.UrlEncodedParameterMap;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.puzzlebazar.server.model.Session;
 
 @Singleton
 public class OpenIdServlet extends HttpServlet
@@ -45,11 +46,11 @@ public class OpenIdServlet extends HttpServlet
   private static final long serialVersionUID = 6314103753523555658L;
   
   private static final String CLOSE_POPUP_URI = "/openid/ClosePopup.html";
-  private final CurrentUserManager currentUserManager;
+  private final Session.Manager sessionManager;
 
   @Inject
-  public OpenIdServlet( CurrentUserManager currentUserManager ) {
-    this.currentUserManager = currentUserManager;
+  public OpenIdServlet( Session.Manager sessionManager ) {
+    this.sessionManager = sessionManager;
   }
 
   @Override
@@ -125,7 +126,7 @@ public class OpenIdServlet extends HttpServlet
         if(relyingParty.verifyAuth(user, request, response))
         {
           // authenticated                    
-          currentUserManager.set( user );
+          sessionManager.setUser( user );
           
           // redirect to home to remove the query params instead of doing:
           request.getRequestDispatcher(CLOSE_POPUP_URI).forward(request, response);

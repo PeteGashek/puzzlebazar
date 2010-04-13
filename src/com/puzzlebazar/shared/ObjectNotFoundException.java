@@ -18,6 +18,13 @@ package com.puzzlebazar.shared;
 
 import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
 
-public class UserNotFoundException extends ActionException {
+public class ObjectNotFoundException extends ActionException {
   private static final long serialVersionUID = 1746815389319262484L;
+  public ObjectNotFoundException() {
+    super();
+  }
+  public ObjectNotFoundException(String string) {
+    super(string);
+  }
+
 }
