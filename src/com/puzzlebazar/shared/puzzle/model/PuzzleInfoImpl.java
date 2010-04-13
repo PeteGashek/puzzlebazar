@@ -39,6 +39,8 @@ import com.puzzlebazar.shared.model.User;
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public class PuzzleInfoImpl implements PuzzleInfo {
 
+  private static final long serialVersionUID = -6880547981119961884L;
+  
   private static final int deletedFlag  = 0x0001;
   private static final int rejectedFlag = 0x0002;
   private static final int publicFlag   = 0x0004;

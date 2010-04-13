@@ -41,6 +41,9 @@ import com.puzzlebazar.shared.model.UserImpl;
 @PersistenceCapable
 public class UserImplServer extends UserImpl {  
 
+  private static final long serialVersionUID = -7048613221853791612L;
+
+
   public UserImplServer(String email) {
     super(email);
   }
