@@ -27,7 +27,7 @@ import com.google.inject.Inject;
 import com.philbeaudoin.gwtp.dispatch.server.ActionHandler;
 import com.philbeaudoin.gwtp.dispatch.server.ExecutionContext;
 import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
-import com.puzzlebazar.shared.UserNotFoundException;
+import com.puzzlebazar.shared.ObjectNotFoundException;
 import com.puzzlebazar.shared.action.GetPuzzleAction;
 import com.puzzlebazar.shared.action.GetPuzzleResult;
 import com.puzzlebazar.shared.puzzle.heyawake.model.HeyawakePuzzle;
@@ -56,7 +56,7 @@ public class GetPuzzleActionHandler implements ActionHandler<GetPuzzleAction, Ge
       puzzle = persistenceManager.getObjectById( HeyawakePuzzle.class, k );
     }
     catch( JDOObjectNotFoundException exception ) {
-      throw new UserNotFoundException();
+      throw new ObjectNotFoundException();
     }
     finally {
       persistenceManager.close();

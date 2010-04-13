@@ -44,6 +44,7 @@ import com.puzzlebazar.client.util.ChangeMonitor;
 import com.puzzlebazar.shared.action.EditUserAction;
 import com.puzzlebazar.shared.action.NoResult;
 import com.puzzlebazar.shared.model.User;
+import com.puzzlebazar.shared.model.UserImpl;
 import com.puzzlebazar.shared.util.AvailableLocales;
 
 /**

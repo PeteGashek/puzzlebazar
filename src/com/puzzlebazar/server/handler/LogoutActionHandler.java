@@ -23,26 +23,26 @@ import com.google.inject.Inject;
 import com.philbeaudoin.gwtp.dispatch.server.ActionHandler;
 import com.philbeaudoin.gwtp.dispatch.server.ExecutionContext;
 import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
-import com.puzzlebazar.server.currentuser.CurrentUserManager;
+import com.puzzlebazar.server.model.Session;
 import com.puzzlebazar.shared.action.LogoutAction;
 import com.puzzlebazar.shared.action.NoResult;
 
 
 public class LogoutActionHandler implements ActionHandler<LogoutAction, NoResult> {
   
-  private final CurrentUserManager currentUserManager;
+  private final Session.Manager sessionManager;
 
   @Inject
   public LogoutActionHandler(
-      final CurrentUserManager currentUserManager ) {
-    this.currentUserManager = currentUserManager;
+      final Session.Manager sessionManager ) {
+    this.sessionManager = sessionManager;
   }
 
   @Override
   public NoResult execute(final LogoutAction action,
       final ExecutionContext context) throws ActionException {
     try {
-      currentUserManager.logout();
+      sessionManager.logout();
       return null;
     }
     catch (Exception cause) {

@@ -16,11 +16,12 @@ package com.puzzlebazar.shared.puzzle.model;
  * limitations under the License.
  */
 
-
 import java.util.Date;
 
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.Inheritance;
+import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -35,6 +36,7 @@ import com.puzzlebazar.shared.model.User;
  * @author Philippe Beaudoin
  */
 @PersistenceCapable
+@Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public class PuzzleInfoImpl implements PuzzleInfo {
 
   private static final int deletedFlag  = 0x0001;
@@ -52,15 +54,17 @@ public class PuzzleInfoImpl implements PuzzleInfo {
   @Extension(vendorName="datanucleus", key="gae.pk-id", value="true")
   private Long keyId;
   
-  // Polymorphic relationship, we keep the key instead of the object
-  @Persistent
-  private String puzzleDetailsKey;
+  // Polymorphic relationship, the linked object is not persisted, but a key to it 
+  // is persisted in {@link com.puzzlebazar.server.puzzle.model.PuzzleInfoImplServer}.
+  protected PuzzleDetails puzzleDetails;
+  
+  // Unowned relationship, the linked object is not persisted, but a key to it 
+  // is persisted in {@link com.puzzlebazar.server.puzzle.model.PuzzleInfoImplServer}.
+  protected User author;
 
-  @Persistent
-  private String authorKey;
-
-  @Persistent
-  private String puzzleTypeKey;
+  // Unowned relationship, the linked object is not persisted, but a key to it 
+  // is persisted in {@link com.puzzlebazar.server.puzzle.model.PuzzleInfoImplServer}.
+  protected PuzzleType puzzleType;
   
   @Persistent
   private double difficulty;
@@ -85,7 +89,44 @@ public class PuzzleInfoImpl implements PuzzleInfo {
 
   @Persistent
   private Date publicationDate;
-
+  
+  protected PuzzleInfoImpl() {   
+  }
+    
+  /**
+   * Copy constructor. Useful for downgrading a 
+   * {@link com.puzzlebazar.server.puzzle.model.PuzzleInfoImplServer}
+   * to a {@link PuzzleInfoImpl}, for sending to the client using 
+   * serialization.
+   * 
+   * @param other The {@link PuzzleInfoImpl} to copy.
+   */
+  public PuzzleInfoImpl( PuzzleInfo other ) {
+    key = other.getKey();
+    keyId = other.getId();
+    puzzleDetails = other.getPuzzleDetails();
+    author = other.getAuthor();
+    puzzleType = other.getPuzzleType();
+    difficulty = other.getDifficulty();
+    quality = other.getQuality();
+    sizeString = other.getSizeString();
+    title = other.getTitle();
+    flags = 0;
+    if( other.isDeleted() )
+      flags |= deletedFlag;
+    if( other.wasRejected() )
+      flags |= rejectedFlag;
+    if( other.isPublic() )
+      flags |= publicFlag;
+    if( other.isValid() )
+      flags |= validFlag;
+    if( other.isComplete() )
+      flags |= completeFlag;
+    creationDate = other.getCreationDate();
+    editionDate = other.getEditionDate();
+    publicationDate = other.getPublicationDate();
+  }
+  
   @Override
   public ActionRightsInfo canUserViewPuzzleDetails(User user) {
     // TODO Auto-generated method stub
@@ -99,8 +140,7 @@ public class PuzzleInfoImpl implements PuzzleInfo {
 
   @Override
   public PuzzleDetails getPuzzleDetails() {
-    // TODO Auto-generated method stub
-    return null;
+    return puzzleDetails;
   }
 
   @Override
@@ -140,8 +180,7 @@ public class PuzzleInfoImpl implements PuzzleInfo {
 
   @Override
   public User getAuthor() {
-    // TODO Auto-generated method stub
-    return null;
+    return author;
   }
 
   @Override
@@ -176,8 +215,7 @@ public class PuzzleInfoImpl implements PuzzleInfo {
 
   @Override
   public PuzzleType getPuzzleType() {
-    // TODO Auto-generated method stub
-    return null;
+    return puzzleType;
   }
 
 }
