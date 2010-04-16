@@ -1,5 +1,3 @@
-package com.puzzlebazar.client.puzzle.heyawake.view;
-
 /**
  * Copyright 2010 Philippe Beaudoin
  *
@@ -15,6 +13,8 @@ package com.puzzlebazar.client.puzzle.heyawake.view;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package com.puzzlebazar.client.puzzle.heyawake.view;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;

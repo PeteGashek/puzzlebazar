@@ -1,5 +1,3 @@
-package com.puzzlebazar.shared.puzzle.heyawake.model;
-
 /**
  * Copyright 2010 Philippe Beaudoin
  *
@@ -16,6 +14,7 @@ package com.puzzlebazar.shared.puzzle.heyawake.model;
  * limitations under the License.
  */
 
+package com.puzzlebazar.shared.puzzle.heyawake.model;
 
 import java.io.Serializable;
 

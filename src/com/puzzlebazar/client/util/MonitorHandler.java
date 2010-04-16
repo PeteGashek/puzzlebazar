@@ -1,5 +1,3 @@
-package com.puzzlebazar.client.util;
-
 /**
  * Copyright 2010 Philippe Beaudoin
  *
@@ -15,6 +13,8 @@ package com.puzzlebazar.client.util;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package com.puzzlebazar.client.util;
 
 /**
  * The interface of an object that can react to changes

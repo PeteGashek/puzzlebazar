@@ -1,5 +1,3 @@
-package com.puzzlebazar.client.ui;
-
 /**
  * Copyright 2010 Philippe Beaudoin
  *
@@ -16,6 +14,7 @@ package com.puzzlebazar.client.ui;
  * limitations under the License.
  */
 
+package com.puzzlebazar.client.ui;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Command;

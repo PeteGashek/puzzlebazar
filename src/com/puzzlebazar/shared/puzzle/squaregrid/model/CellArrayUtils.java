@@ -1,5 +1,3 @@
-package com.puzzlebazar.shared.puzzle.squaregrid.model;
-
 /**
  * Copyright 2010 Philippe Beaudoin
  *
@@ -16,6 +14,7 @@ package com.puzzlebazar.shared.puzzle.squaregrid.model;
  * limitations under the License.
  */
 
+package com.puzzlebazar.shared.puzzle.squaregrid.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;

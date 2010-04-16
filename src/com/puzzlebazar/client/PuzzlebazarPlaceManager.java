@@ -1,5 +1,3 @@
-package com.puzzlebazar.client;
-
 /**
  * Copyright 2010 Philippe Beaudoin
  *
@@ -16,6 +14,7 @@ package com.puzzlebazar.client;
  * limitations under the License.
  */
 
+package com.puzzlebazar.client;
 
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;

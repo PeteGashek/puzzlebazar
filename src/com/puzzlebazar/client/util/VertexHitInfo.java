@@ -1,8 +1,6 @@
 /**
  * 
  */
-package com.puzzlebazar.client.util;
-
 /**
  * Copyright 2010 Philippe Beaudoin
  *
@@ -19,6 +17,7 @@ package com.puzzlebazar.client.util;
  * limitations under the License.
  */
 
+package com.puzzlebazar.client.util;
 
 import com.puzzlebazar.shared.util.Vec2i;
 

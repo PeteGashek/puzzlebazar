@@ -1,5 +1,3 @@
-package com.puzzlebazar.client.resources;
-
 /**
  * Copyright 2010 Philippe Beaudoin
  *
@@ -16,6 +14,7 @@ package com.puzzlebazar.client.resources;
  * limitations under the License.
  */
 
+package com.puzzlebazar.client.resources;
 
 import com.google.gwt.i18n.client.Constants;
 

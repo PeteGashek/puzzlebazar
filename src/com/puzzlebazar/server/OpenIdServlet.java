@@ -1,5 +1,3 @@
-package com.puzzlebazar.server;
-
 /**
  * Copyright 2010 Philippe Beaudoin
  *
@@ -16,6 +14,7 @@ package com.puzzlebazar.server;
  * limitations under the License.
  */
 
+package com.puzzlebazar.server;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

@@ -1,5 +1,3 @@
-package com.puzzlebazar.shared.puzzle.squaregrid.model;
-
 /**
  * Copyright 2010 Philippe Beaudoin
  *
@@ -15,6 +13,8 @@ package com.puzzlebazar.shared.puzzle.squaregrid.model;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package com.puzzlebazar.shared.puzzle.squaregrid.model;
 
 /**
  * Objects that implement that interface are able to verify that two cell

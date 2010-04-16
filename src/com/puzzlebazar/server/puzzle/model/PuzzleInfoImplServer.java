@@ -1,5 +1,3 @@
-package com.puzzlebazar.server.puzzle.model;
-
 /**
  * Copyright 2010 Philippe Beaudoin
  *
@@ -15,6 +13,8 @@ package com.puzzlebazar.server.puzzle.model;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package com.puzzlebazar.server.puzzle.model;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
