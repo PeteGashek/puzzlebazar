@@ -1,5 +1,3 @@
-package com.puzzlebazar.shared.model;
-
 /**
  * Copyright 2010 Philippe Beaudoin
  *
@@ -16,6 +14,7 @@ package com.puzzlebazar.shared.model;
  * limitations under the License.
  */
 
+package com.puzzlebazar.shared.model;
 
 /**
  * This interface is used on objects that should be storable in

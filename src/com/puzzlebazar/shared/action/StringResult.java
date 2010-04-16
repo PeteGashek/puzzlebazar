@@ -1,5 +1,3 @@
-package com.puzzlebazar.shared.action;
-
 /**
  * Copyright 2010 Philippe Beaudoin
  *
@@ -16,6 +14,7 @@ package com.puzzlebazar.shared.action;
  * limitations under the License.
  */
 
+package com.puzzlebazar.shared.action;
 
 import com.philbeaudoin.gwtp.dispatch.shared.Result;
 

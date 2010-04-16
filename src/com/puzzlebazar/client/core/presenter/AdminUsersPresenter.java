@@ -1,5 +1,3 @@
-package com.puzzlebazar.client.core.presenter;
-
 /**
  * Copyright 2010 Philippe Beaudoin
  *
@@ -16,6 +14,7 @@ package com.puzzlebazar.client.core.presenter;
  * limitations under the License.
  */
 
+package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
 import com.philbeaudoin.gwtp.mvp.client.View;

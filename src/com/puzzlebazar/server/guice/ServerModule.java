@@ -1,5 +1,3 @@
-package com.puzzlebazar.server.guice;
-
 /**
  * Copyright 2010 Philippe Beaudoin
  *
@@ -16,6 +14,7 @@ package com.puzzlebazar.server.guice;
  * limitations under the License.
  */
 
+package com.puzzlebazar.server.guice;
 
 import com.philbeaudoin.gwtp.dispatch.server.guice.ActionHandlerModule;
 

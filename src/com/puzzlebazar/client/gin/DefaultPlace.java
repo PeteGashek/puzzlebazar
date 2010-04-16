@@ -1,5 +1,3 @@
-package com.puzzlebazar.client.gin;
-
 /**
  * Copyright 2010 Philippe Beaudoin
  *
@@ -16,6 +14,7 @@ package com.puzzlebazar.client.gin;
  * limitations under the License.
  */
 
+package com.puzzlebazar.client.gin;
 
 import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Target;

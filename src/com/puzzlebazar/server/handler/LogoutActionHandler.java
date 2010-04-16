@@ -1,5 +1,3 @@
-package com.puzzlebazar.server.handler;
-
 /**
  * Copyright 2010 Philippe Beaudoin
  *
@@ -16,7 +14,7 @@ package com.puzzlebazar.server.handler;
  * limitations under the License.
  */
 
-
+package com.puzzlebazar.server.handler;
 
 import com.google.inject.Inject;
 

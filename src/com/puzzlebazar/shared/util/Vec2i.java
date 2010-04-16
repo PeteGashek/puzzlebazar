@@ -1,5 +1,3 @@
-package com.puzzlebazar.shared.util;
-
 /**
  * Copyright 2010 Philippe Beaudoin
  *
@@ -16,6 +14,7 @@ package com.puzzlebazar.shared.util;
  * limitations under the License.
  */
 
+package com.puzzlebazar.shared.util;
 
 import java.io.Serializable;
 
