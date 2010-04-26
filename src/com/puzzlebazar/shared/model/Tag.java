@@ -24,7 +24,7 @@ import java.io.Serializable;
  * 
  * @author Philippe Beaudoin
  */
-public interface Tag extends Serializable, HasKey {
+public interface Tag extends Serializable {
 
   /**
    * Access the tag name. A tag name should be a simple string composed 

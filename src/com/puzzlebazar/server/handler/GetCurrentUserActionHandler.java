@@ -17,6 +17,7 @@
 package com.puzzlebazar.server.handler;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.philbeaudoin.gwtp.dispatch.server.ActionHandler;
 import com.philbeaudoin.gwtp.dispatch.server.ExecutionContext;
 import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
@@ -27,20 +28,20 @@ import com.puzzlebazar.shared.action.GetUserResult;
 
 public class GetCurrentUserActionHandler implements ActionHandler<GetCurrentUserAction, GetUserResult> {
 
-  private final Session.Manager sessionManager;
+  private final Provider<Session.DAO> sessionDAO;
 
   @Inject
   public GetCurrentUserActionHandler(
-      final Session.Manager sessionManager ) {
+      final Provider<Session.DAO> sessionDAO ) {
 
-    this.sessionManager = sessionManager;    
+    this.sessionDAO = sessionDAO;    
   }
 
   @Override
   public GetUserResult execute(
       final GetCurrentUserAction action,
       final ExecutionContext context ) throws ActionException {
-    return new GetUserResult( sessionManager.fetchUser() );
+    return new GetUserResult( sessionDAO.get().getUser() );
   }
 
   @Override

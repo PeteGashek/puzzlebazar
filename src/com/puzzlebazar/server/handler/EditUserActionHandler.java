@@ -17,30 +17,29 @@
 package com.puzzlebazar.server.handler;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.philbeaudoin.gwtp.dispatch.server.ActionHandler;
 import com.philbeaudoin.gwtp.dispatch.server.ExecutionContext;
 import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
-import com.puzzlebazar.server.model.Session;
-import com.puzzlebazar.server.model.UserImplServer;
+import com.puzzlebazar.server.model.UserDAO;
 import com.puzzlebazar.shared.action.EditUserAction;
 import com.puzzlebazar.shared.action.NoResult;
 
 public class EditUserActionHandler implements ActionHandler<EditUserAction, NoResult> {
 
-  private final UserImplServer.Manager userManager;
+  private final Provider<UserDAO> userDAO;
 
   @Inject
   public EditUserActionHandler(
-      final Session.Manager sessionManager,
-      final UserImplServer.Manager userManager ) {
-    this.userManager = userManager;
+      final Provider<UserDAO> userDAO ) {
+    this.userDAO = userDAO;
   }
 
   @Override
   public NoResult execute(
       final EditUserAction action,
       final ExecutionContext context ) throws ActionException {
-    userManager.modifyUser( action.getUser() );
+    userDAO.get().modifyUser( action.getUser() );
     return null;
   }
 
@@ -49,7 +48,7 @@ public class EditUserActionHandler implements ActionHandler<EditUserAction, NoRe
       final EditUserAction action,
       final NoResult result,
       final ExecutionContext context) throws ActionException {
-    userManager.modifyUser( action.getPreviousUser() );
+    userDAO.get().modifyUser( action.getPreviousUser() );
   }
 
   @Override

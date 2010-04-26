@@ -28,11 +28,12 @@ import net.sf.jsr107cache.CacheManager;
 import com.dyuproject.openid.OpenIdServletFilter;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.servlet.RequestScoped;
 import com.google.inject.servlet.ServletModule;
 import com.philbeaudoin.gwtp.dispatch.server.guice.GuiceStandardDispatchServlet;
 import com.puzzlebazar.server.OpenIdServlet;
 import com.puzzlebazar.server.model.Session;
-import com.puzzlebazar.server.model.UserImplServer;
+import com.puzzlebazar.server.model.UserDAO;
 
 
 public class DispatchServletModule extends ServletModule {
@@ -67,8 +68,8 @@ public class DispatchServletModule extends ServletModule {
     }
     
     // Model object managers
-    bind(Session.Manager.class).in(Singleton.class);
-    bind(UserImplServer.Manager.class).in(Singleton.class);
+    bind(Session.DAO.class).in(RequestScoped.class);
+    bind(UserDAO.class).in(RequestScoped.class);
     
 
     // TODO philippe.beaudoin@gmail.com

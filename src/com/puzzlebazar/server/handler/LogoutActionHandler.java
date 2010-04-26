@@ -17,6 +17,7 @@
 package com.puzzlebazar.server.handler;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import com.philbeaudoin.gwtp.dispatch.server.ActionHandler;
 import com.philbeaudoin.gwtp.dispatch.server.ExecutionContext;
@@ -28,19 +29,19 @@ import com.puzzlebazar.shared.action.NoResult;
 
 public class LogoutActionHandler implements ActionHandler<LogoutAction, NoResult> {
   
-  private final Session.Manager sessionManager;
+  private final Provider<Session.DAO> sessionDAO;
 
   @Inject
   public LogoutActionHandler(
-      final Session.Manager sessionManager ) {
-    this.sessionManager = sessionManager;
+      final Provider<Session.DAO> sessionDAO ) {
+    this.sessionDAO = sessionDAO;
   }
 
   @Override
   public NoResult execute(final LogoutAction action,
       final ExecutionContext context) throws ActionException {
     try {
-      sessionManager.logout();
+      sessionDAO.get().logout();
       return null;
     }
     catch (Exception cause) {

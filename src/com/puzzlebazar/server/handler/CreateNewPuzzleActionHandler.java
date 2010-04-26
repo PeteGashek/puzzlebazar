@@ -16,10 +16,6 @@
 
 package com.puzzlebazar.server.handler;
 
-import javax.jdo.PersistenceManager;
-import javax.jdo.PersistenceManagerFactory;
-import javax.jdo.Transaction;
-
 import com.google.inject.Inject;
 import com.philbeaudoin.gwtp.dispatch.server.ActionHandler;
 import com.philbeaudoin.gwtp.dispatch.server.ExecutionContext;
@@ -31,12 +27,8 @@ import com.puzzlebazar.shared.puzzle.heyawake.model.HeyawakePuzzleInfo;
 
 public class CreateNewPuzzleActionHandler implements ActionHandler<CreateNewPuzzleAction, CreateNewPuzzleResult> {
 
-  private final PersistenceManagerFactory persistenceManagerFactory;
-
   @Inject
-  public CreateNewPuzzleActionHandler(
-      final PersistenceManagerFactory persistenceManagerFactory ) {
-    this.persistenceManagerFactory = persistenceManagerFactory;
+  public CreateNewPuzzleActionHandler() {
   }
   
   @Override
@@ -45,18 +37,8 @@ public class CreateNewPuzzleActionHandler implements ActionHandler<CreateNewPuzz
 
     // TODO there should be a separate CreatePuzzleAction
     
-    PersistenceManager persistenceManager = persistenceManagerFactory.getPersistenceManager();
-
     HeyawakePuzzleInfo puzzleInfo = new HeyawakePuzzleInfo(action.getTitle(), action.getWidth(), action.getHeight());
     HeyawakePuzzle puzzle = new HeyawakePuzzle(puzzleInfo);
-    
-    Transaction tx = null;
-    tx = persistenceManager.currentTransaction();
-    tx.begin();
-    persistenceManager.makePersistent(puzzle);
-    tx.commit();
-    persistenceManager.close();
-    
     
     return new CreateNewPuzzleResult(puzzle);
   }

@@ -18,14 +18,9 @@ package com.puzzlebazar.shared.puzzle.model;
 
 import java.util.Date;
 
-import javax.jdo.annotations.Extension;
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.Inheritance;
-import javax.jdo.annotations.InheritanceStrategy;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import javax.persistence.Id;
 
+import com.googlecode.objectify.annotation.Cached;
 import com.puzzlebazar.shared.model.ActionRightsInfo;
 import com.puzzlebazar.shared.model.User;
 
@@ -35,8 +30,7 @@ import com.puzzlebazar.shared.model.User;
  * 
  * @author Philippe Beaudoin
  */
-@PersistenceCapable
-@Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
+@Cached
 public class PuzzleInfoImpl implements PuzzleInfo {
 
   private static final long serialVersionUID = -6880547981119961884L;
@@ -47,14 +41,7 @@ public class PuzzleInfoImpl implements PuzzleInfo {
   private static final int validFlag    = 0x0008;
   private static final int completeFlag = 0x0010;
 
-  @PrimaryKey
-  @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-  @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
-  private String key;
-
-  @Persistent
-  @Extension(vendorName="datanucleus", key="gae.pk-id", value="true")
-  private Long keyId;
+  @Id private Long id;
   
   // Polymorphic relationship, the linked object is not persisted, but a key to it 
   // is persisted in {@link com.puzzlebazar.server.puzzle.model.PuzzleInfoImplServer}.
@@ -68,28 +55,13 @@ public class PuzzleInfoImpl implements PuzzleInfo {
   // is persisted in {@link com.puzzlebazar.server.puzzle.model.PuzzleInfoImplServer}.
   protected PuzzleType puzzleType;
   
-  @Persistent
   private double difficulty;
-
-  @Persistent
   private double quality;
-
-  @Persistent
   private String sizeString;
-
-  @Persistent
   private String title;
-
-  @Persistent
   private int flags;
-
-  @Persistent
   private Date creationDate;
-
-  @Persistent
   private Date editionDate;
-
-  @Persistent
   private Date publicationDate;
   
   protected PuzzleInfoImpl() {   
@@ -104,8 +76,7 @@ public class PuzzleInfoImpl implements PuzzleInfo {
    * @param other The {@link PuzzleInfoImpl} to copy.
    */
   public PuzzleInfoImpl( PuzzleInfo other ) {
-    key = other.getKey();
-    keyId = other.getId();
+    id = other.getId();
     puzzleDetails = other.getPuzzleDetails();
     author = other.getAuthor();
     puzzleType = other.getPuzzleType();
@@ -172,12 +143,7 @@ public class PuzzleInfoImpl implements PuzzleInfo {
 
   @Override
   public long getId() {
-    return keyId;
-  }
-
-  @Override
-  public String getKey() {
-    return key;
+    return id;
   }
 
   @Override

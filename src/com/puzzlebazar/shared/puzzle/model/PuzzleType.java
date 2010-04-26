@@ -18,14 +18,12 @@ package com.puzzlebazar.shared.puzzle.model;
 
 import java.io.Serializable;
 
-import com.puzzlebazar.shared.model.HasKey;
-
 /**
  * All the information regarding one specific type of puzzle.
  * 
  * @author Philippe Beaudoin
  */
-public interface PuzzleType extends Serializable, HasKey {
+public interface PuzzleType extends Serializable {
 
   /**
    * Access a simple human-readable string describing the puzzle type.
