@@ -20,7 +20,6 @@ import java.io.Serializable;
 
 import com.puzzlebazar.shared.model.ActionRightsInfo;
 import com.puzzlebazar.shared.model.EditableObject;
-import com.puzzlebazar.shared.model.HasKey;
 import com.puzzlebazar.shared.model.User;
 import com.puzzlebazar.shared.model.UserImpl;
 
@@ -37,7 +36,12 @@ import com.puzzlebazar.shared.model.UserImpl;
  * 
  * @author Philippe Beaudoin
  */
-public interface PuzzleInfo extends Serializable, HasKey, EditableObject {
+public interface PuzzleInfo extends Serializable, EditableObject {
+
+  /**
+   * @return The id of this user.
+   */
+  public long getId();
 
   /**
    * Access the title of the puzzle.

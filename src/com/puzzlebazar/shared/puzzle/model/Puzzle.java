@@ -18,10 +18,7 @@ package com.puzzlebazar.shared.puzzle.model;
 
 import java.io.Serializable;
 
-import com.puzzlebazar.shared.model.HasKey;
-
-
-public interface Puzzle extends Serializable, HasKey {
+public interface Puzzle extends Serializable {
 
   /**
    * Access the puzzle information contained in the attached 

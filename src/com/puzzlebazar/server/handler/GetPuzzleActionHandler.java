@@ -16,30 +16,18 @@
 
 package com.puzzlebazar.server.handler;
 
-import javax.jdo.JDOObjectNotFoundException;
-import javax.jdo.PersistenceManager;
-import javax.jdo.PersistenceManagerFactory;
-
-
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.inject.Inject;
 import com.philbeaudoin.gwtp.dispatch.server.ActionHandler;
 import com.philbeaudoin.gwtp.dispatch.server.ExecutionContext;
 import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
-import com.puzzlebazar.shared.ObjectNotFoundException;
 import com.puzzlebazar.shared.action.GetPuzzleAction;
 import com.puzzlebazar.shared.action.GetPuzzleResult;
 import com.puzzlebazar.shared.puzzle.heyawake.model.HeyawakePuzzle;
 
 public class GetPuzzleActionHandler implements ActionHandler<GetPuzzleAction, GetPuzzleResult> {
 
-  private final PersistenceManagerFactory persistenceManagerFactory;
-
   @Inject
-  public GetPuzzleActionHandler(
-      final PersistenceManagerFactory persistenceManagerFactory ) {
-    this.persistenceManagerFactory = persistenceManagerFactory;
+  public GetPuzzleActionHandler() {
   }
   
   @Override
@@ -47,20 +35,7 @@ public class GetPuzzleActionHandler implements ActionHandler<GetPuzzleAction, Ge
       throws ActionException {
 
     // TODO there should be a separate CreatePuzzleAction
-    
-    PersistenceManager persistenceManager = persistenceManagerFactory.getPersistenceManager();
-    
     HeyawakePuzzle puzzle = null;
-    try {
-      Key k = KeyFactory.createKey(HeyawakePuzzle.class.getSimpleName(), action.getId());
-      puzzle = persistenceManager.getObjectById( HeyawakePuzzle.class, k );
-    }
-    catch( JDOObjectNotFoundException exception ) {
-      throw new ObjectNotFoundException();
-    }
-    finally {
-      persistenceManager.close();
-    }    
     
     return new GetPuzzleResult(puzzle);
   }

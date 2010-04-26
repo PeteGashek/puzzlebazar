@@ -19,7 +19,6 @@ package com.puzzlebazar.shared.puzzle.model;
 import java.io.Serializable;
 
 import com.puzzlebazar.shared.model.EditableObject;
-import com.puzzlebazar.shared.model.HasKey;
 import com.puzzlebazar.shared.model.HasPrivacySettings;
 
 /**
@@ -27,7 +26,7 @@ import com.puzzlebazar.shared.model.HasPrivacySettings;
  * 
  * @author Philippe Beaudoin
  */
-public interface PuzzleSolve extends EditableObject, Serializable, HasKey, HasPrivacySettings {
+public interface PuzzleSolve extends EditableObject, Serializable, HasPrivacySettings {
 
   
   // TODO: Complete? Duration? Number of moves?

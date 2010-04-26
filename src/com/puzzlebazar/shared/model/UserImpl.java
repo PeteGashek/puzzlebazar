@@ -18,19 +18,13 @@ package com.puzzlebazar.shared.model;
 
 import java.io.Serializable;
 
-import javax.jdo.annotations.Extension;
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.Inheritance;
-import javax.jdo.annotations.InheritanceStrategy;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 
+import com.googlecode.objectify.Key;
 import com.puzzlebazar.shared.util.Validation;
 
-@PersistenceCapable
-@Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
-public class UserImpl implements Serializable, HasKey, User {
+public class UserImpl implements Serializable, User {
 
   /**
    * 
@@ -47,29 +41,18 @@ public class UserImpl implements Serializable, HasKey, User {
   };
 
 
-  @PrimaryKey
-  @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-  @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
-  private String key;
-
-  @Persistent
-  @Extension(vendorName="datanucleus", key="gae.pk-id", value="true")
-  private Long keyId;
-  
-  @Persistent
+  @Id private Long id;
   private String email;
-  @Persistent
   private String realName;
-  @Persistent
   private String nickname;
-  @Persistent
   private String locale; // null means default locale
-  private boolean administrator = false;
-  private boolean authenticated = false;
 
+  @Transient private boolean administrator = false;
+  @Transient private boolean authenticated = false;
 
-  protected UserImpl() {
-    // For serialization only
+  @SuppressWarnings("unused")
+  private UserImpl() {
+    // For serialization/Objectify only
   }
   
   public UserImpl(String email) {
@@ -80,7 +63,7 @@ public class UserImpl implements Serializable, HasKey, User {
   }
 
   public UserImpl(User user) {
-    key = user.getKey();
+    id = user.getId();
     email = user.getEmail();
     copyEditableFields(user);
   }
@@ -94,21 +77,21 @@ public class UserImpl implements Serializable, HasKey, User {
    * @param user The {@link UserImpl} to copy into this one.
    * @throws InvalidEditException Thrown whenever a non-editable field is not the same as this user.
    */
-  protected void editFrom(User user) throws InvalidEditException {
-    if( !key.equals(user.getKey()) ||
+  public void editFrom(User user) throws InvalidEditException {
+    if( !id.equals(user.getId()) ||
         !email.equals(user.getEmail()) ) 
       throw new InvalidEditException();
     copyEditableFields(user);
   }
   
   @Override
-  public String getKey() {
-    return key;
-  }
-  
-  @Override
   public long getId() {
-    return keyId;
+    return id;
+  }
+
+  @Override
+  public Key<UserImpl> createKey() {
+    return new Key<UserImpl>( UserImpl.class, getId() );
   }
   
   @Override
@@ -151,11 +134,11 @@ public class UserImpl implements Serializable, HasKey, User {
     this.locale = locale;
   }
 
-  protected void setAdministrator(boolean administrator) {
+  public void setAdministrator(boolean administrator) {
     this.administrator = administrator;
   }
 
-  protected void setAuthenticated(boolean authenticated) {
+  public void setAuthenticated(boolean authenticated) {
     this.authenticated = authenticated;
   }
   
@@ -179,4 +162,5 @@ public class UserImpl implements Serializable, HasKey, User {
     authenticated = user.isAuthenticated();
     administrator = user.isAdministrator();
   }
+
 }

@@ -24,7 +24,7 @@ import java.io.Serializable;
  * 
  * @author Philippe Beaudoin
  */
-public interface TagInstance extends Serializable, HasKey {
+public interface TagInstance extends Serializable {
 
   /**
    * Get the {@link Tag}.
