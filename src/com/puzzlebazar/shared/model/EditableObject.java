@@ -18,6 +18,8 @@ package com.puzzlebazar.shared.model;
 
 import java.util.Date;
 
+import com.googlecode.objectify.Key;
+
 /**
  * Any object that has an author, and can be created, edited and published.
  * 
@@ -26,11 +28,11 @@ import java.util.Date;
 public interface EditableObject {
 
   /**
-   * Access the {@link UserImpl} who authored this object.
+   * Access the {@link Key} to the {@link User} who authored this object.
    * 
-   * @return The author, a {@link UserImpl} or {@code null} if unknown.
+   * @return The key to an author (a {@link UserImpl}) or {@code null} if unknown.
    */
-  public abstract User getAuthor();
+  public abstract Key<UserImpl> getAuthorKey();
 
   /**
    * Access the {@link Date} at which the object was originally created.

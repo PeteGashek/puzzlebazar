@@ -1,26 +1,13 @@
 package com.puzzlebazar.shared.model;
 
-import com.googlecode.objectify.Key;
 
-public interface User {
+public interface User extends HasId<UserImpl> {
 
   public static final int MIN_REALNAME_LENGTH = 1;
   public static final int MIN_NICKNAME_LENGTH = 5;
   public static final int MAX_REALNAME_LENGTH = 30;
   public static final int MAX_NICKNAME_LENGTH = 30;
   public static final int MAX_EMAIL_LENGTH = 80;
-
-  /**
-   * @return The id of this user.
-   */
-  public long getId();
-
-  /**
-   * Create a new Key that uniquely identifies this user.
-   * 
-   * @return The newly created key.
-   */
-  public Key<UserImpl> createKey();
   
   /**
    * @return The email address of this user. 

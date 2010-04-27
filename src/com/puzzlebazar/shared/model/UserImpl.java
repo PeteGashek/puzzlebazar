@@ -85,7 +85,7 @@ public class UserImpl implements Serializable, User {
   }
   
   @Override
-  public long getId() {
+  public Long getId() {
     return id;
   }
 

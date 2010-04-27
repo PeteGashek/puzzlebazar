@@ -18,11 +18,11 @@ package com.puzzlebazar.server.guice;
 
 import com.philbeaudoin.gwtp.dispatch.server.guice.ActionHandlerModule;
 
-import com.puzzlebazar.server.handler.CreateNewPuzzleActionHandler;
 import com.puzzlebazar.server.handler.EditUserActionHandler;
-import com.puzzlebazar.server.handler.GetPuzzleActionHandler;
 import com.puzzlebazar.server.handler.LogoutActionHandler;
 import com.puzzlebazar.server.handler.GetCurrentUserActionHandler;
+import com.puzzlebazar.server.puzzle.handler.CreateNewPuzzleActionHandler;
+import com.puzzlebazar.server.puzzle.handler.GetPuzzleActionHandler;
 import com.puzzlebazar.shared.action.CreateNewPuzzleAction;
 import com.puzzlebazar.shared.action.EditUserAction;
 import com.puzzlebazar.shared.action.GetPuzzleAction;

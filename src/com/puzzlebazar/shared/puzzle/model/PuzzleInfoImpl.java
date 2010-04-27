@@ -20,9 +20,11 @@ import java.util.Date;
 
 import javax.persistence.Id;
 
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Cached;
 import com.puzzlebazar.shared.model.ActionRightsInfo;
 import com.puzzlebazar.shared.model.User;
+import com.puzzlebazar.shared.model.UserImpl;
 
 /**
  * A persistent class that is able to save all the fields required
@@ -31,7 +33,7 @@ import com.puzzlebazar.shared.model.User;
  * @author Philippe Beaudoin
  */
 @Cached
-public class PuzzleInfoImpl implements PuzzleInfo {
+public class PuzzleInfoImpl implements PuzzleInfo<PuzzleInfoImpl> {
 
   private static final long serialVersionUID = -6880547981119961884L;
   
@@ -43,17 +45,9 @@ public class PuzzleInfoImpl implements PuzzleInfo {
 
   @Id private Long id;
   
-  // Polymorphic relationship, the linked object is not persisted, but a key to it 
-  // is persisted in {@link com.puzzlebazar.server.puzzle.model.PuzzleInfoImplServer}.
-  protected PuzzleDetails puzzleDetails;
-  
-  // Unowned relationship, the linked object is not persisted, but a key to it 
-  // is persisted in {@link com.puzzlebazar.server.puzzle.model.PuzzleInfoImplServer}.
-  protected User author;
-
-  // Unowned relationship, the linked object is not persisted, but a key to it 
-  // is persisted in {@link com.puzzlebazar.server.puzzle.model.PuzzleInfoImplServer}.
-  protected PuzzleType puzzleType;
+  private long puzzleDetailsId;
+  private Key<UserImpl> authorKey;
+  private Key<PuzzleTypeImpl> puzzleTypeKey;
   
   private double difficulty;
   private double quality;
@@ -75,11 +69,11 @@ public class PuzzleInfoImpl implements PuzzleInfo {
    * 
    * @param other The {@link PuzzleInfoImpl} to copy.
    */
-  public PuzzleInfoImpl( PuzzleInfo other ) {
+  public PuzzleInfoImpl( PuzzleInfo<?> other ) {
     id = other.getId();
-    puzzleDetails = other.getPuzzleDetails();
-    author = other.getAuthor();
-    puzzleType = other.getPuzzleType();
+    puzzleDetailsId = other.getPuzzleDetailsKey().getId();
+    authorKey = other.getAuthorKey();
+    puzzleTypeKey = other.getPuzzleTypeKey();
     difficulty = other.getDifficulty();
     quality = other.getQuality();
     sizeString = other.getSizeString();
@@ -112,8 +106,10 @@ public class PuzzleInfoImpl implements PuzzleInfo {
   }
 
   @Override
-  public PuzzleDetails getPuzzleDetails() {
-    return puzzleDetails;
+  public Key<? extends PuzzleDetails<?>> getPuzzleDetailsKey() {
+    // TODO Should combine the puzzleDetailsId with the puzzleType to generate the key
+    //      Could lazily store it.
+    return null;
   }
 
   @Override
@@ -142,13 +138,13 @@ public class PuzzleInfoImpl implements PuzzleInfo {
   }
 
   @Override
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
   @Override
-  public User getAuthor() {
-    return author;
+  public Key<UserImpl> getAuthorKey() {
+    return authorKey;
   }
 
   @Override
@@ -182,8 +178,13 @@ public class PuzzleInfoImpl implements PuzzleInfo {
   }
 
   @Override
-  public PuzzleType getPuzzleType() {
-    return puzzleType;
+  public Key<PuzzleTypeImpl> getPuzzleTypeKey() {
+    return puzzleTypeKey;
+  }
+
+  @Override
+  public Key<PuzzleInfoImpl> createKey() {
+    return new Key<PuzzleInfoImpl>(PuzzleInfoImpl.class, id);
   }
 
 }

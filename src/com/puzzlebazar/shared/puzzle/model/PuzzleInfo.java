@@ -18,8 +18,10 @@ package com.puzzlebazar.shared.puzzle.model;
 
 import java.io.Serializable;
 
+import com.googlecode.objectify.Key;
 import com.puzzlebazar.shared.model.ActionRightsInfo;
 import com.puzzlebazar.shared.model.EditableObject;
+import com.puzzlebazar.shared.model.HasId;
 import com.puzzlebazar.shared.model.User;
 import com.puzzlebazar.shared.model.UserImpl;
 
@@ -34,14 +36,11 @@ import com.puzzlebazar.shared.model.UserImpl;
  * This interface doesn't allow manipulation of any information
  * related to the puzzle. To do this, see {@link PuzzleDetails}.
  * 
+ * @param <T> The specific implementation type
+ * 
  * @author Philippe Beaudoin
  */
-public interface PuzzleInfo extends Serializable, EditableObject {
-
-  /**
-   * @return The id of this user.
-   */
-  public long getId();
+public interface PuzzleInfo<T extends PuzzleInfo<?>> extends HasId<T>, Serializable, EditableObject {
 
   /**
    * Access the title of the puzzle.
@@ -51,12 +50,12 @@ public interface PuzzleInfo extends Serializable, EditableObject {
   public String getTitle();
 
   /**
-   * Access the {@link PuzzleType} structure corresponding to the type
+   * Access the {@link Key} to the {@link PuzzleType} structure corresponding to the type
    * of the current puzzle.
    * 
-   * @return The type of the puzzle, or {@code null} if the type is unknown.
+   * @return The key to the puzzle type (a {@link PuzzleTypeImpl}) or {@code null} if unknown.
    */
-  public PuzzleType getPuzzleType();
+  public Key<PuzzleTypeImpl> getPuzzleTypeKey();
 
   /**
    * Access a string that can give some information regarding the puzzle
@@ -117,12 +116,12 @@ public interface PuzzleInfo extends Serializable, EditableObject {
   public ActionRightsInfo canUserViewPuzzleDetails( User user );
 
   /**
-   * Access more information in the attached {@link PuzzleDetails} structure.
+   * Access the {@link Key} to the {@link PuzzleDetails} structure to get more information
+   * on the puzzle. 
    * Gate keeper method is {@link #canUserViewPuzzleDetails}.
    * 
-   * @return The attached {@link PuzzleDetails}, or {@code null} if it 
-   *         has not been loaded.
+   * @return The key to the puzzle type (a {@link PuzzleDetailsImpl}) or {@code null} if unknown.
    */
-  public PuzzleDetails getPuzzleDetails();  
+  public Key<? extends PuzzleDetails<?>> getPuzzleDetailsKey();  
   
 }

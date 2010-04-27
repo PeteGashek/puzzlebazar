@@ -14,44 +14,41 @@
  * limitations under the License.
  */
 
-package com.puzzlebazar.server.handler;
+package com.puzzlebazar.server.puzzle.handler;
 
 import com.google.inject.Inject;
 import com.philbeaudoin.gwtp.dispatch.server.ActionHandler;
 import com.philbeaudoin.gwtp.dispatch.server.ExecutionContext;
 import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
-import com.puzzlebazar.shared.action.CreateNewPuzzleAction;
-import com.puzzlebazar.shared.action.CreateNewPuzzleResult;
+import com.puzzlebazar.shared.action.GetPuzzleAction;
+import com.puzzlebazar.shared.action.GetPuzzleResult;
 import com.puzzlebazar.shared.puzzle.heyawake.model.HeyawakePuzzle;
-import com.puzzlebazar.shared.puzzle.heyawake.model.HeyawakePuzzleInfo;
 
-public class CreateNewPuzzleActionHandler implements ActionHandler<CreateNewPuzzleAction, CreateNewPuzzleResult> {
+public class GetPuzzleActionHandler implements ActionHandler<GetPuzzleAction, GetPuzzleResult> {
 
   @Inject
-  public CreateNewPuzzleActionHandler() {
+  public GetPuzzleActionHandler() {
   }
   
   @Override
-  public CreateNewPuzzleResult execute(CreateNewPuzzleAction action, ExecutionContext context)
+  public GetPuzzleResult execute(GetPuzzleAction action, ExecutionContext context)
       throws ActionException {
 
     // TODO there should be a separate CreatePuzzleAction
+    HeyawakePuzzle puzzle = null;
     
-    HeyawakePuzzleInfo puzzleInfo = new HeyawakePuzzleInfo(action.getTitle(), action.getWidth(), action.getHeight());
-    HeyawakePuzzle puzzle = new HeyawakePuzzle(puzzleInfo);
-    
-    return new CreateNewPuzzleResult(puzzle);
+    return new GetPuzzleResult(puzzle);
   }
 
   @Override
-  public Class<CreateNewPuzzleAction> getActionType() {
-    return CreateNewPuzzleAction.class;
+  public Class<GetPuzzleAction> getActionType() {
+    return GetPuzzleAction.class;
   }
 
   @Override
-  public void undo(CreateNewPuzzleAction action, CreateNewPuzzleResult result,
+  public void undo(GetPuzzleAction action, GetPuzzleResult result,
       ExecutionContext context) throws ActionException {
-    // TODO Delete puzzle from the datastore
+    // Nothing to undo.
   }
 
 

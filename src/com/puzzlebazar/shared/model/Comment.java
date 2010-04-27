@@ -24,7 +24,7 @@ import java.io.Serializable;
  * 
  * @author Philippe Beaudoin
  */
-public interface Comment extends EditableObject, Serializable, HasPrivacySettings {
+public interface Comment extends HasId<Comment>, EditableObject, Serializable, HasPrivacySettings {
 
   /**
    * Access the body this comment.

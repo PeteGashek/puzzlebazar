@@ -22,8 +22,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
+import com.googlecode.objectify.Key;
 import com.philbeaudoin.gwtp.mvp.client.HandlerContainerImpl;
+import com.puzzlebazar.shared.InvalidObjectException;
+import com.puzzlebazar.shared.ObjectAlreadyInitializedException;
 import com.puzzlebazar.shared.puzzle.squaregrid.model.CellArray;
 import com.puzzlebazar.shared.util.Has2DSize;
 import com.puzzlebazar.shared.util.KeyNotFoundException;
@@ -40,23 +44,49 @@ implements Has2DSize, CellArray<HeyawakeCellState>, Serializable {
   
   @Id private Long id;
 
-  private HeyawakePuzzleInfo puzzleInfo;
+  private Key<HeyawakePuzzleDetails> puzzleDetailsKey;
+  @Transient transient private HeyawakePuzzleDetails puzzleDetails = null;
   
-  private ArrayList<HeyawakeRoom> rooms;
+  private ArrayList<HeyawakeRoom> rooms = null;
   
-  private HeyawakeCellState[][] stateArray;
+  private HeyawakeCellState[][] stateArray = null;
   
-  @SuppressWarnings("unused")
-  private HeyawakePuzzle() {
-    // For serialization only
+  public HeyawakePuzzle() {
     super(false);
   }
   
-  public HeyawakePuzzle( HeyawakePuzzleInfo puzzleInfo ) {
-    super(false);
-    this.puzzleInfo = puzzleInfo;
-    rooms = new ArrayList<HeyawakeRoom>();
-    stateArray = new HeyawakeCellState[getWidth()][getHeight()];
+  /**
+   * Attaches the details to this puzzle. Details should be obtained through the puzzle key.
+   * Details cannot be attached more than once. The id of the {@link HeyawakePuzzleDetails}
+   * passed in must be the same as the id returned by {@link #getId()}. If this {@link HeyawakePuzzle}
+   * is not initialized yet, it will be. If it's initialized, 
+   * 
+   * @param puzzleDetails The {@link HeyawakePuzzleDetails} to attach to this object. 
+   * @throws ObjectAlreadyInitializedException If this {@link HeyawakePuzzle} is already attached to a {@link HeyawakePuzzleDetails}.
+   * @throws InvalidObjectException If the passed {@link HeyawakePuzzleDetails} id doesn't match the one contained in this {@link HeyawakePuzzle},
+   *                                or if this puzzle is not initialized with the right values. 
+   */
+  public void setDetails( HeyawakePuzzleDetails puzzleDetails ) throws ObjectAlreadyInitializedException, InvalidObjectException {
+    if( this.puzzleDetails != null )
+      throw new ObjectAlreadyInitializedException( "HeyawakePuzzleDetails already set in HeyawakePuzzle." );
+    if( puzzleDetailsKey == null )
+      puzzleDetailsKey = puzzleDetails.createKey();
+    else if( puzzleDetails.getId() != puzzleDetailsKey.getId() )
+      throw new InvalidObjectException( "HeyawakePuzzleDetails id doesn't match the one in HeyawakePuzzle." );
+    this.puzzleDetails = puzzleDetails;
+    
+    if( getWidth() <= 0 || getHeight() <= 0 )
+      throw new InvalidObjectException( "HeyawakePuzzleDetails has an invalid width or height." );
+
+    if( rooms == null )
+      rooms = new ArrayList<HeyawakeRoom>();
+    if( stateArray == null ) {
+      stateArray = new HeyawakeCellState[getWidth()][getHeight()];
+    }
+    else {
+      if( stateArray.length != getWidth() || stateArray[0].length != getWidth() )
+        throw new InvalidObjectException( "Width or height of HeyawakePuzzle doesn't match that of HeyawakePuzzleDetails" );
+    }
   }
   
   public long getId() {
@@ -65,12 +95,16 @@ implements Has2DSize, CellArray<HeyawakeCellState>, Serializable {
 
   @Override
   public int getHeight() {
-    return puzzleInfo.getHeight();
+    if( puzzleDetails == null )
+      return UNKNOWN_SIZE;
+    return puzzleDetails.getHeight();
   }
 
   @Override
   public int getWidth() {
-    return puzzleInfo.getWidth();
+    if( puzzleDetails == null )
+      return UNKNOWN_SIZE;
+    return puzzleDetails.getWidth();
   }  
 
   @Override
