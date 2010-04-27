@@ -23,7 +23,7 @@ import java.io.Serializable;
  * 
  * @author Philippe Beaudoin
  */
-public interface Right extends Serializable {
+public interface Right extends HasId<Right>, Serializable {
 
   /**
    * Returns the name of this action. This is useful for displaying error messages.

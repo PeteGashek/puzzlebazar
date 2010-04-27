@@ -25,7 +25,7 @@ import java.util.List;
  * 
  * @author Philippe Beaudoin
  */
-public interface ActionRightsInfo extends Serializable {
+public interface ActionRightsInfo extends HasId<ActionRightsInfo>, Serializable {
   
   /**
    * Checks whether or not the user has the rights to perform an action.

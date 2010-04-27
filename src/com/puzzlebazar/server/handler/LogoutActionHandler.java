@@ -22,26 +22,26 @@ import com.google.inject.Provider;
 import com.philbeaudoin.gwtp.dispatch.server.ActionHandler;
 import com.philbeaudoin.gwtp.dispatch.server.ExecutionContext;
 import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
-import com.puzzlebazar.server.model.Session;
+import com.puzzlebazar.server.model.UserDAO;
 import com.puzzlebazar.shared.action.LogoutAction;
 import com.puzzlebazar.shared.action.NoResult;
 
 
 public class LogoutActionHandler implements ActionHandler<LogoutAction, NoResult> {
   
-  private final Provider<Session.DAO> sessionDAO;
+  private final Provider<UserDAO> userDao;
 
   @Inject
   public LogoutActionHandler(
-      final Provider<Session.DAO> sessionDAO ) {
-    this.sessionDAO = sessionDAO;
+      final Provider<UserDAO> userDao ) {
+    this.userDao = userDao;
   }
 
   @Override
   public NoResult execute(final LogoutAction action,
       final ExecutionContext context) throws ActionException {
     try {
-      sessionDAO.get().logout();
+      userDao.get().logoutSessionUser();
       return null;
     }
     catch (Exception cause) {

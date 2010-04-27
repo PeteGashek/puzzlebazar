@@ -23,5 +23,5 @@ import java.io.Serializable;
  * 
  * @author Philippe Beaudoin
  */
-public interface PrivacySettings extends Serializable {
+public interface PrivacySettings extends HasId<PrivacySettings>, Serializable {
 }

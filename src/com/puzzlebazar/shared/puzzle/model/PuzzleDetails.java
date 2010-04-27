@@ -38,7 +38,7 @@ import com.puzzlebazar.shared.model.UserImpl;
  * 
  * @author Philippe Beaudoin
  */
-public interface PuzzleDetails extends PuzzleInfo, HasPrivacySettings {
+public interface PuzzleDetails<T extends PuzzleDetails<?>> extends PuzzleInfo<T>, HasPrivacySettings {
 
   /**
    * Access the comments attached to this puzzle. Only the comments that

@@ -14,29 +14,17 @@
  * limitations under the License.
  */
 
-package com.puzzlebazar.shared.util;
+package com.puzzlebazar.shared;
 
-/**
- * The simple interface of any object that has a discrete size. 
- * 
- * @author Philippe Beaudoin
- */
-public interface Has2DSize {
+import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
 
-  static int UNKNOWN_SIZE = -1;
-  
-  /**
-   * Access the number of cells in the horizontal direction.
-   * 
-   * @return The width, that is, the number of cells in the horizontal direction.
-   */
-  public int getWidth();
-
-  /**
-   * Access the number of cells in the vertical direction.
-   * 
-   * @return The height, that is, the number of cells in the vertical direction.
-   */
-  public int getHeight();
+public class ObjectAlreadyCreatedException extends ActionException {
+  private static final long serialVersionUID = 4619104873617053532L;
+  public ObjectAlreadyCreatedException() {
+    super();
+  }
+  public ObjectAlreadyCreatedException(String string) {
+    super(string);
+  }
 
 }

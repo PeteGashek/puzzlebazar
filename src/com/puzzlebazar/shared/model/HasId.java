@@ -14,29 +14,29 @@
  * limitations under the License.
  */
 
-package com.puzzlebazar.shared.util;
+package com.puzzlebazar.shared.model;
+
+import com.googlecode.objectify.Key;
 
 /**
- * The simple interface of any object that has a discrete size. 
+ * Every object stored in the datastore with an automatic id should
+ * implement this interface.
+ * 
+ * @param <T> The specific implementation type.
  * 
  * @author Philippe Beaudoin
  */
-public interface Has2DSize {
-
-  static int UNKNOWN_SIZE = -1;
-  
-  /**
-   * Access the number of cells in the horizontal direction.
-   * 
-   * @return The width, that is, the number of cells in the horizontal direction.
-   */
-  public int getWidth();
+public interface HasId<T> {
 
   /**
-   * Access the number of cells in the vertical direction.
-   * 
-   * @return The height, that is, the number of cells in the vertical direction.
+   * @return The id of this user.
    */
-  public int getHeight();
+  public Long getId();
 
+  /**
+   * Create a new Key that uniquely identifies this object.
+   * 
+   * @return The newly created key.
+   */
+  public Key<T> createKey();
 }

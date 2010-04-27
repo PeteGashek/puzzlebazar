@@ -1,34 +1,137 @@
+/**
+ * Copyright 2010 Philippe Beaudoin
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.puzzlebazar.server.model;
 
+import java.io.IOException;
+import java.util.Map;
+import java.util.logging.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.dyuproject.openid.OpenIdUser;
+import com.dyuproject.openid.RelyingParty;
+import com.dyuproject.openid.ext.AxSchemaExtension;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.NotFoundException;
 import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.helper.DAOBase;
+import com.googlecode.objectify.ObjectifyFactory;
 import com.puzzlebazar.shared.ObjectNotFoundException;
 import com.puzzlebazar.shared.model.InvalidEditException;
 import com.puzzlebazar.shared.model.User;
 import com.puzzlebazar.shared.model.UserImpl;
+import com.puzzlebazar.shared.util.AvailableLocales;
 
 
 /**
  * The class responsible of managing cache and datastore
- * storage of {@link UserImplServer} objects.
+ * storage of user-related objects:
+ * <ul>
+ * <li> {@link Session} </li>
+ * <li> {@link UserImpl} </li>
+ * <li> {@link EmailToEmail} </li>
+ * </ul>
  * 
  * @author Philippe Beaudoin
  */
 public class UserDAO extends DAOBase {
 
-  static {
-    ObjectifyService.register(UserImpl.class);
-    ObjectifyService.register(EmailToEmail.class);
+  @Override
+  protected void registerObjects(ObjectifyFactory ofyFactory) {
+    ofyFactory.register(Session.class);
+    ofyFactory.register(UserImpl.class);
+    ofyFactory.register(EmailToEmail.class);
+  }    
+  
+  private static final Object ADMINISTRATOR_EMAIL = "philippe.beaudoin@gmail.com";
+  private final Logger logger;
+  private final AvailableLocales availableLocales;
+  private final Provider<HttpSession> session;
+  private final Provider<HttpServletRequest> request;
+  private final Provider<HttpServletResponse> response;
+  
+  @Inject
+  public UserDAO(
+      final ObjectifyFactory objectifyFactory,
+      final Logger logger,
+      final AvailableLocales availableLocales,
+      final Provider<HttpSession> session,
+      final Provider<HttpServletRequest> request,
+      final Provider<HttpServletResponse> response ) {
+    super( objectifyFactory );
+    this.logger = logger;
+    this.availableLocales = availableLocales;
+    this.session = session;
+    this.request = request;
+    this.response = response;  
   }
 
-  private static final Object ADMINISTRATOR_EMAIL = "philippe.beaudoin@gmail.com";
+  /**
+   * Access the user currently logged into the session, or {@code null} if 
+   * not logged in.
+   * 
+   * @return The {@link User} currently logged-in, or {@code null} if no user is logged in.
+   */
+  public User getSessionUser() {
+    String sessionId = getSessionId();
+  
+    Session session = getOrCreateSession(sessionId);
+    
+    Key<UserImpl> userKey = session.getCurrentUserKey();
+    
+    // Special case: A null user key means the user is known not to be logged-in
+    //               this saves a trip to the datastore.
+    if( userKey == null )
+      return null;
+    
+    User user = getUser(userKey);
+    if( user == null )
+      createInvalidSession( sessionId );
+    else
+      ((UserImpl)user).setAuthenticated(true);
+  
+    return user;
+  }
 
-  @Inject
-  public UserDAO() {
+  /**
+   * Sets the user currently logged into the session. This should
+   * be called by the OpenId servlet when the OpenId provider 
+   * authenticates the user.
+   * 
+   * @param openIdUser The {@link OpenIdUser} currently logged into the session.
+   */
+  public void setSessionUser(OpenIdUser openIdUser) {
+  
+    Map<String,String> axSchema = AxSchemaExtension.get(openIdUser);
+    String email = axSchema.get("email");
+    if( email == null ) {
+      logger.warning( "Setting a user with a null email. Call logout instead?" );
+      return;
+    }
+    String locale =  availableLocales.getBestLocale(axSchema.get("language")).getLocale();
+  
+    User user = getUserByEmailOrCreate(email, locale);
+    if( user != null ) {
+      String sessionId = getSessionId();
+      ofy().put( new Session( sessionId, user.createKey() ) );
+    }
   }
 
   /**
@@ -74,8 +177,7 @@ public class UserDAO extends DAOBase {
     // TODO Validate that the current user has the required privileges!
     long userId = updatedUser.getId();
 
-    // TODO Get rid of ObjectifyService, inject ObjectifyFactory instead
-    Objectify ofyTxn = ObjectifyService.beginTransaction();
+    Objectify ofyTxn = newOfyTransaction();
     try {
       UserImpl user = ofyTxn.get( UserImpl.class, userId );      
       user.editFrom( updatedUser );
@@ -106,8 +208,7 @@ public class UserDAO extends DAOBase {
     if( emailQuery == null )
       return null;
 
-    // TODO Get rid of ObjectifyService, inject ObjectifyFactory instead
-    Objectify ofyTxn = ObjectifyService.beginTransaction();
+    Objectify ofyTxn = newOfyTransaction();
 
     UserImpl user = null;
     int retry = 0;
@@ -131,7 +232,8 @@ public class UserDAO extends DAOBase {
           if( user != null )
             ofy().delete( user );
         }
-      }      
+      }
+      retry++;
     }
     
     assert user != null : "Could not fetch user";
@@ -154,6 +256,63 @@ public class UserDAO extends DAOBase {
     else
       user.setAdministrator(false);
     return user;
+  }
+
+  /**
+   * Logout the currently logged-in user.
+   */
+  public void logoutSessionUser() {
+    try {
+      RelyingParty.getInstance().invalidate(request.get(), response.get());
+    } catch (IOException exception) {
+      logger.warning( "RelyingParty logout failed" + exception.getMessage() );
+    }
+
+    String sessionId = getSessionId();
+    Session session = getOrCreateSession( sessionId );
+    session.logoutUser();
+    createInvalidSession( getSessionId() );
+  }
+
+  /**
+   * Get the ID of the current {@link HttpSession}.
+   * 
+   * @return The session id, a string.
+   */
+  private String getSessionId() {
+    return session.get().getId();
+  }  
+
+  /**
+   * Gets the session from the datastore/cache. If not found, creates an
+   * invalid session.
+   * 
+   * @param sessionId The id of the session to fetch or create.
+   * @return The newly fetched (or created) {@link Session}.
+   */
+  private Session getOrCreateSession(String sessionId) {
+    Session session = null;
+    try {
+      session = ofy().get( Session.class, sessionId );
+    }
+    catch( NotFoundException e ) {
+      session = createInvalidSession( sessionId );
+    }
+    assert session != null : "Session not found, and unable to create it!";
+    return session;
+  }
+
+  /**
+   * Call this when the session is known to be invalid, in order to store it
+   * with a null user key. Future queries will be faster.
+   * 
+   * @param sessionId The id of the invalid session.
+   * @return The newly created invalid {@link Session}.
+   */
+  private Session createInvalidSession( String sessionId ) {
+    Session session = new Session(sessionId, null);
+    ofy().put( session );
+    return session;
   }
 
 }

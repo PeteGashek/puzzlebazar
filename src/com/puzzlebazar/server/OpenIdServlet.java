@@ -35,7 +35,7 @@ import com.dyuproject.util.http.UrlEncodedParameterMap;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import com.puzzlebazar.server.model.Session;
+import com.puzzlebazar.server.model.UserDAO;
 
 @Singleton
 public class OpenIdServlet extends HttpServlet
@@ -46,11 +46,11 @@ public class OpenIdServlet extends HttpServlet
   private static final long serialVersionUID = 6314103753523555658L;
   
   private static final String CLOSE_POPUP_URI = "/openid/ClosePopup.html";
-  private final Provider<Session.DAO> sessionDAO;
+  private final Provider<UserDAO> userDAO;
 
   @Inject
-  public OpenIdServlet( Provider<Session.DAO> sessionDAO ) {
-    this.sessionDAO = sessionDAO;
+  public OpenIdServlet( Provider<UserDAO> userDAO ) {
+    this.userDAO = userDAO;
   }
 
   @Override
@@ -126,7 +126,7 @@ public class OpenIdServlet extends HttpServlet
         if(relyingParty.verifyAuth(user, request, response))
         {
           // authenticated                    
-          sessionDAO.get().setUser( user );
+          userDAO.get().setSessionUser( user );
           
           // redirect to home to remove the query params instead of doing:
           request.getRequestDispatcher(CLOSE_POPUP_URI).forward(request, response);

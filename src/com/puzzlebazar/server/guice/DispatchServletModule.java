@@ -30,9 +30,9 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.RequestScoped;
 import com.google.inject.servlet.ServletModule;
+import com.googlecode.objectify.ObjectifyFactory;
 import com.philbeaudoin.gwtp.dispatch.server.guice.GuiceStandardDispatchServlet;
 import com.puzzlebazar.server.OpenIdServlet;
-import com.puzzlebazar.server.model.Session;
 import com.puzzlebazar.server.model.UserDAO;
 
 
@@ -68,7 +68,7 @@ public class DispatchServletModule extends ServletModule {
     }
     
     // Model object managers
-    bind(Session.DAO.class).in(RequestScoped.class);
+    bind(ObjectifyFactory.class).in(Singleton.class);
     bind(UserDAO.class).in(RequestScoped.class);
     
 
