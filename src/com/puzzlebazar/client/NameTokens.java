@@ -16,11 +16,19 @@
 
 package com.puzzlebazar.client;
 
+import com.philbeaudoin.gwtp.mvp.client.annotations.NameToken;
+
 /**
  * The central location of all name tokens for the application.
  * All {@link ProxyPlace} classes get their tokens from here.
  * This class also makes it easy to use name tokens as
  * a resource within UIBinder xml files. 
+ * <p />
+ * This class uses both static variables and static getters.
+ * The reason for this is that, if you want to use {@code NameTokens}
+ * in a UiBinder file, you can only access static methods of the class.
+ * On the other hand, when you use the {@literal @}{@link NameToken} 
+ * annotation, you can only refer to a static variable.
  *
  * @author Philippe Beaudoin
  */
