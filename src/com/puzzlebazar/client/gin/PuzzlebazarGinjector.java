@@ -22,7 +22,7 @@ import com.google.gwt.inject.client.Ginjector;
 import com.google.inject.Provider;
 
 import com.philbeaudoin.gwtp.dispatch.client.DispatchAsync;
-import com.philbeaudoin.gwtp.dispatch.client.gin.StandardDispatchModule;
+import com.philbeaudoin.gwtp.dispatch.client.gin.DefaultDispatchModule;
 
 import com.philbeaudoin.gwtp.mvp.client.EventBus;
 import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceManager;
@@ -41,7 +41,7 @@ import com.puzzlebazar.client.core.presenter.UserSettingsGeneralPresenter;
 import com.puzzlebazar.client.resources.Resources;
 import com.puzzlebazar.client.resources.Translations;
 
-@GinModules({ StandardDispatchModule.class, PuzzlebazarClientModule.class })
+@GinModules({ DefaultDispatchModule.class, PuzzlebazarClientModule.class })
 public interface PuzzlebazarGinjector extends Ginjector {
 
   PlaceManager getPlaceManager();

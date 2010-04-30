@@ -80,15 +80,6 @@ public interface PuzzleDetails<T extends PuzzleDetails<?>> extends PuzzleInfo<T>
    *         to verifies if the user has the required rights.
    */
   public ActionRightsInfo canUserViewPuzzle( User user );
-
-  /**
-   * Access the attached {@link Puzzle}.
-   * Gate keeper method is {@link #canUserViewPuzzle}.
-   * 
-   * @return The attached {@link Puzzle}, or {@code null} if it 
-   *         has not been loaded.
-   */
-  public Puzzle getPuzzle();
   
 
   /**

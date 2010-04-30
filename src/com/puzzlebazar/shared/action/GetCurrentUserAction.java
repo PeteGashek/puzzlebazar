@@ -16,9 +16,9 @@
 
 package com.puzzlebazar.shared.action;
 
-import com.philbeaudoin.gwtp.dispatch.shared.Action;
+import com.philbeaudoin.gwtp.dispatch.shared.ActionImpl;
 
-public class GetCurrentUserAction implements Action< GetUserResult > {
+public class GetCurrentUserAction extends ActionImpl< GetUserResult > {
 
   private static final long serialVersionUID = -5400281890164958066L;
   

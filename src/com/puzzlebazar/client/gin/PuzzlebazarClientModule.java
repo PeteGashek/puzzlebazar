@@ -76,7 +76,7 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
 
   @Override
   protected void configure() {  
-
+    
     // NOTE: Commented lines are unused classes. They are commented out to make sure
     //       the GWT compiler does not include them.
     
@@ -90,6 +90,7 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     bind(RootPresenter.class).asEagerSingleton();
     bind(ProxyFailureHandler.class).to(FailureHandlerAlert.class).in(Singleton.class);
     bind(SquareGridManipulator.Factory.class).to(SquareGridManipulatorImpl.FactoryImpl.class).in(Singleton.class);
+
     
     // Non-singletons
     bind(ChangeMonitor.class).to(DefaultChangeMonitor.class);

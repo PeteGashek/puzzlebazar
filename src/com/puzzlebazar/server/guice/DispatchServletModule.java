@@ -16,24 +16,13 @@
 
 package com.puzzlebazar.server.guice;
 
-import java.util.Collections;
-import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManagerFactory;
-
-import net.sf.jsr107cache.Cache;
-import net.sf.jsr107cache.CacheException;
-import net.sf.jsr107cache.CacheFactory;
-import net.sf.jsr107cache.CacheManager;
-
 import com.dyuproject.openid.OpenIdServletFilter;
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.google.inject.servlet.RequestScoped;
 import com.google.inject.servlet.ServletModule;
 import com.googlecode.objectify.ObjectifyFactory;
-import com.philbeaudoin.gwtp.dispatch.server.guice.GuiceStandardDispatchServlet;
+import com.philbeaudoin.gwtp.dispatch.server.DefaultDispatchServlet;
+import com.philbeaudoin.gwtp.dispatch.shared.ActionImpl;
 import com.puzzlebazar.server.OpenIdServlet;
-import com.puzzlebazar.server.model.UserDAO;
 
 
 public class DispatchServletModule extends ServletModule {
@@ -50,26 +39,13 @@ public class DispatchServletModule extends ServletModule {
   //    crawlFilterParams = Collections.unmodifiableMap(aMap);
   //  }    
 
-  // Singletons
-  private PersistenceManagerFactory persistenceManagerFactory;
-  private Cache cache;
 
   @Override
   public void configureServlets() {
 
-    // Instanciate singletons
-    persistenceManagerFactory  = JDOHelper.getPersistenceManagerFactory("transactions-optional");
-    cache = null;
-    try {
-      CacheFactory cacheFactory = CacheManager.getInstance().getCacheFactory();
-      cache = cacheFactory.createCache(Collections.emptyMap());
-    } catch (CacheException cause) {
-      cause.printStackTrace();
-    }
     
     // Model object managers
     bind(ObjectifyFactory.class).in(Singleton.class);
-    bind(UserDAO.class).in(RequestScoped.class);
     
 
     // TODO philippe.beaudoin@gmail.com
@@ -77,18 +53,8 @@ public class DispatchServletModule extends ServletModule {
     //    filter("/*").through(CrawlFilter.class, crawlFilterParams);
     bind(OpenIdServletFilter.class).in(Singleton.class);
 
-    serveRegex("/puzzlebazar[^/]*/dispatch").with(GuiceStandardDispatchServlet.class);
+    serveRegex("/puzzlebazar[^/]*/" + ActionImpl.DEFAULT_SERVICE_NAME).with(DefaultDispatchServlet.class);
     serve("/openid/login").with(OpenIdServlet.class);
-  }
-
-  @Provides
-  PersistenceManagerFactory getPersistenceManagerFactory() {
-    return persistenceManagerFactory;
-  }
-
-  @Provides
-  Cache getCache() {
-    return cache;
   }
 
 }

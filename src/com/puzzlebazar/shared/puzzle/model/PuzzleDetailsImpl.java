@@ -7,6 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.annotation.Parent;
+import com.puzzlebazar.shared.InvalidObjectException;
+import com.puzzlebazar.shared.ObjectAlreadyInitializedException;
 import com.puzzlebazar.shared.model.ActionRightsInfo;
 import com.puzzlebazar.shared.model.Comment;
 import com.puzzlebazar.shared.model.PrivacySettings;
@@ -20,10 +23,32 @@ public abstract class PuzzleDetailsImpl<T extends PuzzleDetailsImpl<?>> implemen
   private static final long serialVersionUID = -1095496912986893668L;
 
   @Id Long id;
+  @Parent protected Key<PuzzleInfoImpl> puzzleInfoKey;
 
-  private Key<PuzzleInfoImpl> puzzleInfoKey;
-  @Transient transient private PuzzleInfoImpl puzzleInfo = null;
+  private long puzzleId;
+  @Transient transient protected PuzzleInfoImpl puzzleInfo = null;
 
+  protected PuzzleDetailsImpl() {   
+  }
+
+  /**
+   * Attaches this puzzle detail to its {@link PuzzleInfo}. This is only
+   * meant to be used within {@link PuzzleDAO}.
+   * 
+   * @param puzzleInfo The {@link PuzzleInfoImpl} to attache to these puzzle details.
+   * @throws ObjectAlreadyInitializedException Thrown if some PuzzleInfo is already attached to this object.
+   * @throws InvalidObjectException If the attached puzzle details are invalid for this puzzle.
+   */
+  public void attachToPuzzleInfo( PuzzleInfoImpl puzzleInfo ) throws ObjectAlreadyInitializedException, InvalidObjectException {
+    if( this.puzzleInfo != null )
+      throw new ObjectAlreadyInitializedException( "PuzzleInfo already set in PuzzleDetailsImpl." );
+    if( puzzleInfoKey == null )
+      puzzleInfoKey = puzzleInfo.createKey();
+    else if( puzzleInfo.getId() != puzzleInfoKey.getId() )
+      throw new InvalidObjectException( "PuzzleInfo id doesn't match the one in PuzzleDetailsImpl." );
+
+    this.puzzleInfo = puzzleInfo;
+  }
 
   @Override
   public void addComment(Comment comment) {
@@ -63,12 +88,6 @@ public abstract class PuzzleDetailsImpl<T extends PuzzleDetailsImpl<?>> implemen
 
   @Override
   public PuzzleHistory getHistory() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public Puzzle getPuzzle() {
     // TODO Auto-generated method stub
     return null;
   }
@@ -209,5 +228,14 @@ public abstract class PuzzleDetailsImpl<T extends PuzzleDetailsImpl<?>> implemen
     return null;
   }
 
+  /**
+   * Sets the puzzle id. This is only meant to be used by
+   * {@link PuzzleDAO}.
+   * 
+   * @param puzzleId The new puzzle id.
+   */
+  public void setPuzzleId(long puzzleId) {
+    this.puzzleId = puzzleId;
+  }
 
 }

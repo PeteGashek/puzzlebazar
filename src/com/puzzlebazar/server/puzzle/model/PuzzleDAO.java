@@ -17,9 +17,14 @@
 package com.puzzlebazar.server.puzzle.model;
 
 import com.google.inject.Inject;
+import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
+import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
 import com.puzzlebazar.server.model.DAOBase;
 import com.puzzlebazar.shared.ObjectAlreadyCreatedException;
+import com.puzzlebazar.shared.TransactionFailedException;
+import com.puzzlebazar.shared.puzzle.model.PuzzleDetailsImpl;
+import com.puzzlebazar.shared.puzzle.model.PuzzleImpl;
 import com.puzzlebazar.shared.puzzle.model.PuzzleInfoImpl;
 
 
@@ -27,36 +32,68 @@ import com.puzzlebazar.shared.puzzle.model.PuzzleInfoImpl;
  * The class responsible of managing cache and datastore
  * storage of puzzle-related objects, including:
  * <ul>
- * <li> {@link PuzzleInfoImpl}
+ * <li>{@link PuzzleInfoImpl}</li>
  * </ul>
  * 
  * @author Philippe Beaudoin
  */
 public class PuzzleDAO extends DAOBase {
 
+  private static boolean objectsRegistered = false;
+  
+  @Override
+  protected boolean areObjectsRegistered() {
+    return objectsRegistered;
+  }
+  
   @Override
   protected void registerObjects(ObjectifyFactory ofyFactory) {
+    objectsRegistered = true;
     ofyFactory.register(PuzzleInfoImpl.class);
   }
   
   @Inject
-  public PuzzleDAO(
-      final ObjectifyFactory objectifyFactory ) {
+  public PuzzleDAO( final ObjectifyFactory objectifyFactory ) {
     super( objectifyFactory );
   }
 
   /**
-   * Save the passed puxxle information as a new puzzle in the datastore.
+   * Create a new puzzle in the datastore given its information.
+   * This should be called only by specific puzzle DAOs such as {@code HeyawakeDAO}.
    * 
    * @param puzzleInfo Information on the to save in the datastore.
-   * @throws ObjectAlreadyCreatedException If the id obtained from {@link PuzzleInfoImpl#getId()} is not {@code null}.
+   * @throws ActionException If the puzzle could not be created.
    */
-  public void saveNewPuzzleInfo( PuzzleInfoImpl puzzleInfo ) throws ObjectAlreadyCreatedException {
+  public <D extends PuzzleDetailsImpl<?>> void createNewPuzzle( 
+      PuzzleInfoImpl puzzleInfo,
+      D puzzleDetails,
+      PuzzleImpl<?, D> puzzle ) throws ActionException {
 
+    // TODO ensure rights?
+    
     if( puzzleInfo.getId() != null )
       throw new ObjectAlreadyCreatedException( "Puzzle info already has an id: " + puzzleInfo.getId() );
     
-    ofy().put( puzzleInfo );
-  }
+    Objectify ofyTxn = newOfyTransaction();
 
+    try {
+      ofyTxn.put( puzzleInfo );
+      puzzleDetails.attachToPuzzleInfo( puzzleInfo );
+      ofyTxn.put( puzzleDetails );
+      puzzleInfo.setPuzzleDetailsId(puzzleDetails.getId());
+      ofyTxn.put( puzzleInfo );      
+      puzzle.attachToPuzzleDetails(puzzleDetails);
+      ofyTxn.put( puzzle );
+      puzzleDetails.setPuzzleId(puzzle.getId());
+      ofyTxn.put( puzzleDetails );
+      ofyTxn.getTxn().commit();
+    }
+    finally {
+      if(ofyTxn.getTxn().isActive()) {
+        ofyTxn.getTxn().rollback();
+        throw new TransactionFailedException("Cannot create puzzle, title = \"" + puzzleInfo.getTitle() + "\"" );
+      }
+    }
+  }
+  
 }

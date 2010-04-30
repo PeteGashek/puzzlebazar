@@ -16,7 +16,7 @@
 
 package com.puzzlebazar.server.guice;
 
-import com.philbeaudoin.gwtp.dispatch.server.guice.ActionHandlerModule;
+import com.philbeaudoin.gwtp.dispatch.server.guice.DispatchModule;
 
 import com.puzzlebazar.server.handler.EditUserActionHandler;
 import com.puzzlebazar.server.handler.LogoutActionHandler;
@@ -33,7 +33,7 @@ import com.puzzlebazar.shared.action.GetCurrentUserAction;
  * Module which binds the handlers and configurations
  *
  */
-public class ServerModule extends ActionHandlerModule {
+public class ServerModule extends DispatchModule {
 
   @Override
   protected void configureHandlers() {

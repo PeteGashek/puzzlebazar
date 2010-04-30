@@ -14,26 +14,17 @@
  * limitations under the License.
  */
 
-package com.puzzlebazar.shared.action;
+package com.puzzlebazar.shared;
 
-import com.philbeaudoin.gwtp.dispatch.shared.ActionImpl;
+import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
 
-public class GetPuzzleAction extends ActionImpl< GetPuzzleResult > {
-
-  private static final long serialVersionUID = 980090205056921146L;
-
-  private long id;
-
-  @SuppressWarnings("unused")
-  private GetPuzzleAction() {
-    // For serialization only
+public class TransactionFailedException extends ActionException {
+  private static final long serialVersionUID = 2922107175468196472L;
+  public TransactionFailedException() {
+    super();
+  }
+  public TransactionFailedException(String string) {
+    super(string);
   }
 
-  public GetPuzzleAction( long id ) {
-    this.id = id;
-  }
-
-  public long getId() {
-    return id;
-  }
 }

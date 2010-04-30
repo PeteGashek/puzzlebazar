@@ -17,34 +17,28 @@
 package com.puzzlebazar.server.puzzle.handler;
 
 import com.google.inject.Inject;
-import com.philbeaudoin.gwtp.dispatch.server.ActionHandler;
+import com.philbeaudoin.gwtp.dispatch.server.actionHandler.ActionHandler;
 import com.philbeaudoin.gwtp.dispatch.server.ExecutionContext;
 import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
-import com.puzzlebazar.server.puzzle.model.PuzzleDAO;
+import com.puzzlebazar.server.puzzle.heyawake.model.HeyawakeDAO;
 import com.puzzlebazar.shared.action.CreateNewPuzzleAction;
 import com.puzzlebazar.shared.action.CreateNewPuzzleResult;
 import com.puzzlebazar.shared.puzzle.heyawake.model.HeyawakePuzzle;
-import com.puzzlebazar.shared.puzzle.heyawake.model.HeyawakePuzzleDetails;
 
 public class CreateNewPuzzleActionHandler implements ActionHandler<CreateNewPuzzleAction, CreateNewPuzzleResult> {
 
-  private final PuzzleDAO puzzleDAO;
+  private final HeyawakeDAO heyawakeDAO;
 
   @Inject
-  public CreateNewPuzzleActionHandler( PuzzleDAO puzzleDAO ) {
-    this.puzzleDAO = puzzleDAO;
+  public CreateNewPuzzleActionHandler( HeyawakeDAO heyawakeDAO ) {
+    this.heyawakeDAO = heyawakeDAO;
   }
   
   @Override
   public CreateNewPuzzleResult execute(CreateNewPuzzleAction action, ExecutionContext context)
-      throws ActionException {
+      throws ActionException {    
 
-    // TODO there should be a separate CreatePuzzleAction
-    
-    // TODO this is not done yet...
-    HeyawakePuzzleDetails puzzleDetails = new HeyawakePuzzleDetails(action.getWidth(), action.getHeight());
-    HeyawakePuzzle puzzle = new HeyawakePuzzle();
-    puzzle.setDetails( puzzleDetails );
+    HeyawakePuzzle puzzle = heyawakeDAO.createNewHeyawake(action.getWidth(), action.getHeight());
     
     return new CreateNewPuzzleResult(puzzle);
   }
