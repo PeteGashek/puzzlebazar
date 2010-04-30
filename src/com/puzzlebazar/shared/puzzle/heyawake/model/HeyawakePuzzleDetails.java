@@ -12,6 +12,9 @@ implements Has2DSize {
   private int width;
   private int height;
 
+  protected HeyawakePuzzleDetails() {
+  }
+  
   public HeyawakePuzzleDetails(int width, int height) {
     this.width = width;
     this.height = height;
@@ -29,7 +32,7 @@ implements Has2DSize {
 
   @Override
   public Key<HeyawakePuzzleDetails> createKey() {
-    return new Key<HeyawakePuzzleDetails>(HeyawakePuzzleDetails.class, getId());
+    return new Key<HeyawakePuzzleDetails>(puzzleInfoKey, HeyawakePuzzleDetails.class, getId());
   }
 
 }

@@ -36,31 +36,48 @@ import com.puzzlebazar.shared.model.UserImpl;
 public class PuzzleInfoImpl implements PuzzleInfo<PuzzleInfoImpl> {
 
   private static final long serialVersionUID = -6880547981119961884L;
-  
+
   private static final int deletedFlag  = 0x0001;
   private static final int rejectedFlag = 0x0002;
   private static final int publicFlag   = 0x0004;
   private static final int validFlag    = 0x0008;
   private static final int completeFlag = 0x0010;
+  private static final int defaultFlags = 0;
 
   @Id private Long id;
-  
+
   private long puzzleDetailsId;
   private Key<UserImpl> authorKey;
   private Key<PuzzleTypeImpl> puzzleTypeKey;
-  
+
   private double difficulty;
   private double quality;
-  private String sizeString;
   private String title;
+  private String sizeString; // TODO Create an GenericSize class (for sorting). Embed.
   private int flags;
   private Date creationDate;
   private Date editionDate;
   private Date publicationDate;
-  
+
   protected PuzzleInfoImpl() {   
   }
+
+  // TODO pass a bit more information, document
+  public PuzzleInfoImpl( Key<UserImpl> authorKey, String title, String sizeString ) {
+    this.setPuzzleDetailsId(0);  // Set later using setPuzzleDetailsId()
+    this.authorKey = authorKey;
+    this.puzzleTypeKey = null;
     
+    this.difficulty = 0;
+    this.quality = 0;
+    this.title = title;
+    this.sizeString = sizeString;
+    this.flags = defaultFlags;
+    this.creationDate = new Date();
+    this.editionDate = null;
+    this.publicationDate = null;
+  }
+
   /**
    * Copy constructor. Useful for downgrading a 
    * {@link com.puzzlebazar.server.puzzle.model.PuzzleInfoImplServer}
@@ -71,7 +88,7 @@ public class PuzzleInfoImpl implements PuzzleInfo<PuzzleInfoImpl> {
    */
   public PuzzleInfoImpl( PuzzleInfo<?> other ) {
     id = other.getId();
-    puzzleDetailsId = other.getPuzzleDetailsKey().getId();
+    setPuzzleDetailsId(other.getPuzzleDetailsKey().getId());
     authorKey = other.getAuthorKey();
     puzzleTypeKey = other.getPuzzleTypeKey();
     difficulty = other.getDifficulty();
@@ -93,7 +110,7 @@ public class PuzzleInfoImpl implements PuzzleInfo<PuzzleInfoImpl> {
     editionDate = other.getEditionDate();
     publicationDate = other.getPublicationDate();
   }
-  
+
   @Override
   public ActionRightsInfo canUserViewPuzzleDetails(User user) {
     // TODO Auto-generated method stub
@@ -186,5 +203,16 @@ public class PuzzleInfoImpl implements PuzzleInfo<PuzzleInfoImpl> {
   public Key<PuzzleInfoImpl> createKey() {
     return new Key<PuzzleInfoImpl>(PuzzleInfoImpl.class, id);
   }
+
+  /**
+   * Sets the puzzle details id. This is only meant to be used by
+   * {@link PuzzleDAO}.
+   * 
+   * @param puzzleDetailsId The new puzzle details id.
+   */
+  public void setPuzzleDetailsId(long puzzleDetailsId) {
+    this.puzzleDetailsId = puzzleDetailsId;
+  }
+
 
 }

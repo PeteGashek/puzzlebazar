@@ -30,10 +30,9 @@ import com.googlecode.objectify.ObjectifyFactory;
 @RequestScoped
 public abstract class DAOBase
 {
+  
   private final ObjectifyFactory factory;
 
-  /** Make sure objects are registed with objectify only once */
-  private static boolean objectsRegistered = false;
   
   /** A single objectify interface, lazily created */
   private Objectify lazyOfy = null;
@@ -56,12 +55,26 @@ public abstract class DAOBase
    * for thread safety. 
    */
   private synchronized void ensureObjectsAreRegistered() {
-    if( objectsRegistered )
+    if( areObjectsRegistered() )
       return;
-    objectsRegistered = true;
     registerObjects(factory);
   }
 
+  /**
+   * Override this method to check whether the objects controlled by
+   * this DAO have been registered (exactly once). To implement this
+   * method, you should declare a field:
+   * <pre>
+   *   private static boolean objectsRegistered = false;
+   * </pre>
+   * The {@link #areObjectsRegistered()} method should return the content of that field, while
+   * the {@link #registerObjects()} method should set that field
+   * to {@code true}.
+   * 
+   * @return
+   */
+  protected abstract boolean areObjectsRegistered();
+  
   /**
    * Override this method to register the objects controlled by this
    * DAO towards objectify. 
@@ -69,6 +82,8 @@ public abstract class DAOBase
    * <pre>
    *   ofyFactory.register(MyClass.class);
    * </pre>
+   * Make sure you set your static {@code objectsRegistered} field to {@code true}
+   * within this method. See {@link #areObjectsRegistered()} for more details.
    * 
    * @param ofyFactory The {@link ObjectifyFactory} on which to register objects.
    */

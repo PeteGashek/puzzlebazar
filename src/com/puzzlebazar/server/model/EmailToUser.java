@@ -27,18 +27,18 @@ import com.puzzlebazar.shared.model.UserImpl;
  * 
  * @author Philippe Beaudoin
  */
-public class EmailToEmail {
+public class EmailToUser {
 
   @SuppressWarnings("unused")
   @Id private String email;
   private Key<UserImpl> userKey;
 
   @SuppressWarnings("unused")
-  private EmailToEmail() {
+  private EmailToUser() {
     // For serialization/Objectify only
   }
   
-  public EmailToEmail(String email, Key<UserImpl> userKey) {
+  public EmailToUser(String email, Key<UserImpl> userKey) {
     this.email = email;
     this.userKey = userKey;
   }

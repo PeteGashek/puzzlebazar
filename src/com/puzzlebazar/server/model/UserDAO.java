@@ -34,6 +34,7 @@ import com.googlecode.objectify.NotFoundException;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.puzzlebazar.shared.ObjectNotFoundException;
+import com.puzzlebazar.shared.TransactionFailedException;
 import com.puzzlebazar.shared.model.InvalidEditException;
 import com.puzzlebazar.shared.model.User;
 import com.puzzlebazar.shared.model.UserImpl;
@@ -46,20 +47,29 @@ import com.puzzlebazar.shared.util.AvailableLocales;
  * <ul>
  * <li> {@link Session} </li>
  * <li> {@link UserImpl} </li>
- * <li> {@link EmailToEmail} </li>
+ * <li> {@link EmailToUser} </li>
  * </ul>
  * 
  * @author Philippe Beaudoin
  */
-public class UserDAO extends DAOBase {
-
+public class UserDAO extends DAOBase {  
+  
+  private static boolean objectsRegistered = false;
+  
+  @Override
+  protected boolean areObjectsRegistered() {
+    return objectsRegistered;
+  }
+  
   @Override
   protected void registerObjects(ObjectifyFactory ofyFactory) {
+    objectsRegistered = true;
     ofyFactory.register(Session.class);
     ofyFactory.register(UserImpl.class);
-    ofyFactory.register(EmailToEmail.class);
+    ofyFactory.register(EmailToUser.class);
   }    
   
+  private static final int MAX_RETRIES = 5; // Number of retries before giving up
   private static final Object ADMINISTRATOR_EMAIL = "philippe.beaudoin@gmail.com";
   private final Logger logger;
   private final AvailableLocales availableLocales;
@@ -84,17 +94,25 @@ public class UserDAO extends DAOBase {
   }
 
   /**
+   * Access the key of the user currently logged into the session, or {@code null} if
+   * not logged in.
+   * 
+   * @return The key of the {@link User} currently logged-in, or {@code null} if no user is logged in. 
+   */
+  public Key<UserImpl> getSessionUserKey() {
+    String sessionId = getSessionId();  
+    Session session = getOrCreateSession(sessionId);    
+    return session.getCurrentUserKey();        
+  }
+
+  /**
    * Access the user currently logged into the session, or {@code null} if 
    * not logged in.
    * 
    * @return The {@link User} currently logged-in, or {@code null} if no user is logged in.
    */
   public User getSessionUser() {
-    String sessionId = getSessionId();
-  
-    Session session = getOrCreateSession(sessionId);
-    
-    Key<UserImpl> userKey = session.getCurrentUserKey();
+    Key<UserImpl> userKey = getSessionUserKey();
     
     // Special case: A null user key means the user is known not to be logged-in
     //               this saves a trip to the datastore.
@@ -103,7 +121,7 @@ public class UserDAO extends DAOBase {
     
     User user = getUser(userKey);
     if( user == null )
-      createInvalidSession( sessionId );
+      createInvalidSession( getSessionId() );
     else
       ((UserImpl)user).setAuthenticated(true);
   
@@ -116,8 +134,9 @@ public class UserDAO extends DAOBase {
    * authenticates the user.
    * 
    * @param openIdUser The {@link OpenIdUser} currently logged into the session.
+   * @throws TransactionFailedException If the user cannot be created.
    */
-  public void setSessionUser(OpenIdUser openIdUser) {
+  public void setSessionUser(OpenIdUser openIdUser) throws TransactionFailedException {
   
     Map<String,String> axSchema = AxSchemaExtension.get(openIdUser);
     String email = axSchema.get("email");
@@ -200,10 +219,11 @@ public class UserDAO extends DAOBase {
    * @param emailQuery The email of the user to get or create.
    * @param locale The locale to use for this user, if it needs to be created.
    * @return The {@link User} obtained from the given email.
+   * @throws TransactionFailedException If the user cannot be created.
    */
   public User getUserByEmailOrCreate(
       final String emailQuery,
-      final String locale ) {
+      final String locale ) throws TransactionFailedException {
 
     if( emailQuery == null )
       return null;
@@ -212,9 +232,9 @@ public class UserDAO extends DAOBase {
 
     UserImpl user = null;
     int retry = 0;
-    while( user == null && retry < 5 ) {
+    while( user == null && retry < MAX_RETRIES ) {
       try {
-        EmailToEmail emailToUser = ofyTxn.get( EmailToEmail.class, emailQuery );
+        EmailToUser emailToUser = ofyTxn.get( EmailToUser.class, emailQuery );
         ofyTxn.getTxn().commit();
         user = ofy().get( emailToUser.getUserKey() );
       }
@@ -222,7 +242,7 @@ public class UserDAO extends DAOBase {
         user = new UserImpl( emailQuery );
         user.setLocale( locale );
         ofy().put( user );
-        EmailToEmail emailToUser = new EmailToEmail( emailQuery, user.createKey() );
+        EmailToUser emailToUser = new EmailToUser( emailQuery, user.createKey() );
         ofyTxn.put( emailToUser );
         ofyTxn.getTxn().commit();
       }
@@ -231,12 +251,14 @@ public class UserDAO extends DAOBase {
           ofyTxn.getTxn().rollback();
           if( user != null )
             ofy().delete( user );
+          user = null;
         }
       }
       retry++;
     }
     
-    assert user != null : "Could not fetch user";
+    if( retry == MAX_RETRIES )
+      throw new TransactionFailedException();
 
     return updateAdministrator(user);
   }
@@ -314,5 +336,6 @@ public class UserDAO extends DAOBase {
     ofy().put( session );
     return session;
   }
+
 
 }

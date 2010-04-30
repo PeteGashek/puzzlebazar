@@ -16,9 +16,9 @@
 
 package com.puzzlebazar.shared.action;
 
-import com.philbeaudoin.gwtp.dispatch.shared.Action;
+import com.philbeaudoin.gwtp.dispatch.shared.ActionImpl;
 
-public class LogoutAction implements Action< NoResult > {
+public class LogoutAction extends ActionImpl< NoResult > {
 
   /**
    * 

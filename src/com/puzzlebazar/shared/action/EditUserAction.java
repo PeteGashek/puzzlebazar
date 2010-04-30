@@ -16,10 +16,10 @@
 
 package com.puzzlebazar.shared.action;
 
-import com.philbeaudoin.gwtp.dispatch.shared.Action;
+import com.philbeaudoin.gwtp.dispatch.shared.ActionImpl;
 import com.puzzlebazar.shared.model.User;
 
-public class EditUserAction implements Action< NoResult > {
+public class EditUserAction extends ActionImpl< NoResult > {
 
   private static final long serialVersionUID = -1748598990259084358L;
 

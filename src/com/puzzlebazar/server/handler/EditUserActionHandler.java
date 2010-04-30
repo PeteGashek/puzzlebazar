@@ -18,7 +18,7 @@ package com.puzzlebazar.server.handler;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.philbeaudoin.gwtp.dispatch.server.ActionHandler;
+import com.philbeaudoin.gwtp.dispatch.server.actionHandler.ActionHandler;
 import com.philbeaudoin.gwtp.dispatch.server.ExecutionContext;
 import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
 import com.puzzlebazar.server.model.UserDAO;

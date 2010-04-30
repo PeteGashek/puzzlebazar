@@ -18,7 +18,15 @@ package com.puzzlebazar.shared.puzzle.model;
 
 import java.io.Serializable;
 
-public interface Puzzle extends Serializable {
+import com.googlecode.objectify.Key;
+import com.puzzlebazar.shared.model.HasId;
+
+/**
+ * The base interface of every different puzzle types.
+ * 
+ * @author Philippe Beaudoin
+ */
+public interface Puzzle<T extends Puzzle<?>> extends HasId<T>, Serializable {
 
   /**
    * Access the puzzle information contained in the attached 
@@ -26,6 +34,13 @@ public interface Puzzle extends Serializable {
    * 
    * @return The attached {@link PuzzleDetails}.
    */
-  public PuzzleDetails getPuzzleDetails();
-  
+  public PuzzleDetails<?> getPuzzleDetails();
+
+  /**
+   * Access the key to the puzzle information contained in the attached 
+   * {@link PuzzleDetails} structure.
+   * 
+   * @return The key to the attached {@link PuzzleDetails}.
+   */
+  public Key<? extends PuzzleDetails<?>> getPuzzleDetailsKey();
 }
