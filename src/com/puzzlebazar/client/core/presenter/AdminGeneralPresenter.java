@@ -21,10 +21,9 @@ import com.google.inject.Inject;
 import com.philbeaudoin.gwtp.mvp.client.View;
 import com.philbeaudoin.gwtp.mvp.client.PresenterImpl;
 import com.philbeaudoin.gwtp.mvp.client.EventBus;
-import com.philbeaudoin.gwtp.mvp.client.proxy.Place;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentHandler;
-import com.philbeaudoin.gwtp.mvp.client.proxy.TabContentProxy;
+import com.philbeaudoin.gwtp.mvp.client.proxy.TabContentProxyPlace;
 import com.philbeaudoin.gwtp.mvp.client.annotations.ContentSlot;
 import com.philbeaudoin.gwtp.mvp.client.annotations.NameToken;
 import com.philbeaudoin.gwtp.mvp.client.annotations.PlaceInstance;
@@ -53,7 +52,7 @@ extends PresenterImpl<AdminGeneralPresenter.MyView, AdminGeneralPresenter.MyProx
       container = AdminTabPresenter.class, 
       priority = 0, 
       getLabel="ginjector.getTranslations().tabGeneral()")
-  public interface MyProxy extends TabContentProxy<AdminGeneralPresenter>, Place {}
+  public interface MyProxy extends TabContentProxyPlace<AdminGeneralPresenter> {}
 
   @Inject
   public AdminGeneralPresenter(final EventBus eventBus, 
