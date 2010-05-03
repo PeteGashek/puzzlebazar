@@ -22,10 +22,9 @@ import com.philbeaudoin.gwtp.dispatch.client.DispatchAsync;
 import com.philbeaudoin.gwtp.mvp.client.EventBus;
 import com.philbeaudoin.gwtp.mvp.client.PresenterImpl;
 import com.philbeaudoin.gwtp.mvp.client.View;
-import com.philbeaudoin.gwtp.mvp.client.proxy.Place;
 import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceManager;
 import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceRequest;
-import com.philbeaudoin.gwtp.mvp.client.proxy.Proxy;
+import com.philbeaudoin.gwtp.mvp.client.proxy.ProxyPlace;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealRootLayoutContentEvent;
 import com.philbeaudoin.gwtp.mvp.client.annotations.NameToken;
 import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyCodeSplit;
@@ -64,7 +63,7 @@ public class PuzzlePresenter extends PresenterImpl<PuzzlePresenter.MyView, Puzzl
 
   @ProxyCodeSplit
   @NameToken( NameTokens.puzzlePage )
-  public interface MyProxy extends Proxy<PuzzlePresenter>, Place {}  
+  public interface MyProxy extends ProxyPlace<PuzzlePresenter> {}  
 
 
   private final PlaceManager placeManager;

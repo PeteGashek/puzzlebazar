@@ -26,10 +26,9 @@ import com.philbeaudoin.gwtp.dispatch.client.DispatchAsync;
 import com.philbeaudoin.gwtp.mvp.client.View;
 import com.philbeaudoin.gwtp.mvp.client.PresenterImpl;
 import com.philbeaudoin.gwtp.mvp.client.EventBus;
-import com.philbeaudoin.gwtp.mvp.client.proxy.Place;
 import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceManager;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
-import com.philbeaudoin.gwtp.mvp.client.proxy.TabContentProxy;
+import com.philbeaudoin.gwtp.mvp.client.proxy.TabContentProxyPlace;
 import com.philbeaudoin.gwtp.mvp.client.annotations.NameToken;
 import com.philbeaudoin.gwtp.mvp.client.annotations.PlaceInstance;
 import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyCodeSplit;
@@ -72,7 +71,7 @@ implements MonitorHandler  {
       container = UserSettingsTabPresenter.class, 
       priority = 0, 
       getLabel="ginjector.getTranslations().tabGeneral()" )
-  public interface MyProxy extends TabContentProxy<UserSettingsGeneralPresenter>, Place {}
+  public interface MyProxy extends TabContentProxyPlace<UserSettingsGeneralPresenter> {}
 
   private final DispatchAsync dispatcher;
   private final PlaceManager placeManager;

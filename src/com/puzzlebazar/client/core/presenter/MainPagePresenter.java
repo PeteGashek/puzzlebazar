@@ -24,9 +24,8 @@ import com.philbeaudoin.gwtp.mvp.client.IndirectProvider;
 import com.philbeaudoin.gwtp.mvp.client.View;
 import com.philbeaudoin.gwtp.mvp.client.PresenterImpl;
 import com.philbeaudoin.gwtp.mvp.client.EventBus;
-import com.philbeaudoin.gwtp.mvp.client.proxy.Place;
-import com.philbeaudoin.gwtp.mvp.client.proxy.Proxy;
 import com.philbeaudoin.gwtp.mvp.client.proxy.ProxyFailureHandler;
+import com.philbeaudoin.gwtp.mvp.client.proxy.ProxyPlace;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.gwtp.mvp.client.annotations.NameToken;
 import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyStandard;
@@ -46,7 +45,7 @@ extends PresenterImpl<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
 
   @ProxyStandard
   @NameToken( NameTokens.mainPage )
-  public interface MyProxy extends Proxy<MainPagePresenter>, Place {}
+  public interface MyProxy extends ProxyPlace<MainPagePresenter> {}
 
   private final ProxyFailureHandler failureHandler;
   private final IndirectProvider<NewsItemPresenter> newsItemFactory;
