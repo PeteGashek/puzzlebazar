@@ -21,6 +21,7 @@ import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.philbeaudoin.gwtp.dispatch.server.DispatchServiceImpl;
+import com.philbeaudoin.gwtp.dispatch.server.HttpSessionSecurityCookieFilter;
 import com.philbeaudoin.gwtp.dispatch.shared.ActionImpl;
 import com.philbeaudoin.gwtp.dispatch.shared.SecurityCookie;
 import com.puzzlebazar.server.OpenIdServlet;
@@ -56,8 +57,10 @@ public class DispatchServletModule extends ServletModule {
     //    filter("/*").through(CrawlFilter.class, crawlFilterParams);
     bind(OpenIdServletFilter.class).in(Singleton.class);
 
+    filter("*.jsp").through( HttpSessionSecurityCookieFilter.class );
     serveRegex("/puzzlebazar[^/]*/" + ActionImpl.DEFAULT_SERVICE_NAME).with(DispatchServiceImpl.class);
     serve("/openid/login").with(OpenIdServlet.class);
+    
   }
 
 }

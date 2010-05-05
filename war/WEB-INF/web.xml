@@ -6,7 +6,7 @@
 
 	<!-- Default page to serve -->
 	<welcome-file-list>
-		<welcome-file>Puzzlebazar.html</welcome-file>
+		<welcome-file>Puzzlebazar.jsp</welcome-file>
 	</welcome-file-list>
 
 
@@ -17,7 +17,7 @@
 
 	<filter-mapping>
 		<filter-name>guiceFilter</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>*</url-pattern>
 	</filter-mapping>
 	
 	<!--

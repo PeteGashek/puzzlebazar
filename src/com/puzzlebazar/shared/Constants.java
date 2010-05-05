@@ -22,5 +22,5 @@ package com.puzzlebazar.shared;
  * @author Philippe Beaudoin
  */
 public class Constants {
-  public static final String securityCookieName = "JSESSIONID";
+  public static final String securityCookieName = "PBSC";
 }
