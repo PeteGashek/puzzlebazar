@@ -1,0 +1,4 @@
+glob:war/WEB-INF/appengine-generated/**
+glob:war/WEB-INF/classes/**
+glob:war/WEB-INF/lib/*.jar
+glob:war/puzzlebazar/**

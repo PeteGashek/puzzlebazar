@@ -1,0 +1,115 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+
+<!--
+   Copyright 2010 Philippe Beaudoin
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui' ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+	ui:generateKeys="com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator"
+	ui:generateLocales="en">
+
+
+	<ui:style src='../../resources/defines.css'>
+		.col1 {
+			overflow: hidden;
+			float: left;
+			width: 100px;
+			font-weight: bold;
+		}
+		
+		.col2 {
+			overflow: hidden;
+			float: left;
+			width: 250px;
+		}
+		
+		.textBox {
+			width: 242px;
+			/* 8px less: account for 2px padding and 2px border on left and right */
+		}
+		
+		.col3 {
+			overflow: hidden;
+			float: left;  
+			width: 92px;
+			margin-left: 8px;
+			/* Total width = 100px */
+		}
+		
+		.form {
+			min-width: 450px;
+		}
+		
+		.lineSkip {
+			clear: both;
+			height: formLineSpacing;
+		}
+		
+		.nudge {
+			margin-top: 6px; /* Nudge lines to line-up with text box */
+		}
+	</ui:style>
+
+	<ui:with field='resources' type='com.puzzlebazar.client.resources.Resources' />
+
+	<g:HTMLPanel addStyleNames='{resources.style.formMargin} {style.form}'>
+
+		<g:Label addStyleNames='{style.col1}'>
+			<ui:msg description='Email field inside a user form.'>
+				Email:</ui:msg>
+		</g:Label>
+		<g:Label ui:field='email' addStyleNames='{style.col2}' />
+		<div class='{style.lineSkip}' />
+
+		<g:Label addStyleNames='{style.col1} {style.nudge}'>
+			<ui:msg description='Nickname field inside a user form.'>
+				Nickname:</ui:msg>
+		</g:Label>
+		<div class='{style.col2}'>
+			<g:TextBox ui:field='nickname' addStyleNames='{style.textBox}' />
+		</div>
+		<g:Label ui:field='nicknameError' addStyleNames='{style.col3} {style.nudge} {resources.style.errorText}' />
+		<div class='{style.lineSkip}' />
+
+		<g:Label addStyleNames='{style.col1} {style.nudge}'>
+			<ui:msg description='Real name field inside a user form.'>
+				Real name:</ui:msg>
+		</g:Label>
+		<div class='{style.col2}'>
+			<g:TextBox ui:field='realName' addStyleNames='{style.textBox}' />
+		</div>
+		<g:Label ui:field='realNameError' addStyleNames='{style.col3} {style.nudge} {resources.style.errorText}' />
+		<div class='{style.lineSkip}' />
+
+    <g:Label addStyleNames='{style.col1} {style.nudge}'>
+      <ui:msg description='Language field inside a user form.'>
+        Language:</ui:msg>
+    </g:Label>
+    <g:ListBox ui:field='language' addStyleNames='{style.col2}' />
+    <div class='{style.lineSkip}' />
+
+		<g:Button ui:field='applyButton'>
+			<ui:msg description='Button to apply modifications in a form'>
+				Apply Modifications</ui:msg>
+		</g:Button>
+		<g:Button ui:field='cancelButton'>
+			<ui:msg description='Cancel button within a form' meaning='A button'>
+				Cancel</ui:msg>
+		</g:Button>
+
+	</g:HTMLPanel>
+
+</ui:UiBinder>

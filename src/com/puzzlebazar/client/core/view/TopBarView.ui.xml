@@ -1,0 +1,74 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+
+<!--
+   Copyright 2010 Philippe Beaudoin
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui' 
+	xmlns:m='urn:import:com.puzzlebazar.client.ui'
+	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+	ui:generateKeys="com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator"
+	ui:generateLocales="en">
+
+	<ui:style>
+		.topBar {
+			margin: 3px 8px 0px;
+			padding: 3px 0px 0px;
+			text-align: right;
+		}
+		
+		.underline {
+			border-top: 1px solid #C9D7F1;
+			font-size: 1px;
+			height: 0px;
+			position: absolute;
+			top: 24px;
+			width: 100%;
+		}
+	</ui:style>
+
+	<ui:with field='resources' type='com.puzzlebazar.client.resources.Resources' />
+	<ui:with field='nameTokens' type='com.puzzlebazar.client.NameTokens' />
+
+	<g:HTMLPanel>
+		<m:TokenSeparatedList addStyleNames='{style.topBar}'
+			token='&nbsp;|&nbsp;' ui:field='bar'>
+			<g:InlineLabel addStyleNames='{resources.style.username}'
+				ui:field='notSignedIn'>
+				<ui:msg description='Top bar indication, user not signed in.'>Not signed in</ui:msg>
+			</g:InlineLabel>
+			<g:Anchor ui:field='signIn'>
+				<ui:msg description='Top bar, sign in link'>Sign in</ui:msg>
+			</g:Anchor>
+			<g:InlineLabel addStyleNames='{resources.style.username}'
+				ui:field='username' />
+			<g:InlineHyperlink ui:field='settings'
+				targetHistoryToken='{nameTokens.getUserSettingsGeneral}'>
+				<ui:msg description='Top bar, access settings page'>Settings</ui:msg>
+			</g:InlineHyperlink>
+			<g:InlineHyperlink ui:field='administration'
+				targetHistoryToken='{nameTokens.getAdminGeneral}'>
+				<ui:msg description='Top bar, access administration page'>Administration</ui:msg>
+			</g:InlineHyperlink>
+			<g:Anchor ui:field='signOut'>
+				<ui:msg description='Top bar, sign out link'>Sign out</ui:msg>
+			</g:Anchor>
+		</m:TokenSeparatedList>
+		<div class='{style.underline}' style='left: 0pt' />
+		<div class='{style.underline}' style='right: 0pt' />
+	</g:HTMLPanel>
+
+</ui:UiBinder>
