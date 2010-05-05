@@ -20,9 +20,11 @@ import com.dyuproject.openid.OpenIdServletFilter;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 import com.googlecode.objectify.ObjectifyFactory;
-import com.philbeaudoin.gwtp.dispatch.server.DefaultDispatchServlet;
+import com.philbeaudoin.gwtp.dispatch.server.DispatchServiceImpl;
 import com.philbeaudoin.gwtp.dispatch.shared.ActionImpl;
+import com.philbeaudoin.gwtp.dispatch.shared.SecurityCookie;
 import com.puzzlebazar.server.OpenIdServlet;
+import com.puzzlebazar.shared.Constants;
 
 
 public class DispatchServletModule extends ServletModule {
@@ -47,13 +49,14 @@ public class DispatchServletModule extends ServletModule {
     // Model object managers
     bind(ObjectifyFactory.class).in(Singleton.class);
     
+    bindConstant().annotatedWith( SecurityCookie.class ).to(Constants.securityCookieName);
 
     // TODO philippe.beaudoin@gmail.com
     // Uncomment when http://code.google.com/p/puzzlebazar/issues/detail?id=27 is unblocked.
     //    filter("/*").through(CrawlFilter.class, crawlFilterParams);
     bind(OpenIdServletFilter.class).in(Singleton.class);
 
-    serveRegex("/puzzlebazar[^/]*/" + ActionImpl.DEFAULT_SERVICE_NAME).with(DefaultDispatchServlet.class);
+    serveRegex("/puzzlebazar[^/]*/" + ActionImpl.DEFAULT_SERVICE_NAME).with(DispatchServiceImpl.class);
     serve("/openid/login").with(OpenIdServlet.class);
   }
 
