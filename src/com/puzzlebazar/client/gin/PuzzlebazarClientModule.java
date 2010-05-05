@@ -16,6 +16,7 @@
 
 package com.puzzlebazar.client.gin;
 
+import com.philbeaudoin.gwtp.dispatch.shared.SecurityCookie;
 import com.philbeaudoin.gwtp.mvp.client.DefaultEventBus;
 import com.philbeaudoin.gwtp.mvp.client.EventBus;
 import com.philbeaudoin.gwtp.mvp.client.RootPresenter;
@@ -69,6 +70,7 @@ import com.puzzlebazar.client.ui.SquareGridManipulator;
 import com.puzzlebazar.client.ui.SquareGridManipulatorImpl;
 import com.puzzlebazar.client.util.ChangeMonitor;
 import com.puzzlebazar.client.util.DefaultChangeMonitor;
+import com.puzzlebazar.shared.Constants;
 
 import com.google.inject.Singleton;
 
@@ -79,6 +81,7 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     
     // NOTE: Commented lines are unused classes. They are commented out to make sure
     //       the GWT compiler does not include them.
+    bindConstant().annotatedWith( SecurityCookie.class ).to(Constants.securityCookieName);
     
     // Singletons
     bind(Resources.class).in(Singleton.class);
