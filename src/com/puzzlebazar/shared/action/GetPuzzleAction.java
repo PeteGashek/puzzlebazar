@@ -20,8 +20,6 @@ import com.philbeaudoin.gwtp.dispatch.shared.ActionImpl;
 
 public class GetPuzzleAction extends ActionImpl< GetPuzzleResult > {
 
-  private static final long serialVersionUID = 980090205056921146L;
-
   private long id;
 
   @SuppressWarnings("unused")

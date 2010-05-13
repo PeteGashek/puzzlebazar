@@ -20,8 +20,6 @@ import com.philbeaudoin.gwtp.dispatch.shared.ActionImpl;
 
 public class CreateNewPuzzleAction extends ActionImpl< CreateNewPuzzleResult > {
 
-  private static final long serialVersionUID = 8113714538203740992L;
-
   // TODO Should provide the desired puzzle type, for now we default to HeyawakePuzzle
   private String title;
   private int width;

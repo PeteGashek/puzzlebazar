@@ -20,6 +20,7 @@ import com.dyuproject.openid.OpenIdServletFilter;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 import com.googlecode.objectify.ObjectifyFactory;
+import com.philbeaudoin.gwtp.crawler.server.CrawlFilter;
 import com.philbeaudoin.gwtp.dispatch.server.DispatchServiceImpl;
 import com.philbeaudoin.gwtp.dispatch.server.HttpSessionSecurityCookieFilter;
 import com.philbeaudoin.gwtp.dispatch.shared.ActionImpl;
@@ -29,18 +30,6 @@ import com.puzzlebazar.shared.Constants;
 
 
 public class DispatchServletModule extends ServletModule {
-
-  // TODO philippe.beaudoin@gmail.com
-  // Uncomment when http://code.google.com/p/puzzlebazar/issues/detail?id=27 is unblocked.
-  //  private static final Map<String, String> crawlFilterParams;
-  //  static {
-  //    Map<String, String> aMap = new HashMap<String, String>();
-  //    aMap.put("defaultURI_0", "/puzzlebazar.html");
-  //    aMap.put("redirectURI_0", "/PuzzlebazarHidden.html");
-  //    aMap.put("defaultURI_1", "/puzzlebazardebug.html");
-  //    aMap.put("redirectURI_1", "/PuzzlebazarDebugHidden.html");
-  //    crawlFilterParams = Collections.unmodifiableMap(aMap);
-  //  }    
 
 
   @Override
@@ -54,10 +43,10 @@ public class DispatchServletModule extends ServletModule {
 
     // TODO philippe.beaudoin@gmail.com
     // Uncomment when http://code.google.com/p/puzzlebazar/issues/detail?id=27 is unblocked.
-    //    filter("/*").through(CrawlFilter.class, crawlFilterParams);
     bind(OpenIdServletFilter.class).in(Singleton.class);
 
     filter("*.jsp").through( HttpSessionSecurityCookieFilter.class );
+    filter("*.jsp").through( CrawlFilter.class );
     serveRegex("/puzzlebazar[^/]*/" + ActionImpl.DEFAULT_SERVICE_NAME).with(DispatchServiceImpl.class);
     serve("/openid/login").with(OpenIdServlet.class);
     

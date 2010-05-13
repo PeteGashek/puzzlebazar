@@ -20,11 +20,6 @@ import com.philbeaudoin.gwtp.dispatch.shared.ActionImpl;
 
 public class LogoutAction extends ActionImpl< NoResult > {
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 8495865452693019332L;
-
   public LogoutAction() {
   }
   

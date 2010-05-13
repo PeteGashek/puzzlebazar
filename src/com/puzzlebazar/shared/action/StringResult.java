@@ -20,8 +20,6 @@ import com.philbeaudoin.gwtp.dispatch.shared.Result;
 
 public class StringResult implements Result {
 
-  private static final long serialVersionUID = 136945426256971178L;
-
   private String string;
 
   @SuppressWarnings("unused")
