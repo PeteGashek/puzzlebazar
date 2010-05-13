@@ -20,8 +20,6 @@ import com.philbeaudoin.gwtp.dispatch.shared.Result;
 import com.puzzlebazar.shared.model.User;
 
 public class GetUserResult implements Result {
-
-  private static final long serialVersionUID = -738456865589456638L;
   
   private User userInfo;
 

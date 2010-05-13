@@ -20,8 +20,6 @@ import com.philbeaudoin.gwtp.dispatch.shared.Result;
 import com.puzzlebazar.shared.puzzle.heyawake.model.HeyawakePuzzle;
 
 public class CreateNewPuzzleResult implements Result {
-
-  private static final long serialVersionUID = -4123124901295191789L;
   
   // TODO This should really be a generic puzzle type
   private HeyawakePuzzle puzzle;

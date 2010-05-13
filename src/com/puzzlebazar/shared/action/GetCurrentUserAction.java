@@ -16,12 +16,15 @@
 
 package com.puzzlebazar.shared.action;
 
-import com.philbeaudoin.gwtp.dispatch.shared.ActionImpl;
+import com.philbeaudoin.gwtp.dispatch.shared.UnsecuredActionImpl;
 
-public class GetCurrentUserAction extends ActionImpl< GetUserResult > {
-
-  private static final long serialVersionUID = -5400281890164958066L;
-  
-
+/**
+ * This action returns the currently logged-in user. It is unsecured, as it is called
+ * as soon as the user connects to the page, and we don't want XSRF warnings if
+ * the user doesn't accept cookies.
+ * 
+ * @author Philippe Beaudoin
+ */
+public class GetCurrentUserAction extends UnsecuredActionImpl< GetUserResult > {
   
 }
