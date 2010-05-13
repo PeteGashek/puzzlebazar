@@ -17,10 +17,15 @@
 package com.puzzlebazar.server.guice;
 
 import com.dyuproject.openid.OpenIdServletFilter;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
+import com.google.inject.servlet.SessionScoped;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.philbeaudoin.gwtp.crawler.server.CrawlFilter;
+import com.philbeaudoin.gwtp.crawler.server.HtmlUnitTimeout;
 import com.philbeaudoin.gwtp.dispatch.server.DispatchServiceImpl;
 import com.philbeaudoin.gwtp.dispatch.server.HttpSessionSecurityCookieFilter;
 import com.philbeaudoin.gwtp.dispatch.shared.ActionImpl;
@@ -39,17 +44,24 @@ public class DispatchServletModule extends ServletModule {
     // Model object managers
     bind(ObjectifyFactory.class).in(Singleton.class);
     
+    bindConstant().annotatedWith( HtmlUnitTimeout.class ).to( 15000L );
     bindConstant().annotatedWith( SecurityCookie.class ).to(Constants.securityCookieName);
 
     // TODO philippe.beaudoin@gmail.com
     // Uncomment when http://code.google.com/p/puzzlebazar/issues/detail?id=27 is unblocked.
     bind(OpenIdServletFilter.class).in(Singleton.class);
 
-    filter("*.jsp").through( HttpSessionSecurityCookieFilter.class );
     filter("*.jsp").through( CrawlFilter.class );
+    filter("*.jsp").through( HttpSessionSecurityCookieFilter.class );
     serveRegex("/puzzlebazar[^/]*/" + ActionImpl.DEFAULT_SERVICE_NAME).with(DispatchServiceImpl.class);
     serve("/openid/login").with(OpenIdServlet.class);
     
   }
 
+  @Provides
+  @SessionScoped
+  WebClient provideWebClient() {
+    return new WebClient( BrowserVersion.FIREFOX_3 );
+  }  
+  
 }
