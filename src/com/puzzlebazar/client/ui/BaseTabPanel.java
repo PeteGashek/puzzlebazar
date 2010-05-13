@@ -49,7 +49,7 @@ public abstract class BaseTabPanel extends Composite implements TabPanel {
       if(newTab.getPriority() < tabList.get(beforeIndex).getPriority())
         break;
     tabPanel.insert(newTab.asWidget(), beforeIndex);
-    tabList.add( newTab );
+    tabList.add( beforeIndex, newTab );
     newTab.setText( text );
     newTab.setTargetHistoryToken( historyToken );
     return newTab;
