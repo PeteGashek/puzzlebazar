@@ -88,7 +88,7 @@ public class CurrentUser {
         confirmed = true; // Async call is back. We know if user is logged-in or not.
         if( result != null ) {
           user = result.getUser();
-          CurrentUserChangedEvent.fire( eventBus, result.getUser() );
+          CurrentUserChangedEvent.fire( eventBus, CurrentUser.this );
           scheduleFetchUser( refreshDelay );
         }
         else {
@@ -115,10 +115,25 @@ public class CurrentUser {
     fetchUserTimer.schedule( delay );
   }
 
-  public User getUser() {
-    return user;
+  /**
+   * @return A copy of the currently logged on {@link User}, or {@code null} if no user is logged on.
+   */
+  public User getUserCopy() {
+    if( user == null )
+      return null;
+    return user.clone();
+  }  
+  
+  /**
+   * Sets the currently logged on user.
+   * 
+   * @param user The {@link User} to consider as the current user. 
+   */
+  public void setUser( User user ) {
+    this.user = user;
+    CurrentUserChangedEvent.fire( eventBus, this );
   }
-
+  
   /**
    * Checks if the currently logged in user is an administrator.
    * 
@@ -150,6 +165,29 @@ public class CurrentUser {
   public boolean isConfirmed() {
     return confirmed ;
   }
-  
+
+  public String getEmail() {
+    if( user == null )
+      return null;
+    return user.getEmail();
+  }
+
+  public String getLocale() {
+    if( user == null )
+      return null;
+    return user.getLocale();
+  }
+
+  public String getNickname() {
+    if( user == null )
+      return null;
+    return user.getNickname();
+  }
+
+  public String getRealName() {
+    if( user == null )
+      return null;
+    return user.getRealName();
+  }
   
 }

@@ -26,4 +26,8 @@ public interface Translations extends Constants {
   String changeDetected();
   String actionCallbackFailed();
   String operationFailedRetry();
+  String undo();
+  String redo();
+  String settingsSaved();
+  String settingsUndone();
 }

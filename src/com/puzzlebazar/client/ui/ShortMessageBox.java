@@ -21,9 +21,8 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.puzzlebazar.client.resources.Resources;
@@ -33,7 +32,7 @@ import com.puzzlebazar.client.resources.Resources;
  * 
  * @author Philippe Beaudoin
  */
-public class ShortMessageBox extends Composite implements HasText {
+public class ShortMessageBox extends Composite {
 
   interface Binder extends UiBinder<Widget, ShortMessageBox> { }
   private static final Binder binder = GWT.create(Binder.class);
@@ -43,14 +42,14 @@ public class ShortMessageBox extends Composite implements HasText {
 
   @UiField
   HTMLPanel messageBox;
-  
+
   @UiField
-  Label message;
+  FlowPanel messageWidgetContainer;
 
   public ShortMessageBox() {
     super();
     initWidget( binder.createAndBindUi( this ) );
-    clearText();
+    clearMessageWidget();
   }
 
   @UiFactory
@@ -58,23 +57,18 @@ public class ShortMessageBox extends Composite implements HasText {
     return resources;
   }
 
-  @Override
-  public String getText() {
-    return message.getText();
-  }
-
-  @Override
-  public void setText(String text) {
-    if( text == null || text.length() == 0 )
-      clearText();
+  public void setMessageWidget(Widget widget) {
+    if( widget == null )
+      clearMessageWidget();
     else {
-      message.setText( text );
+      messageWidgetContainer.clear();
+      messageWidgetContainer.add( widget );
       messageBox.setVisible(true);
     }
   }
 
-  public void clearText() {
-    message.setText("");
+  public void clearMessageWidget() {
+    messageWidgetContainer.clear();
     messageBox.setVisible(false);
   }
 }

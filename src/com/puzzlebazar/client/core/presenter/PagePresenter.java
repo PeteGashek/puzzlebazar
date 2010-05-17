@@ -71,4 +71,12 @@ public class PagePresenter extends PresenterImpl<PagePresenter.MyView, PagePrese
     setContent( TYPE_RevealTopBarContent, topBarPresenter );
   }
 
+  @Override
+  protected void onReset() {
+    super.onReset();
+    DisplayShortMessageEvent.fireClearMessage(eventBus);
+  }
+
 }
+
+

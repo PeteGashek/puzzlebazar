@@ -29,11 +29,8 @@ public class EditUserAction extends ActionImpl< NoResult > {
     // For serialization only
   }
 
-  public EditUserAction( User user ) {
+  public EditUserAction( User user, User previousUser ) {
     this.user = user;
-  }
-
-  public void setPreviousUser( final User previousUser ) {
     this.previousUser = previousUser;
   }
   

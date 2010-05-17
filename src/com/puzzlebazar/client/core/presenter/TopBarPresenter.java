@@ -30,7 +30,6 @@ import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.CurrentUser;
 import com.puzzlebazar.shared.action.LogoutAction;
 import com.puzzlebazar.shared.action.NoResult;
-import com.puzzlebazar.shared.model.User;
 
 public class TopBarPresenter extends PresenterWidgetImpl<TopBarPresenter.MyView> 
 implements CurrentUserChangedHandler {
@@ -89,8 +88,7 @@ implements CurrentUserChangedHandler {
     
   private void checkUserStatus() {
     if( currentUser.isLoggedIn() ) {
-      User user = currentUser.getUser();
-      getView().setLoggedIn( user.getEmail(), user.isAdministrator() );
+      getView().setLoggedIn( currentUser.getEmail(), currentUser.isAdministrator() );
     }
     else
       getView().setLoggedOut();

@@ -46,7 +46,7 @@
 		<g:HTMLPanel addStyleNames="{style.box}" ui:field="messageBox" >
 			<div class="{resources.style.round2}" />
 			<div class="{resources.style.round1}" />
-			<g:Label addStyleNames="{style.inner}" ui:field="message" />
+			<g:FlowPanel addStyleNames="{style.inner}" ui:field="messageWidgetContainer" />
 			<div class="{resources.style.round1}" />
 			<div class="{resources.style.round2}" />
 		</g:HTMLPanel>

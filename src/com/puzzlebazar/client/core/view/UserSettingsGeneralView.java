@@ -20,8 +20,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -29,6 +32,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.philbeaudoin.gwtp.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.UserSettingsGeneralPresenter;
+import com.puzzlebazar.client.resources.Translations;
 
 public class UserSettingsGeneralView extends ViewImpl implements UserSettingsGeneralPresenter.MyView {
 
@@ -61,9 +65,24 @@ public class UserSettingsGeneralView extends ViewImpl implements UserSettingsGen
   @UiField
   Button cancelButton;
   
+  
+  private final FlowPanel executeSuccessMessage = new FlowPanel();
+  private final Anchor undoLink;
+  
+  private final FlowPanel undoSuccessMessage = new FlowPanel();
+  private final Anchor redoLink;
+  
   @Inject
-  public UserSettingsGeneralView() {
-    widget = binder.createAndBindUi(this);    
+  public UserSettingsGeneralView( Translations translations ) {
+    widget = binder.createAndBindUi(this);
+    executeSuccessMessage.add( new InlineLabel( translations.settingsSaved() ) );
+    undoLink = new Anchor( translations.undo() );
+    executeSuccessMessage.add( undoLink );
+    executeSuccessMessage.add( new InlineLabel(".") );
+    undoSuccessMessage.add( new InlineLabel( translations.settingsUndone() ) );
+    redoLink = new Anchor( translations.redo() );
+    undoSuccessMessage.add( redoLink );
+    undoSuccessMessage.add( new InlineLabel(".") );
   }
   
   @Override 
@@ -109,6 +128,26 @@ public class UserSettingsGeneralView extends ViewImpl implements UserSettingsGen
   @Override
   public HasClickHandlers getCancel() {
     return cancelButton;
+  }
+
+  @Override
+  public HasClickHandlers getUndo() {
+    return undoLink;
+  }
+  
+  @Override
+  public HasClickHandlers getRedo() {
+    return redoLink;
+  }
+  
+  @Override
+  public Widget getExecuteSuccessMessage() { 
+    return executeSuccessMessage;
+  }
+  
+  @Override
+  public Widget getUndoSuccessMessage() { 
+    return undoSuccessMessage;
   }
 
 
