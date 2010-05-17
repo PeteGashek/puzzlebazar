@@ -68,6 +68,11 @@ public class UserImpl implements Serializable, User {
     copyEditableFields(user);
   }
 
+  @Override
+  public User clone() {
+    return new UserImpl(this);
+  }
+
 
   /**
    * Check if the passed user is compatible with this one. If so,

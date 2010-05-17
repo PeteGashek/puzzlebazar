@@ -80,15 +80,15 @@ public class SplitMainView extends ViewImpl implements SplitMainPresenter.MyView
   }
 
   @Override
-  public void showMessage(String message, boolean dismissable) {
+  public void showMessage(Widget message, boolean dismissable) {
     // TODO Take dismissable into account
-    shortMessageBox.setText( message );
+    shortMessageBox.setMessageWidget( message );
   }
 
 
   @Override
   public void clearMessage() {
-    shortMessageBox.clearText();
+    shortMessageBox.clearMessageWidget();
   }
 
   @Override

@@ -17,6 +17,7 @@
 package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.philbeaudoin.gwtp.mvp.client.View;
 import com.philbeaudoin.gwtp.mvp.client.PresenterImpl;
@@ -38,7 +39,7 @@ implements DisplayShortMessageHandler {
   public static final Type<RevealContentHandler<?>> TYPE_RevealCenterContent = new Type<RevealContentHandler<?>>();
   
   public interface MyView extends View {
-    public void showMessage( String message, boolean dismissable );
+    public void showMessage( Widget message, boolean dismissable );
     public void clearMessage();
     public boolean hasSideBarContent();
   }
@@ -76,12 +77,12 @@ implements DisplayShortMessageHandler {
   public void onDisplayShortMessage(DisplayShortMessageEvent event) {
     if( !isVisible() || event.isAlreadyDisplayed() )
       return;
-    String message = event.getMessage();    
+    Widget message = event.getMessage();    
     if( message == null )
       view.clearMessage();
     else    
       // TODO Take duration into account
-      view.showMessage( event.getMessage(), event.isDismissable() );
+      view.showMessage( message, event.isDismissable() );
     event.setAlreadyDisplayed();
   }
 }

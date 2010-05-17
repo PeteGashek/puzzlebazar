@@ -63,14 +63,8 @@ public class UserSettingsAccountsPresenter extends PresenterImpl<UserSettingsAcc
   }
   
   @Override
-  protected void onReveal() {
-    super.onReveal();
+  protected void onReset() {
+    super.onReset();
     DisplayShortMessageEvent.fireMessage(eventBus, "Welcome to your connected accounts page!" );
-  }
-
-  @Override
-  protected void onHide() {
-    super.onHide();
-    DisplayShortMessageEvent.fireClearMessage(eventBus);
   }
 }

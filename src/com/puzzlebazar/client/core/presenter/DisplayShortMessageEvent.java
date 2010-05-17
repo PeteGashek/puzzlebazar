@@ -17,6 +17,8 @@
 package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Widget;
 import com.philbeaudoin.gwtp.mvp.client.EventBus;
 
 /**
@@ -52,7 +54,7 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
    * Fires a new event to display short messages.
    * 
    * @param eventBus The {@link EventBus}.
-   * @param message The message to display. Pass {@code null} to clear displayed messages.
+   * @param message Any {@link Widget} containing the message to display. Pass {@code null} to clear displayed messages.
    * @param dismissable {@code true} if the message should be dismissable 
    *                    by the user (i.e. a "close" button should be available.)
    * @param level The level of the message should be one of: {@code LEVEL_MESSAGE,
@@ -61,7 +63,7 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
    * permanent message. Should preferably be one of: {@code DURATION_PERMANENT,
    * DURATION_SHORT, DURATION_NORMAL, DURATION_LONG}.
    */
-  public static void fire( EventBus eventBus, String message, boolean dismissable, int level, int duration ) {
+  public static void fire( EventBus eventBus, Widget message, boolean dismissable, int level, int duration ) {
       eventBus.fireEvent( new DisplayShortMessageEvent( message, dismissable, level, duration ) );
   }
 
@@ -72,9 +74,9 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
    * duration.
    * 
    * @param eventBus The {@link EventBus}.
-   * @param message The message to display.
+   * @param message Any {@link Widget} containing the message to display.
    */
-  public static void fireMessage( EventBus eventBus, String message ) {
+  public static void fireMessage( EventBus eventBus, Widget message ) {
     fire( eventBus, message, true, LEVEL_MESSAGE, DURATION_NORMAL );
   }
 
@@ -94,13 +96,37 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
    * duration.
    * 
    * @param eventBus The {@link EventBus}.
-   * @param message The message to display.
+   * @param message Any {@link Widget} containing the message to display.
    */
-  public static void fireError( EventBus eventBus, String message ) {
+  public static void fireError( EventBus eventBus, Widget message ) {
     fire( eventBus, message, true, LEVEL_ERROR, DURATION_PERMANENT );
   }
+
+  /**
+   * Fires a new event to display short messages. The message will be
+   * dismissable, it has a level of {@code LEVEL_MESSAGE} and a normal
+   * duration.
+   * 
+   * @param eventBus The {@link EventBus}.
+   * @param message The message to display, can contain HTML markup.
+   */
+  public static void fireMessage( EventBus eventBus, String message ) {
+    fire( eventBus, new HTML(message), true, LEVEL_MESSAGE, DURATION_NORMAL );
+  }
   
-  private final String message;
+  /**
+   * Fires a new event to display short error. The message will be
+   * dismissable, it has a level of {@code LEVEL_ERROR} and a permanent
+   * duration.
+   * 
+   * @param eventBus The {@link EventBus}.
+   * @param message The message to display, can contain HTML markup.
+   */
+  public static void fireError( EventBus eventBus, String message ) {
+    fire( eventBus, new HTML(message), true, LEVEL_ERROR, DURATION_PERMANENT );
+  }
+  
+  private final Widget message;
   private final boolean dismissable;
   private final int level;
   private final int duration;
@@ -110,7 +136,7 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
   /**
    * Creates a new event to display short messages.
    * 
-   * @param message The message to display.
+   * @param message Any {@link Widget} containing the message to display.
    * @param dismissable {@code true} if the message should be dismissable 
    *                    by the user (i.e. a "close" button should be available.)
    * @param level The level of the message must be one of: {@code LEVEL_MESSAGE,
@@ -119,7 +145,7 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
    * permanent message. Should preferably be one of: {@code DURATION_PERMANENT,
    * DURATION_SHORT, DURATION_NORMAL, DURATION_LONG}.
    */
-  public DisplayShortMessageEvent( String message, boolean dismissable, int level, int duration ) {
+  public DisplayShortMessageEvent( Widget message, boolean dismissable, int level, int duration ) {
     this.message = message;
     this.dismissable = dismissable;
     this.level = level;
@@ -127,9 +153,10 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
   }
 
   /**
-   * @return The message to display. Can be {@code null}, in which case displayed messages should be cleared.
+   * @return The {@link Widget} containing the message to display. Can be {@code null}, 
+   *         in which case displayed messages should be cleared.
    */
-  public String getMessage() {
+  public Widget getMessage() {
     return message;
   }
  

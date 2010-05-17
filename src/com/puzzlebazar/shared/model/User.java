@@ -59,5 +59,9 @@ public interface User extends HasId<UserImpl> {
    */
   public boolean isValid();
 
-
+  /**
+   * @return An exact copy of this {@link User} object.
+   */
+  public User clone();
+  
 }
