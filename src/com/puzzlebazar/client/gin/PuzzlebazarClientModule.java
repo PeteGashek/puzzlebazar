@@ -112,7 +112,7 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     
     // Presenter widget
     bindPresenterWidget(NewsItemPresenter.class, NewsItemPresenter.MyView.class, NewsItemView.class);
-    bindPresenterWidget(TopBarPresenter.class, TopBarPresenter.MyView.class, TopBarView.class );
+    bindSingletonPresenterWidget(TopBarPresenter.class, TopBarPresenter.MyView.class, TopBarView.class );
     bindPresenterWidgetFactory(
         HeyawakePresenter.Factory.class,
         HeyawakePresenter.FactoryImpl.class,
