@@ -18,17 +18,16 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
-import com.philbeaudoin.gwtp.mvp.client.View;
 import com.philbeaudoin.gwtp.mvp.client.EventBus;
 import com.philbeaudoin.gwtp.mvp.client.RequestTabsHandler;
-import com.philbeaudoin.gwtp.mvp.client.TabPanel;
 import com.philbeaudoin.gwtp.mvp.client.TabContainerPresenterImpl;
-import com.philbeaudoin.gwtp.mvp.client.proxy.Proxy;
-import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
-import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentHandler;
+import com.philbeaudoin.gwtp.mvp.client.TabView;
 import com.philbeaudoin.gwtp.mvp.client.annotations.ContentSlot;
 import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyCodeSplitBundle;
 import com.philbeaudoin.gwtp.mvp.client.annotations.RequestTabs;
+import com.philbeaudoin.gwtp.mvp.client.proxy.Proxy;
+import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
+import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentHandler;
 
 
 /**
@@ -45,7 +44,7 @@ public class UserSettingsTabPresenter extends TabContainerPresenterImpl<UserSett
   @RequestTabs
   public static final Type<RequestTabsHandler> TYPE_RequestTabs = new Type<RequestTabsHandler>();
   
-  public interface MyView extends TabPanel, View {}
+  public interface MyView extends TabView {}
 
   @ProxyCodeSplitBundle(
       bundleClass = TabbedPresenterBundle.class, 
