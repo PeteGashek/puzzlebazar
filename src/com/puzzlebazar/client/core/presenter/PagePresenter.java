@@ -70,6 +70,12 @@ public class PagePresenter extends PresenterImpl<PagePresenter.MyView, PagePrese
     super.onReveal();
     setContent( TYPE_RevealTopBarContent, topBarPresenter );
   }
+  
+  @Override
+  protected void onHide() {
+    super.onHide();
+    clearContent( TYPE_RevealTopBarContent );
+  }
 
   @Override
   protected void onReset() {

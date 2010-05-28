@@ -123,6 +123,13 @@ public class PuzzlePresenter extends PresenterImpl<PuzzlePresenter.MyView, Puzzl
     super.onReveal();
     setContent( TYPE_RevealTopBarContent, topBarPresenter );
   }
+  
+  @Override
+  protected void onHide() {
+    super.onHide();
+    clearContent( TYPE_RevealTopBarContent );
+    releasePuzzle();  
+  }
 
   @Override
   protected void onReset() {
@@ -195,12 +202,6 @@ public class PuzzlePresenter extends PresenterImpl<PuzzlePresenter.MyView, Puzzl
     if( id != INVALID_ID )
       result = result.with( PARAM_ID, Long.toString(id) );
     return result;
-  }
-
-  @Override
-  protected void onHide() {
-    super.onHide();
-    releasePuzzle();  
   }
 
   /**
