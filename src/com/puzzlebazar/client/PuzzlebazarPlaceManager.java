@@ -19,12 +19,13 @@ package com.puzzlebazar.client;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.philbeaudoin.gwtp.mvp.client.EventBus;
 import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceManagerImpl;
-import com.philbeaudoin.gwtp.mvp.client.proxy.ProxyRaw;
+import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceRequest;
 import com.philbeaudoin.gwtp.mvp.client.proxy.TokenFormatter;
 import com.puzzlebazar.client.gin.DefaultPlace;
+import com.puzzlebazar.client.gin.MaxRetries;
+import com.puzzlebazar.client.gin.RetryDelay;
 
 
 /**
@@ -32,7 +33,7 @@ import com.puzzlebazar.client.gin.DefaultPlace;
  */
 public class PuzzlebazarPlaceManager extends PlaceManagerImpl {
 
-  private final Provider<ProxyRaw> defaultProxy;
+  private final PlaceRequest defaultPlaceRequest;
   private final CurrentUser currentUser;
   private final Timer retryTimer;
   private final int retryDelay;
@@ -43,15 +44,16 @@ public class PuzzlebazarPlaceManager extends PlaceManagerImpl {
   public PuzzlebazarPlaceManager(
       final EventBus eventBus, 
       final TokenFormatter tokenFormatter,
-      @DefaultPlace final Provider<ProxyRaw> defaultProxy,
+      @DefaultPlace String defaultPlaceNameToken,
+      @RetryDelay int retryDelay,
+      @MaxRetries int maxRetries,
       final CurrentUser currentUser ) {
     super(eventBus, tokenFormatter);
 
-    this.defaultProxy = defaultProxy;
+    this.defaultPlaceRequest = new PlaceRequest( defaultPlaceNameToken );
     this.currentUser = currentUser;
-    // TODO These should be injected when GIN supports toInstance injection
-    this.retryDelay = 500;    
-    this.maxRetries = 4;
+    this.retryDelay = retryDelay;    
+    this.maxRetries = maxRetries;
 
     this.retryTimer = new Timer(){
       @Override
@@ -64,7 +66,7 @@ public class PuzzlebazarPlaceManager extends PlaceManagerImpl {
 
   @Override
   public void revealDefaultPlace() {
-    defaultProxy.get().reveal();
+    revealPlace( defaultPlaceRequest );
   }
 
   /**
