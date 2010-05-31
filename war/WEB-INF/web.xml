@@ -6,7 +6,7 @@
 
 	<!-- Default page to serve -->
 	<welcome-file-list>
-		<welcome-file>Puzzlebazar.jsp</welcome-file>
+		<welcome-file>Puzzlebazar.html</welcome-file>
 	</welcome-file-list>
 
 

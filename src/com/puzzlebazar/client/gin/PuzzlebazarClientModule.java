@@ -24,12 +24,12 @@ import com.philbeaudoin.gwtp.mvp.client.gin.AbstractPresenterModule;
 import com.philbeaudoin.gwtp.mvp.client.proxy.ParameterTokenFormatter;
 import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceManager;
 import com.philbeaudoin.gwtp.mvp.client.proxy.ProxyFailureHandler;
-import com.philbeaudoin.gwtp.mvp.client.proxy.ProxyRaw;
 import com.philbeaudoin.gwtp.mvp.client.proxy.TokenFormatter;
 
 import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.CurrentUser;
 import com.puzzlebazar.client.FailureHandlerAlert;
+import com.puzzlebazar.client.NameTokens;
 import com.puzzlebazar.client.PuzzlebazarPlaceManager;
 import com.puzzlebazar.client.core.presenter.AdminGeneralPresenter;
 import com.puzzlebazar.client.core.presenter.AdminTabPresenter;
@@ -122,8 +122,12 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     // Presenter bundles
     bind(TabbedPresenterBundle.class).in(Singleton.class);
 
+    // Constants
+    bindConstant().annotatedWith(DefaultPlace.class).to( NameTokens.mainPage );
+    bindConstant().annotatedWith(RetryDelay.class).to( 500 );
+    bindConstant().annotatedWith(MaxRetries.class).to( 4 );
+    
     // Presenters
-    bind(ProxyRaw.class).annotatedWith(DefaultPlace.class).to(MainPagePresenter.MyProxy.class);
     bindPresenter(PagePresenter.class,PagePresenter.MyView.class, PageView.class, PagePresenter.MyProxy.class);
     bindPresenter(SplitMainPresenter.class, SplitMainPresenter.MyView.class, SplitMainView.class, SplitMainPresenter.MyProxy.class );
     bindPresenter(LinkColumnPresenter.class, LinkColumnPresenter.MyView.class, LinkColumnView.class, LinkColumnPresenter.MyProxy.class, LinkColumnProxy.class );
