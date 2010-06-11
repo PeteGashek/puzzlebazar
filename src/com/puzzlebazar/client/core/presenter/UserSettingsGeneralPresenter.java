@@ -25,22 +25,23 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.philbeaudoin.gwtp.dispatch.client.DispatchAsync;
-import com.philbeaudoin.gwtp.mvp.client.View;
-import com.philbeaudoin.gwtp.mvp.client.PresenterImpl;
 import com.philbeaudoin.gwtp.mvp.client.EventBus;
+import com.philbeaudoin.gwtp.mvp.client.PresenterImpl;
+import com.philbeaudoin.gwtp.mvp.client.View;
+import com.philbeaudoin.gwtp.mvp.client.annotations.NameToken;
+import com.philbeaudoin.gwtp.mvp.client.annotations.PlaceProvider;
+import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyCodeSplit;
+import com.philbeaudoin.gwtp.mvp.client.annotations.TabInfo;
 import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceManager;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.gwtp.mvp.client.proxy.TabContentProxyPlace;
-import com.philbeaudoin.gwtp.mvp.client.annotations.NameToken;
-import com.philbeaudoin.gwtp.mvp.client.annotations.PlaceInstance;
-import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyCodeSplit;
-import com.philbeaudoin.gwtp.mvp.client.annotations.TabInfo;
 import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.CurrentUser;
+import com.puzzlebazar.client.LoggedInSecurePlaceFactory;
 import com.puzzlebazar.client.NameTokens;
 import com.puzzlebazar.client.resources.Translations;
-import com.puzzlebazar.client.util.MonitorHandler;
 import com.puzzlebazar.client.util.ChangeMonitor;
+import com.puzzlebazar.client.util.MonitorHandler;
 import com.puzzlebazar.shared.action.EditUserAction;
 import com.puzzlebazar.shared.action.NoResult;
 import com.puzzlebazar.shared.model.User;
@@ -72,7 +73,7 @@ implements MonitorHandler  {
 
   @ProxyCodeSplit
   @NameToken( NameTokens.userSettingsGeneral )
-  @PlaceInstance( "new com.puzzlebazar.client.LoggedInSecurePlace(nameToken, ginjector.getCurrentUser())" )
+  @PlaceProvider( LoggedInSecurePlaceFactory.class )
   @TabInfo(
       container = UserSettingsTabPresenter.class, 
       priority = 0, 

@@ -18,17 +18,18 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
-import com.philbeaudoin.gwtp.mvp.client.View;
-import com.philbeaudoin.gwtp.mvp.client.PresenterImpl;
 import com.philbeaudoin.gwtp.mvp.client.EventBus;
+import com.philbeaudoin.gwtp.mvp.client.PresenterImpl;
+import com.philbeaudoin.gwtp.mvp.client.View;
+import com.philbeaudoin.gwtp.mvp.client.annotations.ContentSlot;
+import com.philbeaudoin.gwtp.mvp.client.annotations.NameToken;
+import com.philbeaudoin.gwtp.mvp.client.annotations.PlaceProvider;
+import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyCodeSplit;
+import com.philbeaudoin.gwtp.mvp.client.annotations.TabInfo;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentHandler;
 import com.philbeaudoin.gwtp.mvp.client.proxy.TabContentProxyPlace;
-import com.philbeaudoin.gwtp.mvp.client.annotations.ContentSlot;
-import com.philbeaudoin.gwtp.mvp.client.annotations.NameToken;
-import com.philbeaudoin.gwtp.mvp.client.annotations.PlaceInstance;
-import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyCodeSplit;
-import com.philbeaudoin.gwtp.mvp.client.annotations.TabInfo;
+import com.puzzlebazar.client.AdminSecurePlaceFactory;
 import com.puzzlebazar.client.NameTokens;
 
 /**
@@ -47,7 +48,7 @@ extends PresenterImpl<AdminGeneralPresenter.MyView, AdminGeneralPresenter.MyProx
 
   @ProxyCodeSplit
   @NameToken( NameTokens.adminGeneral )
-  @PlaceInstance( "new com.puzzlebazar.client.AdminSecurePlace(nameToken, ginjector.getCurrentUser())" )
+  @PlaceProvider( AdminSecurePlaceFactory.class )
   @TabInfo(
       container = AdminTabPresenter.class, 
       priority = 0, 
