@@ -17,15 +17,16 @@
 package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
-import com.philbeaudoin.gwtp.mvp.client.View;
-import com.philbeaudoin.gwtp.mvp.client.PresenterImpl;
 import com.philbeaudoin.gwtp.mvp.client.EventBus;
-import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
-import com.philbeaudoin.gwtp.mvp.client.proxy.TabContentProxyPlace;
+import com.philbeaudoin.gwtp.mvp.client.PresenterImpl;
+import com.philbeaudoin.gwtp.mvp.client.View;
 import com.philbeaudoin.gwtp.mvp.client.annotations.NameToken;
-import com.philbeaudoin.gwtp.mvp.client.annotations.PlaceInstance;
+import com.philbeaudoin.gwtp.mvp.client.annotations.PlaceProvider;
 import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyCodeSplit;
 import com.philbeaudoin.gwtp.mvp.client.annotations.TabInfo;
+import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
+import com.philbeaudoin.gwtp.mvp.client.proxy.TabContentProxyPlace;
+import com.puzzlebazar.client.LoggedInSecurePlaceFactory;
 import com.puzzlebazar.client.NameTokens;
 
 /**
@@ -39,7 +40,7 @@ public class UserSettingsAccountsPresenter extends PresenterImpl<UserSettingsAcc
 
   @ProxyCodeSplit
   @NameToken( NameTokens.userSettingsAccounts )
-  @PlaceInstance( "new com.puzzlebazar.client.LoggedInSecurePlace(nameToken, ginjector.getCurrentUser())" )
+  @PlaceProvider( LoggedInSecurePlaceFactory.class )
   @TabInfo(
       container = UserSettingsTabPresenter.class, 
       priority = 1,

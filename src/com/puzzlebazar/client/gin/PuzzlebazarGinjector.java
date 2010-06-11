@@ -20,15 +20,14 @@ import com.google.gwt.inject.client.AsyncProvider;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 import com.google.inject.Provider;
-
 import com.philbeaudoin.gwtp.dispatch.client.DispatchAsync;
 import com.philbeaudoin.gwtp.dispatch.client.gin.DispatchAsyncModule;
-
 import com.philbeaudoin.gwtp.mvp.client.EventBus;
 import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceManager;
 import com.philbeaudoin.gwtp.mvp.client.proxy.ProxyFailureHandler;
-
+import com.puzzlebazar.client.AdminSecurePlaceFactory;
 import com.puzzlebazar.client.CurrentUser;
+import com.puzzlebazar.client.LoggedInSecurePlaceFactory;
 import com.puzzlebazar.client.core.presenter.AdminGeneralPresenter;
 import com.puzzlebazar.client.core.presenter.AdminUsersPresenter;
 import com.puzzlebazar.client.core.presenter.MainPagePresenter;
@@ -51,7 +50,10 @@ public interface PuzzlebazarGinjector extends Ginjector {
   ProxyFailureHandler getProxyFailureHandler();
   CurrentUser getCurrentUser();
   Translations getTranslations();
-  
+
+  LoggedInSecurePlaceFactory getLoggedInSecurePlaceFactory();
+  AdminSecurePlaceFactory    getAdminSecurePlaceFactory();
+    
   Provider<PagePresenter> getPagePresenter();
   AsyncProvider<SplitMainPresenter> getSplitMainPresenter();
   AsyncProvider<TabbedPresenterBundle> getTabbedPresenterBundle();
