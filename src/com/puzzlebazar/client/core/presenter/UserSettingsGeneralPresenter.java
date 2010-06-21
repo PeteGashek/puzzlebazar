@@ -29,15 +29,15 @@ import com.philbeaudoin.gwtp.mvp.client.EventBus;
 import com.philbeaudoin.gwtp.mvp.client.PresenterImpl;
 import com.philbeaudoin.gwtp.mvp.client.View;
 import com.philbeaudoin.gwtp.mvp.client.annotations.NameToken;
-import com.philbeaudoin.gwtp.mvp.client.annotations.PlaceProvider;
 import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyCodeSplit;
 import com.philbeaudoin.gwtp.mvp.client.annotations.TabInfo;
+import com.philbeaudoin.gwtp.mvp.client.annotations.UseGatekeeper;
 import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceManager;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
 import com.philbeaudoin.gwtp.mvp.client.proxy.TabContentProxyPlace;
 import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.CurrentUser;
-import com.puzzlebazar.client.LoggedInSecurePlaceFactory;
+import com.puzzlebazar.client.LoggedInGatekeeper;
 import com.puzzlebazar.client.NameTokens;
 import com.puzzlebazar.client.resources.Translations;
 import com.puzzlebazar.client.util.ChangeMonitor;
@@ -73,7 +73,7 @@ implements MonitorHandler  {
 
   @ProxyCodeSplit
   @NameToken( NameTokens.userSettingsGeneral )
-  @PlaceProvider( LoggedInSecurePlaceFactory.class )
+  @UseGatekeeper( LoggedInGatekeeper.class )
   @TabInfo(
       container = UserSettingsTabPresenter.class, 
       priority = 0, 
