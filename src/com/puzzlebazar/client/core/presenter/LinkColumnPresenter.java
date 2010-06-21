@@ -20,13 +20,17 @@ import com.google.inject.Inject;
 import com.philbeaudoin.gwtp.mvp.client.View;
 import com.philbeaudoin.gwtp.mvp.client.PresenterImpl;
 import com.philbeaudoin.gwtp.mvp.client.EventBus;
+import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyEvent;
+import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyStandard;
 import com.philbeaudoin.gwtp.mvp.client.proxy.Proxy;
 import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
 
-public class LinkColumnPresenter extends PresenterImpl<LinkColumnPresenter.MyView, LinkColumnPresenter.MyProxy> {
+public class LinkColumnPresenter extends PresenterImpl<LinkColumnPresenter.MyView, LinkColumnPresenter.MyProxy> 
+implements RevealDefaultLinkColumnHandler {
 
   public interface MyView extends View {}
 
+  @ProxyStandard
   public interface MyProxy extends Proxy<LinkColumnPresenter> {}
   
   @Inject
@@ -41,5 +45,10 @@ public class LinkColumnPresenter extends PresenterImpl<LinkColumnPresenter.MyVie
   protected void revealInParent() {
     RevealContentEvent.fire(eventBus, SplitMainPresenter.TYPE_RevealSideBarContent, this);
   }
-
+  
+  @ProxyEvent
+  @Override
+  public void onRevealDefaultLinkColumn(RevealDefaultLinkColumnEvent event) {
+    forceReveal();
+  }
 }
