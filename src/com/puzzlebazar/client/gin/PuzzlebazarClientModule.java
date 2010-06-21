@@ -27,8 +27,10 @@ import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceManager;
 import com.philbeaudoin.gwtp.mvp.client.proxy.ProxyFailureHandler;
 import com.philbeaudoin.gwtp.mvp.client.proxy.TokenFormatter;
 import com.puzzlebazar.client.ActionCallback;
+import com.puzzlebazar.client.AdminGatekeeper;
 import com.puzzlebazar.client.CurrentUser;
 import com.puzzlebazar.client.FailureHandlerAlert;
+import com.puzzlebazar.client.LoggedInGatekeeper;
 import com.puzzlebazar.client.NameTokens;
 import com.puzzlebazar.client.PuzzlebazarPlaceManager;
 import com.puzzlebazar.client.core.presenter.AdminGeneralPresenter;
@@ -90,7 +92,9 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     bind(RootPresenter.class).asEagerSingleton();
     bind(ProxyFailureHandler.class).to(FailureHandlerAlert.class).in(Singleton.class);
     bind(SquareGridManipulator.Factory.class).to(SquareGridManipulatorImpl.FactoryImpl.class).in(Singleton.class);
-
+    bind(LoggedInGatekeeper.class).in(Singleton.class);
+    bind(AdminGatekeeper.class).in(Singleton.class);    
+    
     
     // Non-singletons
     bind(ChangeMonitor.class).to(DefaultChangeMonitor.class);

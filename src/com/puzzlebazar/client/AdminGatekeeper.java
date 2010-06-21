@@ -1,6 +1,7 @@
 package com.puzzlebazar.client;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.philbeaudoin.gwtp.mvp.client.proxy.Gatekeeper;
 
 /**
@@ -8,6 +9,7 @@ import com.philbeaudoin.gwtp.mvp.client.proxy.Gatekeeper;
  * 
  * @author Philippe Beaudoin
  */
+@Singleton
 public class AdminGatekeeper implements Gatekeeper {
 
   private final CurrentUser currentUser;
