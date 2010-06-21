@@ -16,6 +16,7 @@
 
 package com.puzzlebazar.client.gin;
 
+import com.google.inject.Singleton;
 import com.philbeaudoin.gwtp.dispatch.shared.SecurityCookie;
 import com.philbeaudoin.gwtp.mvp.client.DefaultEventBus;
 import com.philbeaudoin.gwtp.mvp.client.EventBus;
@@ -25,7 +26,6 @@ import com.philbeaudoin.gwtp.mvp.client.proxy.ParameterTokenFormatter;
 import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceManager;
 import com.philbeaudoin.gwtp.mvp.client.proxy.ProxyFailureHandler;
 import com.philbeaudoin.gwtp.mvp.client.proxy.TokenFormatter;
-
 import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.CurrentUser;
 import com.puzzlebazar.client.FailureHandlerAlert;
@@ -34,11 +34,10 @@ import com.puzzlebazar.client.PuzzlebazarPlaceManager;
 import com.puzzlebazar.client.core.presenter.AdminGeneralPresenter;
 import com.puzzlebazar.client.core.presenter.AdminTabPresenter;
 import com.puzzlebazar.client.core.presenter.AdminUsersPresenter;
-import com.puzzlebazar.client.core.presenter.LinkColumnProxy;
-import com.puzzlebazar.client.core.presenter.PagePresenter;
 import com.puzzlebazar.client.core.presenter.LinkColumnPresenter;
 import com.puzzlebazar.client.core.presenter.MainPagePresenter;
 import com.puzzlebazar.client.core.presenter.NewsItemPresenter;
+import com.puzzlebazar.client.core.presenter.PagePresenter;
 import com.puzzlebazar.client.core.presenter.PuzzlePresenter;
 import com.puzzlebazar.client.core.presenter.SplitMainPresenter;
 import com.puzzlebazar.client.core.presenter.TabbedPresenterBundle;
@@ -47,12 +46,12 @@ import com.puzzlebazar.client.core.presenter.UserSettingsAccountsPresenter;
 import com.puzzlebazar.client.core.presenter.UserSettingsGeneralPresenter;
 import com.puzzlebazar.client.core.presenter.UserSettingsTabPresenter;
 import com.puzzlebazar.client.core.view.AdminGeneralView;
-import com.puzzlebazar.client.core.view.AdminUsersView;
 import com.puzzlebazar.client.core.view.AdminTabView;
-import com.puzzlebazar.client.core.view.PageView;
+import com.puzzlebazar.client.core.view.AdminUsersView;
 import com.puzzlebazar.client.core.view.LinkColumnView;
 import com.puzzlebazar.client.core.view.MainPageView;
 import com.puzzlebazar.client.core.view.NewsItemView;
+import com.puzzlebazar.client.core.view.PageView;
 import com.puzzlebazar.client.core.view.PuzzleView;
 import com.puzzlebazar.client.core.view.SplitMainView;
 import com.puzzlebazar.client.core.view.TopBarView;
@@ -71,8 +70,6 @@ import com.puzzlebazar.client.ui.SquareGridManipulatorImpl;
 import com.puzzlebazar.client.util.ChangeMonitor;
 import com.puzzlebazar.client.util.DefaultChangeMonitor;
 import com.puzzlebazar.shared.Constants;
-
-import com.google.inject.Singleton;
 
 public class PuzzlebazarClientModule extends AbstractPresenterModule {
 
@@ -130,7 +127,8 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     // Presenters
     bindPresenter(PagePresenter.class,PagePresenter.MyView.class, PageView.class, PagePresenter.MyProxy.class);
     bindPresenter(SplitMainPresenter.class, SplitMainPresenter.MyView.class, SplitMainView.class, SplitMainPresenter.MyProxy.class );
-    bindPresenter(LinkColumnPresenter.class, LinkColumnPresenter.MyView.class, LinkColumnView.class, LinkColumnPresenter.MyProxy.class, LinkColumnProxy.class );
+//    bindPresenter(LinkColumnPresenter.class, LinkColumnPresenter.MyView.class, LinkColumnView.class, LinkColumnPresenter.MyProxy.class, LinkColumnProxy.class );
+    bindPresenter(LinkColumnPresenter.class, LinkColumnPresenter.MyView.class, LinkColumnView.class, LinkColumnPresenter.MyProxy.class );
     bindPresenter(UserSettingsTabPresenter.class, UserSettingsTabPresenter.MyView.class, UserSettingsTabView.class, UserSettingsTabPresenter.MyProxy.class );
     bindPresenter(UserSettingsGeneralPresenter.class, UserSettingsGeneralPresenter.MyView.class, UserSettingsGeneralView.class, UserSettingsGeneralPresenter.MyProxy.class);
     bindPresenter(UserSettingsAccountsPresenter.class, UserSettingsAccountsPresenter.MyView.class, UserSettingsAccountsView.class, UserSettingsAccountsPresenter.MyProxy.class);

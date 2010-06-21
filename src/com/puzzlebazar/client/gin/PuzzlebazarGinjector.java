@@ -30,6 +30,7 @@ import com.puzzlebazar.client.CurrentUser;
 import com.puzzlebazar.client.LoggedInSecurePlaceFactory;
 import com.puzzlebazar.client.core.presenter.AdminGeneralPresenter;
 import com.puzzlebazar.client.core.presenter.AdminUsersPresenter;
+import com.puzzlebazar.client.core.presenter.LinkColumnPresenter;
 import com.puzzlebazar.client.core.presenter.MainPagePresenter;
 import com.puzzlebazar.client.core.presenter.PagePresenter;
 import com.puzzlebazar.client.core.presenter.PuzzlePresenter;
@@ -58,6 +59,7 @@ public interface PuzzlebazarGinjector extends Ginjector {
   AsyncProvider<SplitMainPresenter> getSplitMainPresenter();
   AsyncProvider<TabbedPresenterBundle> getTabbedPresenterBundle();
   Provider<MainPagePresenter> getMainPagePresenter();
+  Provider<LinkColumnPresenter> getLinkColumnPresenter();
   AsyncProvider<PuzzlePresenter> getPuzzlePresenter();
   AsyncProvider<AdminGeneralPresenter> getAdminGeneralPresenter();
   AsyncProvider<AdminUsersPresenter> getAdminUsersPresenter();
