@@ -25,9 +25,9 @@ import com.philbeaudoin.gwtp.dispatch.client.gin.DispatchAsyncModule;
 import com.philbeaudoin.gwtp.mvp.client.EventBus;
 import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceManager;
 import com.philbeaudoin.gwtp.mvp.client.proxy.ProxyFailureHandler;
-import com.puzzlebazar.client.AdminSecurePlaceFactory;
+import com.puzzlebazar.client.AdminGatekeeper;
 import com.puzzlebazar.client.CurrentUser;
-import com.puzzlebazar.client.LoggedInSecurePlaceFactory;
+import com.puzzlebazar.client.LoggedInGatekeeper;
 import com.puzzlebazar.client.core.presenter.AdminGeneralPresenter;
 import com.puzzlebazar.client.core.presenter.AdminUsersPresenter;
 import com.puzzlebazar.client.core.presenter.LinkColumnPresenter;
@@ -52,8 +52,8 @@ public interface PuzzlebazarGinjector extends Ginjector {
   CurrentUser getCurrentUser();
   Translations getTranslations();
 
-  LoggedInSecurePlaceFactory getLoggedInSecurePlaceFactory();
-  AdminSecurePlaceFactory    getAdminSecurePlaceFactory();
+  LoggedInGatekeeper getLoggedInGatekeeper();
+  AdminGatekeeper    getAdminGatekeeper();
     
   Provider<PagePresenter> getPagePresenter();
   AsyncProvider<SplitMainPresenter> getSplitMainPresenter();
