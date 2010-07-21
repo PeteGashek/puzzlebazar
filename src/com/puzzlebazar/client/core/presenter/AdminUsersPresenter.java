@@ -17,15 +17,15 @@
 package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
-import com.philbeaudoin.gwtp.mvp.client.EventBus;
-import com.philbeaudoin.gwtp.mvp.client.PresenterImpl;
-import com.philbeaudoin.gwtp.mvp.client.View;
-import com.philbeaudoin.gwtp.mvp.client.annotations.NameToken;
-import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyCodeSplit;
-import com.philbeaudoin.gwtp.mvp.client.annotations.TabInfo;
-import com.philbeaudoin.gwtp.mvp.client.annotations.UseGatekeeper;
-import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
-import com.philbeaudoin.gwtp.mvp.client.proxy.TabContentProxyPlace;
+import com.gwtplatform.mvp.client.EventBus;
+import com.gwtplatform.mvp.client.PresenterImpl;
+import com.gwtplatform.mvp.client.View;
+import com.gwtplatform.mvp.client.annotations.NameToken;
+import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
+import com.gwtplatform.mvp.client.annotations.TabInfo;
+import com.gwtplatform.mvp.client.annotations.UseGatekeeper;
+import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
+import com.gwtplatform.mvp.client.proxy.TabContentProxyPlace;
 import com.puzzlebazar.client.AdminGatekeeper;
 import com.puzzlebazar.client.NameTokens;
 

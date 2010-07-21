@@ -16,7 +16,7 @@
 
 package com.puzzlebazar.shared.action;
 
-import com.philbeaudoin.gwtp.dispatch.shared.Result;
+import com.gwtplatform.dispatch.shared.Result;
 import com.puzzlebazar.shared.puzzle.heyawake.model.HeyawakePuzzle;
 
 public class GetPuzzleResult implements Result {

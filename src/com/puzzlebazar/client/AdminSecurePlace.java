@@ -16,7 +16,7 @@
 
 package com.puzzlebazar.client;
 
-import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceImpl;
+import com.gwtplatform.mvp.client.proxy.PlaceImpl;
 
 
 /**

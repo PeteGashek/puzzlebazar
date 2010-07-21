@@ -18,7 +18,7 @@ package com.puzzlebazar.client.puzzle.heyawake.view;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.philbeaudoin.gwtp.mvp.client.HandlerContainerImpl;
+import com.gwtplatform.mvp.client.HandlerContainerImpl;
 import com.puzzlebazar.client.puzzle.heyawake.presenter.HeyawakePresenter.MyView;
 import com.puzzlebazar.client.puzzle.heyawake.presenter.HeyawakePresenter.ViewFactory;
 import com.puzzlebazar.client.resources.Resources;
@@ -209,5 +209,9 @@ VertexMouseDownHandler  {
 
   @Override
   public void setContent(Object slot, Widget content) {
+  }
+
+  @Override
+  public void removeContent(Object slot, Widget content) {
   }
 }

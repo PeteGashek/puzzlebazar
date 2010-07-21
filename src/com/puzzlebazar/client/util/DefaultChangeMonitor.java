@@ -20,7 +20,7 @@
 package com.puzzlebazar.client.util;
 
 import com.google.inject.Inject;
-import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceManager;
+import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.puzzlebazar.client.resources.Translations;
 
 public final class DefaultChangeMonitor extends ChangeMonitorImpl {

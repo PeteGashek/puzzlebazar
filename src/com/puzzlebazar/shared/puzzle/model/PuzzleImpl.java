@@ -5,7 +5,7 @@ import javax.persistence.Transient;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Parent;
-import com.philbeaudoin.gwtp.mvp.client.HandlerContainerImpl;
+import com.gwtplatform.mvp.client.HandlerContainerImpl;
 import com.puzzlebazar.shared.InvalidObjectException;
 import com.puzzlebazar.shared.ObjectAlreadyInitializedException;
 

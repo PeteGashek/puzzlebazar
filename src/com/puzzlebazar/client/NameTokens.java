@@ -16,7 +16,7 @@
 
 package com.puzzlebazar.client;
 
-import com.philbeaudoin.gwtp.mvp.client.annotations.NameToken;
+import com.gwtplatform.mvp.client.annotations.NameToken;
 
 /**
  * The central location of all name tokens for the application.

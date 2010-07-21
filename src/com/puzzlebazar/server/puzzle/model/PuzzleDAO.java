@@ -19,7 +19,7 @@ package com.puzzlebazar.server.puzzle.model;
 import com.google.inject.Inject;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
-import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
+import com.gwtplatform.dispatch.shared.ActionException;
 import com.puzzlebazar.server.model.DAOBase;
 import com.puzzlebazar.shared.ObjectAlreadyCreatedException;
 import com.puzzlebazar.shared.TransactionFailedException;

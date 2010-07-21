@@ -2,7 +2,7 @@ package com.puzzlebazar.server.puzzle.heyawake.model;
 
 import com.google.inject.Inject;
 import com.googlecode.objectify.ObjectifyFactory;
-import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
+import com.gwtplatform.dispatch.shared.ActionException;
 import com.puzzlebazar.server.model.DAOBase;
 import com.puzzlebazar.server.model.UserDAO;
 import com.puzzlebazar.server.puzzle.model.PuzzleDAO;

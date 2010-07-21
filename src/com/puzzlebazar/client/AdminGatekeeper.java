@@ -2,7 +2,7 @@ package com.puzzlebazar.client;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.philbeaudoin.gwtp.mvp.client.proxy.Gatekeeper;
+import com.gwtplatform.mvp.client.proxy.Gatekeeper;
 
 /**
  * The factory that provides {@link AdminSecurePlace}.
