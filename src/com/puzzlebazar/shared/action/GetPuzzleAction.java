@@ -16,7 +16,7 @@
 
 package com.puzzlebazar.shared.action;
 
-import com.philbeaudoin.gwtp.dispatch.shared.ActionImpl;
+import com.gwtplatform.dispatch.shared.ActionImpl;
 
 public class GetPuzzleAction extends ActionImpl< GetPuzzleResult > {
 

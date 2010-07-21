@@ -16,7 +16,7 @@
 
 package com.puzzlebazar.shared.action;
 
-import com.philbeaudoin.gwtp.dispatch.shared.UnsecuredActionImpl;
+import com.gwtplatform.dispatch.shared.UnsecuredActionImpl;
 
 /**
  * This action returns the currently logged-in user. It is unsecured, as it is called

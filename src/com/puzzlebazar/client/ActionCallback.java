@@ -18,7 +18,7 @@ package com.puzzlebazar.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
-import com.philbeaudoin.gwtp.mvp.client.EventBus;
+import com.gwtplatform.mvp.client.EventBus;
 import com.puzzlebazar.client.core.presenter.DisplayShortMessageEvent;
 import com.puzzlebazar.client.resources.Translations;
 

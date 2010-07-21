@@ -17,9 +17,9 @@
 package com.puzzlebazar.server.puzzle.handler;
 
 import com.google.inject.Inject;
-import com.philbeaudoin.gwtp.dispatch.server.actionHandler.ActionHandler;
-import com.philbeaudoin.gwtp.dispatch.server.ExecutionContext;
-import com.philbeaudoin.gwtp.dispatch.shared.ActionException;
+import com.gwtplatform.dispatch.server.actionHandler.ActionHandler;
+import com.gwtplatform.dispatch.server.ExecutionContext;
+import com.gwtplatform.dispatch.shared.ActionException;
 import com.puzzlebazar.server.puzzle.heyawake.model.HeyawakeDAO;
 import com.puzzlebazar.shared.action.CreateNewPuzzleAction;
 import com.puzzlebazar.shared.action.CreateNewPuzzleResult;

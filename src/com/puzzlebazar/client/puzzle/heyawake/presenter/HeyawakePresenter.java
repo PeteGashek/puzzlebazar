@@ -21,10 +21,10 @@ import com.google.gwt.event.dom.client.HasMouseOutHandlers;
 import com.google.gwt.event.dom.client.HasMouseUpHandlers;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.philbeaudoin.gwtp.mvp.client.EventBus;
-import com.philbeaudoin.gwtp.mvp.client.HandlerContainer;
-import com.philbeaudoin.gwtp.mvp.client.PresenterWidgetImpl;
-import com.philbeaudoin.gwtp.mvp.client.View;
+import com.gwtplatform.mvp.client.EventBus;
+import com.gwtplatform.mvp.client.HandlerContainer;
+import com.gwtplatform.mvp.client.PresenterWidgetImpl;
+import com.gwtplatform.mvp.client.View;
 import com.puzzlebazar.shared.puzzle.heyawake.model.HeyawakePuzzle;
 import com.puzzlebazar.shared.util.Has2DSize;
 

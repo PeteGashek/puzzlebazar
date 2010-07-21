@@ -19,14 +19,14 @@ package com.puzzlebazar.client.core.presenter;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.philbeaudoin.gwtp.mvp.client.View;
-import com.philbeaudoin.gwtp.mvp.client.PresenterImpl;
-import com.philbeaudoin.gwtp.mvp.client.EventBus;
-import com.philbeaudoin.gwtp.mvp.client.proxy.Proxy;
-import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentEvent;
-import com.philbeaudoin.gwtp.mvp.client.proxy.RevealContentHandler;
-import com.philbeaudoin.gwtp.mvp.client.annotations.ContentSlot;
-import com.philbeaudoin.gwtp.mvp.client.annotations.ProxyCodeSplit;
+import com.gwtplatform.mvp.client.View;
+import com.gwtplatform.mvp.client.PresenterImpl;
+import com.gwtplatform.mvp.client.EventBus;
+import com.gwtplatform.mvp.client.proxy.Proxy;
+import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
+import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
+import com.gwtplatform.mvp.client.annotations.ContentSlot;
+import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 
 public class SplitMainPresenter 
 extends PresenterImpl<SplitMainPresenter.MyView, SplitMainPresenter.MyProxy>

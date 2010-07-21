@@ -17,15 +17,15 @@
 package com.puzzlebazar.client.gin;
 
 import com.google.inject.Singleton;
-import com.philbeaudoin.gwtp.dispatch.shared.SecurityCookie;
-import com.philbeaudoin.gwtp.mvp.client.DefaultEventBus;
-import com.philbeaudoin.gwtp.mvp.client.EventBus;
-import com.philbeaudoin.gwtp.mvp.client.RootPresenter;
-import com.philbeaudoin.gwtp.mvp.client.gin.AbstractPresenterModule;
-import com.philbeaudoin.gwtp.mvp.client.proxy.ParameterTokenFormatter;
-import com.philbeaudoin.gwtp.mvp.client.proxy.PlaceManager;
-import com.philbeaudoin.gwtp.mvp.client.proxy.ProxyFailureHandler;
-import com.philbeaudoin.gwtp.mvp.client.proxy.TokenFormatter;
+import com.gwtplatform.dispatch.shared.SecurityCookie;
+import com.gwtplatform.mvp.client.DefaultEventBus;
+import com.gwtplatform.mvp.client.EventBus;
+import com.gwtplatform.mvp.client.RootPresenter;
+import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
+import com.gwtplatform.mvp.client.proxy.ParameterTokenFormatter;
+import com.gwtplatform.mvp.client.proxy.PlaceManager;
+import com.gwtplatform.mvp.client.proxy.ProxyFailureHandler;
+import com.gwtplatform.mvp.client.proxy.TokenFormatter;
 import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.AdminGatekeeper;
 import com.puzzlebazar.client.CurrentUser;

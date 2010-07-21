@@ -21,7 +21,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Widget;
-import com.philbeaudoin.gwtp.mvp.client.Tab;
+import com.gwtplatform.mvp.client.Tab;
 
 public abstract class BaseTab extends Composite implements Tab {
 

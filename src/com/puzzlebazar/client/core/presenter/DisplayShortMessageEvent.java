@@ -19,7 +19,7 @@ package com.puzzlebazar.client.core.presenter;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
-import com.philbeaudoin.gwtp.mvp.client.EventBus;
+import com.gwtplatform.mvp.client.EventBus;
 
 /**
  * This event is sent to the {@link EventBus} whenever the system

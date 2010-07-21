@@ -16,7 +16,7 @@
 
 package com.puzzlebazar.client.util;
 
-import com.philbeaudoin.gwtp.mvp.client.HandlerContainer;
+import com.gwtplatform.mvp.client.HandlerContainer;
 
 /**
  * Classes of this type contains a collection of {@link ChangeMonitorUnit}

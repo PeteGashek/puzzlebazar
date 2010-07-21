@@ -30,7 +30,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.philbeaudoin.gwtp.mvp.client.ViewImpl;
+import com.gwtplatform.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.UserSettingsGeneralPresenter;
 import com.puzzlebazar.client.resources.Translations;
 

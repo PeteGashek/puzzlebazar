@@ -22,7 +22,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.philbeaudoin.gwtp.mvp.client.ViewImpl;
+import com.gwtplatform.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.NewsItemPresenter;
 
 public class NewsItemView extends ViewImpl implements NewsItemPresenter.MyView {

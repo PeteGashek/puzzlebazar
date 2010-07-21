@@ -25,12 +25,12 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.philbeaudoin.gwtp.mvp.client.ViewImpl;
+import com.gwtplatform.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.PagePresenter;
 import com.puzzlebazar.client.core.presenter.PuzzlePresenter;
 
 /**
- * The {@link com.philbeaudoin.gwtp.mvp.client.View} for {@link PagePresenter}.
+ * The {@link com.gwtplatform.mvp.client.View} for {@link PagePresenter}.
  * 
  * @author Philippe Beaudoin
  */

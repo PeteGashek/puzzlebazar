@@ -20,10 +20,10 @@ import com.dyuproject.openid.OpenIdServletFilter;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 import com.googlecode.objectify.ObjectifyFactory;
-import com.philbeaudoin.gwtp.dispatch.server.DispatchServiceImpl;
-import com.philbeaudoin.gwtp.dispatch.server.HttpSessionSecurityCookieFilter;
-import com.philbeaudoin.gwtp.dispatch.shared.ActionImpl;
-import com.philbeaudoin.gwtp.dispatch.shared.SecurityCookie;
+import com.gwtplatform.dispatch.server.DispatchServiceImpl;
+import com.gwtplatform.dispatch.server.HttpSessionSecurityCookieFilter;
+import com.gwtplatform.dispatch.shared.ActionImpl;
+import com.gwtplatform.dispatch.shared.SecurityCookie;
 import com.puzzlebazar.server.OpenIdServlet;
 import com.puzzlebazar.shared.Constants;
 
