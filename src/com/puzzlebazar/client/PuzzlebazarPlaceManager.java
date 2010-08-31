@@ -27,9 +27,10 @@ import com.puzzlebazar.client.gin.DefaultPlace;
 import com.puzzlebazar.client.gin.MaxRetries;
 import com.puzzlebazar.client.gin.RetryDelay;
 
-
 /**
- * PlaceManager implementation for Puzzlebazar
+ * PlaceManager implementation for Puzzlebazar.
+ * 
+ * @author Philippe Beaudoin
  */
 public class PuzzlebazarPlaceManager extends PlaceManagerImpl {
 
@@ -38,35 +39,33 @@ public class PuzzlebazarPlaceManager extends PlaceManagerImpl {
   private final Timer retryTimer;
   private final int retryDelay;
   private final int maxRetries;
-  private int nbRetry = 0;
+  private int nbRetry;
 
   @Inject
-  public PuzzlebazarPlaceManager(
-      final EventBus eventBus, 
+  public PuzzlebazarPlaceManager(final EventBus eventBus, 
       final TokenFormatter tokenFormatter,
       @DefaultPlace String defaultPlaceNameToken,
       @RetryDelay int retryDelay,
       @MaxRetries int maxRetries,
-      final CurrentUser currentUser ) {
+      final CurrentUser currentUser) {
     super(eventBus, tokenFormatter);
 
-    this.defaultPlaceRequest = new PlaceRequest( defaultPlaceNameToken );
+    this.defaultPlaceRequest = new PlaceRequest(defaultPlaceNameToken);
     this.currentUser = currentUser;
     this.retryDelay = retryDelay;    
     this.maxRetries = maxRetries;
 
-    this.retryTimer = new Timer(){
+    this.retryTimer = new Timer() {
       @Override
       public void run() {
         History.fireCurrentHistoryState();
       }    
     };
-
   }
 
   @Override
   public void revealDefaultPlace() {
-    revealPlace( defaultPlaceRequest );
+    revealPlace(defaultPlaceRequest);
   }
 
   /**
@@ -82,13 +81,13 @@ public class PuzzlebazarPlaceManager extends PlaceManagerImpl {
    * @see PlaceManagerImpl#revealErrorPlace(String)
    */
   @Override
-  public void revealErrorPlace( String invalidHistoryToken ) {
-    if( !currentUser.isConfirmed() && nbRetry < maxRetries ) {
+  public void revealErrorPlace(String invalidHistoryToken) {
+    if (!currentUser.isConfirmed() && nbRetry < maxRetries) {
       nbRetry++;
-      retryTimer.schedule( retryDelay );
-    } 
-    else
+      retryTimer.schedule(retryDelay);
+    } else {
       revealDefaultPlace();
+    }
   }
 
 }

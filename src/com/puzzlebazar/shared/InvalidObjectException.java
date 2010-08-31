@@ -18,6 +18,9 @@ package com.puzzlebazar.shared;
 
 import com.gwtplatform.dispatch.shared.ActionException;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class InvalidObjectException extends ActionException {
   private static final long serialVersionUID = 122392891138591897L;
   public InvalidObjectException() {

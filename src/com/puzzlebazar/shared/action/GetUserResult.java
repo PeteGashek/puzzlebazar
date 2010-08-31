@@ -19,6 +19,9 @@ package com.puzzlebazar.shared.action;
 import com.gwtplatform.dispatch.shared.Result;
 import com.puzzlebazar.shared.model.User;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class GetUserResult implements Result {
   
   private User userInfo;

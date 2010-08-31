@@ -32,6 +32,9 @@ import com.puzzlebazar.client.core.presenter.TopBarPresenter;
 import com.puzzlebazar.client.resources.Resources;
 import com.puzzlebazar.client.ui.TokenSeparatedList;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class TopBarView extends ViewImpl implements TopBarPresenter.MyView {
 
   interface Binder extends UiBinder<Widget, TopBarView> { }
@@ -63,15 +66,16 @@ public class TopBarView extends ViewImpl implements TopBarPresenter.MyView {
   @UiField
   Anchor signOut;
 
-  private boolean loggedIn = false;
-  private boolean isAdministrator = false;
-  private Command postSignInCallback = null;
+  private boolean loggedIn;
+  private boolean isAdministrator;
+  private Command postSignInCallback;
 
   @Inject
-  public TopBarView( Resources resources ) {
+  public TopBarView(Resources resources) {
     this.resources = resources;
     widget = binder.createAndBindUi(this);
-    signIn.getElement().setPropertyJSO( "onclick", getSignInFunction( "/openid/login?popup=true&provider=google" )  );
+    signIn.getElement().setPropertyJSO("onclick", 
+        getSignInFunction("/openid/login?popup=true&provider=google"));
     registerPostSignInCallback();
   }
 
@@ -81,7 +85,7 @@ public class TopBarView extends ViewImpl implements TopBarPresenter.MyView {
   }
 
   @Override
-  public void setLoggedIn(String username, boolean isAdministrator ) {
+  public void setLoggedIn(String username, boolean isAdministrator) {
     this.username.setText(username);
     loggedIn  = true;
     this.isAdministrator = isAdministrator;
@@ -97,16 +101,16 @@ public class TopBarView extends ViewImpl implements TopBarPresenter.MyView {
   }
 
   private void setLoggedInVisibility() {
-    bar.setWidgetVisible( notSignedIn, !loggedIn );
-    bar.setWidgetVisible( signIn, !loggedIn );
-    bar.setWidgetVisible( username, loggedIn );
-    bar.setWidgetVisible( settings, loggedIn );
-    bar.setWidgetVisible( administration, loggedIn && isAdministrator );
-    bar.setWidgetVisible( signOut, loggedIn );
+    bar.setWidgetVisible(notSignedIn, !loggedIn);
+    bar.setWidgetVisible(signIn, !loggedIn);
+    bar.setWidgetVisible(username, loggedIn);
+    bar.setWidgetVisible(settings, loggedIn);
+    bar.setWidgetVisible(administration, loggedIn && isAdministrator);
+    bar.setWidgetVisible(signOut, loggedIn);
   }
 
   @Override
-  public void setPostSignInCallback( Command postSignInCallback ) {
+  public void setPostSignInCallback(Command postSignInCallback) {
     // We directly override onClick, otherwise popup blockers will not allow the window to be created.
     this.postSignInCallback = postSignInCallback;
   }
@@ -124,7 +128,7 @@ public class TopBarView extends ViewImpl implements TopBarPresenter.MyView {
    * 
    * @param uri The URI where to direct the newly opened window.
    */
-  private native JavaScriptObject getSignInFunction( String uri ) /*-{
+  private native JavaScriptObject getSignInFunction(String uri) /*-{
     return function() { 
       var w = $wnd.open( uri, '', 'width=450,height=500,location=1,status=1,resizable=yes' );
       var width = @com.google.gwt.user.client.Window::getClientWidth()();
@@ -143,11 +147,11 @@ public class TopBarView extends ViewImpl implements TopBarPresenter.MyView {
       $wnd.signInCallback = function() { self.@com.puzzlebazar.client.core.view.TopBarView::signInSuccessfull()() };
   }-*/;
 
-
   @SuppressWarnings("unused")
   private void signInSuccessfull() {
-    if( postSignInCallback != null )
+    if (postSignInCallback != null) {
       this.postSignInCallback.execute();
+    }
   }
 
 }

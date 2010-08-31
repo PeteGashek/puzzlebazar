@@ -16,6 +16,9 @@
 
 package com.puzzlebazar.shared.util;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class KeyNotFoundException extends Exception {
 
   private static final long serialVersionUID = 5454125887107988069L;
@@ -24,7 +27,7 @@ public class KeyNotFoundException extends Exception {
     super();
   }
   
-  public KeyNotFoundException( String message ) {
+  public KeyNotFoundException(String message) {
     super(message);
   }
   

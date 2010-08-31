@@ -21,18 +21,21 @@ import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.proxy.ProxyFailureHandler;
 import com.puzzlebazar.client.resources.Translations;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class FailureHandlerAlert implements ProxyFailureHandler {
 
   private final Translations translations;
 
   @Inject
-  public FailureHandlerAlert( Translations translations ) {
+  public FailureHandlerAlert(Translations translations) {
     this.translations = translations;
   }
   
   @Override
   public void onFailedGetPresenter(Throwable caught) {
-    Window.alert( translations.codeLoadFailure() );
+    Window.alert(translations.codeLoadFailure());
   }
 
 }

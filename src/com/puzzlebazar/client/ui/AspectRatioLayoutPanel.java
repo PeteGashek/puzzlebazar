@@ -34,7 +34,7 @@ import com.google.gwt.user.client.ui.LayoutPanel;
  */
 public class AspectRatioLayoutPanel extends OverflowLayoutPanel {
 
-  private int border = 0;           // Allocated border space in pixel
+  private int border;               // Allocated border space in pixel (default = 0)
   private float aspectRatio = 1.0f; // This is the desired aspect ratio (width / height)
 
   /**
@@ -59,8 +59,9 @@ public class AspectRatioLayoutPanel extends OverflowLayoutPanel {
    */
   public void setBorder(int border) {
     this.border = border;
-    if( isAttached() )
+    if (isAttached()) {
       onResize();
+    }
   }
 
   /**
@@ -78,71 +79,70 @@ public class AspectRatioLayoutPanel extends OverflowLayoutPanel {
    * 
    * @param aspectRatio The desired aspect ratio.
    */
-  public void setAspectRatio( float aspectRatio ) {
+  public void setAspectRatio(float aspectRatio) {
     assert aspectRatio > 0 : "Aspect ratio must be positive and non-zero!";
     this.aspectRatio = aspectRatio;
-    if( isAttached() )
-      onResize();    
+    if (isAttached()) {
+      onResize();
+    }    
   }
   
   @Override
   public void onLoad() {
     super.onLoad();
-    assert (getParent() instanceof LayoutPanel) : "AspectRatioLayoutPanel must be inserted in a LayoutPanel!";
-    DeferredCommand.addCommand( new Command() {
+    assert getParent() instanceof LayoutPanel : "AspectRatioLayoutPanel must be inserted in a LayoutPanel!";
+    DeferredCommand.addCommand(new Command() {
       @Override
       public void execute() {
         onResize();        
       }
-    } );
+    });
   }
 
   @Override
   public void onResize() {
-    LayoutPanel parent = (LayoutPanel)getParent();
+    LayoutPanel parent = (LayoutPanel) getParent();
 
     // Compute width and height available for inside area
     int parentWidth  = parent.getOffsetWidth();
     int parentHeight = parent.getOffsetHeight();
-    int availableWidth  = parentWidth - 2*border; 
-    int availableHeight = parentHeight - 2*border;
+    int availableWidth  = parentWidth - 2 * border; 
+    int availableHeight = parentHeight - 2 * border;
     
-    if( availableWidth > 0 && availableHeight > 0 ) {
-      float parentRatio = (float)availableWidth/(float)availableHeight;
-      if( parentRatio < aspectRatio ) {
+    if (availableWidth > 0 && availableHeight > 0) {
+      float parentRatio = (float) availableWidth / (float) availableHeight;
+      if (parentRatio < aspectRatio) {
         // availableWidth/availableHeight < desiredWidth/desiredHeight
         // Set desiredWidth = availableWidth  ==>  availableHeight > desiredHeight (good!)
         // Then desiredHeight = availableWidth / aspectRatio
-        int desiredHeight = (int)(availableWidth / aspectRatio);
+        int desiredHeight = (int) (availableWidth / aspectRatio);
         parent.setWidgetLeftRight(this, 0, Unit.PX, 0, Unit.PX);
-        parent.setWidgetTopHeight(this, (parentHeight - desiredHeight)/2 - border, Unit.PX, 
-            desiredHeight + 2*border, Unit.PX);
-      }
-      else {
+        parent.setWidgetTopHeight(this, (parentHeight - desiredHeight) / 2 - border, Unit.PX, 
+            desiredHeight + 2 * border, Unit.PX);
+      } else {
         // availableWidth/availableHeight > desiredWidth/desiredHeight
         // Set desiredHeight = availableHeight  ==>  availableWidth > desiredWidth (good!)
         // Then desiredWidth = availableHeight * aspectRatio     
-        int desiredWidth = (int)(availableHeight * aspectRatio);
+        int desiredWidth = (int) (availableHeight * aspectRatio);
         parent.setWidgetTopBottom(this, 0, Unit.PX, 0, Unit.PX);
-        parent.setWidgetLeftWidth(this, (parentWidth - desiredWidth)/2 - border, Unit.PX, 
-            desiredWidth + 2*border, Unit.PX);      
+        parent.setWidgetLeftWidth(this, (parentWidth - desiredWidth) / 2 - border, Unit.PX, 
+            desiredWidth + 2 * border, Unit.PX);      
       }
-    }
-    else {
+    } else {
       // Not enough room for inside area, border takes up everything.      
-      if( parentWidth < parentHeight ) {
+      if (parentWidth < parentHeight) {
         // parentWidth is smaller, allocate parentWidth x parentWidth
         parent.setWidgetLeftRight(this, 0, Unit.PX, 0, Unit.PX);
-        parent.setWidgetTopHeight(this, (parentHeight - parentWidth)/2, Unit.PX, parentWidth, Unit.PX);        
-      }
-      else {
+        parent.setWidgetTopHeight(this, (parentHeight - parentWidth) / 2,
+            Unit.PX, parentWidth, Unit.PX);
+      } else {
         // parentHeight is smaller, allocate parentHeight x parentHeight
         parent.setWidgetTopBottom(this, 0, Unit.PX, 0, Unit.PX);
-        parent.setWidgetLeftWidth(this, (parentWidth - parentHeight)/2, Unit.PX, parentHeight, Unit.PX);        
+        parent.setWidgetLeftWidth(this, (parentWidth - parentHeight) / 2,
+            Unit.PX, parentHeight, Unit.PX);
       }
     }
     super.onResize();
   }
-
 
 }

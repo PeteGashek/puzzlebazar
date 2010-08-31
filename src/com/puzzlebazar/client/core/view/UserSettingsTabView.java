@@ -26,6 +26,9 @@ import com.gwtplatform.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.UserSettingsTabPresenter;
 import com.puzzlebazar.client.ui.SimpleTabPanel;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class UserSettingsTabView extends ViewImpl implements UserSettingsTabPresenter.MyView {
 
   interface Binder extends UiBinder<Widget, UserSettingsTabView> { }
@@ -47,7 +50,7 @@ public class UserSettingsTabView extends ViewImpl implements UserSettingsTabPres
   }
   
   @Override
-  public Tab addTab( String tabName, String historyToken, float priority ) {
+  public Tab addTab(String tabName, String historyToken, float priority) {
     return tabPanel.addTab(tabName, historyToken, priority);
   }
 
@@ -68,11 +71,11 @@ public class UserSettingsTabView extends ViewImpl implements UserSettingsTabPres
 
   @Override
   public void setContent(Object slot, Widget content) {
-    if( slot == UserSettingsTabPresenter.TYPE_RevealTabContent )
+    if (slot == UserSettingsTabPresenter.TYPE_RevealTabContent) {
       tabPanel.setPanelContent(content);
-    else
+    } else {
       super.setInSlot(slot, content);
+    }
   }
-
 
 }

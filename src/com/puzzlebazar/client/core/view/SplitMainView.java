@@ -27,6 +27,9 @@ import com.puzzlebazar.client.core.presenter.SplitMainPresenter;
 import com.puzzlebazar.client.resources.Resources;
 import com.puzzlebazar.client.ui.ShortMessageBox;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class SplitMainView extends ViewImpl implements SplitMainPresenter.MyView {
 
   interface Binder extends UiBinder<Widget, SplitMainView> { }
@@ -47,7 +50,7 @@ public class SplitMainView extends ViewImpl implements SplitMainPresenter.MyView
   final Resources resources;  
   
   @Inject
-  public SplitMainView( Resources resources ) {
+  public SplitMainView(Resources resources) {
     this.resources = resources;
     widget = binder.createAndBindUi(this);
   }
@@ -58,33 +61,35 @@ public class SplitMainView extends ViewImpl implements SplitMainPresenter.MyView
   }
 
   @Override
-  public void setContent(Object slot, Widget content) {
-    if( slot == SplitMainPresenter.TYPE_RevealSideBarContent ) 
-      setSideBarContent( content );
-    else if( slot == SplitMainPresenter.TYPE_RevealCenterContent ) 
-      setCenterContent( content );
-    else
+  public void setInSlot(Object slot, Widget content) {
+    if (slot == SplitMainPresenter.TYPE_RevealSideBarContent) {
+      setSideBarContent(content);
+    } else if (slot == SplitMainPresenter.TYPE_RevealCenterContent) {
+      setCenterContent(content);
+    } else {
       super.setInSlot(slot, content);
+    }
   }
     
   private void setSideBarContent(Widget sideBarContent) {
     sideBarContainer.clear();
-    if( sideBarContent != null )
-      sideBarContainer.add( sideBarContent );
+    if (sideBarContent != null) {
+      sideBarContainer.add(sideBarContent);
+    }
   }
 
   private void setCenterContent(Widget centerContent) {
     centerContentContainer.clear();
-    if( centerContent != null )
-      centerContentContainer.add( centerContent );
+    if (centerContent != null) {
+      centerContentContainer.add(centerContent);
+    }
   }
 
   @Override
   public void showMessage(Widget message, boolean dismissable) {
     // TODO Take dismissable into account
-    shortMessageBox.setMessageWidget( message );
+    shortMessageBox.setMessageWidget(message);
   }
-
 
   @Override
   public void clearMessage() {

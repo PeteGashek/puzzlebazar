@@ -42,7 +42,7 @@ public class DeleteHeyawakeRoomMove extends CreateHeyawakeRoomMove {
    * @param room The {@link HeyawakeRoom} to delete. It must contain all the information
    *             of the room so that undo can work correctly, not just the room rectangle.
    */
-  public DeleteHeyawakeRoomMove( HeyawakeRoom room ) {
+  public DeleteHeyawakeRoomMove(HeyawakeRoom room) {
     super(room);
   }
 

@@ -26,6 +26,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.Tab;
 import com.gwtplatform.mvp.client.TabPanel;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public abstract class BaseTabPanel extends Composite implements TabPanel {
 
   @UiField
@@ -35,7 +38,7 @@ public abstract class BaseTabPanel extends Composite implements TabPanel {
   FlowPanel tabContentContainer;
 
   private final List<Tab> tabList = new ArrayList<Tab>();
-  Tab currentActiveTab = null;
+  Tab currentActiveTab;
   
   public BaseTabPanel() {
     super();
@@ -43,39 +46,42 @@ public abstract class BaseTabPanel extends Composite implements TabPanel {
 
   @Override
   public Tab addTab(String text, String historyToken, float priority) {
-    Tab newTab = CreateNewTab( priority );
+    Tab newTab = createNewTab(priority);
     int beforeIndex;
-    for( beforeIndex = 0; beforeIndex < tabList.size(); ++beforeIndex )
-      if(newTab.getPriority() < tabList.get(beforeIndex).getPriority())
+    for (beforeIndex = 0; beforeIndex < tabList.size(); ++beforeIndex) {
+      if (newTab.getPriority() < tabList.get(beforeIndex).getPriority()) {
         break;
+      }
+    }
     tabPanel.insert(newTab.asWidget(), beforeIndex);
-    tabList.add( beforeIndex, newTab );
-    newTab.setText( text );
-    newTab.setTargetHistoryToken( historyToken );
+    tabList.add(beforeIndex, newTab);
+    newTab.setText(text);
+    newTab.setTargetHistoryToken(historyToken);
     return newTab;
   }
 
-
   @Override
   public void removeTab(Tab tab) {
-    tabPanel.getElement().removeChild( tab.asWidget().getElement() );
-    tabList.remove( tab );
+    tabPanel.getElement().removeChild(tab.asWidget().getElement());
+    tabList.remove(tab);
   }
 
   @Override
   public void removeTabs() {
-    for( Tab tab : tabList )
-      tabPanel.getElement().removeChild( tab.asWidget().getElement() );
+    for (Tab tab : tabList) {
+      tabPanel.getElement().removeChild(tab.asWidget().getElement());
+    }
     tabList.clear();
   }
 
-
   @Override
   public void setActiveTab(Tab tab) {
-    if( currentActiveTab != null )
+    if (currentActiveTab != null) {
       currentActiveTab.deactivate();
-    if( tab != null )
+    }
+    if (tab != null) {
       tab.activate();
+    }
     currentActiveTab = tab;
   }
 
@@ -86,8 +92,9 @@ public abstract class BaseTabPanel extends Composite implements TabPanel {
    */
   public void setPanelContent(Widget panelContent) {
     tabContentContainer.clear();
-    if( panelContent != null )
-      tabContentContainer.add( panelContent );
+    if (panelContent != null) {
+      tabContentContainer.add(panelContent);
+    }
   }
 
   /**
@@ -96,6 +103,6 @@ public abstract class BaseTabPanel extends Composite implements TabPanel {
    * @param priority The desired priority of the new tab.
    * @return The new tab.
    */
-  protected abstract Tab CreateNewTab(float priority);  
+  protected abstract Tab createNewTab(float priority);  
 
 }

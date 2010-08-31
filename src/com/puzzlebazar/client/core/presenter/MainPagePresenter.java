@@ -41,11 +41,17 @@ extends Presenter<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
 
   public static final Object TYPE_RevealNewsContent = new Object();
 
-  public interface MyView extends View {}
+  /**
+   * The presenter's view.
+   */
+  public interface MyView extends View { }
 
+  /**
+   * The presenter's proxy.
+   */
   @ProxyStandard
-  @NameToken( NameTokens.mainPage )
-  public interface MyProxy extends ProxyPlace<MainPagePresenter> {}
+  @NameToken(NameTokens.mainPage)
+  public interface MyProxy extends ProxyPlace<MainPagePresenter> { }
 
   private final ProxyFailureHandler failureHandler;
   private final IndirectProvider<NewsItemPresenter> newsItemFactory;
@@ -56,8 +62,8 @@ extends Presenter<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
       final EventBus eventBus, 
       final MyView view,  
       final MyProxy proxy,
-      final AsyncProvider<NewsItemPresenter> newsItemFactory ) {
-    super( eventBus, view, proxy );
+      final AsyncProvider<NewsItemPresenter> newsItemFactory) {
+    super(eventBus, view, proxy);
     this.failureHandler = failureHandler;
     this.newsItemFactory = new CodeSplitProvider<NewsItemPresenter>(newsItemFactory);
   }
@@ -68,7 +74,7 @@ extends Presenter<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
   }
 
   // TODO Temporary
-  private int index = 0;
+  private int index;
 
   @Override
   protected void onReveal() {
@@ -76,21 +82,20 @@ extends Presenter<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
     // TODO This is a temporary demonstration showing how to use PresenterWidget
     //      it will add news items every time the main page is reloaded
 
-    for( int i=0; i<3; ++i ) {
-      newsItemFactory.get( new AsyncCallback<NewsItemPresenter>(){
+    for (int i = 0; i < 3; ++i) {
+      newsItemFactory.get(new AsyncCallback<NewsItemPresenter>() {
         @Override
         public void onFailure(Throwable caught) {
           failureHandler.onFailedGetPresenter(caught);
         }
         @Override
         public void onSuccess(NewsItemPresenter newsItemPresenter) {
-          newsItemPresenter.setTitle( "Title " + index );
+          newsItemPresenter.setTitle("Title " + index);
           index++;
-          addToSlot( TYPE_RevealNewsContent, newsItemPresenter );
+          addToSlot(TYPE_RevealNewsContent, newsItemPresenter);
         }
-      } );
+      });
     }
   }
-
 
 }

@@ -18,9 +18,13 @@ package com.puzzlebazar.client.ui;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import com.puzzlebazar.shared.util.Recti;
 import com.puzzlebazar.shared.util.Vec2i;
 
+/**
+ * @param <H> The type of the {@link EventHandler}.
+ * 
+ * @author Philippe Beaudoin
+ */
 public abstract class EdgeEvent<H extends EventHandler> extends GwtEvent<H> {
 
   public final boolean vertical;
@@ -35,7 +39,7 @@ public abstract class EdgeEvent<H extends EventHandler> extends GwtEvent<H> {
    *     For vertical edges, x must be a vertex coordinate and y must be a cell coordinate.
    *     For horizontal edges, x must be a cell coordinate and y must be a vertex coordinate.
    */
-  public EdgeEvent( boolean vertical, Vec2i edge ) {
+  public EdgeEvent(boolean vertical, Vec2i edge) {
     this.vertical = vertical;
     this.edge = edge;
   }

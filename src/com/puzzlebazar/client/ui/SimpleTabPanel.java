@@ -49,9 +49,9 @@ public class SimpleTabPanel extends BaseTabPanel {
    * @param title The title to display on the panel
    */
   @UiConstructor 
-  public SimpleTabPanel( String title ) {
-    initWidget( binder.createAndBindUi( this ) );
-    this.title.setText( title );
+  public SimpleTabPanel(String title) {
+    initWidget(binder.createAndBindUi(this));
+    this.title.setText(title);
   }
 
   @UiFactory
@@ -60,7 +60,7 @@ public class SimpleTabPanel extends BaseTabPanel {
   }
 
   @Override
-  protected Tab CreateNewTab(float priority) {
+  protected Tab createNewTab(float priority) {
     return new SimpleTab(priority);
   }
   

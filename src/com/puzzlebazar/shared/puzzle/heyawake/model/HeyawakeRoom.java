@@ -27,7 +27,7 @@ import com.puzzlebazar.shared.util.Recti;
  */
 public interface HeyawakeRoom extends Serializable {
 
-  public static final int UNKNOWN_ROOM_VALUE = -1;
+  int UNKNOWN_ROOM_VALUE = -1;
   
   /**
    * Access the value of the room, that is, how many filled cells it should contain.
@@ -35,7 +35,7 @@ public interface HeyawakeRoom extends Serializable {
    * 
    * @return The value of the room, an integer, or {@link #UNKNOWN_ROOM_VALUE} if the value is unknown.
    */
-  public int getRoomValue();
+  int getRoomValue();
   
   /**
    * Returns the rectangle that represents the cells contained in the room. See
@@ -43,6 +43,6 @@ public interface HeyawakeRoom extends Serializable {
    * 
    * @return The rectangle representing the room, a {@link Recti}.
    */
-  public Recti getRoomRect();
+  Recti getRoomRect();
   
 }

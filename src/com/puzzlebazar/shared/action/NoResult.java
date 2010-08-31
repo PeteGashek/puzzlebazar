@@ -18,6 +18,9 @@ package com.puzzlebazar.shared.action;
 
 import com.gwtplatform.dispatch.shared.Result;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class NoResult implements Result {
 
   public NoResult() {

@@ -41,6 +41,9 @@ import com.puzzlebazar.client.core.presenter.UserSettingsGeneralPresenter;
 import com.puzzlebazar.client.resources.Resources;
 import com.puzzlebazar.client.resources.Translations;
 
+/**
+ * @author Philippe Beaudoin
+ */
 @GinModules({ DispatchAsyncModule.class, PuzzlebazarClientModule.class })
 public interface PuzzlebazarGinjector extends Ginjector {
 

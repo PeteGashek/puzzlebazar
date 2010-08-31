@@ -36,7 +36,7 @@ public class EdgeHitInfo {
   public EdgeHitInfo(
       boolean vertical,
       Vec2i edge,
-      int dist ) {
+      int dist) {
     this.vertical = vertical;
     this.edge = edge;
     this.dist = dist;

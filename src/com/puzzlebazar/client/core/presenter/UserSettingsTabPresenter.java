@@ -29,7 +29,6 @@ import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 
-
 /**
  * This is a tabbed presenter that will contain the different tabs 
  * for user settings page.
@@ -44,19 +43,25 @@ public class UserSettingsTabPresenter extends TabContainerPresenter<UserSettings
   @RequestTabs
   public static final Type<RequestTabsHandler> TYPE_RequestTabs = new Type<RequestTabsHandler>();
   
-  public interface MyView extends TabView {}
+  /**
+   * The presenter's view.
+   */
+  public interface MyView extends TabView { }
 
+  /**
+   * The presenter's proxy.
+   */
   @ProxyCodeSplitBundle(
       bundleClass = TabbedPresenterBundle.class, 
-      id = TabbedPresenterBundle.ID_UserSettingsTabPresenter )
-  public interface MyProxy extends Proxy<UserSettingsTabPresenter> {}
+      id = TabbedPresenterBundle.ID_UserSettingsTabPresenter)
+  public interface MyProxy extends Proxy<UserSettingsTabPresenter> { }
   
   @Inject
   public UserSettingsTabPresenter(
       final EventBus eventBus, 
       final MyView view, 
-      final MyProxy proxy ) {
-    super(eventBus, view, proxy, TYPE_RevealTabContent, TYPE_RequestTabs );   
+      final MyProxy proxy) {
+    super(eventBus, view, proxy, TYPE_RevealTabContent, TYPE_RequestTabs);   
   }
 
   @Override

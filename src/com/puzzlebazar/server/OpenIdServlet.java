@@ -37,75 +37,63 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.puzzlebazar.server.model.UserDAO;
 
+/**
+ * @author Philippe Beaudoin
+ */
 @Singleton
-public class OpenIdServlet extends HttpServlet
-{
-  /**
-   * 
-   */
+public class OpenIdServlet extends HttpServlet {
+
   private static final long serialVersionUID = 6314103753523555658L;
   
   private static final String CLOSE_POPUP_URI = "/openid/ClosePopup.html";
   private final Provider<UserDAO> userDAO;
 
   @Inject
-  public OpenIdServlet( Provider<UserDAO> userDAO ) {
+  public OpenIdServlet(Provider<UserDAO> userDAO) {
     this.userDAO = userDAO;
   }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
-  throws IOException, ServletException
-  {
+  throws IOException, ServletException {
     doPost(request, response);
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
-  throws IOException, ServletException
-  {
+  throws IOException, ServletException {
     String provider = request.getParameter("provider");
-    if(provider!=null)
-    {
+    if (provider != null) {
       // If the ui supplies a number of buttons for default providers. 
       // This will speed up the openid process by skipping discovery. 
       // The override is done by adding the OpenIdUser to the request attribute.
-      if(provider.equals("google"))
-      {
+      if (provider.equals("google")) {
         OpenIdUser user = OpenIdUser.populate("https://www.google.com/accounts/o8/id", 
             YadisDiscovery.IDENTIFIER_SELECT,   
         "https://www.google.com/accounts/o8/ud");
         request.setAttribute(OpenIdUser.ATTR_NAME, user);
-
-      }
-      else if(provider.equals("yahoo"))
-      {
+      } else if (provider.equals("yahoo")) {
         OpenIdUser user = OpenIdUser.populate("http://yahoo.com/", 
             YadisDiscovery.IDENTIFIER_SELECT, 
         "https://open.login.yahooapis.com/openid/op/auth");
         request.setAttribute(OpenIdUser.ATTR_NAME, user);
       }
-    }    
-
+    }
 
     RelyingParty relyingParty = RelyingParty.getInstance();
 
     String errorMsg = OpenIdServletFilter.DEFAULT_ERROR_MSG;
-    try
-    {
+    try {
       OpenIdUser user = relyingParty.discover(request);
-      if(user==null)
-      {                
-        if(RelyingParty.isAuthResponse(request))
-        {
+      if (user == null) {                
+        if (RelyingParty.isAuthResponse(request)) {
           // authentication timeout                    
           response.sendRedirect(request.getRequestURI());
-        }
-        else
-        {
+        } else {
           // set error msg if the openid_identifier is not resolved.
-          if(request.getParameter(relyingParty.getIdentifierParameter())!=null)
+          if (request.getParameter(relyingParty.getIdentifierParameter()) != null) {
             request.setAttribute(OpenIdServletFilter.ERROR_MSG_ATTR, errorMsg);
+          }
 
           // TODO: Simply close the window? Alert?
           request.getRequestDispatcher(CLOSE_POPUP_URI).forward(request, response);
@@ -113,26 +101,21 @@ public class OpenIdServlet extends HttpServlet
         return;
       }
 
-      if(user.isAuthenticated())
-      {
+      if (user.isAuthenticated()) {
         // user already authenticated
         request.getRequestDispatcher(CLOSE_POPUP_URI).forward(request, response);
         return;
       }
 
-      if(user.isAssociated() && RelyingParty.isAuthResponse(request))
-      {
+      if (user.isAssociated() && RelyingParty.isAuthResponse(request)) {
         // verify authentication
-        if(relyingParty.verifyAuth(user, request, response))
-        {
+        if (relyingParty.verifyAuth(user, request, response)) {
           // authenticated                    
-          userDAO.get().setSessionUser( user );
+          userDAO.get().setSessionUser(user);
           
           // redirect to home to remove the query params instead of doing:
           request.getRequestDispatcher(CLOSE_POPUP_URI).forward(request, response);
-        }
-        else
-        {
+        } else {
           // failed verification
 
           // TODO: Simply close the window? Alert?
@@ -146,24 +129,17 @@ public class OpenIdServlet extends HttpServlet
       String trustRoot = url.substring(0, url.indexOf("/", 9));
       String realm = url.substring(0, url.lastIndexOf("/"));
       String returnTo = url.toString();            
-      if(relyingParty.associateAndAuthenticate(user, request, response, trustRoot, realm, 
-          returnTo))
-      {
+      if (relyingParty.associateAndAuthenticate(user, request, response, trustRoot, realm, 
+          returnTo)) {
         return;
       }          
-    }
-    catch(UnknownHostException uhe)
-    {
+    } catch (UnknownHostException uhe) {
       System.err.println("not found");
       errorMsg = OpenIdServletFilter.ID_NOT_FOUND_MSG;
-    }
-    catch(FileNotFoundException fnfe)
-    {
+    } catch (FileNotFoundException fnfe) {
       System.err.println("could not be resolved");
       errorMsg = OpenIdServletFilter.DEFAULT_ERROR_MSG;
-    }
-    catch(Exception e)
-    {
+    } catch (Exception e) {
       e.printStackTrace();
       errorMsg = OpenIdServletFilter.DEFAULT_ERROR_MSG;
     }
@@ -186,16 +162,13 @@ public class OpenIdServlet extends HttpServlet
     .addListener(new RelyingParty.Listener()
     {
       @Override
-      public void onDiscovery(OpenIdUser user, HttpServletRequest request)
-      {
+      public void onDiscovery(OpenIdUser user, HttpServletRequest request) {
       }            
 
       @Override
       public void onPreAuthenticate(OpenIdUser user, HttpServletRequest request,
-          UrlEncodedParameterMap params)
-      {
-        if("true".equals(request.getParameter("popup")))
-        {                
+          UrlEncodedParameterMap params) {
+        if ("true".equals(request.getParameter("popup"))) {                
           String returnTo = params.get(Constants.OPENID_TRUST_ROOT) + request.getRequestURI();                    
           params.put(Constants.OPENID_RETURN_TO, returnTo);
           params.put(Constants.OPENID_REALM, returnTo);                    
@@ -205,17 +178,13 @@ public class OpenIdServlet extends HttpServlet
       }            
 
       @Override
-      public void onAuthenticate(OpenIdUser user, HttpServletRequest request)
-      {
+      public void onAuthenticate(OpenIdUser user, HttpServletRequest request) {
       }            
 
       @Override
-      public void onAccess(OpenIdUser user, HttpServletRequest request)
-      {
+      public void onAccess(OpenIdUser user, HttpServletRequest request) {
       }  
     });
-
   }
-
 
 }

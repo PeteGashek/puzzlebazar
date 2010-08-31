@@ -19,6 +19,9 @@ package com.puzzlebazar.shared.action;
 import com.gwtplatform.dispatch.shared.Result;
 import com.puzzlebazar.shared.puzzle.heyawake.model.HeyawakePuzzle;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class CreateNewPuzzleResult implements Result {
   
   // TODO This should really be a generic puzzle type

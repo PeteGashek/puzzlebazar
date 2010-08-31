@@ -46,7 +46,5 @@ public class EmailToUser {
   public Key<UserImpl> getUserKey() {
     return userKey;
   }
- 
-  
-  
+
 }

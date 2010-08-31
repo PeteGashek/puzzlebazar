@@ -38,7 +38,7 @@ public class RoundTab extends BaseTab {
   
   @UiConstructor RoundTab(float priority) {
     super(priority);
-    initWidget( binder.createAndBindUi( this ) );
+    initWidget(binder.createAndBindUi(this));
   }
 
   @UiFactory

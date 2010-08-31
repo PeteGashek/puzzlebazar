@@ -26,6 +26,9 @@ import com.gwtplatform.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.AdminTabPresenter;
 import com.puzzlebazar.client.ui.SimpleTabPanel;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class AdminTabView extends ViewImpl implements AdminTabPresenter.MyView {
   
   interface Binder extends UiBinder<Widget, AdminTabView> { }
@@ -47,7 +50,7 @@ public class AdminTabView extends ViewImpl implements AdminTabPresenter.MyView {
   }
 
   @Override
-  public Tab addTab( String tabName, String historyToken, float priority ) {
+  public Tab addTab(String tabName, String historyToken, float priority) {
     return tabPanel.addTab(tabName, historyToken, priority);
   }
 
@@ -67,12 +70,12 @@ public class AdminTabView extends ViewImpl implements AdminTabPresenter.MyView {
   }
 
   @Override
-  public void setContent(Object slot, Widget content) {
-    if( slot == AdminTabPresenter.TYPE_RevealTabContent )
+  public void setInSlot(Object slot, Widget content) {
+    if (slot == AdminTabPresenter.TYPE_RevealTabContent) {
       tabPanel.setPanelContent(content);
-    else
+    } else {
       super.setInSlot(slot, content);
+    }
   }
-
 
 }

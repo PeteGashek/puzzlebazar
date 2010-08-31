@@ -25,6 +25,9 @@ import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.MainPagePresenter;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class MainPageView extends ViewImpl implements MainPagePresenter.MyView {
 
   interface Binder extends UiBinder<Widget, MainPageView> { }
@@ -46,22 +49,25 @@ public class MainPageView extends ViewImpl implements MainPagePresenter.MyView {
   }
   
   @Override
-  public void addContent(Object slot, Widget content) {
+  public void addToSlot(Object slot, Widget content) {
     assert content != null : "Cannot add null content.";
-    if( slot == MainPagePresenter.TYPE_RevealNewsContent )
-      newsPanel.add( content );
-    else
+    if (slot == MainPagePresenter.TYPE_RevealNewsContent) {
+      newsPanel.add(content);
+    } else {
       super.addToSlot(slot, content);
+    }
   }
 
   @Override
-  public void setContent(Object slot, Widget content) {
-    if( slot == MainPagePresenter.TYPE_RevealNewsContent ) {
+  public void setInSlot(Object slot, Widget content) {
+    if (slot == MainPagePresenter.TYPE_RevealNewsContent) {
       newsPanel.clear();
-      if( content != null )
-        addContent( slot, content );
-    } else
+      if (content != null) {
+        addToSlot(slot, content);
+      }
+    } else {
       super.setInSlot(slot, content);
+    }
   }
 
 }

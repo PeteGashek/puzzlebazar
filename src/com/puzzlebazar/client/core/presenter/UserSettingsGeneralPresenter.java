@@ -56,6 +56,9 @@ public class UserSettingsGeneralPresenter
 extends Presenter<UserSettingsGeneralPresenter.MyView, UserSettingsGeneralPresenter.MyProxy>
 implements MonitorHandler  {
 
+  /**
+   * The presenter's view.
+   */
   public interface MyView extends View {
     HasText getEmail();
     HasText getNickname();
@@ -71,14 +74,17 @@ implements MonitorHandler  {
     Widget getUndoSuccessMessage();
   }
 
+  /**
+   * The presenter's proxy.
+   */
   @ProxyCodeSplit
-  @NameToken( NameTokens.userSettingsGeneral )
-  @UseGatekeeper( LoggedInGatekeeper.class )
+  @NameToken(NameTokens.userSettingsGeneral)
+  @UseGatekeeper(LoggedInGatekeeper.class)
   @TabInfo(
       container = UserSettingsTabPresenter.class, 
       priority = 0, 
-      getLabel="ginjector.getTranslations().tabGeneral()" )
-      public interface MyProxy extends TabContentProxyPlace<UserSettingsGeneralPresenter> {}
+      getLabel = "ginjector.getTranslations().tabGeneral()")
+      public interface MyProxy extends TabContentProxyPlace<UserSettingsGeneralPresenter> { }
 
   private final DispatchAsync dispatcher;
   private final PlaceManager placeManager;
@@ -87,8 +93,8 @@ implements MonitorHandler  {
   private final ChangeMonitor changeMonitor;
   private final Translations translations;
 
-  private HandlerRegistration undoHandlerRegistration = null;  
-  private HandlerRegistration redoHandlerRegistration = null;  
+  private HandlerRegistration undoHandlerRegistration;  
+  private HandlerRegistration redoHandlerRegistration;  
 
   @Inject
   public UserSettingsGeneralPresenter(
@@ -100,37 +106,37 @@ implements MonitorHandler  {
       final AvailableLocales availableLocales,
       final CurrentUser currentUser,
       final ChangeMonitor changeMonitor,
-      final Translations translations ) {
-    super(eventBus, view, proxy );
+      final Translations translations) {
+    super(eventBus, view, proxy);
     this.dispatcher = dispatcher;
     this.placeManager = placeManager;
     this.availableLocales = availableLocales;
     this.currentUser = currentUser;
     this.changeMonitor = changeMonitor;
     this.translations = translations;
-    changeMonitor.setHandler( this );
+    changeMonitor.setHandler(this);
   }
 
   @Override
   protected void onBind() {
     super.onBind();
-    registerHandler( getView().getApply().addClickHandler(
+    registerHandler(getView().getApply().addClickHandler(
         new ClickHandler() {          
           @Override
           public void onClick(ClickEvent event) {
             apply();
           }
-        } ) );
-    registerHandler( getView().getCancel().addClickHandler(
+        }));
+    registerHandler(getView().getCancel().addClickHandler(
         new ClickHandler() {          
           @Override
           public void onClick(ClickEvent event) {
             cancel();
           }
-        } ) );
+        }));
 
-    for( int i=0; i < availableLocales.getNbLocales(); ++i ) {
-      getView().addLanguage( availableLocales.getLocale(i).getName() );
+    for (int i = 0; i < availableLocales.getNbLocales(); ++i) {
+      getView().addLanguage(availableLocales.getLocale(i).getName());
     }
   }
 
@@ -140,20 +146,21 @@ implements MonitorHandler  {
     fillView();
     MyView view = getView();
     changeMonitor.bind();    
-    changeMonitor.monitorWidget( view.getNickname() );
-    changeMonitor.monitorWidget( view.getRealName() );
-    changeMonitor.monitorWidget( view.getLanguage() );
+    changeMonitor.monitorWidget(view.getNickname());
+    changeMonitor.monitorWidget(view.getRealName());
+    changeMonitor.monitorWidget(view.getLanguage());
   }
 
   private void fillView() {
     MyView view = getView();
     int localeIndex = availableLocales.findLocaleIndex(currentUser.getLocale());
-    if( localeIndex < 0 )
+    if (localeIndex < 0) {
       localeIndex = availableLocales.getDefaultLocaleIndex();
-    view.getEmail().setText( currentUser.getEmail() );
-    view.getNickname().setText( currentUser.getNickname() );
-    view.getRealName().setText( currentUser.getRealName() );
-    view.getLanguage().setSelectedIndex( localeIndex );
+    }
+    view.getEmail().setText(currentUser.getEmail());
+    view.getNickname().setText(currentUser.getNickname());
+    view.getRealName().setText(currentUser.getRealName());
+    view.getLanguage().setSelectedIndex(localeIndex);
     view.setApplyEnabled(false);
   }
 
@@ -184,13 +191,12 @@ implements MonitorHandler  {
     MyView view = getView();
     int localeIndex = view.getLanguage().getSelectedIndex();
     final User newUser = currentUser.getUserCopy();    
-    newUser.setNickname( view.getNickname().getText() );
-    newUser.setRealname( view.getRealName().getText() );
-    newUser.setLocale( availableLocales.getLocale(localeIndex).getLocale() );
+    newUser.setNickname(view.getNickname().getText());
+    newUser.setRealname(view.getRealName().getText());
+    newUser.setLocale(availableLocales.getLocale(localeIndex).getLocale());
     final EditUserAction action = new EditUserAction(newUser, currentUser.getUserCopy());
 
-    execute( action );
-
+    execute(action);
   }
 
   private void cancel() {
@@ -198,17 +204,17 @@ implements MonitorHandler  {
     placeManager.navigateBack();
   }
 
-
   private void execute(final EditUserAction action) {
 
-    dispatcher.execute(action, new ActionCallback<NoResult>(translations.operationFailedRetry()){
+    dispatcher.execute(action, new ActionCallback<NoResult>(translations.operationFailedRetry()) {
 
       @Override
       public void onSuccess(final NoResult result) {
-        currentUser.setUser( action.getUser() );
+        currentUser.setUser(action.getUser());
         fillView();
-        if( undoHandlerRegistration != null )
+        if (undoHandlerRegistration != null) {
           undoHandlerRegistration.removeHandler();
+        }
 
         undoHandlerRegistration = getView().getUndo().addClickHandler(
             new ClickHandler() {          
@@ -216,26 +222,26 @@ implements MonitorHandler  {
               public void onClick(ClickEvent event) {
                 undo(action, result);
               }
-            } );
-
+            });
 
         DisplayShortMessageEvent.fireMessage(UserSettingsGeneralPresenter.this, 
-            getView().getExecuteSuccessMessage() );
+            getView().getExecuteSuccessMessage());
         changeMonitor.reset();
       }
 
-    }  );  
+    });  
   }
   
   private void undo(final EditUserAction action, NoResult result) {
-    dispatcher.undo(action, result, new ActionCallback<Void>(translations.operationFailedRetry()){
+    dispatcher.undo(action, result, new ActionCallback<Void>(translations.operationFailedRetry()) {
 
       @Override
       public void onSuccess(final Void voidResult) {
-        currentUser.setUser( action.getPreviousUser() );
+        currentUser.setUser(action.getPreviousUser());
         fillView();
-        if( redoHandlerRegistration != null )
+        if (redoHandlerRegistration != null) {
           redoHandlerRegistration.removeHandler();
+        }
 
         redoHandlerRegistration = getView().getRedo().addClickHandler(
             new ClickHandler() {          
@@ -243,13 +249,13 @@ implements MonitorHandler  {
               public void onClick(ClickEvent event) {
                 execute(action);
               }
-            } );
+            });
 
         DisplayShortMessageEvent.fireMessage(UserSettingsGeneralPresenter.this, 
-            getView().getUndoSuccessMessage() );
+            getView().getUndoSuccessMessage());
         changeMonitor.reset();
       }
-    }  );
+    });
   }
 
 }

@@ -18,7 +18,6 @@ package com.puzzlebazar.shared.model;
 
 import java.io.Serializable;
 
-
 /**
  * A tag that can be used to annotate various other objects.
  * 
@@ -33,6 +32,6 @@ public interface Tag extends Serializable {
    * 
    * @return The tag name.
    */
-  public String getTagName();
+  String getTagName();
   
 }

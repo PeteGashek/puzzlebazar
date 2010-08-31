@@ -31,8 +31,11 @@ import com.gwtplatform.mvp.client.View;
 public class NewsItemPresenter 
 extends PresenterWidget<NewsItemPresenter.MyView> {
 
+  /**
+   * The presenter's view.
+   */
   public interface MyView extends View {
-    void setTitle( String title );    
+    void setTitle(String title);    
   }
 
   @Inject
@@ -44,8 +47,8 @@ extends PresenterWidget<NewsItemPresenter.MyView> {
         view);
   }
   
-  void setTitle( String title ) {
-    getView().setTitle( title );
+  void setTitle(String title) {
+    getView().setTitle(title);
   }
 
 }

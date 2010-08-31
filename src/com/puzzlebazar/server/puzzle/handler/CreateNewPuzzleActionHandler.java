@@ -25,12 +25,16 @@ import com.puzzlebazar.shared.action.CreateNewPuzzleAction;
 import com.puzzlebazar.shared.action.CreateNewPuzzleResult;
 import com.puzzlebazar.shared.puzzle.heyawake.model.HeyawakePuzzle;
 
-public class CreateNewPuzzleActionHandler implements ActionHandler<CreateNewPuzzleAction, CreateNewPuzzleResult> {
+/**
+ * @author Philippe Beaudoin
+ */
+public class CreateNewPuzzleActionHandler 
+    implements ActionHandler<CreateNewPuzzleAction, CreateNewPuzzleResult> {
 
   private final HeyawakeDAO heyawakeDAO;
 
   @Inject
-  public CreateNewPuzzleActionHandler( HeyawakeDAO heyawakeDAO ) {
+  public CreateNewPuzzleActionHandler(HeyawakeDAO heyawakeDAO) {
     this.heyawakeDAO = heyawakeDAO;
   }
   
@@ -53,6 +57,5 @@ public class CreateNewPuzzleActionHandler implements ActionHandler<CreateNewPuzz
       ExecutionContext context) throws ActionException {
     // TODO Delete puzzle from the datastore
   }
-
 
 }

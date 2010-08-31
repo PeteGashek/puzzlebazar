@@ -1,7 +1,4 @@
 /**
- * 
- */
-/**
  * Copyright 2010 Philippe Beaudoin
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +17,6 @@
 package com.puzzlebazar.client.util;
 
 import com.puzzlebazar.shared.util.Vec2i;
-
 
 /**
  * A class containing information to locate a point relative to an vertex

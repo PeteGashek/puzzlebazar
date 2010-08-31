@@ -19,7 +19,6 @@ package com.puzzlebazar.shared.puzzle.heyawake.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import com.googlecode.objectify.annotation.Serialized;
 import com.puzzlebazar.shared.InvalidObjectException;
@@ -32,62 +31,71 @@ import com.puzzlebazar.shared.util.PuzzleMessage;
 import com.puzzlebazar.shared.util.Recti;
 import com.puzzlebazar.shared.util.Vec2i;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class HeyawakePuzzle extends PuzzleImpl<HeyawakePuzzle, HeyawakePuzzleDetails>
 implements Has2DSize, CellArray<HeyawakeCellState>, Serializable {
 
   private static final long serialVersionUID = -7747407683017419004L;
 
-  private static final HeyawakeCellState defaultState = new HeyawakeCellState( HeyawakeCellState.UNKNOWN );
+  private static final HeyawakeCellState defaultState = new HeyawakeCellState(HeyawakeCellState.UNKNOWN);
   
-  @Serialized private ArrayList<HeyawakeRoom> rooms = null;
+  @Serialized private ArrayList<HeyawakeRoom> rooms;
  
-  @Serialized private HeyawakeCellState[][] stateArray = null;
+  @Serialized private HeyawakeCellState[][] stateArray;
 
   @Override 
-  public void attachToPuzzleDetails( HeyawakePuzzleDetails puzzleDetails ) throws InvalidObjectException, ObjectAlreadyInitializedException  {
+  public void attachToPuzzleDetails(HeyawakePuzzleDetails puzzleDetails) 
+      throws InvalidObjectException, ObjectAlreadyInitializedException  {
     super.attachToPuzzleDetails(puzzleDetails);
 
-    if( getWidth() <= 0 || getHeight() <= 0 )
-      throw new InvalidObjectException( "HeyawakePuzzleDetails has an invalid width or height." );
-
-    if( rooms == null )
-      rooms = new ArrayList<HeyawakeRoom>();
-    if( stateArray == null ) {
-      stateArray = new HeyawakeCellState[getWidth()][getHeight()];
+    if (getWidth() <= 0 || getHeight() <= 0) {
+      throw new InvalidObjectException("HeyawakePuzzleDetails has an invalid width or height.");
     }
-    else {
-      if( stateArray.length != getWidth() || stateArray[0].length != getWidth() )
-        throw new InvalidObjectException( "Width or height of HeyawakePuzzle doesn't match that of HeyawakePuzzleDetails" );
+
+    if (rooms == null) {
+      rooms = new ArrayList<HeyawakeRoom>();
+    }
+    if (stateArray == null) {
+      stateArray = new HeyawakeCellState[getWidth()][getHeight()];
+    } else if (stateArray.length != getWidth() || 
+          stateArray[0].length != getWidth()) {
+      throw new InvalidObjectException("Width or height of HeyawakePuzzle doesn't match that of HeyawakePuzzleDetails");        
     }
   }
 
   @Override
   public int getHeight() {
-    if( puzzleDetails == null )
+    if (puzzleDetails == null) {
       return UNKNOWN_SIZE;
+    }
     return puzzleDetails.getHeight();
   }
 
   @Override
   public int getWidth() {
-    if( puzzleDetails == null )
+    if (puzzleDetails == null) {
       return UNKNOWN_SIZE;
+    }
     return puzzleDetails.getWidth();
   }  
 
   @Override
   public void clearCellStates() {
-    for( int i=0; i<getWidth(); ++i )
-      for( int j=0; j<getWidth(); ++j )
+    for (int i = 0; i < getWidth(); ++i) {
+      for (int j = 0; j < getWidth(); ++j) {
         stateArray[i][j] = null;
-    
+      }
+    }    
   }
 
   @Override
   public HeyawakeCellState getCellState(Vec2i loc) {
     HeyawakeCellState result = stateArray[loc.x][loc.y];
-    if( result == null )
+    if (result == null) {
       return defaultState;
+    }
     return result;
   }
 
@@ -105,33 +113,41 @@ implements Has2DSize, CellArray<HeyawakeCellState>, Serializable {
    */
   public boolean checkIntegrity() {
     int roomsPerCell[][] = countRoomsPerCell();
-    for( int x=0; x<getWidth(); ++x )
-      for( int y=0; y<getHeight(); ++y )
-        if( roomsPerCell[x][y] > 1 )
+    for (int x = 0; x < getWidth(); ++x) {
+      for (int y = 0; y < getHeight(); ++y) {
+        if (roomsPerCell[x][y] > 1) {
           return false;
+        }
+      }
+    }
     return true;
   }
 
   /**
    * Ensures that this heyawake puzzle is legally solved.
    * 
-   * @return {@code null} if all the cells of the desired type form a connected group, otherwise return a {@link List} of cell
+   * @return {@code null} if all the cells of the desired type form a 
+   * connected group, otherwise return a {@link java.util.List} of cell
    *         locations that form a disconnected group.
    */
   public PuzzleMessage checkSolved() {
     
     PuzzleMessage result = null;
     int roomsPerCell[][] = countRoomsPerCell();
-    for( int x=0; x<getWidth(); ++x )
-      for( int y=0; y<getHeight(); ++y )
-        if( roomsPerCell[x][y] != 1 ) {
-          if( result == null )
+    for (int x = 0; x < getWidth(); ++x) {
+      for (int y = 0; y < getHeight(); ++y) {
+        if (roomsPerCell[x][y] != 1) {
+          if (result == null) {
             result = new PuzzleMessage(true, "Some cells are covered by more than one room.");
-          result.addErrorLocation( new Vec2i(x,y) );
+          }
+          result.addErrorLocation(new Vec2i(x,y));
         }
+      }
+    }
     
-    if( result != null )
+    if (result != null) {
       return result;
+    }
     
     return new PuzzleMessage(false);
   }
@@ -146,9 +162,11 @@ implements Has2DSize, CellArray<HeyawakeCellState>, Serializable {
    */
   public boolean canAddRoom(HeyawakeRoom room) {
     Recti rect = room.getRoomRect();
-    for( HeyawakeRoom actualRoom : rooms ) 
-      if( actualRoom.getRoomRect().cellsOverlap( rect ) )
+    for (HeyawakeRoom actualRoom : rooms) { 
+      if (actualRoom.getRoomRect().cellsOverlap(rect)) {
         return false;
+      }
+    }
     return true;
   }
   
@@ -160,8 +178,8 @@ implements Has2DSize, CellArray<HeyawakeCellState>, Serializable {
    * 
    * @param room Information on ths {@link HeyawakeRoom} to add.
    */
-  public void addRoom( HeyawakeRoom room ) {
-    rooms.add( room );
+  public void addRoom(HeyawakeRoom room) {
+    rooms.add(room);
   }
  
   /**
@@ -170,15 +188,17 @@ implements Has2DSize, CellArray<HeyawakeCellState>, Serializable {
    * @param cell00 The location of the top-left cell of the room to remove, a {@link Vec2i}. 
    * @throws KeyNotFoundException Thrown if the location was not found and the room was not removed.
    */
-  public void deleteRoom( Vec2i cell00 ) throws KeyNotFoundException {
+  public void deleteRoom(Vec2i cell00) throws KeyNotFoundException {
     int indexToRemove = 0;
-    for( HeyawakeRoom room : rooms ) {
-      if( room.getRoomRect().getCell00().equals( cell00 ) )
+    for (HeyawakeRoom room : rooms) {
+      if (room.getRoomRect().getCell00().equals(cell00)) {
         break;
+      }
       indexToRemove++;
     }
-    if( indexToRemove == rooms.size() )
-      throw new KeyNotFoundException( "The room at postion " + cell00 + " was not found." );
+    if (indexToRemove == rooms.size()) {
+      throw new KeyNotFoundException("The room at postion " + cell00 + " was not found.");
+    }
     rooms.remove(indexToRemove);
   }
 
@@ -191,13 +211,16 @@ implements Has2DSize, CellArray<HeyawakeCellState>, Serializable {
    */
   private int[][] countRoomsPerCell() {
     int[][] result = new int[getWidth()][getHeight()];
-    for( int x=0; x<getWidth(); ++x)
+    for (int x = 0; x < getWidth(); ++x) {
       Arrays.fill(result[x], 0);
-    for( HeyawakeRoom room : rooms ) {
+    }
+    for (HeyawakeRoom room : rooms) {
       Recti rect = room.getRoomRect();
-      for( int x=rect.x; x<rect.x+rect.w; ++x )
-        for( int y=rect.y; y<rect.y+rect.h; ++y )
+      for (int x = rect.x; x < rect.x + rect.w; ++x) {
+        for (int y = rect.y; y < rect.y + rect.h; ++y) {
           result[x][y]++;
+        }
+      }
     }
     return result;
   }

@@ -26,13 +26,16 @@ import com.puzzlebazar.server.model.UserDAO;
 import com.puzzlebazar.shared.action.GetCurrentUserAction;
 import com.puzzlebazar.shared.action.GetUserResult;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class GetCurrentUserActionHandler implements ActionHandler<GetCurrentUserAction, GetUserResult> {
 
   private final Provider<UserDAO> userDao;
 
   @Inject
   public GetCurrentUserActionHandler(
-      final Provider<UserDAO> userDao ) {
+      final Provider<UserDAO> userDao) {
 
     this.userDao = userDao;    
   }
@@ -40,8 +43,8 @@ public class GetCurrentUserActionHandler implements ActionHandler<GetCurrentUser
   @Override
   public GetUserResult execute(
       final GetCurrentUserAction action,
-      final ExecutionContext context ) throws ActionException {
-    return new GetUserResult( userDao.get().getSessionUser() );
+      final ExecutionContext context) throws ActionException {
+    return new GetUserResult(userDao.get().getSessionUser());
   }
 
   @Override

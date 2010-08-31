@@ -23,6 +23,9 @@ import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.AdminUsersPresenter;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class AdminUsersView extends ViewImpl implements AdminUsersPresenter.MyView {
 
   interface Binder extends UiBinder<Widget, AdminUsersView> { }

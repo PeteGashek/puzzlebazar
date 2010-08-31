@@ -18,7 +18,6 @@ package com.puzzlebazar.client;
 
 import com.gwtplatform.mvp.client.proxy.PlaceImpl;
 
-
 /**
  * A secured {@link Place} that can only be accessed by the administrator.
  * 
@@ -28,9 +27,8 @@ public class AdminSecurePlace extends PlaceImpl {
   
   private final CurrentUser currentUser;
 
-  public AdminSecurePlace(
-      final String nameToken,
-      final CurrentUser currentUser ) {
+  public AdminSecurePlace(final String nameToken,
+      final CurrentUser currentUser) {
     super(nameToken);
     this.currentUser = currentUser;
   }

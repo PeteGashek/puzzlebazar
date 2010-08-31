@@ -24,6 +24,9 @@ import com.puzzlebazar.shared.action.GetPuzzleAction;
 import com.puzzlebazar.shared.action.GetPuzzleResult;
 import com.puzzlebazar.shared.puzzle.heyawake.model.HeyawakePuzzle;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class GetPuzzleActionHandler implements ActionHandler<GetPuzzleAction, GetPuzzleResult> {
 
   @Inject
@@ -50,6 +53,5 @@ public class GetPuzzleActionHandler implements ActionHandler<GetPuzzleAction, Ge
       ExecutionContext context) throws ActionException {
     // Nothing to undo.
   }
-
 
 }

@@ -24,17 +24,19 @@ import com.puzzlebazar.shared.model.HasId;
 /**
  * The base interface of every different puzzle types.
  * 
+ * @param <T> The {@link Puzzle} type.
+ *
  * @author Philippe Beaudoin
  */
-public interface Puzzle<T extends Puzzle<?>> extends HasId<T>, Serializable {
-
+public interface Puzzle<T extends Puzzle<?>> extends HasId<T>, Serializable { 
+  
   /**
    * Access the puzzle information contained in the attached 
    * {@link PuzzleDetails} structure.
    * 
    * @return The attached {@link PuzzleDetails}.
    */
-  public PuzzleDetails<?> getPuzzleDetails();
+  PuzzleDetails<?> getPuzzleDetails();
 
   /**
    * Access the key to the puzzle information contained in the attached 
@@ -42,5 +44,5 @@ public interface Puzzle<T extends Puzzle<?>> extends HasId<T>, Serializable {
    * 
    * @return The key to the attached {@link PuzzleDetails}.
    */
-  public Key<? extends PuzzleDetails<?>> getPuzzleDetailsKey();
+  Key<? extends PuzzleDetails<?>> getPuzzleDetailsKey();
 }

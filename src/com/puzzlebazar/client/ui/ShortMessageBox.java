@@ -48,7 +48,7 @@ public class ShortMessageBox extends Composite {
 
   public ShortMessageBox() {
     super();
-    initWidget( binder.createAndBindUi( this ) );
+    initWidget(binder.createAndBindUi(this));
     clearMessageWidget();
   }
 
@@ -58,11 +58,11 @@ public class ShortMessageBox extends Composite {
   }
 
   public void setMessageWidget(Widget widget) {
-    if( widget == null )
+    if (widget == null) {
       clearMessageWidget();
-    else {
+    } else {
       messageWidgetContainer.clear();
-      messageWidgetContainer.add( widget );
+      messageWidgetContainer.add(widget);
       messageBox.setVisible(true);
     }
   }

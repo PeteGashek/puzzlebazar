@@ -32,6 +32,6 @@ public interface CellStateCondition<S extends CellState> {
    * @param state The {@link CellState} to check.
    * @return {@code true} if the state verifies the condition, {@code false} otherwise.
    */
-  boolean doesCellVerifyCondition( S state );
+  boolean doesCellVerifyCondition(S state);
   
 }

@@ -63,7 +63,7 @@ public class PuzzleInfoImpl implements PuzzleInfo<PuzzleInfoImpl> {
   }
 
   // TODO pass a bit more information, document
-  public PuzzleInfoImpl( Key<UserImpl> authorKey, String title, String sizeString ) {
+  public PuzzleInfoImpl(Key<UserImpl> authorKey, String title, String sizeString) {
     this.setPuzzleDetailsId(0);  // Set later using setPuzzleDetailsId()
     this.authorKey = authorKey;
     this.puzzleTypeKey = null;
@@ -86,7 +86,7 @@ public class PuzzleInfoImpl implements PuzzleInfo<PuzzleInfoImpl> {
    * 
    * @param other The {@link PuzzleInfoImpl} to copy.
    */
-  public PuzzleInfoImpl( PuzzleInfo<?> other ) {
+  public PuzzleInfoImpl(PuzzleInfo<?> other) {
     id = other.getId();
     setPuzzleDetailsId(other.getPuzzleDetailsKey().getId());
     authorKey = other.getAuthorKey();
@@ -96,16 +96,21 @@ public class PuzzleInfoImpl implements PuzzleInfo<PuzzleInfoImpl> {
     sizeString = other.getSizeString();
     title = other.getTitle();
     flags = 0;
-    if( other.isDeleted() )
+    if (other.isDeleted()) {
       flags |= deletedFlag;
-    if( other.wasRejected() )
+    }
+    if (other.wasRejected()) {
       flags |= rejectedFlag;
-    if( other.isPublic() )
+    }
+    if (other.isPublic()) {
       flags |= publicFlag;
-    if( other.isValid() )
+    }
+    if (other.isValid()) {
       flags |= validFlag;
-    if( other.isComplete() )
+    }
+    if (other.isComplete()) {
       flags |= completeFlag;
+    }
     creationDate = other.getCreationDate();
     editionDate = other.getEditionDate();
     publicationDate = other.getPublicationDate();
@@ -213,6 +218,5 @@ public class PuzzleInfoImpl implements PuzzleInfo<PuzzleInfoImpl> {
   public void setPuzzleDetailsId(long puzzleDetailsId) {
     this.puzzleDetailsId = puzzleDetailsId;
   }
-
 
 }

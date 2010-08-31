@@ -39,13 +39,14 @@ public class PuzzleMessage {
    * 
    * @param error Pass {@code true} if this represents an erroneous message, {@code false} otherwise.
    */
-  public PuzzleMessage( boolean error ) {
+  public PuzzleMessage(boolean error) {
     this.error = error;
     message = null;
-    if( error )
+    if (error) {
       errorLocations = new ArrayList<Vec2i>();
-    else
+    } else {
       errorLocations = null;
+    }
   }
   
   /**
@@ -55,13 +56,14 @@ public class PuzzleMessage {
    * @param error Pass {@code true} if this represents an erroneous message, {@code false} otherwise.
    * @param message The message to attach to this {@link PuzzleMessage}.
    */
-  public PuzzleMessage(  boolean error, String message ) {
+  public PuzzleMessage(boolean error, String message) {
     this.error = error;
     this.message = message;
-    if( error )
+    if (error) {
       errorLocations = new ArrayList<Vec2i>();
-    else
+    } else {
       errorLocations = null;
+    }
   }
   
   /**
@@ -70,7 +72,7 @@ public class PuzzleMessage {
    * 
    * @param location The location to add, a {@link Vec2i}.
    */
-  public void addErrorLocation( Vec2i location ) {
+  public void addErrorLocation(Vec2i location) {
     assert errorLocations != null : "Can only add locations to a PuzzleMessage representing an erroneous message.";
     errorLocations.add(location);
   }
@@ -100,7 +102,7 @@ public class PuzzleMessage {
    * 
    * @param message The message, a {@link String}
    */
-  public void setMessage( String message ) {
+  public void setMessage(String message) {
     this.message = message;
   }
   

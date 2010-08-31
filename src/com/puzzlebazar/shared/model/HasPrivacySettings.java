@@ -28,6 +28,6 @@ public interface HasPrivacySettings {
    * 
    * @return The {@link PrivacySettings} of this object.
    */
-  public PrivacySettings getPrivacySettings();
+  PrivacySettings getPrivacySettings();
   
 }

@@ -18,6 +18,9 @@ package com.puzzlebazar.shared.action;
 
 import com.gwtplatform.dispatch.shared.ActionImpl;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class CreateNewPuzzleAction extends ActionImpl< CreateNewPuzzleResult > {
 
   // TODO Should provide the desired puzzle type, for now we default to HeyawakePuzzle
@@ -30,7 +33,7 @@ public class CreateNewPuzzleAction extends ActionImpl< CreateNewPuzzleResult > {
     // For serialization only
   }
   
-  public CreateNewPuzzleAction( String title, int width, int height ) {
+  public CreateNewPuzzleAction(String title, int width, int height) {
     this.title = title;
     this.width = width;
     this.height = height;

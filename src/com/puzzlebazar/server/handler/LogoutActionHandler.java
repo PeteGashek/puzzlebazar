@@ -26,14 +26,16 @@ import com.puzzlebazar.server.model.UserDAO;
 import com.puzzlebazar.shared.action.LogoutAction;
 import com.puzzlebazar.shared.action.NoResult;
 
-
+/**
+ * @author Philippe Beaudoin
+ */
 public class LogoutActionHandler implements ActionHandler<LogoutAction, NoResult> {
   
   private final Provider<UserDAO> userDao;
 
   @Inject
   public LogoutActionHandler(
-      final Provider<UserDAO> userDao ) {
+      final Provider<UserDAO> userDao) {
     this.userDao = userDao;
   }
 
@@ -43,8 +45,7 @@ public class LogoutActionHandler implements ActionHandler<LogoutAction, NoResult
     try {
       userDao.get().logoutSessionUser();
       return null;
-    }
-    catch (Exception cause) {
+    } catch (Exception cause) {
       throw new ActionException(cause);
     }
   }

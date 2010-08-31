@@ -21,7 +21,6 @@ import com.google.inject.Inject;
 import com.gwtplatform.dispatch.client.DispatchAsync;
 import com.gwtplatform.mvp.client.EventBus;
 import com.gwtplatform.mvp.client.Presenter;
-import com.gwtplatform.mvp.client.PresenterWidget;
 import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
@@ -58,14 +57,19 @@ public class PuzzlePresenter extends Presenter<PuzzlePresenter.MyView, PuzzlePre
   public static final Object TYPE_RevealTopBarContent = new Object();
   public static final Object TYPE_RevealPuzzleContent = new Object();
 
+  /**
+   * The presenter's view.
+   */
   public interface MyView extends View {
-    public Widget getUiWidget();
+    Widget getUiWidget();
   }
 
+  /**
+   * The presenter's proxy.
+   */
   @ProxyCodeSplit
-  @NameToken( NameTokens.puzzlePage )
-  public interface MyProxy extends ProxyPlace<PuzzlePresenter> {}  
-
+  @NameToken(NameTokens.puzzlePage)
+  public interface MyProxy extends ProxyPlace<PuzzlePresenter> { }  
 
   private final PlaceManager placeManager;
   private final DispatchAsync dispatcher;
@@ -74,13 +78,13 @@ public class PuzzlePresenter extends Presenter<PuzzlePresenter.MyView, PuzzlePre
   private final Factory heyawakePresenterFactory;
 
   /**
-   * This is the {@link PresenterWidget} specific to the type of puzzle that is currently being
+   * This is the {@link com.gwtplatform.mvp.client.PresenterWidget} specific to the type of puzzle that is currently being
    * displayed. It gets created every time the state is reloaded.
    * 
    * TODO Right now it's hardcoded as a HeyawakePresenter but it should be some superinterface like
    *      PuzzlePresenterWidget.
    */
-  private HeyawakePresenter puzzlePresenterWidget = null;
+  private HeyawakePresenter puzzlePresenterWidget;
 
   /**
    * This is the {@link HeyawakePuzzle} associated with this presenter. It gets 
@@ -89,8 +93,7 @@ public class PuzzlePresenter extends Presenter<PuzzlePresenter.MyView, PuzzlePre
    * TODO Right now it's hardcoded as a HeyawakePuzzle but it should be some superinterface like
    *      Puzzle.
    */
-  private HeyawakePuzzle puzzle = null;
-
+  private HeyawakePuzzle puzzle;
 
   private String action = DEFAULT_ACTION;
   private long id = INVALID_ID;
@@ -104,7 +107,7 @@ public class PuzzlePresenter extends Presenter<PuzzlePresenter.MyView, PuzzlePre
       final MyView view, 
       final MyProxy proxy,
       final TopBarPresenter topBarPresenter,
-      final HeyawakePresenter.Factory heyawakePresenterFactory ) {
+      final HeyawakePresenter.Factory heyawakePresenterFactory) {
     super(eventBus, view, proxy);
 
     this.placeManager = placeManager;
@@ -116,19 +119,19 @@ public class PuzzlePresenter extends Presenter<PuzzlePresenter.MyView, PuzzlePre
 
   @Override
   protected void revealInParent() {
-    RevealRootLayoutContentEvent.fire( this, this );
+    RevealRootLayoutContentEvent.fire(this, this);
   }
 
   @Override
   protected void onReveal() {
     super.onReveal();
-    setInSlot( TYPE_RevealTopBarContent, topBarPresenter );
+    setInSlot(TYPE_RevealTopBarContent, topBarPresenter);
   }
   
   @Override
   protected void onHide() {
     super.onHide();
-    clearSlot( TYPE_RevealTopBarContent );
+    clearSlot(TYPE_RevealTopBarContent);
     releasePuzzle();  
   }
 
@@ -138,9 +141,9 @@ public class PuzzlePresenter extends Presenter<PuzzlePresenter.MyView, PuzzlePre
 
     releasePuzzle();
 
-    if( action == ACTION_PLAY ) {
-    } else if( action == ACTION_EDIT ) {
-    } if( action == ACTION_NEW ) {
+    if (action == ACTION_PLAY) {
+    } else if (action == ACTION_EDIT) {
+    } else if (action == ACTION_NEW) {
       // TODO We should fire an event on the bus to get the latest
       //      information on the new puzzle to create. Most likely
       //      a HeyawakePuzzleInfo.
@@ -148,72 +151,73 @@ public class PuzzlePresenter extends Presenter<PuzzlePresenter.MyView, PuzzlePre
       int width = 4;
       int height = 7;
 
-      dispatcher.execute( new CreateNewPuzzleAction(title, width, height), 
-          new ActionCallback<CreateNewPuzzleResult>(translations.operationFailedRetry()){
+      dispatcher.execute(new CreateNewPuzzleAction(title, width, height), 
+          new ActionCallback<CreateNewPuzzleResult>(translations.operationFailedRetry()) {
         @Override
         public void onSuccess(CreateNewPuzzleResult result) {
           puzzle = result.getPuzzle();
           puzzlePresenterWidget = heyawakePresenterFactory.create(getView().getUiWidget(), puzzle);
           puzzlePresenterWidget.bind();
-          setInSlot( TYPE_RevealPuzzleContent, puzzlePresenterWidget, false );
+          setInSlot(TYPE_RevealPuzzleContent, puzzlePresenterWidget, false);
           action = ACTION_EDIT;
           id = result.getPuzzle().getId();
           getProxy().onPresenterChanged(PuzzlePresenter.this);
         }
-      } );
+      });
     }
   }
-
 
   @Override
   public void prepareFromRequest(PlaceRequest placeRequest) {
     super.prepareFromRequest(placeRequest);
 
     action = placeRequest.getParameter(PARAM_ACTION, DEFAULT_ACTION);
-    if( action.equals(ACTION_PLAY) )
+    if (action.equals(ACTION_PLAY)) {
       action = ACTION_PLAY;
-    else if( action.equals(ACTION_EDIT) )
+    } else if (action.equals(ACTION_EDIT)) {
       action = ACTION_EDIT;
-    else if( action.equals(ACTION_NEW) )
+    } else if (action.equals(ACTION_NEW)) {
       action = ACTION_NEW;
-    else {
-      placeManager.revealErrorPlace( placeRequest.getNameToken() );
+    } else {
+      placeManager.revealErrorPlace(placeRequest.getNameToken());
       return;
     }
 
     try {
-      id = Long.valueOf( placeRequest.getParameter(PARAM_ID, null) );
-    } catch( NumberFormatException e ) {
+      id = Long.valueOf(placeRequest.getParameter(PARAM_ID, null));
+    } catch (NumberFormatException e) {
       id = INVALID_ID;
     }
 
-    if( id == INVALID_ID && action != ACTION_NEW ) {
-      placeManager.revealErrorPlace( placeRequest.getNameToken() );
+    if (id == INVALID_ID && action != ACTION_NEW) {
+      placeManager.revealErrorPlace(placeRequest.getNameToken());
       return;
     }
-
   }
 
   @Override
   public PlaceRequest prepareRequest(PlaceRequest placeRequest) {
     PlaceRequest result = super.prepareRequest(placeRequest);
 
-    if( action != DEFAULT_ACTION )
-      result = result.with( PARAM_ACTION, action );
-    if( id != INVALID_ID )
-      result = result.with( PARAM_ID, Long.toString(id) );
+    if (action != DEFAULT_ACTION) {
+      result = result.with(PARAM_ACTION, action);
+    }
+    if (id != INVALID_ID) {
+      result = result.with(PARAM_ID, Long.toString(id));
+    }
     return result;
   }
 
   /**
    * Releases all resources related to the associated puzzle.
-   * Makes sure the {@link PresenterWidget} of the associated puzzle is unbound
+   * Makes sure the {@link com.gwtplatform.mvp.client.PresenterWidget} of the associated puzzle is unbound
    * and that this puzzle is released.
    */
   private void releasePuzzle() {
-    if( puzzlePresenterWidget != null )
+    if (puzzlePresenterWidget != null) {
       puzzlePresenterWidget.unbind();
+    }
     puzzlePresenterWidget = null;
-    clearSlot( TYPE_RevealPuzzleContent );
+    clearSlot(TYPE_RevealPuzzleContent);
   }
 }

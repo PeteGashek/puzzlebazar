@@ -27,10 +27,9 @@ import com.puzzlebazar.shared.puzzle.model.PuzzleDetailsImpl;
 import com.puzzlebazar.shared.puzzle.model.PuzzleImpl;
 import com.puzzlebazar.shared.puzzle.model.PuzzleInfoImpl;
 
-
 /**
  * The class responsible of managing cache and datastore
- * storage of puzzle-related objects, including:
+ * storage of puzzle-related objects. This includes:
  * <ul>
  * <li>{@link PuzzleInfoImpl}</li>
  * </ul>
@@ -39,7 +38,7 @@ import com.puzzlebazar.shared.puzzle.model.PuzzleInfoImpl;
  */
 public class PuzzleDAO extends DAOBase {
 
-  private static boolean objectsRegistered = false;
+  private static boolean objectsRegistered;
   
   @Override
   protected boolean areObjectsRegistered() {
@@ -53,8 +52,8 @@ public class PuzzleDAO extends DAOBase {
   }
   
   @Inject
-  public PuzzleDAO( final ObjectifyFactory objectifyFactory ) {
-    super( objectifyFactory );
+  public PuzzleDAO(final ObjectifyFactory objectifyFactory) {
+    super(objectifyFactory);
   }
 
   /**
@@ -64,34 +63,34 @@ public class PuzzleDAO extends DAOBase {
    * @param puzzleInfo Information on the to save in the datastore.
    * @throws ActionException If the puzzle could not be created.
    */
-  public <D extends PuzzleDetailsImpl<?>> void createNewPuzzle( 
+  public <D extends PuzzleDetailsImpl<?>> void createNewPuzzle(
       PuzzleInfoImpl puzzleInfo,
       D puzzleDetails,
-      PuzzleImpl<?, D> puzzle ) throws ActionException {
+      PuzzleImpl<?, D> puzzle) throws ActionException {
 
     // TODO ensure rights?
     
-    if( puzzleInfo.getId() != null )
-      throw new ObjectAlreadyCreatedException( "Puzzle info already has an id: " + puzzleInfo.getId() );
+    if (puzzleInfo.getId() != null) {
+      throw new ObjectAlreadyCreatedException("Puzzle info already has an id: " + puzzleInfo.getId());
+    }
     
     Objectify ofyTxn = newOfyTransaction();
 
     try {
-      ofyTxn.put( puzzleInfo );
-      puzzleDetails.attachToPuzzleInfo( puzzleInfo );
-      ofyTxn.put( puzzleDetails );
+      ofyTxn.put(puzzleInfo);
+      puzzleDetails.attachToPuzzleInfo(puzzleInfo);
+      ofyTxn.put(puzzleDetails);
       puzzleInfo.setPuzzleDetailsId(puzzleDetails.getId());
-      ofyTxn.put( puzzleInfo );      
+      ofyTxn.put(puzzleInfo);
       puzzle.attachToPuzzleDetails(puzzleDetails);
-      ofyTxn.put( puzzle );
+      ofyTxn.put(puzzle);
       puzzleDetails.setPuzzleId(puzzle.getId());
-      ofyTxn.put( puzzleDetails );
+      ofyTxn.put(puzzleDetails);
       ofyTxn.getTxn().commit();
-    }
-    finally {
-      if(ofyTxn.getTxn().isActive()) {
+    } finally {
+      if (ofyTxn.getTxn().isActive()) {
         ofyTxn.getTxn().rollback();
-        throw new TransactionFailedException("Cannot create puzzle, title = \"" + puzzleInfo.getTitle() + "\"" );
+        throw new TransactionFailedException("Cannot create puzzle, title = \"" + puzzleInfo.getTitle() + "\"");
       }
     }
   }

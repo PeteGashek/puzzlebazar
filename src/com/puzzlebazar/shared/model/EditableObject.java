@@ -32,14 +32,14 @@ public interface EditableObject {
    * 
    * @return The key to an author (a {@link UserImpl}) or {@code null} if unknown.
    */
-  public abstract Key<UserImpl> getAuthorKey();
+  Key<UserImpl> getAuthorKey();
 
   /**
    * Access the {@link Date} at which the object was originally created.
    * 
    * @return The {@link Date} at which the object was created.
    */
-  public abstract Date getCreationDate();
+  Date getCreationDate();
 
   /**
    * Access the {@link Date} at which the object was last edited.
@@ -47,28 +47,28 @@ public interface EditableObject {
    * @return The {@link Date} at which the object was last edited, or {@code null} if it was
    *         not edited after being created.
    */
-  public abstract Date getEditionDate();
+  Date getEditionDate();
 
   /**
    * Access the {@link Date} at which the object was last made public.
    * 
    * @return The {@link Date} at which the object was last made public, or {@code null} if it is not currently public.
    */
-  public abstract Date getPublicationDate();
+  Date getPublicationDate();
 
   /**
    * Verifies if the object was marked for deletion.
    * 
    * @return {@code true} if this object was marked for deletion, {@code false} otherwise.
    */
-  public abstract boolean isDeleted();
+  boolean isDeleted();
 
   /**
    * Checks whether or not this object was rejected.
    * 
    * @return {@code true} if this object was rejected, {@code false} otherwise.
    */
-  public abstract boolean wasRejected();
+  boolean wasRejected();
 
   /**
    * Checks whether or not the puzzle is currently public.
@@ -82,6 +82,6 @@ public interface EditableObject {
    * </ul>
    * @return {@code true} if the puzzle is currently public, {@code false} otherwise.
    */
-  public abstract boolean isPublic();
+  boolean isPublic();
 
 }

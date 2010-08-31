@@ -44,22 +44,27 @@ extends Presenter<AdminGeneralPresenter.MyView, AdminGeneralPresenter.MyProxy> {
   @ContentSlot
   public static final Type<RevealContentHandler<?>> TYPE_DummySetContent = new Type<RevealContentHandler<?>>();
 
+  /**
+   * The presenter's view.
+   */
   public interface MyView extends View { }
 
+  /**
+   * The presenter's proxy.
+   */
   @ProxyCodeSplit
-  @NameToken( NameTokens.adminGeneral )
-  @UseGatekeeper( AdminGatekeeper.class )
+  @NameToken(NameTokens.adminGeneral)
+  @UseGatekeeper(AdminGatekeeper.class)
   @TabInfo(
       container = AdminTabPresenter.class, 
       priority = 0, 
-      getLabel="ginjector.getTranslations().tabGeneral()")
-  public interface MyProxy extends TabContentProxyPlace<AdminGeneralPresenter> {}
+      getLabel = "ginjector.getTranslations().tabGeneral()")
+  public interface MyProxy extends TabContentProxyPlace<AdminGeneralPresenter> { }
 
   @Inject
   public AdminGeneralPresenter(final EventBus eventBus, 
-      final MyView view, 
-      final MyProxy proxy ) {
-    super(eventBus, view, proxy );
+      final MyView view, final MyProxy proxy) {
+    super(eventBus, view, proxy);
   }
 
   @Override

@@ -19,7 +19,6 @@ package com.puzzlebazar.shared.puzzle.squaregrid.model;
 import com.puzzlebazar.shared.util.Has2DSize;
 import com.puzzlebazar.shared.util.Vec2i;
 
-
 /**
  * An array of states attached to cells. A state is simply an integer value.
  *
@@ -33,10 +32,10 @@ public interface CellArray<S extends CellState> extends Has2DSize {
    * Changes the state at the provided cell location.
    * Will fire a {@link SetCellStateEvent}.
    * 
-   * @param cell Cell coordinate at which to set the state, a {@link Vec2i}.
+   * @param loc Cell coordinate at which to set the state, a {@link Vec2i}.
    * @param state The desired {@link CellState}.
    */
-  public void setCellState(Vec2i loc, S state);
+  void setCellState(Vec2i loc, S state);
   
   /**
    * Access the state at the provided cell location.
@@ -44,15 +43,13 @@ public interface CellArray<S extends CellState> extends Has2DSize {
    * @param loc Cell coordinate at which to access the state, a {@link Vec2i}.
    * @return The current {@link CellState} at that coordinate.
    */
-  public S getCellState(Vec2i loc);
+  S getCellState(Vec2i loc);
 
   /**
    * Resets all the states in the grid to their default value.
    * Will fire a {@link ClearCellsStateEvent}.
    */
-  public void clearCellStates();
-
-
+  void clearCellStates();
 
 }
 

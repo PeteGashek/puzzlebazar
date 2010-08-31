@@ -18,7 +18,6 @@ package com.puzzlebazar.shared.util;
 
 import java.io.Serializable;
 
-
 /**
  * A simple class to manipulate rectangles aligned on integer coordinates.
  * When using integer rectangles, it is important to distinguish between the
@@ -104,8 +103,8 @@ public class Recti implements Serializable {
   public Recti(Vec2i loc1, Vec2i loc2) {
     x = Math.min(loc1.x, loc2.x);
     y = Math.min(loc1.y, loc2.y);
-    w = Math.abs(loc2.x-loc1.x)+1;
-    h = Math.abs(loc2.y-loc1.y)+1;
+    w = Math.abs(loc2.x - loc1.x) + 1;
+    h = Math.abs(loc2.y - loc1.y) + 1;
   }
 
   @Override
@@ -121,27 +120,34 @@ public class Recti implements Serializable {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     Recti other = (Recti) obj;
-    if (h != other.h)
+    if (h != other.h) {
       return false;
-    if (w != other.w)
+    }
+    if (w != other.w) {
       return false;
-    if (x != other.x)
+    }
+    if (x != other.x) {
       return false;
-    if (y != other.y)
+    }
+    if (y != other.y) {
       return false;
+    }
     return true;
   }
   
   @Override
   public String toString() {
-    return "(("+x+", "+y+"), ("+w+", "+h+"))";
+    return "((" + x + ", " + y + "), (" + w + ", " + h + "))";
   }
 
   /**
@@ -163,7 +169,7 @@ public class Recti implements Serializable {
    * @return The location of the top-left corner vertex (a {@link Vec2i}).
    */
   public Vec2i getPt00() {
-    return new Vec2i( x, y );
+    return new Vec2i(x, y);
   }
 
   /**
@@ -173,7 +179,7 @@ public class Recti implements Serializable {
    * @return The location of the top-right corner vertex (a {@link Vec2i}).
    */
   public Vec2i getPt10() {
-    return new Vec2i( x+w, y );
+    return new Vec2i(x + w, y);
   }
 
   /**
@@ -183,8 +189,8 @@ public class Recti implements Serializable {
    * @return The location of the bottom-left corner vertex (a {@link Vec2i}).
    */
   public Vec2i getPt01() {
-    return new Vec2i( x, y+h );
-  }	
+    return new Vec2i(x, y + h);
+  }
 
   /**
    * Access the location of the bottom-right corner vertex.
@@ -193,7 +199,7 @@ public class Recti implements Serializable {
    * @return The location of the bottom-right corner vertex (a {@link Vec2i}).
    */
   public Vec2i getPt11() {
-    return new Vec2i( x+w, y+h );
+    return new Vec2i(x + w, y + h);
   }
 
   /**
@@ -203,7 +209,7 @@ public class Recti implements Serializable {
    * @return The location of the top-left corner cell (a {@link Vec2i}).
    */
   public Vec2i getCell00() {
-    return new Vec2i( x, y );
+    return new Vec2i(x, y);
   }
 
   /**
@@ -213,7 +219,7 @@ public class Recti implements Serializable {
    * @return The location of the top-right corner cell (a {@link Vec2i}).
    */
   public Vec2i getCell10() {
-    return new Vec2i( x+w-1, y );
+    return new Vec2i(x + w - 1, y);
   }
 
   /**
@@ -223,8 +229,8 @@ public class Recti implements Serializable {
    * @return The location of the bottom-left corner cell (a {@link Vec2i}).
    */
   public Vec2i getCell01() {
-    return new Vec2i( x, y+h-1 );
-  }	
+    return new Vec2i(x, y + h - 1);
+  }
 
   /**
    * Access the location of the bottom-right corner cell.
@@ -233,8 +239,8 @@ public class Recti implements Serializable {
    * @return The location of the bottom-right corner cell (a {@link Vec2i}).
    */
   public Vec2i getCell11() {
-    return new Vec2i( x+w-1, y+h-1 );
-  }	
+    return new Vec2i(x + w - 1, y + h - 1);
+  }
 
   /**
    * Checks if the cells of two rectangles overlap. Two rectangles overlapping only on a vertex
@@ -246,14 +252,14 @@ public class Recti implements Serializable {
   public boolean cellsOverlap(Recti rect) {
 
     int left = x;
-    int right = x+w-1;
+    int right = x + w - 1;
     int top = y;
-    int bottom = y+h-1;
+    int bottom = y + h - 1;
 
-    int bitfield = computeBitfield( rect.x, rect.y, left, right, top, bottom );
-    bitfield &= computeBitfield( rect.x+rect.w-1, rect.y, left, right, top, bottom );
-    bitfield &= computeBitfield( rect.x, rect.y+rect.h-1, left, right, top, bottom );
-    bitfield &= computeBitfield( rect.x+rect.w-1, rect.y+rect.h-1, left, right, top, bottom );
+    int bitfield = computeBitfield(rect.x, rect.y, left, right, top, bottom);
+    bitfield &= computeBitfield(rect.x + rect.w - 1, rect.y, left, right, top, bottom);
+    bitfield &= computeBitfield(rect.x, rect.y + rect.h - 1, left, right, top, bottom);
+    bitfield &= computeBitfield(rect.x + rect.w - 1, rect.y + rect.h - 1, left, right, top, bottom);
 
     return bitfield == 0;
   }
@@ -275,12 +281,20 @@ public class Recti implements Serializable {
    * @param bottom Bottom coord of window.
    * @return The bitfield code.
    */
-  private int computeBitfield( int x, int y, int left, int right, int top, int bottom ) {
+  private int computeBitfield(int x, int y, int left, int right, int top, int bottom) {
     int bitfield = 0;
-    if( x < left ) bitfield |= 1;
-    if( x > right ) bitfield |= 2;
-    if( y < top ) bitfield |= 4;
-    if( y > bottom ) bitfield |= 8;
+    if (x < left) {
+      bitfield |= 1;
+    }
+    if (x > right) {
+      bitfield |= 2;
+    }
+    if (y < top) {
+      bitfield |= 4;
+    }
+    if (y > bottom) {
+      bitfield |= 8;
+    }
     return bitfield;
   }
 
@@ -292,10 +306,9 @@ public class Recti implements Serializable {
    */
   public boolean containsCell(Vec2i cellLoc) {
     return 
-    cellLoc.x >= x && cellLoc.x < x+w &&
-    cellLoc.y >= y && cellLoc.y < y+h;
+    cellLoc.x >= x && cellLoc.x < x + w &&
+    cellLoc.y >= y && cellLoc.y < y + h;
   }
-
 
   /**
    * <b>Important!</b> This method expects location of cells in parameters
@@ -311,9 +324,9 @@ public class Recti implements Serializable {
    * @return The location of the top-left vertex (a {@link Vec2i}).
    */
   public static Vec2i getTopLeftVertex(Vec2i cellLoc, Vec2i oppositeCellLoc) {
-    return new Vec2i( 
-        Math.min( cellLoc.x, oppositeCellLoc.x ),
-        Math.min( cellLoc.y, oppositeCellLoc.y ) );
+    return new Vec2i(
+        Math.min(cellLoc.x, oppositeCellLoc.x),
+        Math.min(cellLoc.y, oppositeCellLoc.y));
   }
 
   /**
@@ -330,23 +343,23 @@ public class Recti implements Serializable {
    * @return The location of the bottom-right vertex (a {@link Vec2i}).
    */
   public static Vec2i getBottomRightVertex(Vec2i cellLoc, Vec2i oppositeCellLoc) {
-    return new Vec2i( 
-        Math.max( cellLoc.x, oppositeCellLoc.x )+1,
-        Math.max( cellLoc.y, oppositeCellLoc.y )+1 );
+    return new Vec2i(
+        Math.max(cellLoc.x, oppositeCellLoc.x) + 1,
+        Math.max(cellLoc.y, oppositeCellLoc.y) + 1);
   }
 
   /**
    * Given the location of two diagonally opposite cells (or vertices) of a rectangle, 
    * finds the location of the top-left cell (or vertex).
    * 
-   * @param cellLoc The location of a cell (or vertex) at one corner of the rectangle (a {@link Vec2i}). 
+   * @param cellLlocFromoc The location of a cell (or vertex) at one corner of the rectangle (a {@link Vec2i}). 
    * @param oppositeCellLoc The location of the cell (or vertex) at the diagonally opposite corner of the rectangle (a {@link Vec2i}). 
    * @return The location of the top-left cell (or vertex) (a {@link Vec2i}).
    * 
    * @see #getTopLeftVertex(Vec2i, Vec2i)
    */
-  public static Vec2i getTopLeft(Vec2i locFrom, Vec2i locTo) {
-    return getTopLeftVertex( locFrom, locTo );
+  public static Vec2i getTopLeft(Vec2i cellLlocFromoc, Vec2i oppositeCellLoc) {
+    return getTopLeftVertex(cellLlocFromoc, oppositeCellLoc);
   }
 
   /**
@@ -359,9 +372,9 @@ public class Recti implements Serializable {
    * 
    * @see #getBottomRightVertex(Vec2i, Vec2i)
    */
-  public static Vec2i getBottomRight(Vec2i locFrom, Vec2i locTo) {
-    return new Vec2i( 
-        Math.max( locFrom.x, locTo.x ),
-        Math.max( locFrom.y, locTo.y ) );
+  public static Vec2i getBottomRight(Vec2i cellLoc, Vec2i oppositeCellLoc) {
+    return new Vec2i(
+        Math.max(cellLoc.x, oppositeCellLoc.x),
+        Math.max(cellLoc.y, oppositeCellLoc.y));
   }
 }

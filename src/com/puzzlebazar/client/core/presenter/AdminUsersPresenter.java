@@ -37,22 +37,27 @@ import com.puzzlebazar.client.NameTokens;
 public class AdminUsersPresenter 
 extends Presenter<AdminUsersPresenter.MyView, AdminUsersPresenter.MyProxy> {
 
+  /**
+   * The presenter's view.
+   */
   public interface MyView extends View { }
 
+  /**
+   * The presenter's proxy.
+   */
   @ProxyCodeSplit
-  @NameToken( NameTokens.adminUsers )
-  @UseGatekeeper( AdminGatekeeper.class )
+  @NameToken(NameTokens.adminUsers)
+  @UseGatekeeper(AdminGatekeeper.class)
   @TabInfo(
       container = AdminTabPresenter.class, 
       priority = 1, 
-      getLabel="ginjector.getTranslations().tabUsers()")
-  public interface MyProxy extends TabContentProxyPlace<AdminUsersPresenter> {}
+      getLabel = "ginjector.getTranslations().tabUsers()")
+  public interface MyProxy extends TabContentProxyPlace<AdminUsersPresenter> { }
 
   @Inject
   public AdminUsersPresenter(final EventBus eventBus, 
-      final MyView view, 
-      final MyProxy proxy ) {
-    super(eventBus, view, proxy );
+      final MyView view, final MyProxy proxy) {
+    super(eventBus, view, proxy);
   }
 
   @Override

@@ -25,21 +25,24 @@ import com.puzzlebazar.server.model.UserDAO;
 import com.puzzlebazar.shared.action.EditUserAction;
 import com.puzzlebazar.shared.action.NoResult;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class EditUserActionHandler implements ActionHandler<EditUserAction, NoResult> {
 
   private final Provider<UserDAO> userDAO;
 
   @Inject
   public EditUserActionHandler(
-      final Provider<UserDAO> userDAO ) {
+      final Provider<UserDAO> userDAO) {
     this.userDAO = userDAO;
   }
 
   @Override
   public NoResult execute(
       final EditUserAction action,
-      final ExecutionContext context ) throws ActionException {
-    userDAO.get().modifyUser( action.getUser() );
+      final ExecutionContext context) throws ActionException {
+    userDAO.get().modifyUser(action.getUser());
     return null;
   }
 
@@ -48,7 +51,7 @@ public class EditUserActionHandler implements ActionHandler<EditUserAction, NoRe
       final EditUserAction action,
       final NoResult result,
       final ExecutionContext context) throws ActionException {
-    userDAO.get().modifyUser( action.getPreviousUser() );
+    userDAO.get().modifyUser(action.getPreviousUser());
   }
 
   @Override

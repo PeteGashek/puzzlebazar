@@ -20,7 +20,6 @@ import java.io.Serializable;
 
 import com.puzzlebazar.shared.InvalidParameterException;
 
-
 /**
  * A simple class to manipulate 2D integer vectors.
  * 
@@ -33,19 +32,19 @@ public class Vec2i implements Serializable {
   /**
    * Direction that points towards the negative y.
    */
-  public final static int NORTH = 0;
+  public static final int NORTH = 0;
   /**
    * Direction that points towards the positive x.
    */
-  public final static int EAST  = 1;
+  public static final int EAST  = 1;
   /**
    * Direction that points towards the positive y.
    */
-  public final static int SOUTH = 2;
+  public static final int SOUTH = 2;
   /**
    * Direction that points towards the negative x.
    */
-  public final static int WEST  = 3;
+  public static final int WEST  = 3;
 
   /**
    * Creates a zero 2D integer vector.
@@ -72,11 +71,10 @@ public class Vec2i implements Serializable {
    * @param from The vector to copy.
    */
   public Vec2i(Vec2i from) {
-    if( from == null ) {
+    if (from == null) {
       this.x = 0;
       this.y = 0;
-    } else
-    {
+    } else {
       this.x = from.x;
       this.y = from.y;
     }
@@ -96,27 +94,32 @@ public class Vec2i implements Serializable {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     Vec2i other = (Vec2i) obj;
-    if (x != other.x)
+    if (x != other.x) {
       return false;
-    if (y != other.y)
+    }
+    if (y != other.y) {
       return false;
+    }
     return true;
   }
   
   @Override
   public String toString() {
-    return "("+x+", "+y+")";
+    return "(" + x + ", " + y + ")";
   }
 
   /**
-   * Advances a 2D integer vector one step in the given direction
+   * Advances a 2D integer vector one step in the given direction.
    * 
    * @param vec The integer vector (a {@link Vec2i}) to advance. 
    * @param direction The direction to advance in. (One of {@link #NORTH}, 
@@ -124,13 +127,15 @@ public class Vec2i implements Serializable {
    * @throws InvalidParameterException If the parameter is not a valid direction.
    */
   public static void advanceInDirection(Vec2i vec, int direction) throws InvalidParameterException {
-    switch ( direction ) {
+    switch (direction) {
     case NORTH: vec.y--; return;
     case EAST: vec.x++; return;
     case SOUTH: vec.y++; return;
     case WEST: vec.x--; return;
-    }		
-    throw new InvalidParameterException( "Unknown direction, should be NORTH, EAST, SOUTH or WEST." );
+    default:
+      break;
+    }
+    throw new InvalidParameterException("Unknown direction, should be NORTH, EAST, SOUTH or WEST.");
   }
 
   /**
@@ -142,13 +147,15 @@ public class Vec2i implements Serializable {
    * @throws InvalidParameterException If the parameter is not a valid direction.
    */
   public static int oppositeDirection(int direction) throws InvalidParameterException {
-    switch ( direction ) {
+    switch (direction) {
     case NORTH: return SOUTH;
     case EAST: return WEST;
     case SOUTH: return NORTH;
     case WEST: return EAST;
+    default:
+      break;
     }
-    throw new InvalidParameterException( "Unknown direction, should be NORTH, EAST, SOUTH or WEST." );
+    throw new InvalidParameterException("Unknown direction, should be NORTH, EAST, SOUTH or WEST.");
   }
   
   /**
@@ -159,24 +166,26 @@ public class Vec2i implements Serializable {
    * @param from First integer vector (a {@link Vec2i}).
    * @param to Second integer vector (a {@link Vec2i}).
    * @return The direction from the first location to the second.
-   * @throws InvalidParameterException If the integer vectors are neither in the same line nor in the same column.
+   * @throws Exception If the integer vectors are neither in the same line nor in the same column.
    */
   public static int findDirection(Vec2i from, Vec2i to) throws Exception {
     int direction = -1;
-    if( from.x == to.x ) {
-      if( from.y < to.y )
+    if (from.x == to.x) {
+      if (from.y < to.y) {
         direction = SOUTH;
-      else if( from.y > to.y )
+      } else if (from.y > to.y) {
         direction = NORTH;
-    }
-    else if( from.y == to.y ) {
-      if( from.x < to.x )
+      }
+    } else if (from.y == to.y) {
+      if (from.x < to.x) {
         direction = EAST;
-      else if( from.x > to.x )
+      } else if (from.x > to.x) {
         direction = WEST;
+      }
     }
-    if( direction < 0 ) 
-      throw new InvalidParameterException( "Specified integer vectors must lie in the same line or in the same column." );
+    if (direction < 0) {
+      throw new InvalidParameterException("Specified integer vectors must lie in the same line or in the same column.");
+    }
 
     return direction;
   }
@@ -187,7 +196,7 @@ public class Vec2i implements Serializable {
    * @param vec Integer vector to copy (a {@link Vec2i}).
    */
   public void copy(Vec2i vec) {
-    if( vec == null ) {
+    if (vec == null) {
       x = 0;
       y = 0;
     }
@@ -212,6 +221,5 @@ public class Vec2i implements Serializable {
   public int min() {
     return Math.min(x, y);
   }
-
 
 }

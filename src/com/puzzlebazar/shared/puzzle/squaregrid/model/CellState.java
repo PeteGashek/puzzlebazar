@@ -18,7 +18,6 @@ package com.puzzlebazar.shared.puzzle.squaregrid.model;
 
 import java.io.Serializable;
 
-
 /**
  * A marker interface. The type of a state within a {@link CellArray}.
  * 
