@@ -16,9 +16,6 @@
 
 package com.puzzlebazar.client.puzzle.heyawake.presenter;
 
-import com.google.gwt.event.dom.client.HasMouseDownHandlers;
-import com.google.gwt.event.dom.client.HasMouseOutHandlers;
-import com.google.gwt.event.dom.client.HasMouseUpHandlers;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.EventBus;
@@ -46,20 +43,21 @@ public class HeyawakePresenter extends PresenterWidget<HeyawakePresenter.MyView>
      * Create a new view for a {@link HeyawakePresenter}.
      * 
      * @param uiWidget The {@link Widget} receiving the ui input. Must implement
-     *   the following interfaces: {@link HasMouseDownHandlers},
-     *   {@link HasMouseUpHandlers}, {@link HasMouseMouveHandlers},
-     *   {@link HasMouseOutHandlers}.
+     *   the following interfaces: {@link com.google.gwt.event.dom.client.HasMouseDownHandlers},
+     *   {@link com.google.gwt.event.dom.client.HasMouseUpHandlers}, {@link com.google.gwt.event.dom.client.HasMouseMouveHandlers},
+     *   {@link com.google.gwt.event.dom.client.HasMouseOutHandlers}.
      * @param puzzleSize An {@link Has2DSize} object that indicates the size of the puzzle.
      * @return The newly created view for this {@link HeyawakePresenter}.
      */
-    public MyView create(
+    MyView create(
         Widget uiWidget,
-        Has2DSize puzzleSize );
+        Has2DSize puzzleSize);
   }
 
-  public interface MyView extends View, HandlerContainer {
-  }
-  
+  /**
+   * The presenter's view.
+   */
+  public interface MyView extends View, HandlerContainer { }  
 
   /**
    * Use this factory to create {@link HeyawakePresenter} objects.
@@ -71,17 +69,20 @@ public class HeyawakePresenter extends PresenterWidget<HeyawakePresenter.MyView>
      * Create a new {@link HeyawakePresenter}.
      * 
      * @param uiWidget The {@link Widget} receiving the ui input. Must implement
-     *   the following interfaces: {@link HasMouseDownHandlers},
-     *   {@link HasMouseUpHandlers}, {@link HasMouseMouveHandlers},
-     *   {@link HasMouseOutHandlers}.
+     *   the following interfaces: {@link com.google.gwt.event.dom.client.HasMouseDownHandlers},
+     *   {@link com.google.gwt.event.dom.client.HasMouseUpHandlers}, {@link com.google.gwt.event.dom.client.HasMouseMouveHandlers},
+     *   {@link com.google.gwt.event.dom.client.HasMouseOutHandlers}.
      * @param puzzle The {@link HeyawakePuzzle} associated with this presenter.
      * @return The newly created {@link HeyawakePresenter}.
      */
-    public HeyawakePresenter create(
+    HeyawakePresenter create(
         Widget uiWidget,
         HeyawakePuzzle puzzle);
   }
   
+  /**
+   * @author Philippe Beaudoin
+   */
   public static class FactoryImpl implements Factory {
     private final EventBus eventBus;
     private final ViewFactory viewFactory;
@@ -93,10 +94,10 @@ public class HeyawakePresenter extends PresenterWidget<HeyawakePresenter.MyView>
     }
     
     @Override
-    public HeyawakePresenter create(        
+    public HeyawakePresenter create(
         Widget uiWidget,
         HeyawakePuzzle puzzle) {
-      return new HeyawakePresenter(eventBus, viewFactory.create(uiWidget, puzzle), puzzle );
+      return new HeyawakePresenter(eventBus, viewFactory.create(uiWidget, puzzle), puzzle);
     }
   }
   
@@ -105,7 +106,7 @@ public class HeyawakePresenter extends PresenterWidget<HeyawakePresenter.MyView>
   private HeyawakePresenter(
       final EventBus eventBus,
       final MyView view,
-      final HeyawakePuzzle puzzle ) {
+      final HeyawakePuzzle puzzle) {
     super(
         false,
         eventBus, 

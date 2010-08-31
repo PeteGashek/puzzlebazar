@@ -27,7 +27,6 @@ import com.puzzlebazar.shared.model.HasPrivacySettings;
  * @author Philippe Beaudoin
  */
 public interface PuzzleSolve extends EditableObject, Serializable, HasPrivacySettings {
-
   
   // TODO: Complete? Duration? Number of moves?
 }

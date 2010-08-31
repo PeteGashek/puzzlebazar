@@ -23,7 +23,6 @@ import com.puzzlebazar.shared.model.ActionRightsInfo;
 import com.puzzlebazar.shared.model.EditableObject;
 import com.puzzlebazar.shared.model.HasId;
 import com.puzzlebazar.shared.model.User;
-import com.puzzlebazar.shared.model.UserImpl;
 
 /**
  * Basic information that every puzzle must provide.
@@ -47,7 +46,7 @@ public interface PuzzleInfo<T extends PuzzleInfo<?>> extends HasId<T>, Serializa
    * 
    * @return The title of the puzzle, or {@code null} if it is untitled.
    */
-  public String getTitle();
+  String getTitle();
 
   /**
    * Access the {@link Key} to the {@link PuzzleType} structure corresponding to the type
@@ -55,7 +54,7 @@ public interface PuzzleInfo<T extends PuzzleInfo<?>> extends HasId<T>, Serializa
    * 
    * @return The key to the puzzle type (a {@link PuzzleTypeImpl}) or {@code null} if unknown.
    */
-  public Key<PuzzleTypeImpl> getPuzzleTypeKey();
+  Key<PuzzleTypeImpl> getPuzzleTypeKey();
 
   /**
    * Access a string that can give some information regarding the puzzle
@@ -63,21 +62,21 @@ public interface PuzzleInfo<T extends PuzzleInfo<?>> extends HasId<T>, Serializa
    * 
    * @return A string representing the size of the puzzle.
    */
-  public String getSizeString();
+  String getSizeString();
 
   /**
    * Access the puzzle difficulty as a percentage.
    * 
    * @return A number between 0.0 and 1.0 indicating the difficulty. A value of 1.0 indicates a more difficult puzzle.
    */
-  public double getDifficulty();
+  double getDifficulty();
 
   /**
    * Access the puzzle quality as a percentage.
    * 
    * @return A number between 0.0 and 1.0 indicating the quality. A value of 1.0 indicates a puzzle of higher quality.
    */
-  public double getQuality();
+  double getQuality();
 
   /**
    * Verifies that the puzzle passes basic validity test. Typically, a valid puzzle is
@@ -90,7 +89,7 @@ public interface PuzzleInfo<T extends PuzzleInfo<?>> extends HasId<T>, Serializa
    * 
    * @return {@code true} if the puzzle was marked as complete, {@code false} otherwise.
    */
-  public boolean isValid();
+  boolean isValid();
   
   /**
    * Verifies whether or not the puzzle was marked as completed by its author.
@@ -103,17 +102,16 @@ public interface PuzzleInfo<T extends PuzzleInfo<?>> extends HasId<T>, Serializa
    * 
    * @return {@code true} if the puzzle was marked as complete, {@code false} otherwise.
    */
-  public boolean isComplete();
-
+  boolean isComplete();
   
   /**
    * Verifies if this user has the required rights to call {@link #getPuzzleDetails}.
    * 
-   * @param user The {@link UserImpl} who wants to perform the action.
+   * @param user The {@link User} who wants to perform the action.
    * @return The {@link ActionRightsInfo}. Call {@link ActionRightsInfo#canPerformAction()} 
    *         to verifies if the user has the required rights.
    */
-  public ActionRightsInfo canUserViewPuzzleDetails( User user );
+  ActionRightsInfo canUserViewPuzzleDetails(User user);
 
   /**
    * Access the {@link Key} to the {@link PuzzleDetails} structure to get more information
@@ -122,6 +120,6 @@ public interface PuzzleInfo<T extends PuzzleInfo<?>> extends HasId<T>, Serializa
    * 
    * @return The key to the puzzle type (a {@link PuzzleDetailsImpl}) or {@code null} if unknown.
    */
-  public Key<? extends PuzzleDetails<?>> getPuzzleDetailsKey();  
+  Key<? extends PuzzleDetails<?>> getPuzzleDetailsKey();  
   
 }

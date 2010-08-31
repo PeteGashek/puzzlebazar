@@ -46,7 +46,7 @@ public class HeyawakeCellState implements CellState {
    * @param content The desired content. One of {@link #UNKNOWN},
    * {@link #EMPTY} or {@link @FILLED}. 
    */
-  public HeyawakeCellState( int content ) {
+  public HeyawakeCellState(int content) {
     setContent(content);
   }
   
@@ -67,7 +67,8 @@ public class HeyawakeCellState implements CellState {
    * {@link #EMPTY} or {@link @FILLED}. 
    */
   public void setContent(int content) {
-    assert content==UNKNOWN || content==EMPTY || content==FILLED : "Invalid content in HeyawakeCellState.";
+    assert content == UNKNOWN || content == EMPTY || content == FILLED : 
+      "Invalid content in HeyawakeCellState.";
     this.content = content;
   }
 }

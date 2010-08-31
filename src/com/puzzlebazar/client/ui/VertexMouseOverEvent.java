@@ -16,7 +16,6 @@
 
 package com.puzzlebazar.client.ui;
 
-import com.puzzlebazar.shared.util.Recti;
 import com.puzzlebazar.shared.util.Vec2i;
 
 /**
@@ -42,11 +41,11 @@ public class VertexMouseOverEvent extends VertexEvent<VertexMouseOverHandler> {
 
   /**
    * Creates a {@link VertexMouseOverEvent} at the specified cell coordinate.
-   * See {@link Recti} for the difference between cell and vertex coordinates.
+   * See {@link com.puzzlebazar.shared.util.Recti} for the difference between cell and vertex coordinates.
    * 
    * @param vertex The vertex coordinate.
    */
-  public VertexMouseOverEvent( Vec2i vertex ) {
+  public VertexMouseOverEvent(Vec2i vertex) {
     super(vertex);
   }
 
@@ -59,6 +58,5 @@ public class VertexMouseOverEvent extends VertexEvent<VertexMouseOverHandler> {
   protected void dispatch(VertexMouseOverHandler handler) {
     handler.onVertexMouseOver(this);
   }
-
 
 }

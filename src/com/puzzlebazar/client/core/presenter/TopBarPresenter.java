@@ -31,14 +31,20 @@ import com.puzzlebazar.client.CurrentUser;
 import com.puzzlebazar.shared.action.LogoutAction;
 import com.puzzlebazar.shared.action.NoResult;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class TopBarPresenter extends PresenterWidget<TopBarPresenter.MyView> 
 implements CurrentUserChangedHandler {
 
+  /**
+   * The presenter's view.
+   */
   public interface MyView extends View {
-    public void setLoggedIn( String username, boolean isAdministrator );
-    public void setLoggedOut();
-    public void setPostSignInCallback( Command postSignInCallback );
-    public HasClickHandlers getSignOut();
+    void setLoggedIn(String username, boolean isAdministrator);
+    void setLoggedOut();
+    void setPostSignInCallback(Command postSignInCallback);
+    HasClickHandlers getSignOut();
   }
 
   private final PlaceManager placeManager;
@@ -63,21 +69,21 @@ implements CurrentUserChangedHandler {
   protected void onBind() {
     super.onBind();
 
-    registerHandler( getView().getSignOut().addClickHandler( new ClickHandler() {
+    registerHandler(getView().getSignOut().addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
         doSignOut();
       }
-    } ) );
+    }));
 
-    getView().setPostSignInCallback(  new Command() {
+    getView().setPostSignInCallback(new Command() {
       @Override
       public void execute() {
         currentUser.fetchUser();
       }
-    } );
+    });
     
-    addRegisteredHandler( CurrentUserChangedEvent.getType(), this );
+    addRegisteredHandler(CurrentUserChangedEvent.getType(), this);
   }
 
   @Override
@@ -87,11 +93,11 @@ implements CurrentUserChangedHandler {
   }
     
   private void checkUserStatus() {
-    if( currentUser.isLoggedIn() ) {
-      getView().setLoggedIn( currentUser.getEmail(), currentUser.isAdministrator() );
-    }
-    else
+    if (currentUser.isLoggedIn()) {
+      getView().setLoggedIn(currentUser.getEmail(), currentUser.isAdministrator());
+    } else {
       getView().setLoggedOut();
+    }
   }
 
   @Override
@@ -102,11 +108,10 @@ implements CurrentUserChangedHandler {
   private void doSignOut() {
     getView().setLoggedOut();
     placeManager.revealDefaultPlace();
-    dispatcher.execute( new LogoutAction(), new ActionCallback<NoResult>() {
+    dispatcher.execute(new LogoutAction(), new ActionCallback<NoResult>() {
       @Override
-      public void onSuccess(NoResult noResult) {}
-    } ); 
+      public void onSuccess(NoResult noResult) { }
+    }); 
   }
-
 
 }

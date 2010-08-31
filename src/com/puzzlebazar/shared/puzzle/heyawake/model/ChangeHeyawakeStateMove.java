@@ -19,18 +19,19 @@ package com.puzzlebazar.shared.puzzle.heyawake.model;
 import com.puzzlebazar.shared.puzzle.squaregrid.model.ChangeCellStateMove;
 import com.puzzlebazar.shared.util.Vec2i;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class ChangeHeyawakeStateMove extends ChangeCellStateMove<HeyawakeCellState> 
 implements HeyawakeMove {
 
   private static final long serialVersionUID = 5629287498654423276L;
-
 
   @SuppressWarnings("unused")
   private ChangeHeyawakeStateMove() {
     // For serialization only
     super();
   }
-
 
   /**
    * Creates a move to indicate a change of state inside a {@link HeyawakePuzzle}.
@@ -48,12 +49,10 @@ implements HeyawakeMove {
     super(loc, stateBefore, stateAfter);
   }
 
-
   @Override
   public void doMove(HeyawakePuzzle puzzle) {
     puzzle.setCellState(getLoc(), getStateAfter());
   }
-
 
   @Override
   public void undoMove(HeyawakePuzzle puzzle) {

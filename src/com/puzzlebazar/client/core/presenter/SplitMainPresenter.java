@@ -28,6 +28,9 @@ import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class SplitMainPresenter 
 extends Presenter<SplitMainPresenter.MyView, SplitMainPresenter.MyProxy>
 implements DisplayShortMessageHandler {
@@ -38,20 +41,26 @@ implements DisplayShortMessageHandler {
   @ContentSlot
   public static final Type<RevealContentHandler<?>> TYPE_RevealCenterContent = new Type<RevealContentHandler<?>>();
   
+  /**
+   * The presenter's view.
+   */
   public interface MyView extends View {
-    public void showMessage( Widget message, boolean dismissable );
-    public void clearMessage();
-    public boolean hasSideBarContent();
+    void showMessage(Widget message, boolean dismissable);
+    void clearMessage();
+    boolean hasSideBarContent();
   }
 
+  /**
+   * The presenter's proxy.
+   */
   @ProxyCodeSplit
-  public interface MyProxy extends Proxy<SplitMainPresenter> {}
+  public interface MyProxy extends Proxy<SplitMainPresenter> { }
 
   @Inject
   public SplitMainPresenter(
       final EventBus eventBus, 
       final MyView view, 
-      final MyProxy proxy ) {
+      final MyProxy proxy) {
     super(eventBus, view, proxy);
   }  
 
@@ -63,26 +72,29 @@ implements DisplayShortMessageHandler {
   @Override
   protected void onBind() {
     super.onBind();
-    registerHandler( this.addHandler( DisplayShortMessageEvent.getType(), this ) );
+    addRegisteredHandler(DisplayShortMessageEvent.getType(), this);
   }
 
   @Override
   protected void onReveal() {
     super.onReveal();
-    if( !getView().hasSideBarContent() )
+    if (!getView().hasSideBarContent()) {
       RevealDefaultLinkColumnEvent.fire(this);
+    }
   }
 
   @Override
   public void onDisplayShortMessage(DisplayShortMessageEvent event) {
-    if( !isVisible() || event.isAlreadyDisplayed() )
+    if (!isVisible() || event.isAlreadyDisplayed()) {
       return;
+    }
     Widget message = event.getMessage();    
-    if( message == null )
+    if (message == null) {
       getView().clearMessage();
-    else    
+    } else {
       // TODO Take duration into account
-      getView().showMessage( message, event.isDismissable() );
+      getView().showMessage(message, event.isDismissable());
+    }
     event.setAlreadyDisplayed();
   }
 }

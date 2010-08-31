@@ -56,13 +56,13 @@ public abstract class ActionCallback<T> implements AsyncCallback<T>, HasEventBus
    * 
    * @param errorMessage The desired error message.
    */
-  public ActionCallback( String errorMessage ) {
+  public ActionCallback(String errorMessage) {
     this.errorMessage = errorMessage;
   }
   
   @Override
   public void onFailure(Throwable caught) {
-    onError( errorMessage );
+    onError(errorMessage);
   }
 
   /**
@@ -71,7 +71,7 @@ public abstract class ActionCallback<T> implements AsyncCallback<T>, HasEventBus
    * @param message A short message, translated to the user's locale.
    */
   protected void onError(String message) {
-    DisplayShortMessageEvent.fireError( this, message );
+    DisplayShortMessageEvent.fireError(this, message);
   }
 
   @Override

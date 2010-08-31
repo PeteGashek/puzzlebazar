@@ -16,7 +16,6 @@
 
 package com.puzzlebazar.client.ui;
 
-import com.puzzlebazar.shared.util.Recti;
 import com.puzzlebazar.shared.util.Vec2i;
 
 /**
@@ -42,14 +41,13 @@ public class CellMouseOutEvent extends CellEvent<CellMouseOutHandler> {
 
   /**
    * Creates a {@link CellMouseOutEvent} at the specified cell coordinate.
-   * See {@link Recti} for the difference between cell and vertex coordinates.
+   * See {@link com.puzzlebazar.shared.util.Recti} for the difference between cell and vertex coordinates.
    * 
    * @param cell The cell coordinate.
    */
-  public CellMouseOutEvent( Vec2i cell ) {
+  public CellMouseOutEvent(Vec2i cell) {
     super(cell);
   }
-
 
   @Override
   public final Type<CellMouseOutHandler> getAssociatedType() {
@@ -60,6 +58,5 @@ public class CellMouseOutEvent extends CellEvent<CellMouseOutHandler> {
   protected void dispatch(CellMouseOutHandler handler) {
     handler.onCellMouseOut(this);
   }
-
 
 }

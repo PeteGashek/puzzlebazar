@@ -22,6 +22,11 @@ import com.google.gwt.core.client.GWT;
 import com.gwtplatform.mvp.client.DelayedBindRegistry;
 import com.puzzlebazar.client.gin.PuzzlebazarGinjector;
 
+/**
+ * Entry point of the application.
+ * 
+ * @author Philippe Beaudoin
+ */
 public class Puzzlebazar implements EntryPoint {
   public final PuzzlebazarGinjector ginjector = GWT.create(PuzzlebazarGinjector.class);
 
@@ -31,7 +36,6 @@ public class Puzzlebazar implements EntryPoint {
     
     ginjector.getResources().style().ensureInjected();
     ginjector.getPlaceManager().revealCurrentPlace();
-
   }
 
 }

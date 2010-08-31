@@ -35,13 +35,13 @@ public class CurrentUserChangedEvent extends GwtEvent<CurrentUserChangedHandler>
     return TYPE;
   }
 
-  public static void fire( EventBus eventBus, CurrentUser currentUser ) {
-    eventBus.fireEvent( new CurrentUserChangedEvent( currentUser ) );
+  public static void fire(EventBus eventBus, CurrentUser currentUser) {
+    eventBus.fireEvent(new CurrentUserChangedEvent(currentUser));
   }
 
   private final CurrentUser currentUser;
 
-  public CurrentUserChangedEvent( CurrentUser currentUser ) {
+  public CurrentUserChangedEvent(CurrentUser currentUser) {
     this.currentUser = currentUser;
   }
 
@@ -55,8 +55,8 @@ public class CurrentUserChangedEvent extends GwtEvent<CurrentUserChangedHandler>
   }
 
   @Override
-  protected void dispatch( CurrentUserChangedHandler handler ) {
-    handler.onCurrentUserChanged( this );
+  protected void dispatch(CurrentUserChangedHandler handler) {
+    handler.onCurrentUserChanged(this);
   }
 
   @Override

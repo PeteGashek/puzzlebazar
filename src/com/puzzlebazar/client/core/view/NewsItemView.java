@@ -25,6 +25,9 @@ import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.NewsItemPresenter;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class NewsItemView extends ViewImpl implements NewsItemPresenter.MyView {
 
   interface Binder extends UiBinder<Widget, NewsItemView> { }
@@ -47,7 +50,7 @@ public class NewsItemView extends ViewImpl implements NewsItemPresenter.MyView {
   
   @Override
   public void setTitle(String title) {
-    this.title.setText( title );
+    this.title.setText(title);
   }
 
 }

@@ -40,12 +40,16 @@ public class PagePresenter extends Presenter<PagePresenter.MyView, PagePresenter
 
   public static final Object TYPE_RevealTopBarContent = new Object();
     
-  public interface MyView extends View {
-  }
+  /**
+   * The presenter's view.
+   */
+  public interface MyView extends View { }
   
+  /**
+   * The presenter's proxy.
+   */
   @ProxyStandard
-  public interface MyProxy extends Proxy<PagePresenter> {
-  }  
+  public interface MyProxy extends Proxy<PagePresenter> { }  
 
   private final TopBarPresenter topBarPresenter;
   
@@ -54,7 +58,7 @@ public class PagePresenter extends Presenter<PagePresenter.MyView, PagePresenter
       final EventBus eventBus, 
       final MyView view, 
       final MyProxy proxy,
-      final TopBarPresenter topBarPresenter ) {
+      final TopBarPresenter topBarPresenter) {
     super(eventBus, view, proxy);
 
     this.topBarPresenter = topBarPresenter;
@@ -62,19 +66,19 @@ public class PagePresenter extends Presenter<PagePresenter.MyView, PagePresenter
 
   @Override
   protected void revealInParent() {
-    RevealRootContentEvent.fire( this, this );
+    RevealRootContentEvent.fire(this, this);
   }
 
   @Override
   protected void onReveal() {
     super.onReveal();
-    setInSlot( TYPE_RevealTopBarContent, topBarPresenter );
+    setInSlot(TYPE_RevealTopBarContent, topBarPresenter);
   }
   
   @Override
   protected void onHide() {
     super.onHide();
-    clearSlot( TYPE_RevealTopBarContent );
+    clearSlot(TYPE_RevealTopBarContent);
   }
 
   @Override
@@ -84,5 +88,3 @@ public class PagePresenter extends Presenter<PagePresenter.MyView, PagePresenter
   }
 
 }
-
-

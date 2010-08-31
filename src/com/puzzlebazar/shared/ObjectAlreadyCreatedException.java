@@ -18,6 +18,9 @@ package com.puzzlebazar.shared;
 
 import com.gwtplatform.dispatch.shared.ActionException;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class ObjectAlreadyCreatedException extends ActionException {
   private static final long serialVersionUID = 4619104873617053532L;
   public ObjectAlreadyCreatedException() {

@@ -31,11 +31,11 @@ public interface MonitorHandler {
   /**
    * Called whenever the associated object has changed.
    */
-  public void changeDetected();
+  void changeDetected();
   
   /**
    * Called whenever all changes in the associated object 
    * have been reverted.
    */
-  public void changeReverted();
+  void changeReverted();
 }

@@ -18,7 +18,6 @@ package com.puzzlebazar.shared.model;
 
 import java.io.Serializable;
 
-
 /**
  * A specific use of a {@link Tag} attached to a given object.
  * 
@@ -31,23 +30,21 @@ public interface TagInstance extends Serializable {
    * 
    * @return The {@link Tag}.
    */
-  public Tag getTag();
+  Tag getTag();
 
   /**
    * Get the total number of users who attached this tag to the object.
    * 
    * @return The number of users who attached this tag to the object.
    */
-  public int getNumberOfTaggers();
+  int getNumberOfTaggers();
   
   /**
    * @return The list of all users who attached this tag to the object.
    */
-  public User getTaggers();
+  User getTaggers();
   
-  public void tag( User user );
-  public void untag( User user );
-  
-  
-  
+  void tag(User user);
+  void untag(User user);
+ 
 }

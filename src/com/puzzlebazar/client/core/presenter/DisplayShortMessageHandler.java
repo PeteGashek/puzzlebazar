@@ -18,8 +18,13 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.event.shared.EventHandler;
 
+/**
+ * Handler for {@link DisplayShortMessageEvent}.
+ * 
+ * @author Philippe Beaudoin
+ */
 public interface DisplayShortMessageHandler extends EventHandler {
 
-  void onDisplayShortMessage( DisplayShortMessageEvent event );
+  void onDisplayShortMessage(DisplayShortMessageEvent event);
 
 }

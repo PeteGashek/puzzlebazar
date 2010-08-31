@@ -40,10 +40,9 @@ import com.puzzlebazar.shared.model.User;
 import com.puzzlebazar.shared.model.UserImpl;
 import com.puzzlebazar.shared.util.AvailableLocales;
 
-
 /**
  * The class responsible of managing cache and datastore
- * storage of user-related objects:
+ * storage of user-related objects. These objects are managed here:
  * <ul>
  * <li> {@link Session} </li>
  * <li> {@link UserImpl} </li>
@@ -54,7 +53,7 @@ import com.puzzlebazar.shared.util.AvailableLocales;
  */
 public class UserDAO extends DAOBase {  
   
-  private static boolean objectsRegistered = false;
+  private static boolean objectsRegistered;
   
   @Override
   protected boolean areObjectsRegistered() {
@@ -84,8 +83,8 @@ public class UserDAO extends DAOBase {
       final AvailableLocales availableLocales,
       final Provider<HttpSession> session,
       final Provider<HttpServletRequest> request,
-      final Provider<HttpServletResponse> response ) {
-    super( objectifyFactory );
+      final Provider<HttpServletResponse> response) {
+    super(objectifyFactory);
     this.logger = logger;
     this.availableLocales = availableLocales;
     this.session = session;
@@ -101,8 +100,7 @@ public class UserDAO extends DAOBase {
    */
   public Key<UserImpl> getSessionUserKey() {
     String sessionId = getSessionId();  
-    Session session = getOrCreateSession(sessionId);    
-    return session.getCurrentUserKey();        
+    return getOrCreateSession(sessionId).getCurrentUserKey();        
   }
 
   /**
@@ -116,15 +114,16 @@ public class UserDAO extends DAOBase {
     
     // Special case: A null user key means the user is known not to be logged-in
     //               this saves a trip to the datastore.
-    if( userKey == null )
+    if (userKey == null) {
       return null;
+    }
     
     User user = getUser(userKey);
-    if( user == null )
-      createInvalidSession( getSessionId() );
-    else
-      ((UserImpl)user).setAuthenticated(true);
-  
+    if (user == null) {
+      createInvalidSession(getSessionId());
+    } else {
+      ((UserImpl) user).setAuthenticated(true);
+    }
     return user;
   }
 
@@ -140,16 +139,16 @@ public class UserDAO extends DAOBase {
   
     Map<String,String> axSchema = AxSchemaExtension.get(openIdUser);
     String email = axSchema.get("email");
-    if( email == null ) {
-      logger.warning( "Setting a user with a null email. Call logout instead?" );
+    if (email == null) {
+      logger.warning("Setting a user with a null email. Call logout instead?");
       return;
     }
     String locale =  availableLocales.getBestLocale(axSchema.get("language")).getLocale();
   
     User user = getUserByEmailOrCreate(email, locale);
-    if( user != null ) {
+    if (user != null) {
       String sessionId = getSessionId();
-      ofy().put( new Session( sessionId, user.createKey() ) );
+      ofy().put(new Session(sessionId, user.createKey()));
     }
   }
 
@@ -161,7 +160,7 @@ public class UserDAO extends DAOBase {
    */
   public User getUser(
       final long id) {
-    return getUser( new Key<UserImpl>(UserImpl.class, id) );
+    return getUser(new Key<UserImpl>(UserImpl.class, id));
   }
 
   /**
@@ -174,9 +173,8 @@ public class UserDAO extends DAOBase {
 
     UserImpl user = null;
     try {
-      user = ofy().get( key );
-    }
-    catch( NotFoundException e ) {
+      user = ofy().get(key);
+    } catch (NotFoundException e) {
       user = null;
     }
     
@@ -198,19 +196,17 @@ public class UserDAO extends DAOBase {
 
     Objectify ofyTxn = newOfyTransaction();
     try {
-      UserImpl user = ofyTxn.get( UserImpl.class, userId );      
-      user.editFrom( updatedUser );
-      ofyTxn.put( user );
+      UserImpl user = ofyTxn.get(UserImpl.class, userId);      
+      user.editFrom(updatedUser);
+      ofyTxn.put(user);
       ofyTxn.getTxn().commit();
-    }
-    catch( NotFoundException e ) {
-      throw new ObjectNotFoundException( "User not found, can't modify. Id = " + userId );
-    }
-    finally {
-      if(ofyTxn.getTxn().isActive())
+    } catch (NotFoundException e) {
+      throw new ObjectNotFoundException("User not found, can't modify. Id = " + userId);
+    } finally {
+      if (ofyTxn.getTxn().isActive()) {
         ofyTxn.getTxn().rollback();
-    }      
-
+      }
+    }
   }
 
   /**
@@ -223,42 +219,43 @@ public class UserDAO extends DAOBase {
    */
   public User getUserByEmailOrCreate(
       final String emailQuery,
-      final String locale ) throws TransactionFailedException {
+      final String locale) throws TransactionFailedException {
 
-    if( emailQuery == null )
+    if (emailQuery == null) {
       return null;
+    }
 
     Objectify ofyTxn = newOfyTransaction();
 
     UserImpl user = null;
     int retry = 0;
-    while( user == null && retry < MAX_RETRIES ) {
+    while (user == null && retry < MAX_RETRIES) {
       try {
-        EmailToUser emailToUser = ofyTxn.get( EmailToUser.class, emailQuery );
+        EmailToUser emailToUser = ofyTxn.get(EmailToUser.class, emailQuery);
         ofyTxn.getTxn().commit();
-        user = ofy().get( emailToUser.getUserKey() );
-      }
-      catch( NotFoundException e ) {
-        user = new UserImpl( emailQuery );
-        user.setLocale( locale );
-        ofy().put( user );
-        EmailToUser emailToUser = new EmailToUser( emailQuery, user.createKey() );
-        ofyTxn.put( emailToUser );
+        user = ofy().get(emailToUser.getUserKey());
+      } catch (NotFoundException e) {
+        user = new UserImpl(emailQuery);
+        user.setLocale(locale);
+        ofy().put(user);
+        EmailToUser emailToUser = new EmailToUser(emailQuery, user.createKey());
+        ofyTxn.put(emailToUser);
         ofyTxn.getTxn().commit();
-      }
-      finally {
-        if(ofyTxn.getTxn().isActive()) {
+      } finally {
+        if (ofyTxn.getTxn().isActive()) {
           ofyTxn.getTxn().rollback();
-          if( user != null )
-            ofy().delete( user );
+          if (user != null) {
+            ofy().delete(user);
+          }
           user = null;
         }
       }
       retry++;
     }
     
-    if( retry == MAX_RETRIES )
+    if (retry == MAX_RETRIES) {
       throw new TransactionFailedException();
+    }
 
     return updateAdministrator(user);
   }
@@ -271,12 +268,14 @@ public class UserDAO extends DAOBase {
    * @return The user with the valid administrator field, or {@code null} id {@code null} was passed in.
    */
   private User updateAdministrator(UserImpl user) {
-    if( user == null )
+    if (user == null) {
       return null;
-    if( user.getEmail().equals(ADMINISTRATOR_EMAIL) )
+    }
+    if (user.getEmail().equals(ADMINISTRATOR_EMAIL)) {
       user.setAdministrator(true);
-    else
+    } else {
       user.setAdministrator(false);
+    }
     return user;
   }
 
@@ -287,13 +286,12 @@ public class UserDAO extends DAOBase {
     try {
       RelyingParty.getInstance().invalidate(request.get(), response.get());
     } catch (IOException exception) {
-      logger.warning( "RelyingParty logout failed" + exception.getMessage() );
+      logger.warning("RelyingParty logout failed" + exception.getMessage());
     }
 
     String sessionId = getSessionId();
-    Session session = getOrCreateSession( sessionId );
-    session.logoutUser();
-    createInvalidSession( getSessionId() );
+    getOrCreateSession(sessionId).logoutUser();
+    createInvalidSession(getSessionId());
   }
 
   /**
@@ -313,15 +311,14 @@ public class UserDAO extends DAOBase {
    * @return The newly fetched (or created) {@link Session}.
    */
   private Session getOrCreateSession(String sessionId) {
-    Session session = null;
+    Session currentSession = null;
     try {
-      session = ofy().get( Session.class, sessionId );
+      currentSession = ofy().get(Session.class, sessionId);
+    } catch (NotFoundException e) {
+      currentSession = createInvalidSession(sessionId);
     }
-    catch( NotFoundException e ) {
-      session = createInvalidSession( sessionId );
-    }
-    assert session != null : "Session not found, and unable to create it!";
-    return session;
+    assert currentSession != null : "Session not found, and unable to create it!";
+    return currentSession;
   }
 
   /**
@@ -331,11 +328,10 @@ public class UserDAO extends DAOBase {
    * @param sessionId The id of the invalid session.
    * @return The newly created invalid {@link Session}.
    */
-  private Session createInvalidSession( String sessionId ) {
-    Session session = new Session(sessionId, null);
-    ofy().put( session );
-    return session;
+  private Session createInvalidSession(String sessionId) {
+    Session currentSession = new Session(sessionId, null);
+    ofy().put(currentSession);
+    return currentSession;
   }
-
 
 }

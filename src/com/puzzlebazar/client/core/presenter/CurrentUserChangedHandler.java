@@ -18,8 +18,13 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.event.shared.EventHandler;
 
+/**
+ * Handler for {@link CurrentUserChangedEvent}.
+ * 
+ * @author Philippe Beaudoin
+ */
 public interface CurrentUserChangedHandler extends EventHandler {
 
-    void onCurrentUserChanged( CurrentUserChangedEvent event );
+    void onCurrentUserChanged(CurrentUserChangedEvent event);
 
 }

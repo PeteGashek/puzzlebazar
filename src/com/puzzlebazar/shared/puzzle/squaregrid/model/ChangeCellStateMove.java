@@ -50,7 +50,7 @@ public class ChangeCellStateMove<S extends CellState> implements Serializable {
    * @param stateBefore The {@link CellState} before the change.
    * @param stateAfter  The {@link CellState} after the change.
    */
-  public ChangeCellStateMove( Vec2i loc, S stateBefore, S stateAfter ) {
+  public ChangeCellStateMove(Vec2i loc, S stateBefore, S stateAfter) {
     this.loc = loc;
     this.stateBefore = stateBefore; 
     this.stateAfter = stateAfter;

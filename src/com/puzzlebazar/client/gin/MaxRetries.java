@@ -24,5 +24,8 @@ import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 
+/**
+ * @author Philippe Beaudoin
+ */
 @BindingAnnotation @Target({ FIELD, PARAMETER, METHOD }) @Retention(RUNTIME)
-public @interface MaxRetries {}
+public @interface MaxRetries { }

@@ -19,17 +19,20 @@ package com.puzzlebazar.shared.action;
 import com.gwtplatform.dispatch.shared.ActionImpl;
 import com.puzzlebazar.shared.model.User;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class EditUserAction extends ActionImpl< NoResult > {
 
   private User user;
-  private User previousUser = null;
+  private User previousUser;
 
   @SuppressWarnings("unused")
   private EditUserAction() {
     // For serialization only
   }
 
-  public EditUserAction( User user, User previousUser ) {
+  public EditUserAction(User user, User previousUser) {
     this.user = user;
     this.previousUser = previousUser;
   }

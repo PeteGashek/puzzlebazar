@@ -16,8 +16,6 @@
 
 package com.puzzlebazar.client;
 
-import com.gwtplatform.mvp.client.annotations.NameToken;
-
 /**
  * The central location of all name tokens for the application.
  * All {@link ProxyPlace} classes get their tokens from here.
@@ -25,15 +23,14 @@ import com.gwtplatform.mvp.client.annotations.NameToken;
  * a resource within UIBinder xml files. 
  * <p />
  * This class uses both static variables and static getters.
- * The reason for this is that, if you want to use {@code NameTokens}
+ * The reason for this is that, if you want to use {@code com.gwtplatform.mvp.client.annotations.NameTokens}
  * in a UiBinder file, you can only access static methods of the class.
- * On the other hand, when you use the {@literal @}{@link NameToken} 
+ * On the other hand, when you use the {@literal @}{@link com.gwtplatform.mvp.client.annotations.NameToken} 
  * annotation, you can only refer to a static variable.
  *
  * @author Philippe Beaudoin
  */
 public class NameTokens {
-
 
   public static final String adminGeneral = "!admin";
   public static String getAdminGeneral() {

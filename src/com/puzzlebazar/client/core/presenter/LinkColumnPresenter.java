@@ -25,19 +25,29 @@ import com.gwtplatform.mvp.client.annotations.ProxyStandard;
 import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
 
-public class LinkColumnPresenter extends Presenter<LinkColumnPresenter.MyView, LinkColumnPresenter.MyProxy> 
-implements RevealDefaultLinkColumnHandler {
+/**
+ * @author Philippe Beaudoin
+ */
+public class LinkColumnPresenter extends 
+    Presenter<LinkColumnPresenter.MyView, LinkColumnPresenter.MyProxy> 
+    implements RevealDefaultLinkColumnHandler {
 
-  public interface MyView extends View {}
+  /**
+   * The presenter's view.
+   */
+  public interface MyView extends View { }
 
+  /**
+   * The presenter's proxy.
+   */
   @ProxyStandard
-  public interface MyProxy extends Proxy<LinkColumnPresenter> {}
+  public interface MyProxy extends Proxy<LinkColumnPresenter> { }
   
   @Inject
   public LinkColumnPresenter(
       final EventBus eventBus, 
       final MyView view,  
-      final MyProxy proxy ) {
+      final MyProxy proxy) {
     super(eventBus, view, proxy);
   }
 

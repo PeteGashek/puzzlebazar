@@ -45,7 +45,7 @@ public interface ChangeMonitor extends MonitorHandler, HandlerContainer {
    *               for a number of supported types and the change 
    *               monitor will adapt to the type. 
    */
-  public abstract void monitorWidget(Object widget);
+  void monitorWidget(Object widget);
 
   /**
    * Resets all the original values to match the values currently contained

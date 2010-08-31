@@ -24,13 +24,16 @@ import javax.persistence.Transient;
 import com.googlecode.objectify.Key;
 import com.puzzlebazar.shared.util.Validation;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class UserImpl implements Serializable, User {
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = -6968794066096789377L;
 
+  /**
+   * Possible errors for an invalid user.
+   */
   public class ErrorFlags {
     public static final int SUCCESS = 0;
     public static final int EMAIL_ALREADY_REGISTERED = 0x0001;
@@ -40,15 +43,14 @@ public class UserImpl implements Serializable, User {
     public static final int UNKOWN_ERROR = 0x8000;
   };
 
-
   @Id private Long id;
   private String email;
   private String realName;
   private String nickname;
   private String locale; // null means default locale
 
-  @Transient private boolean administrator = false;
-  @Transient private boolean authenticated = false;
+  @Transient private boolean administrator;
+  @Transient private boolean authenticated;
 
   @SuppressWarnings("unused")
   private UserImpl() {
@@ -73,7 +75,6 @@ public class UserImpl implements Serializable, User {
     return new UserImpl(this);
   }
 
-
   /**
    * Check if the passed user is compatible with this one. If so,
    * copies all the passed user's fields into this one. If not,
@@ -83,9 +84,10 @@ public class UserImpl implements Serializable, User {
    * @throws InvalidEditException Thrown whenever a non-editable field is not the same as this user.
    */
   public void editFrom(User user) throws InvalidEditException {
-    if( !id.equals(user.getId()) ||
-        !email.equals(user.getEmail()) ) 
+    if (!id.equals(user.getId()) ||
+        !email.equals(user.getEmail())) { 
       throw new InvalidEditException();
+    }
     copyEditableFields(user);
   }
   
@@ -96,7 +98,7 @@ public class UserImpl implements Serializable, User {
 
   @Override
   public Key<UserImpl> createKey() {
-    return new Key<UserImpl>( UserImpl.class, getId() );
+    return new Key<UserImpl>(UserImpl.class, getId());
   }
   
   @Override
@@ -153,11 +155,11 @@ public class UserImpl implements Serializable, User {
   }
 
   @Override
-  public boolean isValid() {		
-    return Validation.validateString( realName, MIN_REALNAME_LENGTH, MAX_REALNAME_LENGTH ) &&
-    Validation.validateString( email, 0, MAX_EMAIL_LENGTH ) &&
-    Validation.validateEmail( email ) &&
-    Validation.validateString( nickname, MIN_NICKNAME_LENGTH, MAX_NICKNAME_LENGTH );
+  public boolean isValid() {
+    return Validation.validateString(realName, MIN_REALNAME_LENGTH, MAX_REALNAME_LENGTH) &&
+    Validation.validateString(email, 0, MAX_EMAIL_LENGTH) &&
+    Validation.validateEmail(email) &&
+    Validation.validateString(nickname, MIN_NICKNAME_LENGTH, MAX_NICKNAME_LENGTH);
   }
 
   private void copyEditableFields(User user) {

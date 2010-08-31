@@ -18,6 +18,9 @@ package com.puzzlebazar.shared.action;
 
 import com.gwtplatform.dispatch.shared.ActionImpl;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class GetPuzzleAction extends ActionImpl< GetPuzzleResult > {
 
   private long id;
@@ -27,7 +30,7 @@ public class GetPuzzleAction extends ActionImpl< GetPuzzleResult > {
     // For serialization only
   }
 
-  public GetPuzzleAction( long id ) {
+  public GetPuzzleAction(long id) {
     this.id = id;
   }
 

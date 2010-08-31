@@ -1,67 +1,85 @@
+/**
+ * Copyright 2010 Philippe Beaudoin
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.puzzlebazar.shared.model;
 
-
+/**
+ * @author Philippe Beaudoin
+ */
 public interface User extends HasId<UserImpl> {
 
-  public static final int MIN_REALNAME_LENGTH = 1;
-  public static final int MIN_NICKNAME_LENGTH = 5;
-  public static final int MAX_REALNAME_LENGTH = 30;
-  public static final int MAX_NICKNAME_LENGTH = 30;
-  public static final int MAX_EMAIL_LENGTH = 80;
+  int MIN_REALNAME_LENGTH = 1;
+  int MIN_NICKNAME_LENGTH = 5;
+  int MAX_REALNAME_LENGTH = 30;
+  int MAX_NICKNAME_LENGTH = 30;
+  int MAX_EMAIL_LENGTH = 80;
   
   /**
    * @return The email address of this user. 
    */
-  public String getEmail();
+  String getEmail();
 
   /**
    * @return The real name of this user. 
    */
-  public String getRealName();
+  String getRealName();
 
   /**
    * @return The nickname of this user.
    */
-  public String getNickname();
+  String getNickname();
 
   /**
    * @return The locale for this user. An IEFT language tag.
    */
-  public String getLocale();
+  String getLocale();
 
   /**
    * @return True if the user is an administrator.
    */
-  public boolean isAdministrator();
+  boolean isAdministrator();
 
   /**
-   * @param realname The real name to set for this user.
+   * @param realName The real name to set for this user.
    */
-  public void setRealname(String realName);
+  void setRealname(String realName);
 
   /**
    * @param nickname The nickname to set for this user.
    */
-  public void setNickname(String nickname);
+  void setNickname(String nickname);
 
   /**
    * @param locale The locale to set for this user. An IEFT language tag. 
    */
-  public void setLocale(String locale);
+  void setLocale(String locale);
 
   /**
    * @return True if the user is authenticade via Google User Service, false if not.
    */
-  public boolean isAuthenticated();
+  boolean isAuthenticated();
 
   /**
    * @return True if the information is valid, false if not
    */
-  public boolean isValid();
+  boolean isValid();
 
   /**
    * @return An exact copy of this {@link User} object.
    */
-  public User clone();
+  User clone();
   
 }

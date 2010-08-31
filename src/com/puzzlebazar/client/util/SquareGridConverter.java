@@ -16,14 +16,12 @@
 
 package com.puzzlebazar.client.util;
 
-import com.google.gwt.user.client.ui.Widget;
-import com.puzzlebazar.client.ui.SquareGridLayoutPanel;
 import com.puzzlebazar.shared.util.Vec2i;
 
 /**
  * A utility class to convert different units (pixel coordinates,
- * cell coordinates, etc.) between a {@link SquareGridLayoutPanel} 
- * and another {@link Widget} to which all the ui events are sent.
+ * cell coordinates, etc.) between a {@link com.puzzlebazar.client.ui.SquareGridLayoutPanel} 
+ * and another {@link com.google.gwt.user.client.ui.Widget} to which all the ui events are sent.
  * 
  * @author Philippe Beaudoin
  */
@@ -39,7 +37,7 @@ public interface SquareGridConverter {
    * @return The cell coordinate if the coordinates are within the grid, 
    *         otherwise returns invalid (but undefined) coordinates.
    */
-  public Vec2i pixelToCell(int x, int y);
+  Vec2i pixelToCell(int x, int y);
 
   /**
    * Converts a position in pixel (within the ui widget) to
@@ -51,7 +49,7 @@ public interface SquareGridConverter {
    * @return Information on the closest edge if the coordinates are within the grid or within
    *         half a grid cell of the borders. Otherwise returns invalid (but undefined) coordinates.
    */
-  public VertexHitInfo pixelToVertex(int x, int y);
+  VertexHitInfo pixelToVertex(int x, int y);
 
   /**
    * Converts a position in pixel (within the ui widget) to
@@ -63,6 +61,6 @@ public interface SquareGridConverter {
    * @return Information on the closest vertex if the coordinates are within the grid, or within
    *         half a grid cell of the borders. Otherwise returns invalid (but undefined) coordinates.
    */
-  public EdgeHitInfo pixelToEdge(int x, int y);
+  EdgeHitInfo pixelToEdge(int x, int y);
 
 }

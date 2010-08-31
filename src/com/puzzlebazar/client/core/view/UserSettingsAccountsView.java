@@ -23,6 +23,9 @@ import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.UserSettingsAccountsPresenter;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class UserSettingsAccountsView extends ViewImpl implements UserSettingsAccountsPresenter.MyView {
 
   interface Binder extends UiBinder<Widget, UserSettingsAccountsView> { }

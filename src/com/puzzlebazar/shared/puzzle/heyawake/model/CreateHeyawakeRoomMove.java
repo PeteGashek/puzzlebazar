@@ -20,7 +20,6 @@ import java.io.Serializable;
 
 import com.puzzlebazar.shared.util.KeyNotFoundException;
 
-
 /**
  * A class that indicates the addition of a new {@link HeyawakeRoom} within
  * a {@link HeyawakePuzzle}.
@@ -44,7 +43,7 @@ public class CreateHeyawakeRoomMove implements Serializable, HeyawakeMove {
    * 
    * @param room The {@link HeyawakeRoom} to create.
    */
-  public CreateHeyawakeRoomMove( HeyawakeRoom room ) {
+  public CreateHeyawakeRoomMove(HeyawakeRoom room) {
     this.room = room; 
   }
   

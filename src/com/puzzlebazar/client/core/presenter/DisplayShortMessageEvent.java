@@ -19,13 +19,12 @@ package com.puzzlebazar.client.core.presenter;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtplatform.mvp.client.EventBus;
 import com.gwtplatform.mvp.client.HasEventBus;
 
 /**
- * This event is sent to the {@link EventBus} whenever the system
- * needs to display a message on the screen. It should be processed
- * by presenters that are responsible for displaying the message.
+ * This event is sent to the {@link com.gwtplatform.mvp.client.EventBus} 
+ * whenever the system needs to display a message on the screen. It should 
+ * be processed by presenters that are responsible for displaying the message.
  * <p/>
  * If the method {@link #isAlreadyDisplayed()} returns {@code true},
  * it means a presenter already handled the request and it probably
@@ -35,15 +34,15 @@ import com.gwtplatform.mvp.client.HasEventBus;
  */
 public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandler> {
 
-  public static int LEVEL_MESSAGE = 0;
-  public static int LEVEL_WARNING = 1;
-  public static int LEVEL_ERROR = 2;
-  public static int LEVEL_SEVERE = 3;
+  public static final int LEVEL_MESSAGE = 0;
+  public static final int LEVEL_WARNING = 1;
+  public static final int LEVEL_ERROR = 2;
+  public static final int LEVEL_SEVERE = 3;
   
-  public static int DURATION_PERMANENT = 0;
-  public static int DURATION_SHORT = 5000;
-  public static int DURATION_NORMAL = 10000;
-  public static int DURATION_LONG = 20000;
+  public static final int DURATION_PERMANENT = 0;
+  public static final int DURATION_SHORT = 5000;
+  public static final int DURATION_NORMAL = 10000;
+  public static final int DURATION_LONG = 20000;
   
   private static final Type<DisplayShortMessageHandler> TYPE = new Type<DisplayShortMessageHandler>();
   
@@ -64,10 +63,9 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
    * permanent message. Should preferably be one of: {@code DURATION_PERMANENT,
    * DURATION_SHORT, DURATION_NORMAL, DURATION_LONG}.
    */
-  public static void fire( HasEventBus source, Widget message, boolean dismissable, int level, int duration ) {
-    source.fireEvent( new DisplayShortMessageEvent( message, dismissable, level, duration ) );
+  public static void fire(HasEventBus source, Widget message, boolean dismissable, int level, int duration) {
+    source.fireEvent(new DisplayShortMessageEvent(message, dismissable, level, duration));
   }
-
 
   /**
    * Fires a new event to display short messages. The message will be
@@ -77,18 +75,17 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
    * @param source The source of this event (See {@link HasEventBus}).
    * @param message Any {@link Widget} containing the message to display.
    */
-  public static void fireMessage( HasEventBus source, Widget message ) {
-    fire( source, message, true, LEVEL_MESSAGE, DURATION_NORMAL );
+  public static void fireMessage(HasEventBus source, Widget message) {
+    fire(source, message, true, LEVEL_MESSAGE, DURATION_NORMAL);
   }
 
   /**
    * Fires a new event to clear all displayed short messages.
    * 
    * @param source The source of this event (See {@link HasEventBus}).
-   * @param message The message to display.
    */
-  public static void fireClearMessage( HasEventBus source ) {
-    fire( source, null, false, LEVEL_MESSAGE, DURATION_PERMANENT );
+  public static void fireClearMessage(HasEventBus source) {
+    fire(source, null, false, LEVEL_MESSAGE, DURATION_PERMANENT);
   }
   
   /**
@@ -99,8 +96,8 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
    * @param source The source of this event (See {@link HasEventBus}).
    * @param message Any {@link Widget} containing the message to display.
    */
-  public static void fireError( HasEventBus source, Widget message ) {
-    fire( source, message, true, LEVEL_ERROR, DURATION_PERMANENT );
+  public static void fireError(HasEventBus source, Widget message) {
+    fire(source, message, true, LEVEL_ERROR, DURATION_PERMANENT);
   }
 
   /**
@@ -111,8 +108,8 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
    * @param source The source of this event (See {@link HasEventBus}).
    * @param message The message to display, can contain HTML markup.
    */
-  public static void fireMessage( HasEventBus source, String message ) {
-    fire( source, new HTML(message), true, LEVEL_MESSAGE, DURATION_NORMAL );
+  public static void fireMessage(HasEventBus source, String message) {
+    fire(source, new HTML(message), true, LEVEL_MESSAGE, DURATION_NORMAL);
   }
   
   /**
@@ -123,8 +120,8 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
    * @param source The source of this event (See {@link HasEventBus}).
    * @param message The message to display, can contain HTML markup.
    */
-  public static void fireError( HasEventBus source, String message ) {
-    fire( source, new HTML(message), true, LEVEL_ERROR, DURATION_PERMANENT );
+  public static void fireError(HasEventBus source, String message) {
+    fire(source, new HTML(message), true, LEVEL_ERROR, DURATION_PERMANENT);
   }
   
   private final Widget message;
@@ -132,7 +129,7 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
   private final int level;
   private final int duration;
   
-  private boolean alreadyDisplayed = false;
+  private boolean alreadyDisplayed;
   
   /**
    * Creates a new event to display short messages.
@@ -146,7 +143,7 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
    * permanent message. Should preferably be one of: {@code DURATION_PERMANENT,
    * DURATION_SHORT, DURATION_NORMAL, DURATION_LONG}.
    */
-  public DisplayShortMessageEvent( Widget message, boolean dismissable, int level, int duration ) {
+  public DisplayShortMessageEvent(Widget message, boolean dismissable, int level, int duration) {
     this.message = message;
     this.dismissable = dismissable;
     this.level = level;
@@ -212,13 +209,14 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
    */
   public void setAlreadyDisplayed() {
     // Null messages should clear every UI, so don't set the flag.
-    if( message != null )
+    if (message != null) {
       alreadyDisplayed = true;
+    }
   }
 
   @Override
-  protected void dispatch( DisplayShortMessageHandler handler ) {
-    handler.onDisplayShortMessage( this );
+  protected void dispatch(DisplayShortMessageHandler handler) {
+    handler.onDisplayShortMessage(this);
   }
 
   @Override

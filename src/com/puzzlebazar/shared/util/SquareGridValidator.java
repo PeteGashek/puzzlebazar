@@ -31,8 +31,8 @@ public interface SquareGridValidator {
    * @param x The x cell coordinate.
    * @param y The y cell coordinate.
    * @return {@code true} if the passed coordinate is a valid cell coordinate, {@code false} otherwise.
-  s   */
-  public boolean isValidCell(int x, int y);
+   */
+   boolean isValidCell(int x, int y);
 
   /**
    * Checks if the passed coordinate is a valid cell coordinate.
@@ -41,7 +41,7 @@ public interface SquareGridValidator {
    * @param cell The cell coordinate.
    * @return {@code true} if the passed coordinate is a valid cell coordinate, {@code false} otherwise.
    */
-  public boolean isValidCell(Vec2i cell);
+  boolean isValidCell(Vec2i cell);
 
   /**
    * Checks if the passed coordinate is a valid vertical edge coordinate.
@@ -52,7 +52,7 @@ public interface SquareGridValidator {
    * @param y The y vertical edge coordinate.
    * @return {@code true} if the passed coordinate is a valid vertical edge coordinate, {@code false} otherwise.
    */
-  public boolean isValidVerticalEdge(int x, int y);
+  boolean isValidVerticalEdge(int x, int y);
 
   /**
    * Checks if the passed coordinate is a valid vertical edge coordinate.
@@ -62,7 +62,7 @@ public interface SquareGridValidator {
    * @param edge The vertical edge coordinate.
    * @return {@code true} if the passed coordinate is a valid vertical edge coordinate, {@code false} otherwise.
    */
-  public boolean isValidVerticalEdge(Vec2i edge);
+  boolean isValidVerticalEdge(Vec2i edge);
 
   /**
    * Checks if the passed coordinate is a valid horizontal edge coordinate.
@@ -73,7 +73,7 @@ public interface SquareGridValidator {
    * @param y The y horizontal edge coordinate.
    * @return {@code true} if the passed coordinate is a valid horizontal edge coordinate, {@code false} otherwise.
    */
-  public boolean isValidHorizontalEdge(int x, int y);
+  boolean isValidHorizontalEdge(int x, int y);
 
   /**
    * Checks if the passed coordinate is a valid horizontal edge coordinate.
@@ -83,7 +83,7 @@ public interface SquareGridValidator {
    * @param edge The horizontal edge coordinate.
    * @return {@code true} if the passed coordinate is a valid horizontal edge coordinate, {@code false} otherwise.
    */
-  public boolean isValidHorizontalEdge(Vec2i edge);
+  boolean isValidHorizontalEdge(Vec2i edge);
 
   /**
    * Checks if the passed coordinate is a valid vertex coordinate.
@@ -93,7 +93,7 @@ public interface SquareGridValidator {
    * @param y The y vertex coordinate.
    * @return {@code true} if the passed coordinate is a valid vertex coordinate, {@code false} otherwise.
    */
-  public boolean isValidVertex(int x, int y);
+  boolean isValidVertex(int x, int y);
 
   /**
    * Checks if the passed coordinate is a valid vertex coordinate.
@@ -102,6 +102,6 @@ public interface SquareGridValidator {
    * @param vertex The vertex coordinate.
    * @return {@code true} if the passed coordinate is a valid vertex coordinate, {@code false} otherwise.
    */
-  public boolean isValidVertex(Vec2i vertex);
+  boolean isValidVertex(Vec2i vertex);
 
 }

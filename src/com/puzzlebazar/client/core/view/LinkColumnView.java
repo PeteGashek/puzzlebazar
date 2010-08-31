@@ -23,6 +23,9 @@ import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.LinkColumnPresenter;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class LinkColumnView extends ViewImpl implements LinkColumnPresenter.MyView {
 
   interface Binder extends UiBinder<Widget, LinkColumnView> { }

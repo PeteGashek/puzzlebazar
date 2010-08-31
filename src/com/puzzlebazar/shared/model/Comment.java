@@ -18,7 +18,6 @@ package com.puzzlebazar.shared.model;
 
 import java.io.Serializable;
 
-
 /**
  * A comment written by a user.
  * 
@@ -31,7 +30,6 @@ public interface Comment extends HasId<Comment>, EditableObject, Serializable, H
    * 
    * @return The comment body, a string.
    */
-  public String getBody();  
-  
+  String getBody();  
   
 }

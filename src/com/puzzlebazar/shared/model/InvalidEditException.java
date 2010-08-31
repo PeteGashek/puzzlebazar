@@ -18,6 +18,9 @@ package com.puzzlebazar.shared.model;
 
 import com.gwtplatform.dispatch.shared.ActionException;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class InvalidEditException extends ActionException {
   private static final long serialVersionUID = 2235109669160848219L;
 }

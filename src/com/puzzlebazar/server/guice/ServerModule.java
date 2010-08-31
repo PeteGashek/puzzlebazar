@@ -30,8 +30,9 @@ import com.puzzlebazar.shared.action.LogoutAction;
 import com.puzzlebazar.shared.action.GetCurrentUserAction;
 
 /**
- * Module which binds the handlers and configurations
- *
+ * Module which binds the handlers and configurations.
+ * 
+ * @author Philippe Beaudoin
  */
 public class ServerModule extends HandlerModule {
 

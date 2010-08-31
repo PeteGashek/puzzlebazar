@@ -16,6 +16,9 @@
 
 package com.puzzlebazar.shared.util;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class SquareGridValidatorImpl implements SquareGridValidator {
 
   private final Has2DSize squareGrid;
@@ -30,7 +33,7 @@ public class SquareGridValidatorImpl implements SquareGridValidator {
   }
 
   @Override
-  public boolean isValidCell( int x, int y ) {
+  public boolean isValidCell(int x, int y) {
     return 0 <= x && x < squareGrid.getWidth() &&
            0 <= y && y < squareGrid.getHeight();
   }
@@ -41,7 +44,7 @@ public class SquareGridValidatorImpl implements SquareGridValidator {
   }
 
   @Override
-  public boolean isValidVerticalEdge( int x, int y ) {
+  public boolean isValidVerticalEdge(int x, int y) {
     return 0 <= x && x <= squareGrid.getWidth() &&
            0 <= y && y < squareGrid.getHeight();
   }
@@ -52,7 +55,7 @@ public class SquareGridValidatorImpl implements SquareGridValidator {
   }
 
   @Override
-  public boolean isValidHorizontalEdge( int x, int y ) {
+  public boolean isValidHorizontalEdge(int x, int y) {
     return 0 <= x && x < squareGrid.getWidth() &&
            0 <= y && y <= squareGrid.getHeight();
   }
@@ -63,7 +66,7 @@ public class SquareGridValidatorImpl implements SquareGridValidator {
   }
 
   @Override
-  public boolean isValidVertex( int x, int y ) {
+  public boolean isValidVertex(int x, int y) {
     return 0 <= x && x <= squareGrid.getWidth() &&
            0 <= y && y <= squareGrid.getHeight();
   }

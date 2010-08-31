@@ -23,20 +23,20 @@ package com.puzzlebazar.shared.util;
  */
 public interface Has2DSize {
 
-  static int UNKNOWN_SIZE = -1;
+  int UNKNOWN_SIZE = -1;
   
   /**
    * Access the number of cells in the horizontal direction.
    * 
    * @return The width, that is, the number of cells in the horizontal direction.
    */
-  public int getWidth();
+  int getWidth();
 
   /**
    * Access the number of cells in the vertical direction.
    * 
    * @return The height, that is, the number of cells in the vertical direction.
    */
-  public int getHeight();
+  int getHeight();
 
 }

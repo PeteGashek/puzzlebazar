@@ -18,8 +18,11 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.event.shared.EventHandler;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public interface RevealDefaultLinkColumnHandler extends EventHandler {
 
-  void onRevealDefaultLinkColumn( RevealDefaultLinkColumnEvent event );
+  void onRevealDefaultLinkColumn(RevealDefaultLinkColumnEvent event);
 
 }

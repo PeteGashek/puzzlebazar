@@ -32,11 +32,11 @@ public class RoundTabPanel extends BaseTabPanel {
   private static final Binder binder = GWT.create(Binder.class);
 
   public RoundTabPanel() {
-    initWidget( binder.createAndBindUi( this ) );
+    initWidget(binder.createAndBindUi(this));
   }
 
   @Override
-  protected Tab CreateNewTab(float priority) {
+  protected Tab createNewTab(float priority) {
     return new SimpleTab(priority);
   }
   

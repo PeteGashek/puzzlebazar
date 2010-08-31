@@ -43,49 +43,55 @@ public class CellArrayUtils {
    * @return A {@link PuzzleMessage} with an empty non-error message if no disconnected groups were found. Otherwise, a {@link PuzzleMessage} with
    *         an empty error message and a list of cell locations that form a disconnected group.
    */
-  public static <S extends CellState> PuzzleMessage findDisconnectedGroup( CellArray<S> cellArray, CellStateCondition<S> condition ) {
-    return findDisconnectedGroup( cellArray, cellsMatching(cellArray, condition) );
+  public static <S extends CellState> PuzzleMessage findDisconnectedGroup(CellArray<S> cellArray, CellStateCondition<S> condition) {
+    return findDisconnectedGroup(cellArray, cellsMatching(cellArray, condition));
   }
 
   /**
    * @see #findDisconnectedGroup(CellArray, int[])
    */
-  private static <S extends CellState> PuzzleMessage findDisconnectedGroup( CellArray<S> cellArray, boolean[][] valid ) {
+  private static <S extends CellState> PuzzleMessage findDisconnectedGroup(CellArray<S> cellArray, boolean[][] valid) {
     int width = cellArray.getWidth(); 
     int height = cellArray.getHeight(); 
-    if( width <= 0 || height <= 0 ) 
+    if (width <= 0 || height <= 0) {
       return null;
+    }
 
     boolean visited[][] = new boolean[width][height];
-    for( int i=0; i<visited.length; ++i)
-      Arrays.fill( visited[i], false );
+    for (int i = 0; i < visited.length; ++i) {
+      Arrays.fill(visited[i], false);
+    }
 
     Vec2i loc = findValid(cellArray, valid);
-    if( loc == null ) 
+    if (loc == null) {
       return null;
-
+    }
+    
     List<Vec2i> stack = new ArrayList<Vec2i>();
     stack.add(loc);
     visited[loc.x][loc.y] = true;
-    while( !stack.isEmpty() ) {
-      loc = stack.remove( stack.size()-1 );
+    while (!stack.isEmpty()) {
+      loc = stack.remove(stack.size() - 1);
       loc.x -= 1;
-      if( loc.x>=0 ) 
+      if (loc.x >= 0) { 
         checkAndAdd(visited, valid, loc, stack);
+      }
       loc.x += 2;
-      if( loc.x<visited.length ) 
+      if (loc.x < visited.length) { 
         checkAndAdd(visited, valid, loc, stack);
+      }
       loc.x -= 1;
       loc.y -= 1;
-      if( loc.y>=0 ) 
+      if (loc.y >= 0) { 
         checkAndAdd(visited, valid, loc, stack);
+      }
       loc.y += 2;
-      if( loc.y<visited[0].length ) 
+      if (loc.y < visited[0].length) { 
         checkAndAdd(visited, valid, loc, stack);
+      }
     }
-
     
-    if( anyValidVisited(true, false, valid, visited) ) {
+    if (anyValidVisited(true, false, valid, visited)) {
       PuzzleMessage result = new PuzzleMessage(true);
       findValidVisited(result, true, true, valid, visited);
       return result;
@@ -94,14 +100,13 @@ public class CellArrayUtils {
     return new PuzzleMessage(false);
   }
 
-
   /**
    * Private method used by {@link #areCellsInAConnectedGroup(CellArray, boolean[][])}.
    */
   private static void checkAndAdd(boolean[][] visited, boolean[][] valid, Vec2i loc,
       List<Vec2i> stack) {
-    if( !visited[loc.x][loc.y] && valid[loc.x][loc.y] ) {
-      stack.add( new Vec2i(loc) );
+    if (!visited[loc.x][loc.y] && valid[loc.x][loc.y]) {
+      stack.add(new Vec2i(loc));
       visited[loc.x][loc.y] = true;
     }
   }
@@ -115,45 +120,47 @@ public class CellArrayUtils {
    * @return A {@link PuzzleMessage} with an empty non-error message if all cells are non-adjacent. Otherwise, a {@link PuzzleMessage} with
    *         an empty error message and the location of exactly two adjacent cells.
    */
-  public static <S extends CellState> PuzzleMessage findTwoAdjacentCells( CellArray<S> cellArray, CellStateCondition<S> condition ) {
-    return findTwoAdjacentCells( cellArray, cellsMatching(cellArray, condition) );
+  public static <S extends CellState> PuzzleMessage findTwoAdjacentCells(CellArray<S> cellArray, 
+      CellStateCondition<S> condition) {
+    return findTwoAdjacentCells(cellArray, cellsMatching(cellArray, condition));
   }
 
   /**
    * @see #findTwoAdjacentCells(CellArray, int[])
    */
-  public static <S extends CellState> PuzzleMessage findTwoAdjacentCells( CellArray<S> cellArray, boolean[][] valid ) {
+  public static <S extends CellState> PuzzleMessage findTwoAdjacentCells(
+      CellArray<S> cellArray, boolean[][] valid) {
 
     int width = cellArray.getWidth(); 
     int height = cellArray.getHeight(); 
-    if( width <= 0 || height <= 0 ) 
+    if (width <= 0 || height <= 0) {
       return null;
+    }
 
-    for( int i=0; i<valid.length-1; ++i ) {
+    for (int i = 0; i < valid.length - 1; ++i) {
       boolean prevValid = false;
-      for( int j=0; j<valid[i].length; ++j ) {
-        if( valid[i][j] ) {
-          if( prevValid ) {
+      for (int j = 0; j < valid[i].length; ++j) {
+        if (valid[i][j]) {
+          if (prevValid) {
             PuzzleMessage result = new PuzzleMessage(true);
-            result.addErrorLocation( new Vec2i(i,j) );
-            result.addErrorLocation( new Vec2i(i,j-1) );
+            result.addErrorLocation(new Vec2i(i, j));
+            result.addErrorLocation(new Vec2i(i, j - 1));
             return result;
           }
           prevValid = true;
-          if( valid[i+1][j] ) {
+          if (valid[i + 1][j]) {
             PuzzleMessage result = new PuzzleMessage(true);
-            result.addErrorLocation( new Vec2i(i,j) );
-            result.addErrorLocation( new Vec2i(i+1,j) );
+            result.addErrorLocation(new Vec2i(i, j));
+            result.addErrorLocation(new Vec2i(i + 1, j));
             return result;
           }
-        }
-        else
+        } else {
           prevValid = false;
+        }
       }
     }
 
     return new PuzzleMessage(false);
-
   }
 
   /**
@@ -169,11 +176,11 @@ public class CellArrayUtils {
 
     boolean[][] result = new boolean[cellArray.getWidth()][cellArray.getHeight()];
     Vec2i loc = new Vec2i();
-    for( int i=0; i<result.length; ++i ) {
+    for (int i = 0; i < result.length; ++i) {
       loc.x = i;
-      for( int j=0; j<result[i].length; ++j ) {
+      for (int j = 0; j < result[i].length; ++j) {
         loc.y = j;
-        result[i][j] = condition.doesCellVerifyCondition( cellArray.getCellState(loc) );
+        result[i][j] = condition.doesCellVerifyCondition(cellArray.getCellState(loc));
       }
     }
 
@@ -189,9 +196,11 @@ public class CellArrayUtils {
    */
   private static <S extends CellState> Vec2i findValid(CellArray<S> cellArray, boolean[][] valid) {
 
-    for( int i=0; i<valid.length; ++i ) {
-      for( int j=0; j<valid[i].length; ++j ) {
-        if( valid[i][j] ) return new Vec2i(i,j);
+    for (int i = 0; i < valid.length; ++i) {
+      for (int j = 0; j < valid[i].length; ++j) {
+        if (valid[i][j]) {
+          return new Vec2i(i, j);
+        }
       }
     }
 
@@ -214,18 +223,18 @@ public class CellArrayUtils {
       boolean[][] visitedCells) {
 
     Vec2i loc = new Vec2i();
-    for( int i=0; i<validCells.length; ++i) {
+    for (int i = 0; i < validCells.length; ++i) {
       loc.x = i;
-      for( int j=0; j<validCells[i].length; ++j) {
+      for (int j = 0; j < validCells[i].length; ++j) {
         loc.y = j;
-        if( (validCells[i][j] ^ !valid) && (visitedCells[i][j] ^ !visited) )
+        if ((validCells[i][j] ^ !valid) && (visitedCells[i][j] ^ !visited)) {
           return true;
+        }
       }
     }
 
     return false;
   }
-
 
   /**
    * Find all the cells that are both valid/invalid and visited/non-visited.
@@ -244,15 +253,15 @@ public class CellArrayUtils {
       boolean[][] visitedCells) {
 
     Vec2i loc = new Vec2i();
-    for( int i=0; i<validCells.length; ++i) {
+    for (int i = 0; i < validCells.length; ++i) {
       loc.x = i;
-      for( int j=0; j<validCells[i].length; ++j) {
+      for (int j = 0; j < validCells[i].length; ++j) {
         loc.y = j;
-        if( (validCells[i][j] ^ !valid) && (visitedCells[i][j] ^ !visited) )
-          message.addErrorLocation( loc );
+        if ((validCells[i][j] ^ !valid) && (visitedCells[i][j] ^ !visited)) {
+          message.addErrorLocation(loc);
+        }
       }
     }
-
   }
 
 }

@@ -32,14 +32,14 @@ public interface ActionRightsInfo extends HasId<ActionRightsInfo>, Serializable 
    * 
    * @return {@code true} if the user has the rights to perform the action.
    */
-  public boolean canPerformAction();  
+  boolean canPerformAction();  
 
   /**
    * Returns the name of this action. This is useful for displaying error messages.
    * 
    * @return The name of this action, a String.
    */
-  public String getActionName();
+  String getActionName();
   
   /**
    * Indicates the warning message that should be displayed to the user before
@@ -52,15 +52,14 @@ public interface ActionRightsInfo extends HasId<ActionRightsInfo>, Serializable 
    * 
    * @return The warning message, or {@code null} if no warning is necessary.
    */
-  public String getWarning();  
-
+  String getWarning();  
 
   /**
    * List all the rights that are required in order to perform that action.
    * 
    * @return The list of all required {@link Right}.
    */  
-  public List<Right> getNeededRights();
+  List<Right> getNeededRights();
   
   /**
    * List all the rights that the user requires in order to perform that action.
@@ -69,6 +68,6 @@ public interface ActionRightsInfo extends HasId<ActionRightsInfo>, Serializable 
    * 
    * @return The list of missing {@link Right}.
    */
-  public List<Right> getMissingRights();
+  List<Right> getMissingRights();
   
 }

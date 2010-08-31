@@ -31,12 +31,13 @@ public interface HasId<T> {
   /**
    * @return The id of this user.
    */
-  public Long getId();
+  Long getId();
 
   /**
    * Create a new Key that uniquely identifies this object.
    * 
    * @return The newly created key.
    */
-  public Key<T> createKey();
+  Key<T> createKey();
+  
 }

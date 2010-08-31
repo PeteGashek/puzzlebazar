@@ -54,26 +54,28 @@ public class PageView extends ViewImpl implements PagePresenter.MyView {
   }
 
   @Override
-  public void setContent(Object slot, Widget content) {
-    if( slot == PagePresenter.TYPE_RevealMainContent ) 
-      setMainContent( content );
-    else if( slot == PagePresenter.TYPE_RevealTopBarContent ) 
-      setTopBarContent( content );
-    else
+  public void setInSlot(Object slot, Widget content) {
+    if (slot == PagePresenter.TYPE_RevealMainContent) {
+      setMainContent(content);
+    } else if (slot == PagePresenter.TYPE_RevealTopBarContent) {
+      setTopBarContent(content);
+    } else {
       super.setInSlot(slot, content);
+    }
   }
     
   private void setMainContent(Widget mainContent) {
     mainContentContainer.clear();
-    if( mainContent != null )
-      mainContentContainer.add( mainContent );
+    if (mainContent != null) {
+      mainContentContainer.add(mainContent);
+    }
   }
 
   private void setTopBarContent(Widget topBarContent) {
     topBarContainer.clear();
-    if( topBarContent != null )
-      topBarContainer.add( topBarContent );
+    if (topBarContent != null) {
+      topBarContainer.add(topBarContent);
+    }
   }
-
 
 }

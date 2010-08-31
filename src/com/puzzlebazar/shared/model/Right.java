@@ -30,5 +30,5 @@ public interface Right extends HasId<Right>, Serializable {
    * 
    * @return The name of this action, a String.
    */
-  public String getName();
+  String getName();
 }

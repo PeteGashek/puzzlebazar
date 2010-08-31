@@ -1,7 +1,4 @@
 /**
- * 
- */
-/**
  * Copyright 2010 Philippe Beaudoin
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +20,9 @@ import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.puzzlebazar.client.resources.Translations;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public final class DefaultChangeMonitor extends ChangeMonitorImpl {
   
   private final PlaceManager placeManager;
@@ -31,7 +31,7 @@ public final class DefaultChangeMonitor extends ChangeMonitorImpl {
   @Inject
   public DefaultChangeMonitor(
     final PlaceManager placeManager,
-    final Translations translations ) {
+    final Translations translations) {
     super();
     this.placeManager = placeManager;
     this.translations = translations;
@@ -39,13 +39,14 @@ public final class DefaultChangeMonitor extends ChangeMonitorImpl {
   
   @Override
   public void changeDetected() {
-    placeManager.setOnLeaveConfirmation( 
-        translations.changeDetected() );
+    placeManager.setOnLeaveConfirmation(
+        translations.changeDetected());
     super.changeDetected();
   }
+  
   @Override
   public void changeReverted() {
-    placeManager.setOnLeaveConfirmation( null );
+    placeManager.setOnLeaveConfirmation(null);
     super.changeReverted();
   }
 }

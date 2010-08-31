@@ -40,20 +40,18 @@ public class CurrentUser {
   private final int retryDelay;
   private final Timer fetchUserTimer;
   
-  private User user = null;
-  private boolean confirmed = false;
-  
+  private User user;
+  private boolean confirmed;
   
   /**
-   * Creates
+   * Creates a structure to hold the currently logged in user.
    * 
    * @param eventBus     The {@link EventBus}.
    * @param dispatcher   The {@link DispatchAsync}.
    */
   @Inject
-  public CurrentUser( 
-      final EventBus eventBus,
-      final DispatchAsync dispatcher ) {
+  public CurrentUser(final EventBus eventBus,
+      final DispatchAsync dispatcher) {
     this.eventBus = eventBus;
     this.dispatcher = dispatcher;
     // TODO These should be injected when GIN supports toInstance injection
@@ -75,7 +73,7 @@ public class CurrentUser {
    */
   public void fetchUser() {
     fetchUserTimer.cancel();  
-    dispatcher.execute( new GetCurrentUserAction(), new AsyncCallback<GetUserResult>() {
+    dispatcher.execute(new GetCurrentUserAction(), new AsyncCallback<GetUserResult>() {
       
       @Override
       public void onFailure(Throwable caught) {
@@ -86,23 +84,21 @@ public class CurrentUser {
       @Override
       public void onSuccess(GetUserResult result) {
         confirmed = true; // Async call is back. We know if user is logged-in or not.
-        if( result != null ) {
+        if (result != null) {
           user = result.getUser();
-          CurrentUserChangedEvent.fire( eventBus, CurrentUser.this );
-          scheduleFetchUser( refreshDelay );
-        }
-        else {
+          CurrentUserChangedEvent.fire(eventBus, CurrentUser.this);
+          scheduleFetchUser(refreshDelay);
+        } else {
           failed();
         }
       }
 
       private void failed() {
         user = null; // Nobody is logged in
-        scheduleFetchUser( retryDelay );
-        CurrentUserChangedEvent.fire( eventBus, null );
-      }
-    } );
-  
+        scheduleFetchUser(retryDelay);
+        CurrentUserChangedEvent.fire(eventBus, null); 
+      } 
+    });
   }
   
   /**
@@ -112,15 +108,16 @@ public class CurrentUser {
    */
   private void scheduleFetchUser(int delay) {
     fetchUserTimer.cancel();
-    fetchUserTimer.schedule( delay );
+    fetchUserTimer.schedule(delay);
   }
 
   /**
    * @return A copy of the currently logged on {@link User}, or {@code null} if no user is logged on.
    */
   public User getUserCopy() {
-    if( user == null )
+    if (user == null) {
       return null;
+    }
     return user.clone();
   }  
   
@@ -129,9 +126,9 @@ public class CurrentUser {
    * 
    * @param user The {@link User} to consider as the current user. 
    */
-  public void setUser( User user ) {
+  public void setUser(User user) {
     this.user = user;
-    CurrentUserChangedEvent.fire( eventBus, this );
+    CurrentUserChangedEvent.fire(eventBus, this);
   }
   
   /**
@@ -163,30 +160,34 @@ public class CurrentUser {
    * @return <code>true</code> if the user is confirmed. <code>false</code> otherwise. 
    */
   public boolean isConfirmed() {
-    return confirmed ;
+    return confirmed;
   }
 
   public String getEmail() {
-    if( user == null )
+    if (user == null) {
       return null;
+    }
     return user.getEmail();
   }
 
   public String getLocale() {
-    if( user == null )
+    if (user == null) {
       return null;
+    }
     return user.getLocale();
   }
 
   public String getNickname() {
-    if( user == null )
+    if (user == null) {
       return null;
+    }
     return user.getNickname();
   }
 
   public String getRealName() {
-    if( user == null )
+    if (user == null) {
       return null;
+    }
     return user.getRealName();
   }
   

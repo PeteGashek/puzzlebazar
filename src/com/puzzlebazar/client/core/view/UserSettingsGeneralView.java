@@ -34,6 +34,9 @@ import com.gwtplatform.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.UserSettingsGeneralPresenter;
 import com.puzzlebazar.client.resources.Translations;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class UserSettingsGeneralView extends ViewImpl implements UserSettingsGeneralPresenter.MyView {
 
   interface Binder extends UiBinder<Widget, UserSettingsGeneralView> { }
@@ -65,7 +68,6 @@ public class UserSettingsGeneralView extends ViewImpl implements UserSettingsGen
   @UiField
   Button cancelButton;
   
-  
   private final FlowPanel executeSuccessMessage = new FlowPanel();
   private final Anchor undoLink;
   
@@ -73,16 +75,16 @@ public class UserSettingsGeneralView extends ViewImpl implements UserSettingsGen
   private final Anchor redoLink;
   
   @Inject
-  public UserSettingsGeneralView( Translations translations ) {
+  public UserSettingsGeneralView(Translations translations) {
     widget = binder.createAndBindUi(this);
-    executeSuccessMessage.add( new InlineLabel( translations.settingsSaved() ) );
-    undoLink = new Anchor( translations.undo() );
-    executeSuccessMessage.add( undoLink );
-    executeSuccessMessage.add( new InlineLabel(".") );
-    undoSuccessMessage.add( new InlineLabel( translations.settingsUndone() ) );
-    redoLink = new Anchor( translations.redo() );
-    undoSuccessMessage.add( redoLink );
-    undoSuccessMessage.add( new InlineLabel(".") );
+    executeSuccessMessage.add(new InlineLabel(translations.settingsSaved()));
+    undoLink = new Anchor(translations.undo());
+    executeSuccessMessage.add(undoLink);
+    executeSuccessMessage.add(new InlineLabel("."));
+    undoSuccessMessage.add(new InlineLabel(translations.settingsUndone()));
+    redoLink = new Anchor(translations.redo());
+    undoSuccessMessage.add(redoLink);
+    undoSuccessMessage.add(new InlineLabel("."));
   }
   
   @Override 
@@ -91,8 +93,8 @@ public class UserSettingsGeneralView extends ViewImpl implements UserSettingsGen
   }
 
   @Override 
-  public void addLanguage( String languageName ) {
-    this.language.addItem( languageName );
+  public void addLanguage(String languageName) {
+    this.language.addItem(languageName);
   }
   
   @Override
@@ -149,6 +151,5 @@ public class UserSettingsGeneralView extends ViewImpl implements UserSettingsGen
   public Widget getUndoSuccessMessage() { 
     return undoSuccessMessage;
   }
-
 
 }

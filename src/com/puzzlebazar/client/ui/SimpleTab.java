@@ -33,7 +33,7 @@ public class SimpleTab extends BaseTab {
 
   @UiConstructor SimpleTab(float priority) {
     super(priority);
-    initWidget( binder.createAndBindUi( this ) );    
+    initWidget(binder.createAndBindUi(this));    
   }
 
 }

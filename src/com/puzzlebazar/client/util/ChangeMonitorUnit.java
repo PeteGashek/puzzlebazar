@@ -44,7 +44,7 @@ implements ValueChangeHandler<Object>, KeyDownHandler, ChangeHandler {
   
   private class MyTimer extends Timer {
 
-    private Object previousValue = null;
+    private Object previousValue;
     
     public void start() {
       previousValue = null;
@@ -54,14 +54,13 @@ implements ValueChangeHandler<Object>, KeyDownHandler, ChangeHandler {
     @Override
     public void run() {
       final Object value = getWidgetValue();
-      if( previousValue == null || !previousValue.equals(value) ) {
+      if (previousValue == null || !previousValue.equals(value)) {
         previousValue = value;
         checkChanges(value);
         this.schedule(1500);
-      }
-      else {
+      } else {
         assert handlerRegistration == null;
-        handlerRegistration = ((HasAllKeyHandlers)widget).addKeyDownHandler( ChangeMonitorUnit.this );        
+        handlerRegistration = ((HasAllKeyHandlers) widget).addKeyDownHandler(ChangeMonitorUnit.this);        
       }
     }      
   }
@@ -71,7 +70,7 @@ implements ValueChangeHandler<Object>, KeyDownHandler, ChangeHandler {
   private final MyTimer timer = new MyTimer();
   private HandlerRegistration handlerRegistration;
   private Object originalValue;
-  private boolean changed = false;
+  private boolean changed;
   
   /**
    * Creates an object to monitor change within an object.
@@ -82,29 +81,31 @@ implements ValueChangeHandler<Object>, KeyDownHandler, ChangeHandler {
    * @param handler The {@link MonitorHandler} to notify when change are detected or reverted.
    */
   @SuppressWarnings("unchecked")
-  public ChangeMonitorUnit( 
+  public ChangeMonitorUnit(
       final Object widget,
-      final MonitorHandler handler ) {
+      final MonitorHandler handler) {
     this.widget = widget;
     this.handler = handler;
     reset();
     
-    if ( widget instanceof TextBox )
-      handlerRegistration = ((HasAllKeyHandlers)widget).addKeyDownHandler( this );
-    else if ( widget instanceof HasValueChangeHandlers<?> )
-      handlerRegistration = ((HasValueChangeHandlers<Object>)widget).addValueChangeHandler( this );    
-    else if ( widget instanceof HasChangeHandlers )
-      handlerRegistration = ((HasChangeHandlers)widget).addChangeHandler( this );
-    else
+    if (widget instanceof TextBox) {
+      handlerRegistration = ((HasAllKeyHandlers) widget).addKeyDownHandler(this);
+    } else if (widget instanceof HasValueChangeHandlers<?>) {
+      handlerRegistration = ((HasValueChangeHandlers<Object>) widget).addValueChangeHandler(this);
+    } else if (widget instanceof HasChangeHandlers) {
+      handlerRegistration = ((HasChangeHandlers) widget).addChangeHandler(this);
+    } else {
       handlerRegistration = null;
+    }
   }
 
   /**
    * Call this method when you're done using the monitor.
    */
   public void release() {
-    if( handlerRegistration != null )
+    if (handlerRegistration != null) {
       handlerRegistration.removeHandler();
+    }
     timer.cancel();
   }
   
@@ -125,15 +126,14 @@ implements ValueChangeHandler<Object>, KeyDownHandler, ChangeHandler {
     changed = false;
   }
 
-
   @Override
   public void onValueChange(ValueChangeEvent<Object> event) {
-    checkChanges( event.getValue() );
+    checkChanges(event.getValue());
   }
 
   @Override
   public void onChange(ChangeEvent event) {
-    checkChanges( getWidgetValue() );
+    checkChanges(getWidgetValue());
   }
   
   @Override
@@ -148,10 +148,12 @@ implements ValueChangeHandler<Object>, KeyDownHandler, ChangeHandler {
    * @return The value contained in the widget
    */
   private Object getWidgetValue() {
-    if( widget instanceof HasText )
-      return ((HasText)widget).getText();
-    if( widget instanceof ListBox )
-      return ((ListBox)widget).getSelectedIndex();
+    if (widget instanceof HasText) {
+      return ((HasText) widget).getText();
+    }
+    if (widget instanceof ListBox) {
+      return ((ListBox) widget).getSelectedIndex();
+    }
     assert false : "Unsupported widget class: " + widget.getClass();
     
     return null;
@@ -170,16 +172,16 @@ implements ValueChangeHandler<Object>, KeyDownHandler, ChangeHandler {
   }
 
   private void checkChanges(Object value) {
-    boolean newChanged = !value.equals( originalValue );
-    if( changed == newChanged )
+    boolean newChanged = !value.equals(originalValue);
+    if (changed == newChanged) {
       return;
+    }
     changed = newChanged;
-    if( changed )
+    if (changed) {
       handler.changeDetected();
-    else
+    } else {
       handler.changeReverted();
+    }
   }
 
-
-  
 }

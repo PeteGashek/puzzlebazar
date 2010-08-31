@@ -27,28 +27,27 @@ import com.gwtplatform.dispatch.shared.SecurityCookie;
 import com.puzzlebazar.server.OpenIdServlet;
 import com.puzzlebazar.shared.Constants;
 
-
+/**
+ * @author Philippe Beaudoin
+ */
 public class DispatchServletModule extends ServletModule {
-
 
   @Override
   public void configureServlets() {
-
     
     // Model object managers
     bind(ObjectifyFactory.class).in(Singleton.class);
     
-    bindConstant().annotatedWith( SecurityCookie.class ).to(Constants.securityCookieName);
+    bindConstant().annotatedWith(SecurityCookie.class).to(Constants.securityCookieName);
 
     bind(OpenIdServletFilter.class).in(Singleton.class);
 
     // TODO philippe.beaudoin@gmail.com
     // Uncomment when http://code.google.com/p/puzzlebazar/issues/detail?id=27 is unblocked.
 //    filter("*").through( CrawlFilter.class );
-    filter("*").through( HttpSessionSecurityCookieFilter.class );
+    filter("*").through(HttpSessionSecurityCookieFilter.class);
     serveRegex("/puzzlebazar[^/]*/" + ActionImpl.DEFAULT_SERVICE_NAME).with(DispatchServiceImpl.class);
-    serve("/openid/login").with(OpenIdServlet.class);
-    
+    serve("/openid/login").with(OpenIdServlet.class);    
   }
   
 }

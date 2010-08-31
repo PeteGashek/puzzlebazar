@@ -28,22 +28,21 @@ import com.googlecode.objectify.ObjectifyFactory;
  * @author Jeff Schnitzer
  */
 @RequestScoped
-public abstract class DAOBase
-{
+public abstract class DAOBase {
   
   private final ObjectifyFactory factory;
-
   
-  /** A single objectify interface, lazily created */
-  private Objectify lazyOfy = null;
+  /** 
+   * A single objectify interface, lazily created. 
+   */
+  private Objectify lazyOfy;
 
   /**
    * Creates the DAO, injecting the {@link ObjectifyFactory}.
    * 
    * @param factory The injected factory.
    */
-  public DAOBase( final ObjectifyFactory factory )
-  {
+  public DAOBase(final ObjectifyFactory factory) {
     this.factory = factory;
     
     ensureObjectsAreRegistered();
@@ -55,8 +54,9 @@ public abstract class DAOBase
    * for thread safety. 
    */
   private synchronized void ensureObjectsAreRegistered() {
-    if( areObjectsRegistered() )
+    if (areObjectsRegistered()) {
       return;
+    }
     registerObjects(factory);
   }
 
@@ -87,15 +87,14 @@ public abstract class DAOBase
    * 
    * @param ofyFactory The {@link ObjectifyFactory} on which to register objects.
    */
-  protected abstract void registerObjects( ObjectifyFactory ofyFactory );
+  protected abstract void registerObjects(ObjectifyFactory ofyFactory);
 
   /**
    * Access the injected factory object.
    * 
    * @return The injected {@link ObjectifyFactory}.
    */
-  public ObjectifyFactory ofyFactory()
-  {
+  public ObjectifyFactory ofyFactory() {
     return factory;
   }
 
@@ -105,10 +104,10 @@ public abstract class DAOBase
    * 
    * @return The {@link Objectify} object.
    */
-  public Objectify ofy()
-  {
-    if (this.lazyOfy == null)
+  public Objectify ofy() {
+    if (this.lazyOfy == null) {
       this.lazyOfy = factory.begin();
+    }
 
     return this.lazyOfy;
   }
@@ -118,8 +117,7 @@ public abstract class DAOBase
    * 
    * @return A new transactional {@link Objectify} object.
    */
-  public Objectify newOfyTransaction()
-  {
+  public Objectify newOfyTransaction() {
     return factory.beginTransaction();
   }  
 

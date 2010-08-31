@@ -20,6 +20,9 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.ImageResource;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public interface Resources extends ClientBundle {
   
   @Source("logo.png")
@@ -31,6 +34,9 @@ public interface Resources extends ClientBundle {
   @Source("defines.css")
   Defines defines();
 
+  /**
+   * @author Philippe Beaudoin
+   */
   public interface Style extends CssResource {
     String username();
     String formMargin();
@@ -49,6 +55,9 @@ public interface Resources extends ClientBundle {
     String selectedCell();
   }  
 
+  /**
+   * @author Philippe Beaudoin
+   */
   public interface Defines extends CssResource {
     String darkPanelColor();
     String lightPanelColor();

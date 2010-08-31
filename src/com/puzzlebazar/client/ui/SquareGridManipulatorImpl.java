@@ -42,11 +42,16 @@ import com.puzzlebazar.shared.util.SquareGridValidator;
 import com.puzzlebazar.shared.util.SquareGridValidatorImpl;
 import com.puzzlebazar.shared.util.Vec2i;
 
-
+/**
+ * @author Philippe Beaudoin
+ */
 public class SquareGridManipulatorImpl 
 implements MouseDownHandler, MouseUpHandler, MouseMoveHandler, 
 MouseOutHandler, SquareGridManipulator {
 
+  /**
+   * The manipulator factory implementation.
+   */
   public static class FactoryImpl implements
   SquareGridManipulator.Factory {  
 
@@ -64,14 +69,13 @@ MouseOutHandler, SquareGridManipulator {
           gridPanel,
           uiWidget);
     }
-
   }  
 
   private final SquareGridValidator squareGridValidator;
   private final SquareGridConverter squareGridConverter;
   private final Widget uiWidget;
 
-  private HandlerManager handlerManager = null;
+  private HandlerManager handlerManager;
 
   /**
    * Indicates which object the mouse is currently over.
@@ -81,13 +85,13 @@ MouseOutHandler, SquareGridManipulator {
   private static final int OVER_EDGE = 1;
   private static final int OVER_VERTEX = 2;
   private int current = OVER_NOTHING;
-  private boolean currentVertical = false;
-  private Vec2i currentLoc = null;
+  private boolean currentVertical;
+  private Vec2i currentLoc;
 
-  private HandlerRegistration mouseDownHandlerRegistration = null;
-  private HandlerRegistration mouseUpHandlerRegistration = null;
-  private HandlerRegistration mouseMoveHandlerRegistration = null;
-  private HandlerRegistration mouseOutHandlerRegistration = null;
+  private HandlerRegistration mouseDownHandlerRegistration;
+  private HandlerRegistration mouseUpHandlerRegistration;
+  private HandlerRegistration mouseMoveHandlerRegistration;
+  private HandlerRegistration mouseOutHandlerRegistration;
 
   private int vertexClickDistance = -1;
   private int vertexMoveDistance  = -1;
@@ -102,28 +106,32 @@ MouseOutHandler, SquareGridManipulator {
       SquareGridValidator squareGridValidator,
       SquareGridConverter squareGridConverter,
       SquareGridLayoutPanel gridPanel,
-      Widget uiWidget ) {
+      Widget uiWidget) {
     this.squareGridValidator = squareGridValidator;
     this.squareGridConverter = squareGridConverter;
     this.uiWidget = uiWidget;
 
-    mouseDownHandlerRegistration = ((HasMouseDownHandlers)uiWidget).addMouseDownHandler(this);
-    mouseUpHandlerRegistration = ((HasMouseUpHandlers)uiWidget).addMouseUpHandler(this);
-    mouseMoveHandlerRegistration = ((HasMouseMoveHandlers)uiWidget).addMouseMoveHandler(this);
-    mouseOutHandlerRegistration = ((HasMouseOutHandlers)uiWidget).addMouseOutHandler(this);  
+    mouseDownHandlerRegistration = ((HasMouseDownHandlers) uiWidget).addMouseDownHandler(this);
+    mouseUpHandlerRegistration = ((HasMouseUpHandlers) uiWidget).addMouseUpHandler(this);
+    mouseMoveHandlerRegistration = ((HasMouseMoveHandlers) uiWidget).addMouseMoveHandler(this);
+    mouseOutHandlerRegistration = ((HasMouseOutHandlers) uiWidget).addMouseOutHandler(this);  
   }
 
   @Override
   public void unbind() {
 
-    if( mouseDownHandlerRegistration != null )
+    if (mouseDownHandlerRegistration != null) {
       mouseDownHandlerRegistration.removeHandler();
-    if( mouseUpHandlerRegistration != null )
+    }
+    if (mouseUpHandlerRegistration != null) {
       mouseUpHandlerRegistration.removeHandler();
-    if( mouseMoveHandlerRegistration != null )
+    }
+    if (mouseMoveHandlerRegistration != null) {
       mouseMoveHandlerRegistration.removeHandler();
-    if( mouseOutHandlerRegistration != null )
+    }
+    if (mouseOutHandlerRegistration != null) {
       mouseOutHandlerRegistration.removeHandler();
+    }
 
     mouseDownHandlerRegistration = null;
     mouseUpHandlerRegistration = null;
@@ -131,55 +139,56 @@ MouseOutHandler, SquareGridManipulator {
     mouseOutHandlerRegistration = null;
   }
 
-
   @Override
   public void onMouseDown(MouseDownEvent event) {
     event.preventDefault(); // Prevents undesired element selection
-    DOM.setCapture( uiWidget.getElement() );
+    DOM.setCapture(uiWidget.getElement());
 
     int x = event.getX();
     int y = event.getY();
 
-    VertexHitInfo vertexHitInfo = vertexHit( x, y, vertexClickDistance );
-    if( vertexHitInfo != null ) {
-      fireEvent( new VertexMouseDownEvent(vertexHitInfo.getVertex()) );
+    VertexHitInfo vertexHitInfo = vertexHit(x, y, vertexClickDistance);
+    if (vertexHitInfo != null) {
+      fireEvent(new VertexMouseDownEvent(vertexHitInfo.getVertex()));
       return;
     } 
 
-    EdgeHitInfo edgeHitInfo = edgeHit( x, y, edgeClickDistance );
-    if( edgeHitInfo != null ) {
-      fireEvent( new EdgeMouseDownEvent(edgeHitInfo.isVertical(), edgeHitInfo.getEdge()) );
+    EdgeHitInfo edgeHitInfo = edgeHit(x, y, edgeClickDistance);
+    if (edgeHitInfo != null) {
+      fireEvent(new EdgeMouseDownEvent(edgeHitInfo.isVertical(), edgeHitInfo.getEdge()));
       return;
     } 
 
-    Vec2i cell = cellHit( x, y );
-    if( cell != null )
-      fireEvent( new CellMouseDownEvent(cell) );
+    Vec2i cell = cellHit(x, y);
+    if (cell != null) {
+      fireEvent(new CellMouseDownEvent(cell));
+    }
   }
 
   @Override
   public void onMouseUp(MouseUpEvent event) {
     event.preventDefault(); // Prevents undesired element selection
-    DOM.releaseCapture( uiWidget.getElement() );
+    DOM.releaseCapture(uiWidget.getElement());
 
     int x = event.getX();
     int y = event.getY();
 
-    VertexHitInfo vertexHitInfo = vertexHit( x, y, vertexClickDistance );
-    if( vertexHitInfo != null ) {
-      fireEvent( new VertexMouseUpEvent(vertexHitInfo.getVertex()) );
+    VertexHitInfo vertexHitInfo = vertexHit(x, y, vertexClickDistance);
+    if (vertexHitInfo != null) {
+      fireEvent(new VertexMouseUpEvent(vertexHitInfo.getVertex()));
       return;
     } 
 
-    EdgeHitInfo edgeHitInfo = edgeHit( x, y, edgeClickDistance );
-    if( edgeHitInfo != null ) {
-      fireEvent( new EdgeMouseUpEvent(edgeHitInfo.isVertical(), edgeHitInfo.getEdge()) );
+    EdgeHitInfo edgeHitInfo = edgeHit(x, y, edgeClickDistance);
+    if (edgeHitInfo != null) {
+      fireEvent(new EdgeMouseUpEvent(edgeHitInfo.isVertical(), edgeHitInfo.getEdge()));
       return;
     } 
 
-    Vec2i cell = cellHit( x, y );
-    if( cell != null )
-      fireEvent( new CellMouseUpEvent(cell) );
+    Vec2i cell = cellHit(x, y);
+    if (cell != null) {
+      fireEvent(new CellMouseUpEvent(cell));
+    }
   }
 
   @Override
@@ -203,44 +212,44 @@ MouseOutHandler, SquareGridManipulator {
    */
   private void mouseMovedTo(int x, int y) {
 
-    VertexHitInfo vertexHitInfo = vertexHit( x, y, vertexMoveDistance );
-    if( vertexHitInfo != null ) {
-      if( current != OVER_VERTEX ||
-          !currentLoc.equals( vertexHitInfo.getVertex() ) ) {
+    VertexHitInfo vertexHitInfo = vertexHit(x, y, vertexMoveDistance);
+    if (vertexHitInfo != null) {
+      if (current != OVER_VERTEX ||
+          !currentLoc.equals(vertexHitInfo.getVertex())) {
         fireOutEvent();
         current = OVER_VERTEX;
         currentLoc = vertexHitInfo.getVertex();        
-        fireEvent( new VertexMouseOverEvent(vertexHitInfo.getVertex()) );
+        fireEvent(new VertexMouseOverEvent(vertexHitInfo.getVertex()));
       }
-      fireEvent( new VertexMouseMoveEvent(vertexHitInfo.getVertex()) );
+      fireEvent(new VertexMouseMoveEvent(vertexHitInfo.getVertex()));
       return;
     } 
 
-    EdgeHitInfo edgeHitInfo = edgeHit( x, y, edgeMoveDistance );
-    if( edgeHitInfo != null ) {
-      if( current != OVER_EDGE ||
+    EdgeHitInfo edgeHitInfo = edgeHit(x, y, edgeMoveDistance);
+    if (edgeHitInfo != null) {
+      if (current != OVER_EDGE ||
           currentVertical != edgeHitInfo.isVertical() ||
-          !currentLoc.equals( edgeHitInfo.getEdge() ) ) {
+          !currentLoc.equals(edgeHitInfo.getEdge())) {
         fireOutEvent();
         current = OVER_EDGE;
         currentVertical = edgeHitInfo.isVertical();
         currentLoc = edgeHitInfo.getEdge();        
-        fireEvent( new EdgeMouseOverEvent(edgeHitInfo.isVertical(), edgeHitInfo.getEdge()) );
+        fireEvent(new EdgeMouseOverEvent(edgeHitInfo.isVertical(), edgeHitInfo.getEdge()));
       }
-      fireEvent( new EdgeMouseMoveEvent(edgeHitInfo.isVertical(), edgeHitInfo.getEdge()) );
+      fireEvent(new EdgeMouseMoveEvent(edgeHitInfo.isVertical(), edgeHitInfo.getEdge()));
       return;
     } 
 
-    Vec2i cell = cellHit( x, y );
-    if( cell != null ) {
-      if( current != OVER_CELL ||
-          !currentLoc.equals( cell ) ) {
+    Vec2i cell = cellHit(x, y);
+    if (cell != null) {
+      if (current != OVER_CELL ||
+          !currentLoc.equals(cell)) {
         fireOutEvent();
         current = OVER_CELL;
         currentLoc = cell;        
-        fireEvent( new CellMouseOverEvent(cell) );
+        fireEvent(new CellMouseOverEvent(cell));
       }
-      fireEvent( new CellMouseMoveEvent(cell) );
+      fireEvent(new CellMouseMoveEvent(cell));
       return;
     } 
 
@@ -254,14 +263,15 @@ MouseOutHandler, SquareGridManipulator {
    * element has been left.
    */
   private void fireOutEvent() {
-    if( current == OVER_NOTHING )
+    if (current == OVER_NOTHING) {
       return;
-    else if( current == OVER_CELL )
-      fireEvent( new CellMouseOutEvent(currentLoc) );
-    else if( current == OVER_EDGE )
-      fireEvent( new EdgeMouseOutEvent(currentVertical, currentLoc) );
-    else if( current == OVER_VERTEX )
-      fireEvent( new VertexMouseOutEvent(currentLoc) );
+    } else if (current == OVER_CELL) {
+      fireEvent(new CellMouseOutEvent(currentLoc));
+    } else if (current == OVER_EDGE) {
+      fireEvent(new EdgeMouseOutEvent(currentVertical, currentLoc));
+    } else if (current == OVER_VERTEX) {
+      fireEvent(new VertexMouseOutEvent(currentLoc));
+    }
   }
 
   @Override
@@ -302,72 +312,72 @@ MouseOutHandler, SquareGridManipulator {
   }
 
   @Override
-  public HandlerRegistration addCellMouseUpHandler(CellMouseUpHandler handler){
+  public HandlerRegistration addCellMouseUpHandler(CellMouseUpHandler handler) {
     return ensureHandlers().addHandler(CellMouseUpEvent.getType(), handler);
   }
 
   @Override
-  public HandlerRegistration addCellMouseOverHandler(CellMouseOverHandler handler){
+  public HandlerRegistration addCellMouseOverHandler(CellMouseOverHandler handler) {
     return ensureHandlers().addHandler(CellMouseOverEvent.getType(), handler);
   }
 
   @Override
-  public HandlerRegistration addCellMouseOutHandler(CellMouseOutHandler handler){
+  public HandlerRegistration addCellMouseOutHandler(CellMouseOutHandler handler) {
     return ensureHandlers().addHandler(CellMouseOutEvent.getType(), handler);
   }
 
   @Override
-  public HandlerRegistration addCellMouseMoveHandler(CellMouseMoveHandler handler){
+  public HandlerRegistration addCellMouseMoveHandler(CellMouseMoveHandler handler) {
     return ensureHandlers().addHandler(CellMouseMoveEvent.getType(), handler);
   }
 
   @Override
-  public HandlerRegistration addEdgeMouseDownHandler(EdgeMouseDownHandler handler){
+  public HandlerRegistration addEdgeMouseDownHandler(EdgeMouseDownHandler handler) {
     return ensureHandlers().addHandler(EdgeMouseDownEvent.getType(), handler);
   }
 
   @Override
-  public HandlerRegistration addEdgeMouseUpHandler(EdgeMouseUpHandler handler){
+  public HandlerRegistration addEdgeMouseUpHandler(EdgeMouseUpHandler handler) {
     return ensureHandlers().addHandler(EdgeMouseUpEvent.getType(), handler);
   }
 
   @Override
-  public HandlerRegistration addEdgeMouseOverHandler(EdgeMouseOverHandler handler){
+  public HandlerRegistration addEdgeMouseOverHandler(EdgeMouseOverHandler handler) {
     return ensureHandlers().addHandler(EdgeMouseOverEvent.getType(), handler);
   }
 
   @Override
-  public HandlerRegistration addEdgeMouseOutHandler(EdgeMouseOutHandler handler){
+  public HandlerRegistration addEdgeMouseOutHandler(EdgeMouseOutHandler handler) {
     return ensureHandlers().addHandler(EdgeMouseOutEvent.getType(), handler);
   }
 
   @Override
-  public HandlerRegistration addEdgeMouseMoveHandler(EdgeMouseMoveHandler handler){
+  public HandlerRegistration addEdgeMouseMoveHandler(EdgeMouseMoveHandler handler) {
     return ensureHandlers().addHandler(EdgeMouseMoveEvent.getType(), handler);
   }
 
   @Override
-  public HandlerRegistration addVertexMouseDownHandler(VertexMouseDownHandler handler){
+  public HandlerRegistration addVertexMouseDownHandler(VertexMouseDownHandler handler) {
     return ensureHandlers().addHandler(VertexMouseDownEvent.getType(), handler);
   }
 
   @Override
-  public HandlerRegistration addVertexMouseUpHandler(VertexMouseUpHandler handler){
+  public HandlerRegistration addVertexMouseUpHandler(VertexMouseUpHandler handler) {
     return ensureHandlers().addHandler(VertexMouseUpEvent.getType(), handler);
   }
 
   @Override
-  public HandlerRegistration addVertexMouseOverHandler(VertexMouseOverHandler handler){
+  public HandlerRegistration addVertexMouseOverHandler(VertexMouseOverHandler handler) {
     return ensureHandlers().addHandler(VertexMouseOverEvent.getType(), handler);
   }
 
   @Override
-  public HandlerRegistration addVertexMouseOutHandler(VertexMouseOutHandler handler){
+  public HandlerRegistration addVertexMouseOutHandler(VertexMouseOutHandler handler) {
     return ensureHandlers().addHandler(VertexMouseOutEvent.getType(), handler);
   }
 
   @Override
-  public HandlerRegistration addVertexMouseMoveHandler(VertexMouseMoveHandler handler){
+  public HandlerRegistration addVertexMouseMoveHandler(VertexMouseMoveHandler handler) {
     return ensureHandlers().addHandler(VertexMouseMoveEvent.getType(), handler);
   }
 
@@ -393,7 +403,6 @@ MouseOutHandler, SquareGridManipulator {
     : handlerManager;
   }
 
-
   /**
    * Checks if the passed coordinate hits a vertex within the specified
    * threshold distance.
@@ -404,13 +413,15 @@ MouseOutHandler, SquareGridManipulator {
    * @return The {@link VertexHitInfo} of the hit vertex, or {@code null} if no vertex is hit.
    */
   private VertexHitInfo vertexHit(int x, int y, int distance) {
-    if( distance < 0 || squareGridConverter == null || squareGridValidator == null) 
-      return null;        
+    if (distance < 0 || squareGridConverter == null || squareGridValidator == null) {
+      return null;
+    }        
     VertexHitInfo vertexHitInfo = squareGridConverter.pixelToVertex(x, y);
-    if( vertexHitInfo != null &&
-        squareGridValidator.isValidVertex( vertexHitInfo.getVertex() ) && 
-        vertexHitInfo.getDist().max() <= distance )
+    if (vertexHitInfo != null &&
+        squareGridValidator.isValidVertex(vertexHitInfo.getVertex()) && 
+        vertexHitInfo.getDist().max() <= distance) {
       return vertexHitInfo;
+    }
     return null;
   }
 
@@ -424,19 +435,22 @@ MouseOutHandler, SquareGridManipulator {
    * @return The {@link EdgeHitInfo} of the hit edge, or {@code null} if no edge is hit.
    */
   private EdgeHitInfo edgeHit(int x, int y, int distance) {
-    if( distance < 0 || squareGridConverter == null || squareGridValidator == null ) 
+    if (distance < 0 || squareGridConverter == null || squareGridValidator == null) {
       return null;
+    }
     EdgeHitInfo edgeHitInfo = squareGridConverter.pixelToEdge(x, y);
-    if( edgeHitInfo != null &&
+    if (edgeHitInfo != null &&
         edgeHitInfo.isVertical() && 
-        squareGridValidator.isValidVerticalEdge( edgeHitInfo.getEdge() ) && 
-        edgeHitInfo.getDist() <= distance ) 
+        squareGridValidator.isValidVerticalEdge(edgeHitInfo.getEdge()) && 
+        edgeHitInfo.getDist() <= distance) {
       return edgeHitInfo;
-    if( edgeHitInfo != null &&
+    }
+    if (edgeHitInfo != null &&
         !edgeHitInfo.isVertical() && 
-        squareGridValidator.isValidHorizontalEdge( edgeHitInfo.getEdge() ) && 
-        edgeHitInfo.getDist() <= 4 )
+        squareGridValidator.isValidHorizontalEdge(edgeHitInfo.getEdge()) && 
+        edgeHitInfo.getDist() <= 4) {
       return edgeHitInfo;
+    }
     return null;
   }
 
@@ -448,11 +462,13 @@ MouseOutHandler, SquareGridManipulator {
    * @return The {@link Vec2i} containing the coordinates of the hit cell, or {@code null} if no cell is hit.
    */
   private Vec2i cellHit(int x, int y) {
-    if( squareGridConverter == null || squareGridValidator == null )
+    if (squareGridConverter == null || squareGridValidator == null) {
       return null;
+    }
     Vec2i cell = squareGridConverter.pixelToCell(x, y);
-    if( squareGridValidator.isValidCell( cell ) )
+    if (squareGridValidator.isValidCell(cell)) {
       return cell;
+    }
     return null;
   }
 

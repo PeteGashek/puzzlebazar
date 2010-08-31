@@ -23,8 +23,14 @@ import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.Tab;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public abstract class BaseTab extends Composite implements Tab {
 
+  /**
+   * Internal style defined in UiBinder of subclasses.
+   */
   protected interface Style extends CssResource {
     String active();
     String inactive();
@@ -38,7 +44,7 @@ public abstract class BaseTab extends Composite implements Tab {
 
   private final float priority;
 
-  public BaseTab( float priority ) {
+  public BaseTab(float priority) {
     super();
     this.priority = priority;
   }
@@ -60,14 +66,14 @@ public abstract class BaseTab extends Composite implements Tab {
 
   @Override
   public void activate() {
-    removeStyleName( style.inactive() );
-    addStyleName( style.active() );
+    removeStyleName(style.inactive());
+    addStyleName(style.active());
   }
 
   @Override
   public void deactivate() {
-    removeStyleName( style.active() );
-    addStyleName( style.inactive() );
+    removeStyleName(style.active());
+    addStyleName(style.inactive());
   }
 
   @Override

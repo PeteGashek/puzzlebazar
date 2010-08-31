@@ -26,11 +26,11 @@ import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewImpl;
-import com.puzzlebazar.client.core.presenter.PagePresenter;
 import com.puzzlebazar.client.core.presenter.PuzzlePresenter;
 
 /**
- * The {@link com.gwtplatform.mvp.client.View} for {@link PagePresenter}.
+ * The {@link com.gwtplatform.mvp.client.View} for 
+ * {@link com.puzzlebazar.client.core.presenter.PagePresenter}.
  * 
  * @author Philippe Beaudoin
  */
@@ -61,25 +61,28 @@ public class PuzzleView extends ViewImpl implements PuzzlePresenter.MyView {
   }
 
   @Override
-  public void setContent(Object slot, Widget content) {
-    if( slot == PuzzlePresenter.TYPE_RevealTopBarContent ) 
-      setTopBarContent( content );
-    else if( slot == PuzzlePresenter.TYPE_RevealPuzzleContent ) 
-      setPuzzleContent( content );
-    else
+  public void setInSlot(Object slot, Widget content) {
+    if (slot == PuzzlePresenter.TYPE_RevealTopBarContent) {
+      setTopBarContent(content);
+    } else if (slot == PuzzlePresenter.TYPE_RevealPuzzleContent) {
+      setPuzzleContent(content);
+    } else {
       super.setInSlot(slot, content);
+    }
   }
 
   private void setTopBarContent(Widget topBarContent) {
     topBarContainer.clear();
-    if( topBarContent != null )
-      topBarContainer.add( topBarContent );
+    if (topBarContent != null) {
+      topBarContainer.add(topBarContent);
+    }
   }
 
   private void setPuzzleContent(Widget puzzleContent) {
     puzzleContainer.clear();
-    if( puzzleContent != null )
-      puzzleContainer.add( puzzleContent );
+    if (puzzleContent != null) {
+      puzzleContainer.add(puzzleContent);
+    }
   }
 
   @Override

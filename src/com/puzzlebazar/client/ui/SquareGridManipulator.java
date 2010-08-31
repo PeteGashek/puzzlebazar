@@ -16,18 +16,15 @@
 
 package com.puzzlebazar.client.ui;
 
-import com.google.gwt.event.dom.client.HasMouseDownHandlers;
-import com.google.gwt.event.dom.client.HasMouseOutHandlers;
-import com.google.gwt.event.dom.client.HasMouseUpHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * This class hooks up to both a {@link SquareGridLayoutPanel} and a 
  * {@link Widget}. The latter is used for ui interaction and must implement
- * a number of mouse handler interfaces ({@link HasMouseDownHandlers},
- * {@link HasMouseUpHandlers}, {@link HasMouseMouveHandlers},
- * {@link HasMouseOutHandlers}). In turn, this {@link SquareGridManipulator}
+ * a number of mouse handler interfaces ({@link com.google.gwt.event.dom.client.HasMouseDownHandlers},
+ * {@link com.google.gwt.event.dom.client.HasMouseUpHandlers}, {@link com.google.gwt.event.dom.client.HasMouseMouveHandlers},
+ * {@link com.google.gwt.event.dom.client.HasMouseOutHandlers}). In turn, this {@link SquareGridManipulator}
  * implements a number of square-grid-specific handlers.
  * 
  * @author Philippe Beaudoin
@@ -47,20 +44,20 @@ public interface SquareGridManipulator {
      * 
      * @param gridPanel The {@link SquareGridLayoutPanel} on which to add a manipulator.
      * @param uiWidget The {@link Widget} receiving the ui input. Must implement
-     *   the following interfaces: {@link HasMouseDownHandlers},
-     *   {@link HasMouseUpHandlers}, {@link HasMouseMouveHandlers},
-     *   {@link HasMouseOutHandlers}.
+     *   the following interfaces: {@link com.google.gwt.event.dom.client.HasMouseDownHandlers},
+     *   {@link com.google.gwt.event.dom.client.HasMouseUpHandlers}, {@link com.google.gwt.event.dom.client.HasMouseMouveHandlers},
+     *   {@link com.google.gwt.event.dom.client.HasMouseOutHandlers}.
      */  
-    public SquareGridManipulator create(
+    SquareGridManipulator create(
         SquareGridLayoutPanel gridPanel,
-        Widget uiWidget );
+        Widget uiWidget);
   }
   
   /**
    * Call this method when you're done using the manipulator, to ensure all 
    * UI handlers are unbound.
    */
-  public void unbind();
+  void unbind();
 
   /**
    * Sets the distance around a vertex where a mouse down or mouse
@@ -69,7 +66,7 @@ public interface SquareGridManipulator {
    * @param vertexClickDistance The distance, in pixels. 
    *        Passing -1 will turn off vertex mouse down, mouse up events.
    */
-  public void setVertexClickDistance(int vertexClickDistance);
+  void setVertexClickDistance(int vertexClickDistance);
 
   /**
    * Sets the distance around a vertex where a mouse move, mouse over and mouse out
@@ -78,7 +75,7 @@ public interface SquareGridManipulator {
    * @param vertexMoveDistance The distance, in pixels.
    *        Passing -1 will turn off vertex mouse move, mouse over and mouse out events.
    */
-  public void setVertexMoveDistance(int vertexMoveDistance);
+  void setVertexMoveDistance(int vertexMoveDistance);
 
   /**
    * Sets the distance around a vertex where a mouse down, mouse up, mouse move, mouse over and mouse out
@@ -87,7 +84,7 @@ public interface SquareGridManipulator {
    * @param vertexDistance The distance, in pixels.
    *        Passing -1 will turn off vertex mouse down, mouse up, mouse move, mouse over and mouse out events.
    */
-  public void setVertexDistance(int vertexDistance);
+  void setVertexDistance(int vertexDistance);
 
   /**
    * Sets the distance around an edge where a mouse down or mouse
@@ -96,7 +93,7 @@ public interface SquareGridManipulator {
    * @param edgeClickDistance The distance, in pixels. 
    *        Passing -1 will turn off edge mouse down, mouse up events.
    */
-  public void setEdgeClickDistance(int edgeClickDistance);
+  void setEdgeClickDistance(int edgeClickDistance);
 
   /**
    * Sets the distance around an edge where a mouse move, mouse over and mouse out
@@ -105,7 +102,7 @@ public interface SquareGridManipulator {
    * @param edgeMoveDistance The distance, in pixels.
    *        Passing -1 will turn off edge mouse move, mouse over and mouse out events.
    */
-  public void setEdgeMoveDistance(int edgeMoveDistance);
+  void setEdgeMoveDistance(int edgeMoveDistance);
 
   /**
    * Sets the distance around an edge where a mouse down, mouse up, mouse move, mouse over and mouse out
@@ -114,7 +111,7 @@ public interface SquareGridManipulator {
    * @param edgeDistance The distance, in pixels.
    *        Passing -1 will turn off edge mouse down, mouse up, mouse move, mouse over and mouse out events.
    */
-  public void setEdgeDistance(int edgeDistance);
+  void setEdgeDistance(int edgeDistance);
 
   /**
    * Adds an handler for cell mouse down event.
@@ -122,7 +119,7 @@ public interface SquareGridManipulator {
    * @param handler The {@link CellMouseDownHandler} to attach to this event.
    * @return The {@link HandlerRegistration}. Use this to remove the handler when desired.
    */
-  public HandlerRegistration addCellMouseDownHandler(
+  HandlerRegistration addCellMouseDownHandler(
       CellMouseDownHandler handler);
 
   /**
@@ -131,7 +128,7 @@ public interface SquareGridManipulator {
    * @param handler The {@link CellMouseUpHandler} to attach to this event.
    * @return The {@link HandlerRegistration}. Use this to remove the handler when desired.
    */
-  public HandlerRegistration addCellMouseUpHandler(CellMouseUpHandler handler);
+  HandlerRegistration addCellMouseUpHandler(CellMouseUpHandler handler);
 
   /**
    * Adds an handler for cell mouse over event.
@@ -139,7 +136,7 @@ public interface SquareGridManipulator {
    * @param handler The {@link CellMouseOverHandler} to attach to this event.
    * @return The {@link HandlerRegistration}. Use this to remove the handler when desired.
    */
-  public HandlerRegistration addCellMouseOverHandler(
+  HandlerRegistration addCellMouseOverHandler(
       CellMouseOverHandler handler);
 
   /**
@@ -148,7 +145,7 @@ public interface SquareGridManipulator {
    * @param handler The {@link CellMouseOutHandler} to attach to this event.
    * @return The {@link HandlerRegistration}. Use this to remove the handler when desired.
    */
-  public HandlerRegistration addCellMouseOutHandler(CellMouseOutHandler handler);
+  HandlerRegistration addCellMouseOutHandler(CellMouseOutHandler handler);
 
   /**
    * Adds an handler for cell mouse move event.
@@ -156,7 +153,7 @@ public interface SquareGridManipulator {
    * @param handler The {@link CellMouseMoveHandler} to attach to this event.
    * @return The {@link HandlerRegistration}. Use this to remove the handler when desired.
    */
-  public HandlerRegistration addCellMouseMoveHandler(
+  HandlerRegistration addCellMouseMoveHandler(
       CellMouseMoveHandler handler);
 
   /**
@@ -167,7 +164,7 @@ public interface SquareGridManipulator {
    * @param handler The {@link EdgeMouseUpHandler} to attach to this event.
    * @return The {@link HandlerRegistration}. Use this to remove the handler when desired.
    */
-  public HandlerRegistration addEdgeMouseDownHandler(
+  HandlerRegistration addEdgeMouseDownHandler(
       EdgeMouseDownHandler handler);
 
   /**
@@ -178,7 +175,7 @@ public interface SquareGridManipulator {
    * @param handler The {@link EdgeMouseUpHandler} to attach to this event.
    * @return The {@link HandlerRegistration}. Use this to remove the handler when desired.
    */
-  public HandlerRegistration addEdgeMouseUpHandler(EdgeMouseUpHandler handler);
+  HandlerRegistration addEdgeMouseUpHandler(EdgeMouseUpHandler handler);
 
   /**
    * Adds an handler for edge mouse over event.
@@ -188,7 +185,7 @@ public interface SquareGridManipulator {
    * @param handler The {@link EdgeMouseOverHandler} to attach to this event.
    * @return The {@link HandlerRegistration}. Use this to remove the handler when desired.
    */
-  public HandlerRegistration addEdgeMouseOverHandler(
+  HandlerRegistration addEdgeMouseOverHandler(
       EdgeMouseOverHandler handler);
 
   /**
@@ -199,7 +196,7 @@ public interface SquareGridManipulator {
    * @param handler The {@link EdgeMouseOutHandler} to attach to this event.
    * @return The {@link HandlerRegistration}. Use this to remove the handler when desired.
    */
-  public HandlerRegistration addEdgeMouseOutHandler(EdgeMouseOutHandler handler);
+  HandlerRegistration addEdgeMouseOutHandler(EdgeMouseOutHandler handler);
 
   /**
    * Adds an handler for edge mouse move event.
@@ -209,7 +206,7 @@ public interface SquareGridManipulator {
    * @param handler The {@link EdgeMouseMoveHandler} to attach to this event.
    * @return The {@link HandlerRegistration}. Use this to remove the handler when desired.
    */
-  public HandlerRegistration addEdgeMouseMoveHandler(
+  HandlerRegistration addEdgeMouseMoveHandler(
       EdgeMouseMoveHandler handler);
 
   /**
@@ -220,7 +217,7 @@ public interface SquareGridManipulator {
    * @param handler The {@link VertexMouseDownHandler} to attach to this event.
    * @return The {@link HandlerRegistration}. Use this to remove the handler when desired.
    */
-  public HandlerRegistration addVertexMouseDownHandler(
+  HandlerRegistration addVertexMouseDownHandler(
       VertexMouseDownHandler handler);
 
   /**
@@ -231,7 +228,7 @@ public interface SquareGridManipulator {
    * @param handler The {@link VertexMouseUpHandler} to attach to this event.
    * @return The {@link HandlerRegistration}. Use this to remove the handler when desired.
    */
-  public HandlerRegistration addVertexMouseUpHandler(
+  HandlerRegistration addVertexMouseUpHandler(
       VertexMouseUpHandler handler);
 
   /**
@@ -242,7 +239,7 @@ public interface SquareGridManipulator {
    * @param handler The {@link VertexMouseOverHandler} to attach to this event.
    * @return The {@link HandlerRegistration}. Use this to remove the handler when desired.
    */
-  public HandlerRegistration addVertexMouseOverHandler(
+  HandlerRegistration addVertexMouseOverHandler(
       VertexMouseOverHandler handler);
 
   /**
@@ -253,7 +250,7 @@ public interface SquareGridManipulator {
    * @param handler The {@link VertexMouseOutHandler} to attach to this event.
    * @return The {@link HandlerRegistration}. Use this to remove the handler when desired.
    */
-  public HandlerRegistration addVertexMouseOutHandler(
+  HandlerRegistration addVertexMouseOutHandler(
       VertexMouseOutHandler handler);
 
   /**
@@ -264,7 +261,7 @@ public interface SquareGridManipulator {
    * @param handler The {@link VertexMouseMoveHandler} to attach to this event.
    * @return The {@link HandlerRegistration}. Use this to remove the handler when desired.
    */
-  public HandlerRegistration addVertexMouseMoveHandler(
+  HandlerRegistration addVertexMouseMoveHandler(
       VertexMouseMoveHandler handler);
 
 }

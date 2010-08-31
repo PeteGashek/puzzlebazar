@@ -33,6 +33,6 @@ public interface CellStateMatcher<S extends CellState> {
    * @param stateB The second {@link CellState}.
    * @return {@code true} if the states match, {@code false} otherwise.
    */
-  boolean doCellMatch( S stateA, S stateB );
+  boolean doCellMatch(S stateA, S stateB);
   
 }

@@ -18,10 +18,12 @@ package com.puzzlebazar.shared.action;
 
 import com.gwtplatform.dispatch.shared.ActionImpl;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class LogoutAction extends ActionImpl< NoResult > {
 
   public LogoutAction() {
   }
-  
   
 }

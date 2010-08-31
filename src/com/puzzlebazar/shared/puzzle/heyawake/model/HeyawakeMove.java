@@ -28,13 +28,13 @@ public interface HeyawakeMove {
    * 
    * @param puzzle The {@link HeyawakePuzzle} on which to do the move.
    */
-  public void doMove( HeyawakePuzzle puzzle );
+  void doMove(HeyawakePuzzle puzzle);
   
   /**
    * Modifies the associated {@link HeyawakePuzzle} to unapply the given move.
    * 
    * @param puzzle The {@link HeyawakePuzzle} on which to do the move.
    */  
-  public void undoMove( HeyawakePuzzle puzzle );
+  void undoMove(HeyawakePuzzle puzzle);
   
 }

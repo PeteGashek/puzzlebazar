@@ -18,6 +18,9 @@ package com.puzzlebazar.shared;
 
 import com.gwtplatform.dispatch.shared.ActionException;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class ObjectAlreadyInitializedException extends ActionException {
   private static final long serialVersionUID = -5708194663276077847L;
   public ObjectAlreadyInitializedException() {

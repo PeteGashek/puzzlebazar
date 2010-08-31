@@ -73,6 +73,9 @@ import com.puzzlebazar.client.util.ChangeMonitor;
 import com.puzzlebazar.client.util.DefaultChangeMonitor;
 import com.puzzlebazar.shared.Constants;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class PuzzlebazarClientModule extends AbstractPresenterModule {
 
   @Override
@@ -80,7 +83,7 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     
     // NOTE: Commented lines are unused classes. They are commented out to make sure
     //       the GWT compiler does not include them.
-    bindConstant().annotatedWith( SecurityCookie.class ).to(Constants.securityCookieName);
+    bindConstant().annotatedWith(SecurityCookie.class).to(Constants.securityCookieName);
     
     // Singletons
     bind(Resources.class).in(Singleton.class);
@@ -93,8 +96,7 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     bind(ProxyFailureHandler.class).to(FailureHandlerAlert.class).in(Singleton.class);
     bind(SquareGridManipulator.Factory.class).to(SquareGridManipulatorImpl.FactoryImpl.class).in(Singleton.class);
     bind(LoggedInGatekeeper.class).in(Singleton.class);
-    bind(AdminGatekeeper.class).in(Singleton.class);    
-    
+    bind(AdminGatekeeper.class).in(Singleton.class);        
     
     // Non-singletons
     bind(ChangeMonitor.class).to(DefaultChangeMonitor.class);
@@ -109,11 +111,11 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     requestStaticInjection(ActionCallback.class);
     
     // Widgets
-    bind( SquareGridLayoutPanel.class );
+    bind(SquareGridLayoutPanel.class);
     
     // Presenter widget
     bindPresenterWidget(NewsItemPresenter.class, NewsItemPresenter.MyView.class, NewsItemView.class);
-    bindSingletonPresenterWidget(TopBarPresenter.class, TopBarPresenter.MyView.class, TopBarView.class );
+    bindSingletonPresenterWidget(TopBarPresenter.class, TopBarPresenter.MyView.class, TopBarView.class);
     bindPresenterWidgetFactory(
         HeyawakePresenter.Factory.class,
         HeyawakePresenter.FactoryImpl.class,
@@ -124,25 +126,23 @@ public class PuzzlebazarClientModule extends AbstractPresenterModule {
     bind(TabbedPresenterBundle.class).in(Singleton.class);
 
     // Constants
-    bindConstant().annotatedWith(DefaultPlace.class).to( NameTokens.mainPage );
-    bindConstant().annotatedWith(RetryDelay.class).to( 500 );
-    bindConstant().annotatedWith(MaxRetries.class).to( 4 );
+    bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.mainPage);
+    bindConstant().annotatedWith(RetryDelay.class).to(500);
+    bindConstant().annotatedWith(MaxRetries.class).to(4);
     
     // Presenters
     bindPresenter(PagePresenter.class,PagePresenter.MyView.class, PageView.class, PagePresenter.MyProxy.class);
-    bindPresenter(SplitMainPresenter.class, SplitMainPresenter.MyView.class, SplitMainView.class, SplitMainPresenter.MyProxy.class );
+    bindPresenter(SplitMainPresenter.class, SplitMainPresenter.MyView.class, SplitMainView.class, SplitMainPresenter.MyProxy.class);
 //    bindPresenter(LinkColumnPresenter.class, LinkColumnPresenter.MyView.class, LinkColumnView.class, LinkColumnPresenter.MyProxy.class, LinkColumnProxy.class );
-    bindPresenter(LinkColumnPresenter.class, LinkColumnPresenter.MyView.class, LinkColumnView.class, LinkColumnPresenter.MyProxy.class );
-    bindPresenter(UserSettingsTabPresenter.class, UserSettingsTabPresenter.MyView.class, UserSettingsTabView.class, UserSettingsTabPresenter.MyProxy.class );
+    bindPresenter(LinkColumnPresenter.class, LinkColumnPresenter.MyView.class, LinkColumnView.class, LinkColumnPresenter.MyProxy.class);
+    bindPresenter(UserSettingsTabPresenter.class, UserSettingsTabPresenter.MyView.class, UserSettingsTabView.class, UserSettingsTabPresenter.MyProxy.class);
     bindPresenter(UserSettingsGeneralPresenter.class, UserSettingsGeneralPresenter.MyView.class, UserSettingsGeneralView.class, UserSettingsGeneralPresenter.MyProxy.class);
     bindPresenter(UserSettingsAccountsPresenter.class, UserSettingsAccountsPresenter.MyView.class, UserSettingsAccountsView.class, UserSettingsAccountsPresenter.MyProxy.class);
-    bindPresenter(AdminTabPresenter.class, AdminTabPresenter.MyView.class, AdminTabView.class, AdminTabPresenter.MyProxy.class );
+    bindPresenter(AdminTabPresenter.class, AdminTabPresenter.MyView.class, AdminTabView.class, AdminTabPresenter.MyProxy.class);
     bindPresenter(AdminGeneralPresenter.class, AdminGeneralPresenter.MyView.class, AdminGeneralView.class, AdminGeneralPresenter.MyProxy.class);
     bindPresenter(AdminUsersPresenter.class, AdminUsersPresenter.MyView.class, AdminUsersView.class, AdminUsersPresenter.MyProxy.class);
     bindPresenter(MainPagePresenter.class, MainPagePresenter.MyView.class, MainPageView.class, MainPagePresenter.MyProxy.class);
-    bindPresenter(PuzzlePresenter.class, PuzzlePresenter.MyView.class, PuzzleView.class, PuzzlePresenter.MyProxy.class);
-
-    
+    bindPresenter(PuzzlePresenter.class, PuzzlePresenter.MyView.class, PuzzleView.class, PuzzlePresenter.MyProxy.class);    
   }
 
 }

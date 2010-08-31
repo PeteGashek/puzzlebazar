@@ -18,6 +18,9 @@ package com.puzzlebazar.client.resources;
 
 import com.google.gwt.i18n.client.Constants;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public interface Translations extends Constants {
   String codeLoadFailure();
   String tabAccounts();

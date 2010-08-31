@@ -23,6 +23,9 @@ import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.AdminGeneralPresenter;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class AdminGeneralView extends ViewImpl implements AdminGeneralPresenter.MyView {
 
   interface Binder extends UiBinder<Widget, AdminGeneralView> { }
@@ -39,6 +42,5 @@ public class AdminGeneralView extends ViewImpl implements AdminGeneralPresenter.
   public Widget asWidget() {
     return widget;
   }
-  
 
 }

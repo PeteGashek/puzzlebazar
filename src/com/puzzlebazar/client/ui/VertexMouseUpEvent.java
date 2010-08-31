@@ -16,7 +16,6 @@
 
 package com.puzzlebazar.client.ui;
 
-import com.puzzlebazar.shared.util.Recti;
 import com.puzzlebazar.shared.util.Vec2i;
 
 /**
@@ -41,11 +40,11 @@ public class VertexMouseUpEvent extends VertexEvent<VertexMouseUpHandler> {
   }
   /**
    * Creates a {@link VertexMouseUpEvent} at the specified cell coordinate.
-   * See {@link Recti} for the difference between cell and vertex coordinates.
+   * See {@link com.puzzlebazar.shared.util.Recti} for the difference between cell and vertex coordinates.
    * 
    * @param vertex The vertex coordinate.
    */
-  public VertexMouseUpEvent( Vec2i vertex ) {
+  public VertexMouseUpEvent(Vec2i vertex) {
     super(vertex);
   }
 
@@ -58,6 +57,5 @@ public class VertexMouseUpEvent extends VertexEvent<VertexMouseUpHandler> {
   protected void dispatch(VertexMouseUpHandler handler) {
     handler.onVertexMouseUp(this);
   }
-
 
 }

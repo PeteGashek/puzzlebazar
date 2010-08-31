@@ -65,6 +65,5 @@ public class Session implements Serializable {
   public void logoutUser() {
     currentUserKey = null;
   }
-  
 
 }

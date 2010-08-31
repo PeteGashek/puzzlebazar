@@ -37,26 +37,32 @@ import com.puzzlebazar.client.NameTokens;
 public class UserSettingsAccountsPresenter extends 
     Presenter<UserSettingsAccountsPresenter.MyView, UserSettingsAccountsPresenter.MyProxy> {
 
+  /**
+   * The presenter's view.
+   */
   public interface MyView extends View { }
 
+  /**
+   * The presenter's proxy.
+   */
   @ProxyCodeSplit
-  @NameToken( NameTokens.userSettingsAccounts )
-  @UseGatekeeper( LoggedInGatekeeper.class )
+  @NameToken(NameTokens.userSettingsAccounts)
+  @UseGatekeeper(LoggedInGatekeeper.class)
   @TabInfo(
       container = UserSettingsTabPresenter.class, 
       priority = 1,
-      getLabel="ginjector.getTranslations().tabAccounts()")
-  public interface MyProxy extends TabContentProxyPlace<UserSettingsAccountsPresenter> {}
+      getLabel = "ginjector.getTranslations().tabAccounts()")
+  public interface MyProxy extends TabContentProxyPlace<UserSettingsAccountsPresenter> { }
 
   @Inject
   public UserSettingsAccountsPresenter(
       final EventBus eventBus, 
       final MyView view,  
-      final MyProxy proxy ) {
+      final MyProxy proxy) {
     super(
         eventBus, 
         view, 
-        proxy );
+        proxy);
   }
 
   @Override
@@ -67,6 +73,6 @@ public class UserSettingsAccountsPresenter extends
   @Override
   protected void onReset() {
     super.onReset();
-    DisplayShortMessageEvent.fireMessage(this, "Welcome to your connected accounts page!" );
+    DisplayShortMessageEvent.fireMessage(this, "Welcome to your connected accounts page!");
   }
 }

@@ -44,13 +44,19 @@ import com.puzzlebazar.client.ui.VertexMouseOverEvent;
 import com.puzzlebazar.client.ui.VertexMouseOverHandler;
 import com.puzzlebazar.shared.util.Has2DSize;
 
+/**
+ * @author Philippe Beaudoin
+ */
 public class HeyawakeView extends HandlerContainerImpl implements MyView,
-VertexMouseOverHandler, VertexMouseOutHandler, 
-EdgeMouseOverHandler, EdgeMouseOutHandler, 
-CellMouseOverHandler, CellMouseOutHandler, 
-CellMouseDownHandler, EdgeMouseDownHandler, 
-VertexMouseDownHandler  {
+    VertexMouseOverHandler, VertexMouseOutHandler, 
+    EdgeMouseOverHandler, EdgeMouseOutHandler, 
+    CellMouseOverHandler, CellMouseOutHandler, 
+    CellMouseDownHandler, EdgeMouseDownHandler, 
+    VertexMouseDownHandler  {
 
+  /**
+   * The view's factory.
+   */
   public static class FactoryImpl implements ViewFactory {
     private final SquareGridLayoutPanel puzzleWidget;
     private final Resources resources;
@@ -72,26 +78,25 @@ VertexMouseDownHandler  {
         Has2DSize puzzleSize) {
       return new HeyawakeView(puzzleWidget, resources, squareGridManipulatorFactory, uiWidget, puzzleSize);
     }
-    
   }
 
   private final SquareGridLayoutPanel puzzleWidget;
   private final Resources resources;
   private final SquareGridManipulator squareGridManipulator;
 
-  private Widget selectionWidget = null;
+  private Widget selectionWidget;
   
   private HeyawakeView(
       SquareGridLayoutPanel puzzleWidget, 
       Resources resources,
       SquareGridManipulator.Factory squareGridManipulatorFactory,
       Widget uiWidget,
-      Has2DSize puzzleSize ) {
+      Has2DSize puzzleSize) {
     super(false); // No autobinding, the presenter will bind us.
     
     this.puzzleWidget = puzzleWidget;
     this.resources = resources;
-    squareGridManipulator = squareGridManipulatorFactory.create( puzzleWidget, uiWidget );
+    squareGridManipulator = squareGridManipulatorFactory.create(puzzleWidget, uiWidget);
 
     int width = puzzleSize.getWidth();
     int height = puzzleSize.getHeight();
@@ -101,30 +106,30 @@ VertexMouseDownHandler  {
     puzzleWidget.createInnerEdges(1, resources.style().gray());
     puzzleWidget.createOuterEdges(3, resources.style().black());    
     
-    squareGridManipulator.setVertexDistance( 6 );
-    squareGridManipulator.setEdgeDistance( 4 );
+    squareGridManipulator.setVertexDistance(6);
+    squareGridManipulator.setEdgeDistance(4);
   }
   
   @Override
   public void onBind() {
     super.onBind();
 
-    registerHandler( squareGridManipulator.addVertexMouseOverHandler(this) );
-    registerHandler( squareGridManipulator.addVertexMouseOutHandler(this) );
-    registerHandler( squareGridManipulator.addEdgeMouseOverHandler(this) );
-    registerHandler( squareGridManipulator.addEdgeMouseOutHandler(this) );
-    registerHandler( squareGridManipulator.addCellMouseOverHandler(this) );
-    registerHandler( squareGridManipulator.addCellMouseOutHandler(this) );
-    registerHandler( squareGridManipulator.addCellMouseDownHandler(this) );
-    registerHandler( squareGridManipulator.addEdgeMouseDownHandler(this) );
-    registerHandler( squareGridManipulator.addVertexMouseDownHandler(this) );
-    
+    registerHandler(squareGridManipulator.addVertexMouseOverHandler(this));
+    registerHandler(squareGridManipulator.addVertexMouseOutHandler(this));
+    registerHandler(squareGridManipulator.addEdgeMouseOverHandler(this));
+    registerHandler(squareGridManipulator.addEdgeMouseOutHandler(this));
+    registerHandler(squareGridManipulator.addCellMouseOverHandler(this));
+    registerHandler(squareGridManipulator.addCellMouseOutHandler(this));
+    registerHandler(squareGridManipulator.addCellMouseDownHandler(this));
+    registerHandler(squareGridManipulator.addEdgeMouseDownHandler(this));
+    registerHandler(squareGridManipulator.addVertexMouseDownHandler(this));
   }
 
   public void onUnbind() {
     super.onUnbind();
-    if( selectionWidget != null )
+    if (selectionWidget != null) {
       selectionWidget.removeFromParent();
+    }
     selectionWidget = null;    
   }
   
@@ -135,72 +140,80 @@ VertexMouseDownHandler  {
   
   @Override
   public void onVertexMouseOver(VertexMouseOverEvent event) {
-    if( selectionWidget != null )
+    if (selectionWidget != null) {
       selectionWidget.removeFromParent();
-    selectionWidget  = puzzleWidget.createVertex( event.getVertex(), 12,
-        resources.style().yellow(), resources.style().transparent() );   
+    }
+    selectionWidget  = puzzleWidget.createVertex(event.getVertex(), 12,
+        resources.style().yellow(), resources.style().transparent());   
   }
 
   @Override
   public void onVertexMouseOut(VertexMouseOutEvent event) {
-    if( selectionWidget != null )
+    if (selectionWidget != null) {
       selectionWidget.removeFromParent();
+    }
     selectionWidget = null;    
   }
 
   @Override
   public void onEdgeMouseOver(EdgeMouseOverEvent event) {
-    if( selectionWidget != null )
+    if (selectionWidget != null) {
       selectionWidget.removeFromParent();
-    if( event.isVertical() )
-      selectionWidget = puzzleWidget.createVerticalEdge( event.getEdge(), 8, 
-          resources.style().yellow(), resources.style().transparent() );
-    else
-      selectionWidget = puzzleWidget.createHorizontalEdge( event.getEdge(), 8, 
-          resources.style().yellow(), resources.style().transparent() );
+    }
+    if (event.isVertical()) {
+      selectionWidget = puzzleWidget.createVerticalEdge(event.getEdge(), 8, 
+          resources.style().yellow(), resources.style().transparent());
+    } else {
+      selectionWidget = puzzleWidget.createHorizontalEdge(event.getEdge(), 8, 
+          resources.style().yellow(), resources.style().transparent());
+    }
   }
 
   @Override
   public void onEdgeMouseOut(EdgeMouseOutEvent event) {
-    if( selectionWidget != null )
+    if (selectionWidget != null) {
       selectionWidget.removeFromParent();
+    }
     selectionWidget = null;    
   }
 
   @Override
   public void onCellMouseOver(CellMouseOverEvent event) {
-    if( selectionWidget != null )
+    if (selectionWidget != null) {
       selectionWidget.removeFromParent();
-    selectionWidget  = puzzleWidget.createSelectedCell( event.getCell(), 
-        resources.style().yellow(), resources.style().transparent() );    
+    }
+    selectionWidget  = puzzleWidget.createSelectedCell(event.getCell(), 
+        resources.style().yellow(), resources.style().transparent());
   }
 
   @Override
   public void onCellMouseOut(CellMouseOutEvent event) {
-    if( selectionWidget != null )
+    if (selectionWidget != null) {
       selectionWidget.removeFromParent();
+    }
     selectionWidget = null;    
   }
   
   @Override
   public void onCellMouseDown(CellMouseDownEvent event) {
-    puzzleWidget.createCell( event.getCell(), resources.style().gray() );  
+    puzzleWidget.createCell(event.getCell(), resources.style().gray());  
   }
 
   @Override
   public void onEdgeMouseDown(EdgeMouseDownEvent event) {
-    if( event.isVertical() )
-      puzzleWidget.createVerticalEdge( event.getEdge(), 8, 
-          resources.style().black() );
-    else
-      puzzleWidget.createHorizontalEdge( event.getEdge(), 8, 
-          resources.style().black() );
+    if (event.isVertical()) {
+      puzzleWidget.createVerticalEdge(event.getEdge(), 8, 
+          resources.style().black());
+    } else {
+      puzzleWidget.createHorizontalEdge(event.getEdge(), 8, 
+          resources.style().black());
+    }
   }
 
   @Override
   public void onVertexMouseDown(VertexMouseDownEvent event) {
-    puzzleWidget.createVertex( event.getVertex(), 12, 
-        resources.style().blue() );  
+    puzzleWidget.createVertex(event.getVertex(), 12, 
+        resources.style().blue());  
   }
 
   @Override
