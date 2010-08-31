@@ -71,7 +71,7 @@ public class UserSettingsTabView extends ViewImpl implements UserSettingsTabPres
     if( slot == UserSettingsTabPresenter.TYPE_RevealTabContent )
       tabPanel.setPanelContent(content);
     else
-      super.setContent(slot, content);
+      super.setInSlot(slot, content);
   }
 
 

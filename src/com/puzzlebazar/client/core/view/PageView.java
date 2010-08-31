@@ -60,7 +60,7 @@ public class PageView extends ViewImpl implements PagePresenter.MyView {
     else if( slot == PagePresenter.TYPE_RevealTopBarContent ) 
       setTopBarContent( content );
     else
-      super.setContent(slot, content);
+      super.setInSlot(slot, content);
   }
     
   private void setMainContent(Widget mainContent) {

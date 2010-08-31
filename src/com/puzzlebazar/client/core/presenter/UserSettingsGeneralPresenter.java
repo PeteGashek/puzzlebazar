@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.dispatch.client.DispatchAsync;
 import com.gwtplatform.mvp.client.EventBus;
-import com.gwtplatform.mvp.client.PresenterImpl;
+import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
@@ -53,7 +53,7 @@ import com.puzzlebazar.shared.util.AvailableLocales;
  * @author Philippe Beaudoin
  */
 public class UserSettingsGeneralPresenter 
-extends PresenterImpl<UserSettingsGeneralPresenter.MyView, UserSettingsGeneralPresenter.MyProxy>
+extends Presenter<UserSettingsGeneralPresenter.MyView, UserSettingsGeneralPresenter.MyProxy>
 implements MonitorHandler  {
 
   public interface MyView extends View {
@@ -114,14 +114,14 @@ implements MonitorHandler  {
   @Override
   protected void onBind() {
     super.onBind();
-    registerHandler( view.getApply().addClickHandler(
+    registerHandler( getView().getApply().addClickHandler(
         new ClickHandler() {          
           @Override
           public void onClick(ClickEvent event) {
             apply();
           }
         } ) );
-    registerHandler( view.getCancel().addClickHandler(
+    registerHandler( getView().getCancel().addClickHandler(
         new ClickHandler() {          
           @Override
           public void onClick(ClickEvent event) {
@@ -130,7 +130,7 @@ implements MonitorHandler  {
         } ) );
 
     for( int i=0; i < availableLocales.getNbLocales(); ++i ) {
-      view.addLanguage( availableLocales.getLocale(i).getName() );
+      getView().addLanguage( availableLocales.getLocale(i).getName() );
     }
   }
 
@@ -138,6 +138,7 @@ implements MonitorHandler  {
   protected void onReveal() {
     super.onReveal();
     fillView();
+    MyView view = getView();
     changeMonitor.bind();    
     changeMonitor.monitorWidget( view.getNickname() );
     changeMonitor.monitorWidget( view.getRealName() );
@@ -145,6 +146,7 @@ implements MonitorHandler  {
   }
 
   private void fillView() {
+    MyView view = getView();
     int localeIndex = availableLocales.findLocaleIndex(currentUser.getLocale());
     if( localeIndex < 0 )
       localeIndex = availableLocales.getDefaultLocaleIndex();
@@ -163,22 +165,23 @@ implements MonitorHandler  {
 
   @Override
   protected void revealInParent() {
-    RevealContentEvent.fire(eventBus, UserSettingsTabPresenter.TYPE_RevealTabContent, this);
+    RevealContentEvent.fire(this, UserSettingsTabPresenter.TYPE_RevealTabContent, this);
   }
 
   @Override
   public void changeDetected() {
     // Clear any remaining undo/redo message
-    DisplayShortMessageEvent.fireClearMessage(eventBus);
-    view.setApplyEnabled(true);
+    DisplayShortMessageEvent.fireClearMessage(this);
+    getView().setApplyEnabled(true);
   }
 
   @Override
   public void changeReverted() {
-    view.setApplyEnabled(false);
+    getView().setApplyEnabled(false);
   }
 
   private void apply() {
+    MyView view = getView();
     int localeIndex = view.getLanguage().getSelectedIndex();
     final User newUser = currentUser.getUserCopy();    
     newUser.setNickname( view.getNickname().getText() );
@@ -207,7 +210,7 @@ implements MonitorHandler  {
         if( undoHandlerRegistration != null )
           undoHandlerRegistration.removeHandler();
 
-        undoHandlerRegistration = view.getUndo().addClickHandler(
+        undoHandlerRegistration = getView().getUndo().addClickHandler(
             new ClickHandler() {          
               @Override
               public void onClick(ClickEvent event) {
@@ -216,7 +219,8 @@ implements MonitorHandler  {
             } );
 
 
-        DisplayShortMessageEvent.fireMessage(eventBus, view.getExecuteSuccessMessage() );
+        DisplayShortMessageEvent.fireMessage(UserSettingsGeneralPresenter.this, 
+            getView().getExecuteSuccessMessage() );
         changeMonitor.reset();
       }
 
@@ -233,7 +237,7 @@ implements MonitorHandler  {
         if( redoHandlerRegistration != null )
           redoHandlerRegistration.removeHandler();
 
-        redoHandlerRegistration = view.getRedo().addClickHandler(
+        redoHandlerRegistration = getView().getRedo().addClickHandler(
             new ClickHandler() {          
               @Override
               public void onClick(ClickEvent event) {
@@ -241,7 +245,8 @@ implements MonitorHandler  {
               }
             } );
 
-        DisplayShortMessageEvent.fireMessage(eventBus, view.getUndoSuccessMessage() );
+        DisplayShortMessageEvent.fireMessage(UserSettingsGeneralPresenter.this, 
+            getView().getUndoSuccessMessage() );
         changeMonitor.reset();
       }
     }  );

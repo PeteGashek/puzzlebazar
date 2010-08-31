@@ -204,14 +204,29 @@ VertexMouseDownHandler  {
   }
 
   @Override
+  public void addToSlot(Object slot, Widget content) {
+  }
+
+  @Override
+  public void setInSlot(Object slot, Widget content) {
+  }
+
+  @Override
+  public void removeFromSlot(Object slot, Widget content) {
+  }
+
+  @Deprecated
+  @Override
   public void addContent(Object slot, Widget content) {
   }
 
-  @Override
-  public void setContent(Object slot, Widget content) {
-  }
-
+  @Deprecated
   @Override
   public void removeContent(Object slot, Widget content) {
+  }
+
+  @Deprecated
+  @Override
+  public void setContent(Object slot, Widget content) {
   }
 }

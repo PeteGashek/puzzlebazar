@@ -71,7 +71,7 @@ public class AdminTabView extends ViewImpl implements AdminTabPresenter.MyView {
     if( slot == AdminTabPresenter.TYPE_RevealTabContent )
       tabPanel.setPanelContent(content);
     else
-      super.setContent(slot, content);
+      super.setInSlot(slot, content);
   }
 
 

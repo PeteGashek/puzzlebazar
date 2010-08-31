@@ -20,7 +20,7 @@ import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.EventBus;
 import com.gwtplatform.mvp.client.RequestTabsHandler;
-import com.gwtplatform.mvp.client.TabContainerPresenterImpl;
+import com.gwtplatform.mvp.client.TabContainerPresenter;
 import com.gwtplatform.mvp.client.TabView;
 import com.gwtplatform.mvp.client.annotations.ContentSlot;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplitBundle;
@@ -36,7 +36,7 @@ import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
  * 
  * @author Philippe Beaudoin
  */
-public class UserSettingsTabPresenter extends TabContainerPresenterImpl<UserSettingsTabPresenter.MyView,UserSettingsTabPresenter.MyProxy> {
+public class UserSettingsTabPresenter extends TabContainerPresenter<UserSettingsTabPresenter.MyView,UserSettingsTabPresenter.MyProxy> {
   
   @ContentSlot
   public static final Type<RevealContentHandler<?>> TYPE_RevealTabContent  = new Type<RevealContentHandler<?>>();
@@ -61,7 +61,7 @@ public class UserSettingsTabPresenter extends TabContainerPresenterImpl<UserSett
 
   @Override
   protected void revealInParent() {
-    RevealContentEvent.fire(eventBus, SplitMainPresenter.TYPE_RevealCenterContent, this);
+    RevealContentEvent.fire(this, SplitMainPresenter.TYPE_RevealCenterContent, this);
   }
 
 }

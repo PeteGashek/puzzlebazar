@@ -64,7 +64,7 @@ public class SplitMainView extends ViewImpl implements SplitMainPresenter.MyView
     else if( slot == SplitMainPresenter.TYPE_RevealCenterContent ) 
       setCenterContent( content );
     else
-      super.setContent(slot, content);
+      super.setInSlot(slot, content);
   }
     
   private void setSideBarContent(Widget sideBarContent) {

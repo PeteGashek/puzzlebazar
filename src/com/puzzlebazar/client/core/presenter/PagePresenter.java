@@ -18,14 +18,14 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
-import com.gwtplatform.mvp.client.View;
-import com.gwtplatform.mvp.client.PresenterImpl;
 import com.gwtplatform.mvp.client.EventBus;
+import com.gwtplatform.mvp.client.Presenter;
+import com.gwtplatform.mvp.client.View;
+import com.gwtplatform.mvp.client.annotations.ContentSlot;
+import com.gwtplatform.mvp.client.annotations.ProxyStandard;
 import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.gwtplatform.mvp.client.proxy.RevealRootContentEvent;
-import com.gwtplatform.mvp.client.annotations.ContentSlot;
-import com.gwtplatform.mvp.client.annotations.ProxyStandard;
 
 /**
  * The top-level presenter that contains typical pages of the application.
@@ -33,7 +33,7 @@ import com.gwtplatform.mvp.client.annotations.ProxyStandard;
  * 
  * @author Philippe Beaudoin
  */
-public class PagePresenter extends PresenterImpl<PagePresenter.MyView, PagePresenter.MyProxy> {
+public class PagePresenter extends Presenter<PagePresenter.MyView, PagePresenter.MyProxy> {
 
   @ContentSlot
   public static final Type<RevealContentHandler<?>> TYPE_RevealMainContent = new Type<RevealContentHandler<?>>();  
@@ -62,25 +62,25 @@ public class PagePresenter extends PresenterImpl<PagePresenter.MyView, PagePrese
 
   @Override
   protected void revealInParent() {
-    RevealRootContentEvent.fire( eventBus, this );
+    RevealRootContentEvent.fire( this, this );
   }
 
   @Override
   protected void onReveal() {
     super.onReveal();
-    setContent( TYPE_RevealTopBarContent, topBarPresenter );
+    setInSlot( TYPE_RevealTopBarContent, topBarPresenter );
   }
   
   @Override
   protected void onHide() {
     super.onHide();
-    clearContent( TYPE_RevealTopBarContent );
+    clearSlot( TYPE_RevealTopBarContent );
   }
 
   @Override
   protected void onReset() {
     super.onReset();
-    DisplayShortMessageEvent.fireClearMessage(eventBus);
+    DisplayShortMessageEvent.fireClearMessage(this);
   }
 
 }

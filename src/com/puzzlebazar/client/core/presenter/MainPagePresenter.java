@@ -20,15 +20,15 @@ import com.google.gwt.inject.client.AsyncProvider;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.CodeSplitProvider;
-import com.gwtplatform.mvp.client.IndirectProvider;
-import com.gwtplatform.mvp.client.View;
-import com.gwtplatform.mvp.client.PresenterImpl;
 import com.gwtplatform.mvp.client.EventBus;
+import com.gwtplatform.mvp.client.IndirectProvider;
+import com.gwtplatform.mvp.client.Presenter;
+import com.gwtplatform.mvp.client.View;
+import com.gwtplatform.mvp.client.annotations.NameToken;
+import com.gwtplatform.mvp.client.annotations.ProxyStandard;
 import com.gwtplatform.mvp.client.proxy.ProxyFailureHandler;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
-import com.gwtplatform.mvp.client.annotations.NameToken;
-import com.gwtplatform.mvp.client.annotations.ProxyStandard;
 import com.puzzlebazar.client.NameTokens;
 
 /**
@@ -37,7 +37,7 @@ import com.puzzlebazar.client.NameTokens;
  * @author Philippe Beaudoin
  */
 public class MainPagePresenter 
-extends PresenterImpl<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
+extends Presenter<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
 
   public static final Object TYPE_RevealNewsContent = new Object();
 
@@ -64,7 +64,7 @@ extends PresenterImpl<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
 
   @Override
   protected void revealInParent() {
-    RevealContentEvent.fire(eventBus, SplitMainPresenter.TYPE_RevealCenterContent, this);
+    RevealContentEvent.fire(this, SplitMainPresenter.TYPE_RevealCenterContent, this);
   }
 
   // TODO Temporary
@@ -86,7 +86,7 @@ extends PresenterImpl<MainPagePresenter.MyView, MainPagePresenter.MyProxy> {
         public void onSuccess(NewsItemPresenter newsItemPresenter) {
           newsItemPresenter.setTitle( "Title " + index );
           index++;
-          addContent( TYPE_RevealNewsContent, newsItemPresenter );
+          addToSlot( TYPE_RevealNewsContent, newsItemPresenter );
         }
       } );
     }

@@ -17,10 +17,9 @@
 package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
-import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.EventBus;
 import com.gwtplatform.mvp.client.PresenterWidget;
-import com.gwtplatform.mvp.client.PresenterWidgetImpl;
+import com.gwtplatform.mvp.client.View;
 
 /**
  * The presenter for a single news item in the application.
@@ -30,7 +29,7 @@ import com.gwtplatform.mvp.client.PresenterWidgetImpl;
  * @author Philippe Beaudoin
  */
 public class NewsItemPresenter 
-extends PresenterWidgetImpl<NewsItemPresenter.MyView> {
+extends PresenterWidget<NewsItemPresenter.MyView> {
 
   public interface MyView extends View {
     void setTitle( String title );    
@@ -46,7 +45,7 @@ extends PresenterWidgetImpl<NewsItemPresenter.MyView> {
   }
   
   void setTitle( String title ) {
-    view.setTitle( title );
+    getView().setTitle( title );
   }
 
 }
