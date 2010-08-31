@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="BAM_product" default="build" basedir=".">
+
+	<property name="version.num" value="0.4"/>
+  <property name="gwtp.folder" location="../gwtp" />
+	
+	<property environment="env"/>
+  <property name="gwtp.jar.file" value="${gwtp.folder}/gwtp-${version.num}-SNAPSHOT.jar"/>
+  <property name="war.lib.folder" value="war/WEB-INF/lib"/>
+	
+  <target name="copyjar">
+    <copy file="${gwtp.jar.file}" tofile="${war.lib.folder}/gwtp.jar" />
+  </target>
+  
+  <target name="build" depends="copyjar" description="Build this project" />
+
+</project>

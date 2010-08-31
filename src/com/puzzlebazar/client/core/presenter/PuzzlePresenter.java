@@ -161,7 +161,7 @@ public class PuzzlePresenter extends Presenter<PuzzlePresenter.MyView, PuzzlePre
           setInSlot(TYPE_RevealPuzzleContent, puzzlePresenterWidget, false);
           action = ACTION_EDIT;
           id = result.getPuzzle().getId();
-          getProxy().onPresenterChanged(PuzzlePresenter.this);
+          placeManager.updateHistory(prepareRequest());
         }
       });
     }
@@ -195,9 +195,8 @@ public class PuzzlePresenter extends Presenter<PuzzlePresenter.MyView, PuzzlePre
     }
   }
 
-  @Override
-  public PlaceRequest prepareRequest(PlaceRequest placeRequest) {
-    PlaceRequest result = super.prepareRequest(placeRequest);
+  private PlaceRequest prepareRequest() {
+    PlaceRequest result = new PlaceRequest(getProxy().getNameToken());
 
     if (action != DEFAULT_ACTION) {
       result = result.with(PARAM_ACTION, action);
