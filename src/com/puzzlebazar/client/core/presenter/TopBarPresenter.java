@@ -22,16 +22,16 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.Command;
 import com.google.inject.Inject;
 import com.gwtplatform.dispatch.client.DispatchAsync;
-import com.gwtplatform.mvp.client.PresenterWidgetImpl;
-import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.EventBus;
+import com.gwtplatform.mvp.client.PresenterWidget;
+import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.CurrentUser;
 import com.puzzlebazar.shared.action.LogoutAction;
 import com.puzzlebazar.shared.action.NoResult;
 
-public class TopBarPresenter extends PresenterWidgetImpl<TopBarPresenter.MyView> 
+public class TopBarPresenter extends PresenterWidget<TopBarPresenter.MyView> 
 implements CurrentUserChangedHandler {
 
   public interface MyView extends View {
@@ -77,7 +77,7 @@ implements CurrentUserChangedHandler {
       }
     } );
     
-    registerHandler( eventBus.addHandler( CurrentUserChangedEvent.getType(), this ) );
+    addRegisteredHandler( CurrentUserChangedEvent.getType(), this );
   }
 
   @Override

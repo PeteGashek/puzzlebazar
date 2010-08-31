@@ -51,7 +51,7 @@ public class MainPageView extends ViewImpl implements MainPagePresenter.MyView {
     if( slot == MainPagePresenter.TYPE_RevealNewsContent )
       newsPanel.add( content );
     else
-      super.addContent(slot, content);
+      super.addToSlot(slot, content);
   }
 
   @Override
@@ -61,7 +61,7 @@ public class MainPageView extends ViewImpl implements MainPagePresenter.MyView {
       if( content != null )
         addContent( slot, content );
     } else
-      super.setContent(slot, content);
+      super.setInSlot(slot, content);
   }
 
 }

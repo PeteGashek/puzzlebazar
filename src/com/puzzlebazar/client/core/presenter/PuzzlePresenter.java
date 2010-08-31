@@ -20,14 +20,15 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.dispatch.client.DispatchAsync;
 import com.gwtplatform.mvp.client.EventBus;
-import com.gwtplatform.mvp.client.PresenterImpl;
+import com.gwtplatform.mvp.client.Presenter;
+import com.gwtplatform.mvp.client.PresenterWidget;
 import com.gwtplatform.mvp.client.View;
+import com.gwtplatform.mvp.client.annotations.NameToken;
+import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.PlaceRequest;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.gwtplatform.mvp.client.proxy.RevealRootLayoutContentEvent;
-import com.gwtplatform.mvp.client.annotations.NameToken;
-import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 import com.puzzlebazar.client.ActionCallback;
 import com.puzzlebazar.client.NameTokens;
 import com.puzzlebazar.client.puzzle.heyawake.presenter.HeyawakePresenter;
@@ -42,7 +43,7 @@ import com.puzzlebazar.shared.puzzle.heyawake.model.HeyawakePuzzle;
  * 
  * @author Philippe Beaudoin
  */
-public class PuzzlePresenter extends PresenterImpl<PuzzlePresenter.MyView, PuzzlePresenter.MyProxy> {
+public class PuzzlePresenter extends Presenter<PuzzlePresenter.MyView, PuzzlePresenter.MyProxy> {
 
   public static final String PARAM_ACTION = "action";
   public static final String PARAM_ID = "id";
@@ -115,19 +116,19 @@ public class PuzzlePresenter extends PresenterImpl<PuzzlePresenter.MyView, Puzzl
 
   @Override
   protected void revealInParent() {
-    RevealRootLayoutContentEvent.fire( eventBus, this );
+    RevealRootLayoutContentEvent.fire( this, this );
   }
 
   @Override
   protected void onReveal() {
     super.onReveal();
-    setContent( TYPE_RevealTopBarContent, topBarPresenter );
+    setInSlot( TYPE_RevealTopBarContent, topBarPresenter );
   }
   
   @Override
   protected void onHide() {
     super.onHide();
-    clearContent( TYPE_RevealTopBarContent );
+    clearSlot( TYPE_RevealTopBarContent );
     releasePuzzle();  
   }
 
@@ -154,7 +155,7 @@ public class PuzzlePresenter extends PresenterImpl<PuzzlePresenter.MyView, Puzzl
           puzzle = result.getPuzzle();
           puzzlePresenterWidget = heyawakePresenterFactory.create(getView().getUiWidget(), puzzle);
           puzzlePresenterWidget.bind();
-          setContent( TYPE_RevealPuzzleContent, puzzlePresenterWidget, false );
+          setInSlot( TYPE_RevealPuzzleContent, puzzlePresenterWidget, false );
           action = ACTION_EDIT;
           id = result.getPuzzle().getId();
           getProxy().onPresenterChanged(PuzzlePresenter.this);
@@ -213,6 +214,6 @@ public class PuzzlePresenter extends PresenterImpl<PuzzlePresenter.MyView, Puzzl
     if( puzzlePresenterWidget != null )
       puzzlePresenterWidget.unbind();
     puzzlePresenterWidget = null;
-    clearContent( TYPE_RevealPuzzleContent );
+    clearSlot( TYPE_RevealPuzzleContent );
   }
 }

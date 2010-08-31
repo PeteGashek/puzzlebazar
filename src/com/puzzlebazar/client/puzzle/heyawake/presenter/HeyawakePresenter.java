@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.EventBus;
 import com.gwtplatform.mvp.client.HandlerContainer;
-import com.gwtplatform.mvp.client.PresenterWidgetImpl;
+import com.gwtplatform.mvp.client.PresenterWidget;
 import com.gwtplatform.mvp.client.View;
 import com.puzzlebazar.shared.puzzle.heyawake.model.HeyawakePuzzle;
 import com.puzzlebazar.shared.util.Has2DSize;
@@ -34,7 +34,7 @@ import com.puzzlebazar.shared.util.Has2DSize;
  * 
  * @author Philippe Beaudoin
  */
-public class HeyawakePresenter extends PresenterWidgetImpl<HeyawakePresenter.MyView> {
+public class HeyawakePresenter extends PresenterWidget<HeyawakePresenter.MyView> {
 
   /**
    * This factory is used to create new views for the {@link HeyawakePresenter}.

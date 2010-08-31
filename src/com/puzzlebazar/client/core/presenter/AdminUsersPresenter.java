@@ -18,7 +18,7 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.EventBus;
-import com.gwtplatform.mvp.client.PresenterImpl;
+import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
@@ -35,7 +35,7 @@ import com.puzzlebazar.client.NameTokens;
  * @author Philippe Beaudoin
  */
 public class AdminUsersPresenter 
-extends PresenterImpl<AdminUsersPresenter.MyView, AdminUsersPresenter.MyProxy> {
+extends Presenter<AdminUsersPresenter.MyView, AdminUsersPresenter.MyProxy> {
 
   public interface MyView extends View { }
 
@@ -57,6 +57,6 @@ extends PresenterImpl<AdminUsersPresenter.MyView, AdminUsersPresenter.MyProxy> {
 
   @Override
   protected void revealInParent() {
-    RevealContentEvent.fire(eventBus, AdminTabPresenter.TYPE_RevealTabContent, this);
+    RevealContentEvent.fire(this, AdminTabPresenter.TYPE_RevealTabContent, this);
   }
 }

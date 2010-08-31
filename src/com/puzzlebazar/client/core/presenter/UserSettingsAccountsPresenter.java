@@ -18,7 +18,7 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.EventBus;
-import com.gwtplatform.mvp.client.PresenterImpl;
+import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
@@ -34,7 +34,8 @@ import com.puzzlebazar.client.NameTokens;
  * 
  * @author Philippe Beaudoin
  */
-public class UserSettingsAccountsPresenter extends PresenterImpl<UserSettingsAccountsPresenter.MyView, UserSettingsAccountsPresenter.MyProxy> {
+public class UserSettingsAccountsPresenter extends 
+    Presenter<UserSettingsAccountsPresenter.MyView, UserSettingsAccountsPresenter.MyProxy> {
 
   public interface MyView extends View { }
 
@@ -60,12 +61,12 @@ public class UserSettingsAccountsPresenter extends PresenterImpl<UserSettingsAcc
 
   @Override
   protected void revealInParent() {
-    RevealContentEvent.fire(eventBus, UserSettingsTabPresenter.TYPE_RevealTabContent, this);
+    RevealContentEvent.fire(this, UserSettingsTabPresenter.TYPE_RevealTabContent, this);
   }
   
   @Override
   protected void onReset() {
     super.onReset();
-    DisplayShortMessageEvent.fireMessage(eventBus, "Welcome to your connected accounts page!" );
+    DisplayShortMessageEvent.fireMessage(this, "Welcome to your connected accounts page!" );
   }
 }

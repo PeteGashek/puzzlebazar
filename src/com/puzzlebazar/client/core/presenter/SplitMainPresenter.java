@@ -19,17 +19,17 @@ package com.puzzlebazar.client.core.presenter;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.gwtplatform.mvp.client.View;
-import com.gwtplatform.mvp.client.PresenterImpl;
 import com.gwtplatform.mvp.client.EventBus;
+import com.gwtplatform.mvp.client.Presenter;
+import com.gwtplatform.mvp.client.View;
+import com.gwtplatform.mvp.client.annotations.ContentSlot;
+import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
-import com.gwtplatform.mvp.client.annotations.ContentSlot;
-import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 
 public class SplitMainPresenter 
-extends PresenterImpl<SplitMainPresenter.MyView, SplitMainPresenter.MyProxy>
+extends Presenter<SplitMainPresenter.MyView, SplitMainPresenter.MyProxy>
 implements DisplayShortMessageHandler {
 
   @ContentSlot
@@ -57,20 +57,20 @@ implements DisplayShortMessageHandler {
 
   @Override
   protected void revealInParent() {
-    RevealContentEvent.fire(eventBus, PagePresenter.TYPE_RevealMainContent, this);
+    RevealContentEvent.fire(this, PagePresenter.TYPE_RevealMainContent, this);
   }
 
   @Override
   protected void onBind() {
     super.onBind();
-    registerHandler( eventBus.addHandler( DisplayShortMessageEvent.getType(), this ) );
+    registerHandler( this.addHandler( DisplayShortMessageEvent.getType(), this ) );
   }
 
   @Override
   protected void onReveal() {
     super.onReveal();
     if( !getView().hasSideBarContent() )
-      RevealDefaultLinkColumnEvent.fire(eventBus);
+      RevealDefaultLinkColumnEvent.fire(this);
   }
 
   @Override
@@ -79,10 +79,10 @@ implements DisplayShortMessageHandler {
       return;
     Widget message = event.getMessage();    
     if( message == null )
-      view.clearMessage();
+      getView().clearMessage();
     else    
       // TODO Take duration into account
-      view.showMessage( message, event.isDismissable() );
+      getView().showMessage( message, event.isDismissable() );
     event.setAlreadyDisplayed();
   }
 }

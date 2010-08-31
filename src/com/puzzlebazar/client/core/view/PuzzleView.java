@@ -67,7 +67,7 @@ public class PuzzleView extends ViewImpl implements PuzzlePresenter.MyView {
     else if( slot == PuzzlePresenter.TYPE_RevealPuzzleContent ) 
       setPuzzleContent( content );
     else
-      super.setContent(slot, content);
+      super.setInSlot(slot, content);
   }
 
   private void setTopBarContent(Widget topBarContent) {

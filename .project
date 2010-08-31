@@ -43,11 +43,4 @@
 		<nature>com.google.gdt.eclipse.core.webAppNature</nature>
 		<nature>org.python.pydev.pythonNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>gwtp</name>
-			<type>2</type>
-			<locationURI>gwtp/src</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>

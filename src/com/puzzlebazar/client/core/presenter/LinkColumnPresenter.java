@@ -17,15 +17,15 @@
 package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
-import com.gwtplatform.mvp.client.View;
-import com.gwtplatform.mvp.client.PresenterImpl;
 import com.gwtplatform.mvp.client.EventBus;
+import com.gwtplatform.mvp.client.Presenter;
+import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.ProxyEvent;
 import com.gwtplatform.mvp.client.annotations.ProxyStandard;
 import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
 
-public class LinkColumnPresenter extends PresenterImpl<LinkColumnPresenter.MyView, LinkColumnPresenter.MyProxy> 
+public class LinkColumnPresenter extends Presenter<LinkColumnPresenter.MyView, LinkColumnPresenter.MyProxy> 
 implements RevealDefaultLinkColumnHandler {
 
   public interface MyView extends View {}
@@ -43,7 +43,7 @@ implements RevealDefaultLinkColumnHandler {
 
   @Override
   protected void revealInParent() {
-    RevealContentEvent.fire(eventBus, SplitMainPresenter.TYPE_RevealSideBarContent, this);
+    RevealContentEvent.fire(this, SplitMainPresenter.TYPE_RevealSideBarContent, this);
   }
   
   @ProxyEvent
