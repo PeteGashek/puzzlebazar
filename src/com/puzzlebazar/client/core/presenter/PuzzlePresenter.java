@@ -168,6 +168,11 @@ public class PuzzlePresenter extends Presenter<PuzzlePresenter.MyView, PuzzlePre
   }
 
   @Override
+  public boolean useManualReveal() {
+    return true;
+  }
+  
+  @Override
   public void prepareFromRequest(PlaceRequest placeRequest) {
     super.prepareFromRequest(placeRequest);
 
@@ -179,7 +184,7 @@ public class PuzzlePresenter extends Presenter<PuzzlePresenter.MyView, PuzzlePre
     } else if (action.equals(ACTION_NEW)) {
       action = ACTION_NEW;
     } else {
-      placeManager.revealErrorPlace(placeRequest.getNameToken());
+      prepareFromRequestFailed(placeRequest);
       return;
     }
 
@@ -190,9 +195,15 @@ public class PuzzlePresenter extends Presenter<PuzzlePresenter.MyView, PuzzlePre
     }
 
     if (id == INVALID_ID && action != ACTION_NEW) {
-      placeManager.revealErrorPlace(placeRequest.getNameToken());
+      prepareFromRequestFailed(placeRequest);
       return;
     }
+    getProxy().manualReveal(this);    
+  }
+
+  private void prepareFromRequestFailed(PlaceRequest placeRequest) {
+    getProxy().manualRevealFailed();
+    placeManager.revealErrorPlace(placeRequest.getNameToken());
   }
 
   private PlaceRequest prepareRequest() {
