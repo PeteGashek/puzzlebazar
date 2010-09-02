@@ -168,11 +168,6 @@ public class PuzzlePresenter extends Presenter<PuzzlePresenter.MyView, PuzzlePre
   }
 
   @Override
-  public boolean useManualReveal() {
-    return true;
-  }
-  
-  @Override
   public void prepareFromRequest(PlaceRequest placeRequest) {
     super.prepareFromRequest(placeRequest);
 
@@ -198,11 +193,9 @@ public class PuzzlePresenter extends Presenter<PuzzlePresenter.MyView, PuzzlePre
       prepareFromRequestFailed(placeRequest);
       return;
     }
-    getProxy().manualReveal(this);    
   }
 
   private void prepareFromRequestFailed(PlaceRequest placeRequest) {
-    getProxy().manualRevealFailed();
     placeManager.revealErrorPlace(placeRequest.getNameToken());
   }
 
