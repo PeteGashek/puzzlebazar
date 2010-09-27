@@ -5,11 +5,13 @@
   <property name="gwtp.folder" location="../gwtp" />
 	
 	<property environment="env"/>
-  <property name="gwtp.jar.file" value="${gwtp.folder}/gwtp-${version.num}-SNAPSHOT.jar"/>
   <property name="war.lib.folder" value="war/WEB-INF/lib"/>
 	
   <target name="copyjar">
-    <copy file="${gwtp.jar.file}" tofile="${war.lib.folder}/gwtp.jar" />
+  	<copy todir="${war.lib.folder}" verbose="true">
+  	    <fileset dir="${gwtp.folder}" includes="gwtp*.jar"/>
+  	    <regexpmapper from="^gwtp([^0-9]*)(-[0-9]+\.[0-9]+)?(-SNAPSHOT)?\.jar$$" to="gwtp\1.jar"/>
+  	</copy>
   </target>
   
   <target name="build" depends="copyjar" description="Build this project" />
