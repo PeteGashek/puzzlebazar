@@ -70,7 +70,7 @@ public class UserSettingsTabView extends ViewImpl implements UserSettingsTabPres
   }
 
   @Override
-  public void setContent(Object slot, Widget content) {
+  public void setInSlot(Object slot, Widget content) {
     if (slot == UserSettingsTabPresenter.TYPE_RevealTabContent) {
       tabPanel.setPanelContent(content);
     } else {

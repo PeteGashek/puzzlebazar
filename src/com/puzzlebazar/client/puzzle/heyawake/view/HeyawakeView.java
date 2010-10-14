@@ -228,18 +228,4 @@ public class HeyawakeView extends HandlerContainerImpl implements MyView,
   public void removeFromSlot(Object slot, Widget content) {
   }
 
-  @Deprecated
-  @Override
-  public void addContent(Object slot, Widget content) {
-  }
-
-  @Deprecated
-  @Override
-  public void removeContent(Object slot, Widget content) {
-  }
-
-  @Deprecated
-  @Override
-  public void setContent(Object slot, Widget content) {
-  }
 }
