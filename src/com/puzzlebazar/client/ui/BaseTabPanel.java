@@ -24,6 +24,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.Tab;
+import com.gwtplatform.mvp.client.TabData;
 import com.gwtplatform.mvp.client.TabPanel;
 
 /**
@@ -45,8 +46,8 @@ public abstract class BaseTabPanel extends Composite implements TabPanel {
   }
 
   @Override
-  public Tab addTab(String text, String historyToken, float priority) {
-    Tab newTab = createNewTab(priority);
+  public Tab addTab(TabData tabData, String historyToken) {
+    Tab newTab = createNewTab(tabData.getPriority());
     int beforeIndex;
     for (beforeIndex = 0; beforeIndex < tabList.size(); ++beforeIndex) {
       if (newTab.getPriority() < tabList.get(beforeIndex).getPriority()) {
@@ -55,7 +56,7 @@ public abstract class BaseTabPanel extends Composite implements TabPanel {
     }
     tabPanel.insert(newTab.asWidget(), beforeIndex);
     tabList.add(beforeIndex, newTab);
-    newTab.setText(text);
+    newTab.setText(tabData.getLabel());
     newTab.setTargetHistoryToken(historyToken);
     return newTab;
   }

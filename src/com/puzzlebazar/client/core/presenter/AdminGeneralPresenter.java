@@ -16,9 +16,9 @@
 
 package com.puzzlebazar.client.core.presenter;
 
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
-import com.gwtplatform.mvp.client.EventBus;
 import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.ContentSlot;
@@ -31,6 +31,7 @@ import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.gwtplatform.mvp.client.proxy.TabContentProxyPlace;
 import com.puzzlebazar.client.AdminGatekeeper;
 import com.puzzlebazar.client.NameTokens;
+import com.puzzlebazar.client.gin.PuzzlebazarGinjector;
 
 /**
  * This is the presenter of the general tab in the administration page.
@@ -55,12 +56,13 @@ extends Presenter<AdminGeneralPresenter.MyView, AdminGeneralPresenter.MyProxy> {
   @ProxyCodeSplit
   @NameToken(NameTokens.adminGeneral)
   @UseGatekeeper(AdminGatekeeper.class)
-  @TabInfo(
-      container = AdminTabPresenter.class, 
-      priority = 0, 
-      getLabel = "ginjector.getTranslations().tabGeneral()")
   public interface MyProxy extends TabContentProxyPlace<AdminGeneralPresenter> { }
 
+  @TabInfo(container = AdminTabPresenter.class, priority = 0)
+  public static String getTabLabel(PuzzlebazarGinjector ginjector) {
+    return ginjector.getTranslations().tabGeneral();
+  }
+  
   @Inject
   public AdminGeneralPresenter(final EventBus eventBus, 
       final MyView view, final MyProxy proxy) {

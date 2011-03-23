@@ -18,7 +18,7 @@ package com.puzzlebazar.client.core.presenter;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.gwtplatform.mvp.client.ProviderBundle;
+import com.gwtplatform.common.client.ProviderBundle;
 
 /**
  * @author Philippe Beaudoin

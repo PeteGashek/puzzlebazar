@@ -17,7 +17,7 @@
 package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.event.shared.GwtEvent;
-import com.gwtplatform.mvp.client.HasEventBus;
+import com.google.gwt.event.shared.HasHandlers;
 
 /**
  * @author Philippe Beaudoin
@@ -30,7 +30,7 @@ public class RevealDefaultLinkColumnEvent extends GwtEvent<RevealDefaultLinkColu
       return TYPE;
   }
 
-  public static void fire(HasEventBus source) {
+  public static void fire(HasHandlers source) {
     source.fireEvent(new RevealDefaultLinkColumnEvent());
   }
   

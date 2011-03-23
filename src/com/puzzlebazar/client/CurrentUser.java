@@ -16,11 +16,11 @@
 
 package com.puzzlebazar.client;
 
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.gwtplatform.dispatch.client.DispatchAsync;
-import com.gwtplatform.mvp.client.EventBus;
 import com.puzzlebazar.client.core.presenter.CurrentUserChangedEvent;
 import com.puzzlebazar.shared.action.GetCurrentUserAction;
 import com.puzzlebazar.shared.action.GetUserResult;
