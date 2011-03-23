@@ -16,11 +16,11 @@
 
 package com.puzzlebazar.client;
 
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
-import com.gwtplatform.mvp.client.EventBus;
-import com.gwtplatform.mvp.client.HasEventBus;
 import com.puzzlebazar.client.core.presenter.DisplayShortMessageEvent;
 import com.puzzlebazar.client.resources.Translations;
 
@@ -33,7 +33,7 @@ import com.puzzlebazar.client.resources.Translations;
  *
  * @param <T> The result type
  */
-public abstract class ActionCallback<T> implements AsyncCallback<T>, HasEventBus {
+public abstract class ActionCallback<T> implements AsyncCallback<T>, HasHandlers {
 
   // Uses static injection so that they can be instantiated as anonymous classes
   @Inject
@@ -76,7 +76,7 @@ public abstract class ActionCallback<T> implements AsyncCallback<T>, HasEventBus
 
   @Override
   public void fireEvent(GwtEvent<?> event) {
-    eventBus.fireEvent(this, event);
+    eventBus.fireEventFromSource(event, this);
   }
   
 }

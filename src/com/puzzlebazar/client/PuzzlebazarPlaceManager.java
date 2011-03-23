@@ -16,10 +16,10 @@
 
 package com.puzzlebazar.client;
 
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.inject.Inject;
-import com.gwtplatform.mvp.client.EventBus;
 import com.gwtplatform.mvp.client.proxy.PlaceManagerImpl;
 import com.gwtplatform.mvp.client.proxy.PlaceRequest;
 import com.gwtplatform.mvp.client.proxy.TokenFormatter;

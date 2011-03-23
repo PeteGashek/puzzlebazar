@@ -17,7 +17,7 @@
 package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.event.shared.GwtEvent;
-import com.gwtplatform.mvp.client.EventBus;
+import com.google.gwt.event.shared.HasHandlers;
 import com.puzzlebazar.client.CurrentUser;
 
 /**
@@ -35,8 +35,8 @@ public class CurrentUserChangedEvent extends GwtEvent<CurrentUserChangedHandler>
     return TYPE;
   }
 
-  public static void fire(EventBus eventBus, CurrentUser currentUser) {
-    eventBus.fireEvent(new CurrentUserChangedEvent(currentUser));
+  public static void fire(HasHandlers source, CurrentUser currentUser) {
+    source.fireEvent(new CurrentUserChangedEvent(currentUser));
   }
 
   private final CurrentUser currentUser;

@@ -16,8 +16,8 @@
 
 package com.puzzlebazar.client.core.presenter;
 
+import com.google.gwt.event.shared.EventBus;
 import com.google.inject.Inject;
-import com.gwtplatform.mvp.client.EventBus;
 import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.NameToken;
@@ -28,6 +28,7 @@ import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
 import com.gwtplatform.mvp.client.proxy.TabContentProxyPlace;
 import com.puzzlebazar.client.LoggedInGatekeeper;
 import com.puzzlebazar.client.NameTokens;
+import com.puzzlebazar.client.gin.PuzzlebazarGinjector;
 
 /**
  * This is the presenter of the accounts tab in the user settings page.
@@ -48,11 +49,12 @@ public class UserSettingsAccountsPresenter extends
   @ProxyCodeSplit
   @NameToken(NameTokens.userSettingsAccounts)
   @UseGatekeeper(LoggedInGatekeeper.class)
-  @TabInfo(
-      container = UserSettingsTabPresenter.class, 
-      priority = 1,
-      getLabel = "ginjector.getTranslations().tabAccounts()")
   public interface MyProxy extends TabContentProxyPlace<UserSettingsAccountsPresenter> { }
+  
+  @TabInfo(container = UserSettingsTabPresenter.class, priority = 1)
+  public static String getTabLabel(PuzzlebazarGinjector ginjector) {
+    return ginjector.getTranslations().tabAccounts();
+  }
 
   @Inject
   public UserSettingsAccountsPresenter(

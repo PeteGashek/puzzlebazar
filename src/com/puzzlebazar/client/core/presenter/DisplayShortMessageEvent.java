@@ -17,9 +17,9 @@
 package com.puzzlebazar.client.core.presenter;
 
 import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtplatform.mvp.client.HasEventBus;
 
 /**
  * This event is sent to the {@link com.gwtplatform.mvp.client.EventBus} 
@@ -63,7 +63,7 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
    * permanent message. Should preferably be one of: {@code DURATION_PERMANENT,
    * DURATION_SHORT, DURATION_NORMAL, DURATION_LONG}.
    */
-  public static void fire(HasEventBus source, Widget message, boolean dismissable, int level, int duration) {
+  public static void fire(HasHandlers source, Widget message, boolean dismissable, int level, int duration) {
     source.fireEvent(new DisplayShortMessageEvent(message, dismissable, level, duration));
   }
 
@@ -75,7 +75,7 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
    * @param source The source of this event (See {@link HasEventBus}).
    * @param message Any {@link Widget} containing the message to display.
    */
-  public static void fireMessage(HasEventBus source, Widget message) {
+  public static void fireMessage(HasHandlers source, Widget message) {
     fire(source, message, true, LEVEL_MESSAGE, DURATION_NORMAL);
   }
 
@@ -84,7 +84,7 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
    * 
    * @param source The source of this event (See {@link HasEventBus}).
    */
-  public static void fireClearMessage(HasEventBus source) {
+  public static void fireClearMessage(HasHandlers source) {
     fire(source, null, false, LEVEL_MESSAGE, DURATION_PERMANENT);
   }
   
@@ -96,7 +96,7 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
    * @param source The source of this event (See {@link HasEventBus}).
    * @param message Any {@link Widget} containing the message to display.
    */
-  public static void fireError(HasEventBus source, Widget message) {
+  public static void fireError(HasHandlers source, Widget message) {
     fire(source, message, true, LEVEL_ERROR, DURATION_PERMANENT);
   }
 
@@ -108,7 +108,7 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
    * @param source The source of this event (See {@link HasEventBus}).
    * @param message The message to display, can contain HTML markup.
    */
-  public static void fireMessage(HasEventBus source, String message) {
+  public static void fireMessage(HasHandlers source, String message) {
     fire(source, new HTML(message), true, LEVEL_MESSAGE, DURATION_NORMAL);
   }
   
@@ -120,7 +120,7 @@ public class DisplayShortMessageEvent extends GwtEvent<DisplayShortMessageHandle
    * @param source The source of this event (See {@link HasEventBus}).
    * @param message The message to display, can contain HTML markup.
    */
-  public static void fireError(HasEventBus source, String message) {
+  public static void fireError(HasHandlers source, String message) {
     fire(source, new HTML(message), true, LEVEL_ERROR, DURATION_PERMANENT);
   }
   

@@ -147,7 +147,6 @@ public class TopBarView extends ViewImpl implements TopBarPresenter.MyView {
       $wnd.signInCallback = function() { self.@com.puzzlebazar.client.core.view.TopBarView::signInSuccessfull()() };
   }-*/;
 
-  @SuppressWarnings("unused")
   private void signInSuccessfull() {
     if (postSignInCallback != null) {
       this.postSignInCallback.execute();

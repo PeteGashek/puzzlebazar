@@ -22,6 +22,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.Tab;
+import com.gwtplatform.mvp.client.TabData;
 import com.gwtplatform.mvp.client.ViewImpl;
 import com.puzzlebazar.client.core.presenter.AdminTabPresenter;
 import com.puzzlebazar.client.ui.SimpleTabPanel;
@@ -50,8 +51,8 @@ public class AdminTabView extends ViewImpl implements AdminTabPresenter.MyView {
   }
 
   @Override
-  public Tab addTab(String tabName, String historyToken, float priority) {
-    return tabPanel.addTab(tabName, historyToken, priority);
+  public Tab addTab(TabData tabData, String historyToken) {
+    return tabPanel.addTab(tabData, historyToken);
   }
 
   @Override
