@@ -213,17 +213,11 @@
 			<groupId>com.gwtplatform</groupId>
 			<artifactId>gwtp-dispatch-client</artifactId>
 			<version>${gwtp.version}</version>
-			<!-- TODO: We should send some classes to "shared" in GWTP so we can use scope provided here -->
-			<!-- <scope>provided</scope>  -->
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.gwtplatform</groupId>
-			<artifactId>gwtp-dispatch-shared</artifactId>
-			<version>${gwtp.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.gwtplatform</groupId>
-			<artifactId>gwtp-dispatch-server</artifactId>
+			<artifactId>gwtp-dispatch-server-guice</artifactId>
 			<version>${gwtp.version}</version>
 		</dependency>
 		<dependency>
