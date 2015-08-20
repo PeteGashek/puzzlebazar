@@ -1,0 +1,1 @@
+This page is deprecated. The script and its documentation are now maintained on [gwt-platform](http://code.google.com/p/gwt-platform/wiki/MergeLocale).
